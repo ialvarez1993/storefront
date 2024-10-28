@@ -1,0 +1,48 @@
+version: "3.7"
+
+services:
+  redis:
+    container_name: redis
+    image: library/redis:5.0-alpine
+    restart: unless-stopped
+    ports:
+      - 6379:6379
+    networks:
+      - backstore
+    volumes:
+      - redis_data:/data
+
+  storefront:
+    env_file: ./.env.docker
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        NUXT_PUBLIC_ODOO_BASE_URL: "http://odoo-tupunto:8069/"
+        NUXT_PUBLIC_ODOO_BASE_IMAGE_URL: "http://odoo-tupunto:8069/"
+        NUXT_PUBLIC_MIDDLEWARE_URL: "http://localhost:3000/"
+        NUXT_PUBLIC_MIDDLEWARE_PORT: 8443
+        REDIS_HOST: "redis"
+        REDIS_PORT: "6379"
+        REDIS_URL: "redis://redis:6379"
+        NUXT_ALGOLIA_API_KEY: ""
+        NUXT_ALGOLIA_APPLICATION_ID: ""
+
+    container_name: storefront
+    ports:
+      - 3000:3000
+      - 8181:8181
+    image: storefrontui
+    restart: unless-stopped
+    depends_on:
+      - redis
+    networks:
+      - backstore
+
+volumes:
+  redis_data:
+    external: false
+
+networks:
+  backstore:
+    name: backstore
