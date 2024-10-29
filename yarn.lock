@@ -3663,10 +3663,10 @@
     express "^4.18.1"
     helmet "^5.1.1"
 
-"@vue-storefront/sdk@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@vue-storefront/sdk/-/sdk-2.0.0.tgz#8c0fc44fc5bbc9012016c536eb99a106f8648d08"
-  integrity sha512-w4rXP/vWtcdsPPgBJ+RHBFHd/Isusrhg/Kf05u3ZBSyd+uCdNDqegwfVVpNkm0XYqc2kHodTkn1+wEH7w59JJg==
+"@vue-storefront/sdk@3.2.3":
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/@vue-storefront/sdk/-/sdk-3.2.3.tgz#9034c98b80cf41ccf6e5032d192e88cb2c5d4de1"
+  integrity sha512-CdBtFAeZ75hwFr13XBno48h8SYET/0+ZgkuwLz80b2HWiUHB1aOFBrQQ67BU5HE6JL2oXaDuYzkwOoDv52SE0w==
 
 "@vue/babel-helper-vue-transform-on@1.2.5":
   version "1.2.5"
