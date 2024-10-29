@@ -58,9 +58,9 @@ onClickOutside(menuRef, () => {
       class="text-white h-14 md:h-20 flex z-50 md:sticky md:top-0 md:shadow-md flex-wrap md:flex-nowrap w-full py-2 md:py-5 border-0 bg-primary-700 border-neutral-200 md:z-10"
     >
       <div
-        class="flex items-center jfustify-between lg:justify-start h-full w-full narrow-container"
+        class="flex items-center justify-center lg:justify-start h-full w-full narrow-container"
       >
-        <NuxtLink to="/" aria-label="Sf Homepage" class="h-6 md:h-7 -mt-1.5">
+        <NuxtLink to="/" aria-label="Homepage" class="max-w-[250px]">
           <VsfLogo />
         </NuxtLink>
         <SfButton

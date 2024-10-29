@@ -52,9 +52,9 @@ const bannerDetails = {
     ]"
   >
     <div
-      class="flex items-center justify-between lg:justify-start h-full w-full narrow-container"
+      class="flex items-center justify-center lg:justify-start h-full w-full narrow-container"
     >
-      <NuxtLink to="/" aria-label="Sf Homepage" class="h-6 md:h-7 -mt-1.5">
+      <NuxtLink to="/" aria-label="Homepage" class="h-6 md:h-7 -mt-1.5">
         <VsfLogo />
       </NuxtLink>
       <nav>
