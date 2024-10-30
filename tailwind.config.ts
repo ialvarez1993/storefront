@@ -9,6 +9,9 @@ export default <Config>{
   css: ["~/assets/css/tailwind.css"],
 
   theme: {
+    fontFamily: {
+      designer: ["Designer", "sans-serif"],
+    },
     extend: {
       colors: {
         primary: {
