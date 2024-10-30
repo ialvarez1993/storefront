@@ -18,7 +18,7 @@
     "commit": "git-cz"
   },
   "dependencies": {
-    "@adyen/adyen-web": "6.4.0",
+    "@adyen/adyen-web": "4.7.3",
     "@erpgap/odoo-sdk": "2.0.4",
     "@erpgap/odoo-sdk-api-client": "2.0.4",
     "@nuxt/image": "^1.7.0",
