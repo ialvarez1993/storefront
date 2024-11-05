@@ -19,5 +19,6 @@
     "yaml",
     "gql",
     "graphql"
-  ]
+  ],
+  "i18n-ally.localesPaths": ["lang"]
 }
