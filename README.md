@@ -1,42 +1,43 @@
-# Odoo template vsf
+# Storefront
 
-Template base to start new odoo vsf projects using vsf SDK
+This repo was based on the vue storefront Odoo template to start new projects. It uses its SDK.
+
+![basic architecture diagram](./tupunto.drawio.png)
 
 ## Tech stack
 
+### Storefront
+
 1. Nuxt 3
-2. VSF 2
-3. SFUI-2
+   1. VSF 2 (SDK)
+   2. SFUI-2 (UI)
+2. Redis
+3. CMS (Strapi in another repo)
 
-## How to start ?
+## How to start local development ?
 
-```sh
-2. yarn install
-3. cp -f .env.example apps/web/.env
-4. export $(cat apps/web/.env | grep -v \#)
-5. yarn dev
-6. You can access with http://localhost:3000
-```
+> Make sure you have an Odoo Instance
+
+1. Clone the repo
+2. Run `yarn install`
+3. Copy the `.env.example` to `apps/web/.env`
+4. Run `yarn dev`
+5. You can access with http://localhost:3000
+
 ## Search products
 
-Find products with our search options. Choose Algolia or stick to database search.
+Theres a working database search. Algolia integration is in progress.
 
 ### How to configure algolia
 
+1. Set environment variables `NUXT_ALGOLIA_API_KEY` and `NUXT_ALGOLIA_APPLICATION_ID`
+2. set `NUXT_ALGOLIA_ENABLED` to `1` or `0` to enable or disabled algolia search.
+
 ## Docker
-
-
-Test docker build:
-
-```bash
-cat .env.docker | grep -v '^#' | xargs -I {} echo --build-arg {} | xargs docker build . -t vsf-test
-```
 
 Production mode with docker-compose
 
 ```bash
-# Test docker build
-cd .docker && docker-compose up --build -d
+# Test docker build with yarn build before!
+docker-compose up --build -d
 ```
-1. Set environment variables NUXT_ALGOLIA_API_KEY and NUXT_ALGOLIA_APPLICATION_ID
-2. set NUXT_ALGOLIA_ENABLED to 1 or 0 to enable or disabled algolia search.
