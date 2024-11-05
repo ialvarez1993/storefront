@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   app: {
     head: {
       viewport: "minimum-scale=1, initial-scale=1, width=device-width",
-      title: "Alokai",
+      title: "tupunto.com",
       htmlAttrs: {
         lang: "en",
       },
@@ -75,6 +75,10 @@ export default defineNuxtConfig({
       {
         code: "en",
         file: "en.json",
+      },
+      {
+        code: "es",
+        file: "es.json",
       },
     ],
     strategy: "no_prefix",

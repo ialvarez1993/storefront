@@ -9,12 +9,6 @@ import {
   useDisclosure,
 } from "@storefront-ui/vue";
 
-const {
-  isOpen: wishlistIsOpen,
-  toggle: wishlistToggle,
-  close: wishlistClose,
-} = useDisclosure();
-const { wishlist } = useWishlist();
 const NuxtLink = resolveComponent("NuxtLink");
 
 const collectedProducts: any = ref("");
@@ -23,14 +17,17 @@ const setIsActive = (param: boolean) => {
   isActive.value = param;
 };
 
-const wishlistTotalItems: any = ref();
-const setWishlistCount = async (count: number) => {
-  wishlistTotalItems.value = count;
+const { toggleWishlistSideBar } = useWishlistUiState();
+const { loadWishlist, wishlistTotalItems } = useWishlist();
+
+const handleOpenWishListSidebar = async () => {
+  toggleWishlistSideBar();
+  await loadWishlist();
 };
-const handleWishlistSideBar = async () => {
-  wishlistToggle();
-  setIsActive(true);
-};
+
+onMounted(async () => {
+  await loadWishlist();
+});
 </script>
 
 <template>
@@ -66,7 +63,7 @@ const handleWishlistSideBar = async () => {
         { 'text-white bg-primary-900': isActive },
       ]"
       size="sm"
-      @click="handleWishlistSideBar"
+      @click="handleOpenWishListSidebar"
     >
       <template #prefix>
         <div class="relative">

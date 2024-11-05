@@ -31,7 +31,7 @@ await loadProductTemplateList(params, true);
 <template>
   <h2
     v-if="heading"
-    class="text-center mb-6 font-bold typography-headline-3 md:typography-headline-2"
+    class="text-center mb-6 font-bold typography-headline-3 md:typography-headline-2 !font-designer uppercase"
   >
     {{ heading }}
   </h2>

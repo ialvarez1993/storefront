@@ -129,7 +129,7 @@
   "addToCart": "Add to cart",
   "addToCartShort": "Add",
   "search": "Search",
-  "vsfHomepage": "VSF Homepage",
+  "vsfHomepage": "Homepage",
   "home": "Home",
   "products": "Products",
   "cart": "Cart",
@@ -391,5 +391,10 @@
       "help": "8 or more characters with a mix of letters, numbers and symbols.",
       "description": "Create the new password you want to use to log in to your account."
     }
+  },
+  "recommendWithThis": "Recommended with this product",
+  "recentViews": "Your recent views",
+  "heading": {
+    "discount": "LOS MEJORES DESCUENTOS DE LA SEMANA"
   }
 }

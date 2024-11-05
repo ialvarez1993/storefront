@@ -54,7 +54,7 @@
         </p>
       </div>
     </div>
-    <div class="bg-neutral-900">
+    <div class="bg-primary-900">
       <div
         class="px-4 md:px-6 xl:px-8 xxl:px-0 max-w-[1336px] justify-end py-10 md:flex md:py-6 mx-auto"
       >
@@ -88,7 +88,7 @@
         <p
           class="flex items-center justify-center py-2 pb-14 md:pb-2 leading-5 text-center typography-text-sm text-white/50 font-body md:ml-6"
         >
-          @{{ new Date().getFullYear() }} Alokai - Vue
+          @{{ new Date().getFullYear() }} Tupunto.com
         </p>
       </div>
     </div>
