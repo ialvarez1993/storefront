@@ -36,12 +36,12 @@ export default (homepage: Homepage, fullPath: string) => {
   validateSEO(homepage, fullPath);
 
   return {
-    title: homepage.metaTitle || "Alokai - Vue",
+    title: homepage.metaTitle || "tupunto.com",
     meta: [
       homepage?.metaTitle && {
         hid: "title",
         name: "title",
-        content: homepage.metaTitle || "Alokai - Vue",
+        content: homepage.metaTitle || "tupunto.com",
       },
       homepage?.metaDescription && {
         hid: "description",
@@ -56,12 +56,12 @@ export default (homepage: Homepage, fullPath: string) => {
       homepage?.metaTitle && {
         hid: "og:title",
         name: "og:title",
-        content: homepage.metaTitle || "Alokai - Vue",
+        content: homepage.metaTitle || "tupunto.com",
       },
       homepage?.metaTitle && {
         hid: "twitter-title",
         name: "twitter:title",
-        content: homepage.metaTitle || "Alokai - Vue",
+        content: homepage.metaTitle || "tupunto.com",
       },
       homepage?.metaDescription && {
         hid: "twitter-desc",
@@ -70,7 +70,7 @@ export default (homepage: Homepage, fullPath: string) => {
       },
     ].filter(
       (meta): meta is { hid: string; name: string; content: string } => !!meta
-    ), // Filtro aprimorado para garantir que o array tenha apenas objetos válidos
+    ), // Filtro para objetos validos válidos
     script: [
       homepage?.jsonLd && {
         type: "application/ld+json",
@@ -80,7 +80,7 @@ export default (homepage: Homepage, fullPath: string) => {
     link: [
       {
         rel: "canonical",
-        href: `https://vsfsdk.labs.odoogap.com${fullPath}`,
+        href: `https://tupunto.com${fullPath}`,
       },
     ],
   };

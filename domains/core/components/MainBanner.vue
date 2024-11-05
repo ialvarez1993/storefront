@@ -20,12 +20,12 @@
         class="md:flex md:flex-col md:justify-center md:items-start md:basis-2/4"
       >
         <p
-          class="typography-text-xs md:typography-text-sm font-bold tracking-widest text-neutral-500 uppercase"
+          class="typography-text-xs md:typography-text-sm font-bold !font-designer tracking-widest text-neutral-500 uppercase"
         >
           SPECIAL OFFER
         </p>
         <h1
-          class="typography-headline-2 md:typography-headline-1 md:leading-[67.5px] font-bold mt-2 mb-4"
+          class="typography-headline-2 md:typography-headline-1 !font-designer md:leading-[67.5px] font-bold mt-2 mb-4"
         >
           Jackets hot drops
         </h1>

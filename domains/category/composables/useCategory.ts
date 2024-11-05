@@ -14,7 +14,7 @@ export const useCategory = (categorySlug?: string) => {
   const categories = useState<Category[]>("categories", () => []);
   const category = useState<Category>(
     `category-${categorySlug}`,
-    () => ({} as Category)
+    () => ({}) as Category
   );
 
   const loadCategory = async (params: QueryCategoryArgs) => {
