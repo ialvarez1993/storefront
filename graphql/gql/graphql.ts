@@ -920,6 +920,7 @@ export type ProductInput = {
 export type ProductList = Products & {
   __typename?: 'ProductList';
   attributeValues: Maybe<Array<Maybe<AttributeValue>>>;
+  filterCounts: Maybe<Scalars['GenericScalar']['output']>;
   maxPrice: Maybe<Scalars['Float']['output']>;
   minPrice: Maybe<Scalars['Float']['output']>;
   products: Maybe<Array<Maybe<Product>>>;
@@ -959,6 +960,7 @@ export type ProductVariantData = ProductVariant & {
 
 export type Products = {
   attributeValues: Maybe<Array<Maybe<AttributeValue>>>;
+  filterCounts: Maybe<Scalars['GenericScalar']['output']>;
   maxPrice: Maybe<Scalars['Float']['output']>;
   minPrice: Maybe<Scalars['Float']['output']>;
   products: Maybe<Array<Maybe<Product>>>;

@@ -13,10 +13,6 @@ export default defineNuxtConfig({
     },
   },
 
-  robots: {
-    allow: "/category/*",
-  },
-
   extends: [
     "./domains/auth",
     "./domains/recent-view-products",
@@ -30,6 +26,7 @@ export default defineNuxtConfig({
     //"./domains/search-algolia",
     "./domains/search-default",
     "./domains/wishlist",
+    "shadcn-docs-nuxt"
   ],
 
   modules: [
@@ -45,7 +42,8 @@ export default defineNuxtConfig({
     "nuxt-lodash",
     "nuxt-icon",
     "nuxt-delay-hydration",
-    "nuxt-typed-router",
+    "nuxt-typed-router", "@vueuse/motion/nuxt", "@nuxt/eslint",
+    '@primevue/nuxt-module'
   ],
 
   runtimeConfig: {
@@ -55,6 +53,7 @@ export default defineNuxtConfig({
       "GetAddressesQuery",
     ],
     public: {
+      NUXT_CLARITY_ID: process.env.NUXT_CLARITY_ID,
       odooBaseImageUrl: "",
       odooBaseUrl: "",
       currencySymbol: "",
@@ -129,9 +128,10 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
-    "/": { swr: Number(process.env?.NUXT_SWR_CACHE_TIME) },
-    "/category/*": { swr: Number(process.env?.NUXT_SWR_CACHE_TIME) },
-    "/product/*": { swr: Number(process.env?.NUXT_SWR_CACHE_TIME) },
+    "/": { swr: Number(process.env?.NUXT_SWR_CACHE_TIME), prerender: true },
+    "/category/*": { swr: Number(process.env?.NUXT_SWR_CACHE_TIME), prerender: true },
+    "/product/*": { swr: Number(process.env?.NUXT_SWR_CACHE_TIME), prerender: true },
+    '/carrito': { prerender: true }
   },
 
   nitro: {
@@ -150,12 +150,7 @@ export default defineNuxtConfig({
     },
   },
 
-  site: {
-    url: "https://tupunto.com/",
-    name: "Tu Punto.com",
-    description: "Welcome to an awesome ecommerce site!",
-    defaultLocale: "en",
-  },
+
 
   tailwindcss: {
     viewer: false,
@@ -168,6 +163,18 @@ export default defineNuxtConfig({
   experimental: {
     asyncContext: false,
   },
+
+
+
+
+
+  components: [
+    {
+      path: "~/components",
+      pathPrefix: false,
+    },
+  ],
+
 
   compatibilityDate: "2024-10-27",
 });

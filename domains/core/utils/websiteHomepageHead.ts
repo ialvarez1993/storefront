@@ -36,7 +36,7 @@ export default (homepage: Homepage, fullPath: string) => {
   validateSEO(homepage, fullPath);
 
   return {
-    title: homepage.metaTitle || "tupunto.com",
+    title: "tupunto.com",
     meta: [
       homepage?.metaTitle && {
         hid: "title",

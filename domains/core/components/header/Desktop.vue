@@ -49,174 +49,110 @@ onClickOutside(menuRef, () => {
 
 <template>
   <div>
+    <div class="bg-black py-2 px-12 text-sm text-white">
+      <div class="container mx-auto flex justify-between items-center">
+        <span>Envíos gratis a todo Venezuela</span>
+        <span>Dólares (USD)</span>
+      </div>
+    </div>
     <div
       v-if="isOpen || isSearchModalOpen"
-      class="fixed !w-screen !h-screen inset-0 bg-neutral-500 bg-opacity-50 transition-opacity duration-1000 top-index"
+      class="fixed bg-black !w-screen !h-screen inset-0 top-index"
     />
     <header
       ref="menuRef"
-      class="text-white h-14 md:h-20 flex z-50 md:sticky md:top-0 md:shadow-md flex-wrap md:flex-nowrap w-full py-2 md:py-5 border-0 bg-primary-700 border-neutral-200 md:z-10"
+      class="h-14 md:pb-[6rem] md:h-20 flex z-50 md:sticky md:top-0 md:shadow-md flex-wrap md:flex-nowrap w-full py-2 md:py-5 border-0 bg-white text-black border-neutral-200 md:z-10"
     >
       <div
-        class="flex items-center justify-center lg:justify-start h-full w-full narrow-container"
+        class="grid grid-cols-5 items-center justify-center lg:justify-start h-full w-full narrow-container"
       >
-        <NuxtLink to="/" aria-label="Homepage" class="max-w-[250px]">
+        <NuxtLink to="/" aria-label="Homepage">
           <VsfLogo />
         </NuxtLink>
-        <SfButton
-          class="hidden lg:flex text-white font-body bg-transparent hover:bg-primary-800 hover:text-white active:bg-primary-900 active:text-white ml-6"
-          type="button"
-          :aria-haspopup="true"
-          :aria-expanded="isOpen"
-          variant="tertiary"
-          square
-          @click="toggle()"
-        >
-          <template #suffix>
-            <Icon name="ion:chevron-down-sharp" />
-          </template>
-          <span class="hidden md:inline-flex whitespace-nowrap px-2"
-            >Browse products</span
+        <div>
+          <label
+            class="input input-bordered rounded-none flex items-center gap-2"
           >
-        </SfButton>
-        <nav>
-          <ul>
-            <li role="none">
-              <transition
-                enter-active-class="transform transition duration-300 ease-in-out"
-                leave-active-class="transform transition duration-100 ease-in-out"
-                enter-from-class="-translate-x-full md:translate-x-0 md:opacity-0"
-                enter-to-class="translate-x-0 md:translate-x-0 md:opacity-100"
-                leave-from-class="translate-x-0 md:opacity-100"
-                leave-to-class="-translate-x-full md:translate-x-0 md:opacity-0"
+            <input type="text" className="grow" placeholder="Search" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              class="h-4 w-4 opacity-70"
+            >
+              <path
+                fillRule="evenodd"
+                d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </label>
+        </div>
+        <div class="flex justify-center grid-cols-2">
+          <img
+            src="/public/images/icon-contacto-header.webp"
+            class="w-9 object-fill"
+          />
+          <div class="grid grid-cols-1 ml-2">
+            <div class="e">Atencion a cliente</div>
+            <div>Escribenos / Llamanos</div>
+          </div>
+        </div>
+        <div>
+          <a class="flex">
+            <span class="">
+              <svg
+                class="icon-account"
+                aria-hidden="true"
+                focusable="false"
+                role="presentation"
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="24"
+                viewBox="0 0 18 24"
+                fill="none"
               >
-                <SfDrawer
-                  ref="drawerRef"
-                  v-model="isOpen"
-                  disable-click-away
-                  placement="top"
-                  class="bg-white p-0 max-h-screen overflow-y-auto lg:!absolute lg:!top-[5rem] max-w-full lg:p-6 top-index"
-                >
-                  <div
-                    class="grid grid-cols-1 lg:gap-x-6 lg:grid-cols-3 lg:narrow-container lg:relative"
-                  >
-                    <div
-                      v-for="{ name, childs, id } in filteredCategories"
-                      :key="id"
-                      class="[&:nth-child(2)]:pt-0 pt-6 md:pt-0 text-black"
-                    >
-                      <h2
-                        role="presentation"
-                        class="typography-text-base font-medium text-neutral-900 whitespace-nowrap p-4 lg:py-1.5"
-                      >
-                        {{ name }}
-                      </h2>
-                      <hr class="mb-3.5" />
-                      <ul>
-                        <li v-for="child in childs" :key="child.id">
-                          <SfListItem
-                            v-if="child.childs !== null"
-                            tag="span"
-                            :to="child.slug"
-                            size="sm"
-                            role="none"
-                            class="typography-text-base lg:typography-text-sm py-4 lg:py-1.5"
-                            @click="goTo(child.slug)"
-                          >
-                            {{ child.name }}
-                          </SfListItem>
-                        </li>
-                      </ul>
-                    </div>
-                    <div
-                      class="flex flex-col items-center justify-center bg-neutral-100 lg:rounded-md border-neutral-300 overflow-hidden grow"
-                    >
-                      <NuxtImg
-                        src="/images/watch.png"
-                        alt="New in designer watches"
-                        class="object-contain"
-                      />
-                      <p
-                        class="mb-4 mt-4 px-4 text-center text-black typography-text-base font-medium"
-                      >
-                        New in designer watches
-                      </p>
-                    </div>
-                    <SfButton
-                      square
-                      size="sm"
-                      variant="tertiary"
-                      aria-label="Close navigation menu"
-                      class="lg:absolute lg:right-0 lg:top-0 hover:bg-white active:bg-white"
-                      @click="close()"
-                    >
-                      <Icon
-                        name="ion:close"
-                        class="text-neutral-500"
-                        size="20px"
-                      />
-                    </SfButton>
-                  </div>
-                </SfDrawer>
-              </transition>
-            </li>
-          </ul>
-        </nav>
-        <form
-          ref="formSearchTemplateRef"
-          role="search"
-          class="hidden lg:flex flex-[100%] mt-2 md:mt-0 md:ml-10 pb-2 md:pb-0 relative w-full"
-          @submit.prevent
-        >
-          <SfInput
-            v-model="searchInputValue"
-            type="text"
-            class="[&::-webkit-search-cancel-button]:appearance-none"
-            placeholder="Search"
-            wrapper-class="flex-1 h-10 pr-0"
-            size="base"
-            @input="search()"
-            @keydown.enter.prevent="enterPress(searchHits[highlightedIndex])"
-          >
-            <template #suffix>
-              <span class="flex items-center">
-                <SfButton
-                  variant="tertiary"
-                  square
-                  aria-label="search"
-                  type="submit"
-                  class="rounded-l-none hover:bg-transparent active:bg-transparent"
-                >
-                  <Icon name="ion:search" size="20px" />
-                </SfButton>
-              </span>
-            </template>
-          </SfInput>
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M3.267 6a6 6 0 1 1 12 0 6 6 0 1 1-12 0zm6-3.6a3.6 3.6 0 0 0 0 7.2 3.6 3.6 0 0 0 0-7.2zM9.267 15.6a6 6 0 0 0-6 6V24h-2.4v-2.4a8.401 8.401 0 0 1 16.8 0V24h-2.4v-2.4a6 6 0 0 0-6-6z"
+                  fill="#000"
+                ></path>
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M3.267 6a6 6 0 1 1 12 0 6 6 0 1 1-12 0zm6-3.6a3.6 3.6 0 0 0 0 7.2 3.6 3.6 0 0 0 0-7.2z"
+                  fill="#000"
+                ></path>
+              </svg>
+            </span>
 
-          <transition
-            enter-active-class="transform transition duration-500 ease-in-out"
-            leave-active-class="transform transition duration-500 ease-in-out"
-            enter-from-class="-translate-x-full md:translate-x-0 md:opacity-0"
-            enter-to-class="translate-x-0 md:translate-x-0 md:opacity-100"
-            leave-from-class="translate-x-0 md:opacity-100"
-            leave-to-class="-translate-x-full md:translate-x-0 md:opacity-0"
-          >
-            <DesktopSearchList
-              v-if="showResultSearch"
-              :hits="searchHits"
-              :search-text="searchInputValue"
-              @select="selectHit"
-            />
-          </transition>
-        </form>
-        <nav
-          class="hidden lg:flex flex-nowrap justify-end items-center md:ml-10 gap-x-1"
-          aria-label="SF Navigation"
-        >
-          <HeaderButtonWishlist />
-          <HeaderButtonCart />
-          <HeaderButtonLogin />
-        </nav>
+            <span class="ml-2"> Mi cuenta </span>
+          </a>
+        </div>
+        <div class="justify-end" bis_skin_checked="1">
+          <a class="site-header-cart--button" href="/cart">
+            <span class="site-header-cart--count" data-header-cart-count="">
+            </span>
+            <span class="site-header-cart-icon site-header-cart-icon--svg">
+              <svg
+                width="30"
+                height="29"
+                viewBox="0 0 30 29"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M6.217 3.44A3.088 3.088 0 0 0 3.186.868H.919A.903.903 0 0 0 0 1.787c0 .52.398.919.919.919h2.297a1.19 1.19 0 0 1 1.194 1.01l1.93 11.73c0 .062 0 .154.03.215l.338 2.083c.306 1.776 1.807 3.063 3.614 3.063H25.39c.52 0 .92-.399.92-.92a.903.903 0 0 0-.92-.918l-15.038-.001a1.839 1.839 0 0 1-1.806-1.532l-.185-1.103h17.672c.428 0 .796-.275.887-.673l2.757-10.474c.06-.275 0-.582-.153-.797-.184-.214-.429-.367-.735-.367H6.31l-.092-.582zm21.378 2.45-2.297 8.637H8.055L6.615 5.89h20.98zM13.782 24.91a3.15 3.15 0 0 0-3.155-3.155c-1.745 0-3.124 1.409-3.124 3.155a3.15 3.15 0 0 0 3.155 3.155c1.746-.001 3.124-1.44 3.124-3.155zm-4.44 0c0-.704.58-1.317 1.316-1.317.735 0 1.318.581 1.318 1.317 0 .705-.582 1.317-1.318 1.317a1.328 1.328 0 0 1-1.317-1.317zM24.287 24.91a3.15 3.15 0 0 0-3.155-3.155 3.15 3.15 0 0 0-3.155 3.155 3.15 3.15 0 0 0 3.155 3.155c1.746-.031 3.155-1.44 3.155-3.155zm-4.44 0c0-.704.58-1.317 1.316-1.317.735 0 1.318.581 1.318 1.317 0 .705-.582 1.317-1.318 1.317a1.328 1.328 0 0 1-1.317-1.317z"
+                  fill="#000"
+                ></path>
+              </svg>
+            </span>
+          </a>
+        </div>
+        <div>Carrito</div>
+        <div>Ferreteria</div>
+        <div>Digital</div>
       </div>
     </header>
   </div>
