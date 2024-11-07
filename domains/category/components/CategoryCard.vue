@@ -9,8 +9,8 @@ const props = defineProps({
 const topCategories = computed(() => props.categories);
 const filteredCategories: any = computed(() =>
   topCategories.value?.filter(
-    (category: any) => category.name === "WOMEN" || category.name === "MEN"
-  )
+    (category: any) => category.name === "WOMEN" || category.name === "MEN",
+  ),
 );
 
 const items = ref([
@@ -30,7 +30,7 @@ const items = ref([
     Shop by category
   </h2>
   <div
-    class="md:px-6 mb-10 flex flex-nowrap md:flex-wrap md:justify-center "
+    class="md:px-6 mb-10 flex flex-nowrap md:flex-wrap md:justify-center"
     data-testid="category-card"
   >
     <div

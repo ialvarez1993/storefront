@@ -34,7 +34,7 @@ const { updateItemQuantity, removeItemFromCart } = useCart();
               String(orderLine.product?.image),
               370,
               370,
-              String(orderLine.product?.imageFilename)
+              String(orderLine.product?.imageFilename),
             )
           "
           :alt="orderLine.product?.imageFilename ?? ''"

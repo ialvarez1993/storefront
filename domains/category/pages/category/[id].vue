@@ -50,7 +50,7 @@ watch(
   async () => {
     await loadProductTemplateList(getFacetsFromURL(route.query));
   },
-  { deep: true, immediate: true }
+  { deep: true, immediate: true },
 );
 
 const pagination = computed(() => ({
@@ -132,7 +132,7 @@ setMaxVisiblePages(isWideScreen.value);
               loading="eager"
               :slug="
                 mountUrlSlugForProductVariant(
-                  (productTemplate.firstVariant || productTemplate) as Product
+                  (productTemplate.firstVariant || productTemplate) as Product,
                 )
               "
               :image-url="
@@ -140,7 +140,7 @@ setMaxVisiblePages(isWideScreen.value);
                   String(productTemplate.image),
                   370,
                   370,
-                  String(productTemplate.imageFilename)
+                  String(productTemplate.imageFilename),
                 )
               "
               :image-alt="productTemplate?.name || ''"

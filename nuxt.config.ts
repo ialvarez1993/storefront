@@ -26,7 +26,7 @@ export default defineNuxtConfig({
     //"./domains/search-algolia",
     "./domains/search-default",
     "./domains/wishlist",
-    "shadcn-docs-nuxt"
+    "shadcn-docs-nuxt",
   ],
 
   modules: [
@@ -42,8 +42,10 @@ export default defineNuxtConfig({
     "nuxt-lodash",
     "nuxt-icon",
     "nuxt-delay-hydration",
-    "nuxt-typed-router", "@vueuse/motion/nuxt", "@nuxt/eslint",
-    '@primevue/nuxt-module'
+    "nuxt-typed-router",
+    "@vueuse/motion/nuxt",
+    "@nuxt/eslint",
+    "@primevue/nuxt-module",
   ],
 
   runtimeConfig: {
@@ -129,9 +131,15 @@ export default defineNuxtConfig({
 
   routeRules: {
     "/": { swr: Number(process.env?.NUXT_SWR_CACHE_TIME), prerender: true },
-    "/category/*": { swr: Number(process.env?.NUXT_SWR_CACHE_TIME), prerender: true },
-    "/product/*": { swr: Number(process.env?.NUXT_SWR_CACHE_TIME), prerender: true },
-    '/carrito': { prerender: true }
+    "/category/*": {
+      swr: Number(process.env?.NUXT_SWR_CACHE_TIME),
+      prerender: true,
+    },
+    "/product/*": {
+      swr: Number(process.env?.NUXT_SWR_CACHE_TIME),
+      prerender: true,
+    },
+    "/carrito": { prerender: true },
   },
 
   nitro: {
@@ -150,8 +158,6 @@ export default defineNuxtConfig({
     },
   },
 
-
-
   tailwindcss: {
     viewer: false,
   },
@@ -164,17 +170,20 @@ export default defineNuxtConfig({
     asyncContext: false,
   },
 
-
-
-
-
   components: [
     {
       path: "~/components",
       pathPrefix: false,
     },
   ],
-
-
+  device: {
+    refreshOnResize: true,
+  },
+  nitro: {
+    prerender: {
+      failOnError: false,
+    },
+  },
+  ssr: true,
   compatibilityDate: "2024-10-27",
 });

@@ -48,25 +48,25 @@ useHead(productHead(productVariant.value, String(route.fullPath)));
 
 const params = computed(() => ({
   combinationId: Object.values(route.query)?.map((value) =>
-    parseInt(value as string)
+    parseInt(value as string),
   ),
   productTemplateId: productTemplate?.value?.id,
 }));
 
 const selectedSize = computed(() =>
-  route.query.Size ? Number(route.query.Size) : getAllSizes?.value?.[0]?.value
+  route.query.Size ? Number(route.query.Size) : getAllSizes?.value?.[0]?.value,
 );
 
 const selectedColor = computed(() =>
   route.query.Color
     ? Number(route.query.Color)
-    : getAllColors?.value?.[0]?.value
+    : getAllColors?.value?.[0]?.value,
 );
 
 const selectedMaterial = computed(() =>
   route.query.Material
     ? Number(route.query.Material)
-    : getAllMaterials?.value?.[0]?.value
+    : getAllMaterials?.value?.[0]?.value,
 );
 
 const productDetailsOpen = ref(true);
@@ -94,14 +94,14 @@ const updateFilter = async (filter: LocationQueryRaw | undefined) => {
 const tomorrow = computed(() => {
   const date = new Date();
   date.setDate(date.getDate() + 1);
-  return date.toDateString().slice(0, 10);
+  return date;
 });
 
 const productsInCart = computed(() => {
   return (
     cart.value?.order?.orderLines?.find(
       (orderLine: OrderLine) =>
-        orderLine.product?.id === productVariant?.value.id
+        orderLine.product?.id === productVariant?.value.id,
     )?.quantity || 0
   );
 });

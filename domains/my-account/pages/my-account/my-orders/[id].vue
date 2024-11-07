@@ -18,7 +18,7 @@ watch(
   (isOpen) => {
     if (!isOpen) router.push("/my-account/my-orders");
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 const linesWithoutUndefinedProducts = computed(() => {

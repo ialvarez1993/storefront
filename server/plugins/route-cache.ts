@@ -38,7 +38,7 @@ export default defineNitroPlugin((nitroApp) => {
         shouldBypassCache: (event: H3Event) => {
           return false;
         },
-      }
+      },
     );
     nitroApp.router.use(enHandler.route, customHandler);
   }

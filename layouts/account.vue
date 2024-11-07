@@ -153,7 +153,7 @@ const isRoot = computed(() => rootPathRegex.test(currentPath.value));
 const findCurrentPage = computed(() =>
   sections
     .flatMap(({ subsections }) => subsections)
-    .find(({ link }) => currentPath.value.includes(link))
+    .find(({ link }) => currentPath.value.includes(link)),
 );
 
 const breadcrumbs = computed(() => [

@@ -17,7 +17,7 @@ export const useOrders = () => {
     loading.value = true;
     const { data } = await $sdk().odoo.query<null, GetOrdersResponse>(
       { queryName: QueryName.GetOrdersQuery },
-      null
+      null,
     );
     loading.value = false;
     orders.value = (data.value?.orders as Orders) || {};
@@ -27,7 +27,7 @@ export const useOrders = () => {
     loading.value = true;
     const { data } = await $sdk().odoo.query<QueryOrderArgs, GetOrderResponse>(
       { queryName: QueryName.GetOrderQuery },
-      params
+      params,
     );
     loading.value = false;
     order.value = data?.value?.order || ({} as Order);

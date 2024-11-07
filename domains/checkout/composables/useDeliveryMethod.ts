@@ -15,7 +15,7 @@ export const useDeliveryMethod = () => {
   const toast = useToast();
   const deliveryMethods = useState<ShippingMethod[]>(
     "delivery-method",
-    () => []
+    () => [],
   );
 
   const loadDeliveryMethods = async () => {

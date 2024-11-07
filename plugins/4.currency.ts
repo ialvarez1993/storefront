@@ -1,4 +1,4 @@
-import currency from 'currency.js';
+import currency from "currency.js";
 
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig();

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SfButton, SfIconAdd, SfIconRemove, useId } from '@storefront-ui/vue';
+import { SfButton, SfIconAdd, SfIconRemove, useId } from "@storefront-ui/vue";
 
 const props = defineProps({
   modelValue: {
@@ -12,28 +12,31 @@ const props = defineProps({
     default: 10,
   },
 });
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(["update:modelValue"]);
 
 const increment = () => {
   if (props.modelValue < props.maxQty) {
-    emit('update:modelValue', props.modelValue + 1);
+    emit("update:modelValue", props.modelValue + 1);
   }
 };
 
 const decrement = () => {
   if (props.modelValue > 1) {
-    emit('update:modelValue', props.modelValue - 1);
+    emit("update:modelValue", props.modelValue - 1);
   }
 };
 
 const handleUpdate = (event: Event) => {
   if (props.modelValue < props.maxQty && props.modelValue > 1) {
-    emit('update:modelValue', (event?.target as any)?.value);
+    emit("update:modelValue", (event?.target as any)?.value);
   }
 };
 </script>
 <template>
-  <div class="inline-flex flex-col items-center" data-testid="quantity-selector">
+  <div
+    class="inline-flex flex-col items-center"
+    data-testid="quantity-selector"
+  >
     <div class="flex border border-neutral-300 rounded-md h-full w-full">
       <SfButton
         type="button"
@@ -55,7 +58,7 @@ const handleUpdate = (event: Event) => {
         data-testid="quantity-selector-input"
         aria-label="Quantity Selector"
         @input="handleUpdate"
-      >
+      />
       <SfButton
         type="button"
         variant="tertiary"

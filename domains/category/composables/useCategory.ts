@@ -14,7 +14,7 @@ export const useCategory = (categorySlug?: string) => {
   const categories = useState<Category[]>("categories", () => []);
   const category = useState<Category>(
     `category-${categorySlug}`,
-    () => ({}) as Category
+    () => ({}) as Category,
   );
 
   const loadCategory = async (params: QueryCategoryArgs) => {
@@ -28,7 +28,7 @@ export const useCategory = (categorySlug?: string) => {
             CategoryResponse
           >({ queryName: QueryName.GetCategoryQuery }, params);
           return data.value;
-        }
+        },
       );
 
       if (data?.value?.category) {
@@ -51,7 +51,7 @@ export const useCategory = (categorySlug?: string) => {
           >({ queryName: QueryName.GetCategoriesQuery }, params);
 
           return data.value;
-        }
+        },
       );
 
       if (data?.value?.categories) {
@@ -73,7 +73,7 @@ export const useCategory = (categorySlug?: string) => {
         items: buildTree(category.childs),
         isCurrent: false,
         id: category.id,
-      })
+      }),
     );
   };
 

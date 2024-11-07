@@ -1,5 +1,5 @@
-import { gql } from '@apollo/client/core';
-import { partnerFragment } from '../fragments';
+import { gql } from "@apollo/client/core";
+import { partnerFragment } from "../fragments";
 
 export default gql`
 mutation register($email: String!, $name: String!, $password: String!, $subscribeNewsletter: Boolean!) {

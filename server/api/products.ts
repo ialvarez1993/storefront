@@ -31,5 +31,5 @@ export default defineCachedEventHandler(
     const products = results.data.data.products.products;
     return products;
   },
-  { maxAge: 60 * 60 * 24 * 7 }
+  { maxAge: 60 * 60 * 24 * 7 },
 );

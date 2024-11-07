@@ -36,4 +36,3 @@ defineEmits(["on-click"]);
   </div>
 </template>
 
-<style scoped></style>

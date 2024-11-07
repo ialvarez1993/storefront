@@ -37,7 +37,7 @@ await loadProductTemplateList({ pageSize: numOfProducts });
       class="min-w-[190px]"
       :slug="
         mountUrlSlugForProductVariant(
-          productTemplate.firstVariant as Product
+          productTemplate.firstVariant as Product,
         ) || ''
       "
       :name="productTemplate?.name || ''"
@@ -46,7 +46,7 @@ await loadProductTemplateList({ pageSize: numOfProducts });
           String(productTemplate.image),
           370,
           370,
-          String(productTemplate.imageFilename)
+          String(productTemplate.imageFilename),
         )
       "
       :image-alt="productTemplate?.name || ''"

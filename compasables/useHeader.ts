@@ -1,15 +1,15 @@
 // composables/useHeader.ts
 export const useHeader = () => {
-    const isCompact = useState('header:compact', () => false)
-    const isMenuOpen = useState('header:menuOpen', () => false)
+  const isCompact = useState("header:compact", () => false);
+  const isMenuOpen = useState("header:menuOpen", () => false);
 
-    const toggleMenu = () => {
-      isMenuOpen.value = !isMenuOpen.value
-    }
+  const toggleMenu = () => {
+    isMenuOpen.value = !isMenuOpen.value;
+  };
 
-    return {
-      isCompact,
-      isMenuOpen,
-      toggleMenu
-    }
-  }
+  return {
+    isCompact,
+    isMenuOpen,
+    toggleMenu,
+  };
+};

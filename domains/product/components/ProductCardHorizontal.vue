@@ -23,7 +23,7 @@ defineProps({
             String(product?.image),
             370,
             370,
-            String(product?.imageFilename)
+            String(product?.imageFilename),
           )
         "
         :alt="product?.imageFilename ?? ''"

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { SfButton, SfIconArrowBack } from '@storefront-ui/vue';
-import Discount from '~/domains/core/components/ui/Discount.vue';
+import { SfButton, SfIconArrowBack } from "@storefront-ui/vue";
+import Discount from "~/domains/core/components/ui/Discount.vue";
 
-const NuxtLink = resolveComponent('NuxtLink');
+const NuxtLink = resolveComponent("NuxtLink");
 const { cart, loadCart } = useCart();
 
 await loadCart();
@@ -23,7 +23,7 @@ await loadCart();
         <template #prefix>
           <SfIconArrowBack />
         </template>
-        {{ $t('back') }}
+        {{ $t("back") }}
       </SfButton>
       <SfButton
         to="/category/15"
@@ -34,7 +34,7 @@ await loadCart();
         <template #prefix>
           <SfIconArrowBack />
         </template>
-        {{ $t('backToShopping') }}
+        {{ $t("backToShopping") }}
       </SfButton>
     </div>
     <div
@@ -51,7 +51,7 @@ await loadCart();
         <UiOrderSummary :cart="cart">
           <NuxtLink to="/checkout">
             <SfButton size="lg" class="w-full mb-4 md:mb-0">
-              {{ $t('goToCheckout') }}
+              {{ $t("goToCheckout") }}
             </SfButton>
           </NuxtLink>
         </UiOrderSummary>
@@ -70,6 +70,6 @@ await loadCart();
       height="192"
       loading="lazy"
     />
-    <h2 class="mt-8">{{ $t('emptyCart') }}</h2>
+    <h2 class="mt-8">{{ $t("emptyCart") }}</h2>
   </div>
 </template>

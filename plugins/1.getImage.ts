@@ -8,7 +8,7 @@ export default defineNuxtPlugin(async (nuxtApp) => {
         imagePath: string,
         width: number,
         heigth: number,
-        name: string
+        name: string,
       ) => {
         const resolution = `${width}x${heigth}`;
         return `${odooUrl}${imagePath?.replace("/", "")}/${resolution}/${name}_${resolution}`;

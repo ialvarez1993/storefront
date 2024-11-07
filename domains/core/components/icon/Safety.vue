@@ -8,7 +8,6 @@
   >
     <mask
       id="yq1udj2t6a"
-      style="mask-type: alpha"
       maskUnits="userSpaceOnUse"
       x="0"
       y="0"
@@ -30,4 +29,3 @@
 
 <script lang="ts" setup></script>
 
-<style></style>

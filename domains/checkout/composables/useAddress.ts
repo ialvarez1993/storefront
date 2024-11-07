@@ -29,7 +29,7 @@ export const useAddresses = () => {
 
   const billingAddresses = useState<Partner[]>(
     `${hash}-billing-addresses`,
-    () => []
+    () => [],
   );
   const shippingAddresses = useState<Partner[]>("shipping-addresses", () => []);
 
@@ -41,7 +41,7 @@ export const useAddresses = () => {
       AddressesResponse
     >(
       { queryName: QueryName.GetAddressesQuery },
-      { filter: { addressType: addressType } }
+      { filter: { addressType: addressType } },
     );
 
     if (error.value) {
@@ -92,7 +92,7 @@ export const useAddresses = () => {
 
   const updateAddress = async (
     address: UpdateAddressInput,
-    type: AddressEnum
+    type: AddressEnum,
   ) => {
     loading.value = true;
 
@@ -108,13 +108,13 @@ export const useAddresses = () => {
     if (type === AddressEnum.Billing) {
       const address = data.value.updateAddress;
       const index = billingAddresses.value.findIndex(
-        (addr) => addr.id === address.id
+        (addr) => addr.id === address.id,
       );
       billingAddresses.value[index] = address;
     } else {
       const address = data.value.updateAddress;
       const index = shippingAddresses.value.findIndex(
-        (addr) => addr.id === address.id
+        (addr) => addr.id === address.id,
       );
       shippingAddresses.value[index] = address;
     }
@@ -125,7 +125,7 @@ export const useAddresses = () => {
 
   const selectCurrentAddress = async (
     address: SelectAddressInput,
-    type: AddressEnum
+    type: AddressEnum,
   ) => {
     loading.value = true;
 

@@ -42,7 +42,7 @@
           <div
             class="absolute top-4 right-4 bg-white rounded-full p-2 shadow-lg"
           >
-            <NuxtImg  src="/images/hero.png" alt="HP Logo" class="w-8 h-8" />
+            <NuxtImg src="/images/hero.png" alt="HP Logo" class="w-8 h-8" />
           </div>
 
           <!-- Price Tag -->

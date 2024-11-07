@@ -25,7 +25,7 @@ const { signup, loading } = useAuth();
 const router = useRouter();
 
 const fullName = computed(
-  () => `${firstNameModel.value} ${lastNameModel.value}`
+  () => `${firstNameModel.value} ${lastNameModel.value}`,
 );
 
 const handleSignup = async () => {

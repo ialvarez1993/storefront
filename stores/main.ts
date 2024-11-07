@@ -1,25 +1,25 @@
 // stores/main.ts
-import { defineStore } from 'pinia'
+import { defineStore } from "pinia";
 
-export const useMainStore = defineStore('main', {
+export const useMainStore = defineStore("main", {
   state: () => ({
     isCompact: false,
     isMenuOpen: false,
     cartCount: 0,
-    selectedCurrency: 'VES'
+    selectedCurrency: "VES",
   }),
 
   actions: {
     toggleMenu() {
-      this.isMenuOpen = !this.isMenuOpen
+      this.isMenuOpen = !this.isMenuOpen;
     },
 
     updateCompact(value: boolean) {
-      this.isCompact = value
+      this.isCompact = value;
     },
 
     updateCurrency(currency: string) {
-      this.selectedCurrency = currency
-    }
-  }
-})
+      this.selectedCurrency = currency;
+    },
+  },
+});

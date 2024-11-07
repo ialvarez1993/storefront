@@ -4,14 +4,15 @@ import sfTypography from "@storefront-ui/typography";
 import daisyui from "daisyui";
 import tailwindcssAnimate from "tailwindcss-animate";
 
-
-
 export default <Config>{
   presets: [tailwindConfig],
   darkMode: ["class"],
   content: ["./**/*.vue", "node_modules/@storefront-ui/vue/**/*.{js,mjs}"],
   plugins: [sfTypography],
-  css: ["~/assets/css/tailwind.css", 'primevue/resources/themes/lara-light-blue/theme.css'  ],
+  css: [
+    "~/assets/css/tailwind.css",
+    "primevue/resources/themes/lara-light-blue/theme.css",
+  ],
 
   theme: {
     container: {

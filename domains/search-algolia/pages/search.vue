@@ -45,7 +45,7 @@ watch(isTabletScreen, (value) => {
 await search();
 
 await loadProductTemplateList(
-  getFacetsFromURL(route.query, algoliaSearchResultIds.value)
+  getFacetsFromURL(route.query, algoliaSearchResultIds.value),
 );
 
 const pagination = computed(() => ({
@@ -112,7 +112,7 @@ onMounted(() => {
               loading="eager"
               :slug="
                 mountUrlSlugForProductVariant(
-                  (productTemplate.firstVariant || productTemplate) as Product
+                  (productTemplate.firstVariant || productTemplate) as Product,
                 )
               "
               :image-url="
@@ -120,7 +120,7 @@ onMounted(() => {
                   String(productTemplate.image),
                   370,
                   370,
-                  String(productTemplate.imageFilename)
+                  String(productTemplate.imageFilename),
                 )
               "
               :image-alt="productTemplate?.name || ''"

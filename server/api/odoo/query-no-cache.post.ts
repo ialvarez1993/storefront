@@ -11,7 +11,7 @@ export default defineEventHandler(async (event: any) => {
       appendResponseHeader(
         event,
         "Set-cookie",
-        (response.data as unknown)?.cookie
+        (response.data as unknown)?.cookie,
       );
     }
 

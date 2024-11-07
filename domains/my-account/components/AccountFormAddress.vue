@@ -64,7 +64,7 @@ const handleSubmit = async () => {
     addressFormFieldsInput.value.id = props.address?.id;
     await updateAddress(
       addressFormFieldsInput.value as UpdateAddressInput,
-      props.type
+      props.type,
     );
 
     emits("on-save");
@@ -80,7 +80,7 @@ const handleSubmit = async () => {
   ) {
     await addAddress(
       addressFormFieldsInput.value as AddAddressInput,
-      AddressEnum.Shipping
+      AddressEnum.Shipping,
     );
   }
   emits("on-save");
@@ -185,4 +185,3 @@ const handleSubmit = async () => {
   </form>
 </template>
 
-<style scoped></style>

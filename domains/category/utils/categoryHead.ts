@@ -6,27 +6,27 @@ const validateCategorySEO = (category, fullPath) => {
 
   if (!category?.metaTitle) {
     warnings.push(
-      `[WARNING] - The category from slug ${fullPath} does not have the metaTitle.`
+      `[WARNING] - The category from slug ${fullPath} does not have the metaTitle.`,
     );
   }
   if (!category?.metaDescription) {
     warnings.push(
-      `[WARNING] - The category from slug ${fullPath} does not have the metaDescription.`
+      `[WARNING] - The category from slug ${fullPath} does not have the metaDescription.`,
     );
   }
   if (!category?.jsonLd) {
     warnings.push(
-      `[WARNING] - The category from slug ${fullPath} does not have the jsonLd.`
+      `[WARNING] - The category from slug ${fullPath} does not have the jsonLd.`,
     );
   }
   if (!category?.metaKeyword) {
     warnings.push(
-      `[WARNING] - The category from slug ${fullPath} does not have the metaKeyword.`
+      `[WARNING] - The category from slug ${fullPath} does not have the metaKeyword.`,
     );
   }
   if (!category?.metaImage) {
     warnings.push(
-      `[WARNING] - The category from slug ${fullPath} does not have the metaImage.`
+      `[WARNING] - The category from slug ${fullPath} does not have the metaImage.`,
     );
   }
 

@@ -7,7 +7,7 @@ export const usePayment = () => {
   const loading = ref(false);
   const paymentProviders = useState<PaymentProvider[]>(
     "payment-providers",
-    () => []
+    () => [],
   );
 
   const loadPaymentMethods = async () => {

@@ -19,7 +19,7 @@ export const useUiHelpers = () => {
 
   const getFacetsFromURL = (
     query: any,
-    ids: number[] = []
+    ids: number[] = [],
   ): QueryProductsArgs => {
     const filters: string[] = [];
     const newQuery = { ...query };

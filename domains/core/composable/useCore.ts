@@ -13,7 +13,7 @@ export const useCore = () => {
   const apiError = ref("");
 
   const newsletterSubscribe = async (
-    params: MutationNewsletterSubscribeArgs
+    params: MutationNewsletterSubscribeArgs,
   ) => {
     loading.value = true;
 

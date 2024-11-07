@@ -1,38 +1,41 @@
 <script setup>
-import { SfButton } from '@storefront-ui/vue';
+import { SfButton } from "@storefront-ui/vue";
 
-const NuxtLink = resolveComponent('NuxtLink');
+const NuxtLink = resolveComponent("NuxtLink");
 
 const items = ref([
   {
-    title: 'NEW COLLECTION',
+    title: "NEW COLLECTION",
     reverse: true,
-    subtitle: 'Fresh and Bold',
-    description: 'Add a pop up color to your outfit',
-    buttonText: 'Discover now',
-    image: '/images/display-1.png',
+    subtitle: "Fresh and Bold",
+    description: "Add a pop up color to your outfit",
+    buttonText: "Discover now",
+    image: "/images/display-1.png",
   },
   {
-    title: 'BE INSPIRED',
+    title: "BE INSPIRED",
     reverse: true,
-    subtitle: 'Sunny Days Ahead',
-    description: 'Step out in style with our sunglasses collection',
-    buttonText: 'Discover now',
-    image: '/images/display-2.png',
+    subtitle: "Sunny Days Ahead",
+    description: "Step out in style with our sunglasses collection",
+    buttonText: "Discover now",
+    image: "/images/display-2.png",
   },
   {
-    title: 'BE ACTIVE',
+    title: "BE ACTIVE",
     reverse: true,
-    subtitle: 'Gear up and get ready',
-    description: 'AExplore the great outdoors with our backpacks',
-    buttonText: 'Discover now',
-    image: '/images/display-3.png',
+    subtitle: "Gear up and get ready",
+    description: "AExplore the great outdoors with our backpacks",
+    buttonText: "Discover now",
+    image: "/images/display-3.png",
   },
 ]);
 </script>
 
 <template>
-  <div class="flex flex-col md:flex-row flex-wrap gap-6 mb-10" data-testid="display">
+  <div
+    class="flex flex-col md:flex-row flex-wrap gap-6 mb-10"
+    data-testid="display"
+  >
     <div
       v-for="item in items"
       :key="item.title"
@@ -47,8 +50,12 @@ const items = ref([
           },
         ]"
       >
-        <div class="flex flex-1 flex-col justify-center items-center md:items-start p-6 lg:p-10 max-w-1/2">
-          <p class="uppercase typography-text-xs block font-bold tracking-widest">
+        <div
+          class="flex flex-1 flex-col justify-center items-center md:items-start p-6 lg:p-10 max-w-1/2"
+        >
+          <p
+            class="uppercase typography-text-xs block font-bold tracking-widest"
+          >
             {{ item.subtitle }}
           </p>
           <h2 class="mb-4 mt-2 font-bold typography-headline-3">

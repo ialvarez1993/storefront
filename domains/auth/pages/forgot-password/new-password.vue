@@ -120,4 +120,3 @@ const handleSubmit = async () => {
   </div>
 </template>
 
-<style></style>
