@@ -1,10 +1,11 @@
 <script lang="ts" setup></script>
 
 <template>
-  <TheHeader />
 
-  <main class="w-full narrow-container bg-white">
-    <slot></slot>
+    <TheHeader />
+
+    <main class="w-full narrow-container bg-white">
+      <slot></slot>
   </main>
 
   <LazyNewsletter />
@@ -16,4 +17,5 @@
   </NuxtLazyHydrate>
 
   <WishlistSidebar />
+
 </template>

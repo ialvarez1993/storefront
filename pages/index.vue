@@ -14,14 +14,8 @@ useHead(websiteHomepageHead(websiteHomepage.value, ""));
 <template>
   <MainBanner />
   <FeatureBox />
-  <section class="pb-16">
-    <NuxtLazyHydrate when-visible>
-      <LazyProductSlider
-        :heading="$t('heading.discount')"
-        key="inspired-by-picks"
-        key-for-composable="inspired-by-picks"
-      />
-    </NuxtLazyHydrate>
+  <section class="mb-16">
+    <Product />
   </section>
   <CategoryCard :categories="categories" />
   <NuxtLazyHydrate when-visible>

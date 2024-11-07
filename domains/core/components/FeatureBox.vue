@@ -1,5 +1,5 @@
 <template>
-  <div class="!bg-white p-2">
+  <div class="bg-gray-50 flex flex-col items-center">
     <div class="container">
       <div class="flex flex-wrap gap-4 lg:gap-6 lg:flex-nowrap justify-center">
         <div

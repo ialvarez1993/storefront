@@ -85,13 +85,7 @@ onUnmounted(() => {
             <component :is="isMenuOpen ? XMarkIcon : Bars3Icon" class="h-6 w-6" />
           </button>
           <NuxtLink to="/" class="flex-shrink-0">
-            <img :src="'/placeholder.svg'"
-                 :alt="'TU PUNTO COM'"
-                 :class="[
-                   'transition-all duration-300',
-                   isCompact ? 'h-8' : 'h-12',
-                   'w-auto'
-                 ]" />
+            <VsfLogo />
           </NuxtLink>
         </div>
 

@@ -30,7 +30,7 @@ const items = ref([
     Shop by category
   </h2>
   <div
-    class="md:px-6 mb-10 flex flex-nowrap md:flex-wrap md:justify-center overflow-x-scroll scrollbar-hidden"
+    class="md:px-6 mb-10 flex flex-nowrap md:flex-wrap md:justify-center "
     data-testid="category-card"
   >
     <div
