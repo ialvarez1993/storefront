@@ -111,24 +111,7 @@ onUnmounted(() => {
             isCompact ? 'px-4' : '',
           ]"
         >
-          <div class="relative">
-            <input
-              type="search"
-              placeholder="Busca dentro de la tienda productos y marcas"
-              :class="[
-                'w-full pl-4 pr-12 transition-all duration-300 rounded-md border-2 border-gray-200 focus:border-[#FFC107]',
-                isCompact ? 'h-10' : 'h-11',
-              ]"
-            />
-            <button
-              :class="[
-                'absolute right-0 top-0 transition-all duration-300 px-4 bg-[#FFC107] hover:bg-[#FFA000] text-black',
-                isCompact ? 'h-10' : 'h-11',
-              ]"
-            >
-              <MagnifyingGlassIcon class="h-5 w-5" />
-            </button>
-          </div>
+          <SearchInput />
         </div>
 
         <div class="flex items-center gap-6">

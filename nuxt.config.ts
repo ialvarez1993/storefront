@@ -30,6 +30,7 @@ export default defineNuxtConfig({
   ],
 
   modules: [
+    '@vueuse/nuxt',
     "@pinia/nuxt",
     "@nuxtjs/tailwindcss",
     "@nuxtjs/i18n",
