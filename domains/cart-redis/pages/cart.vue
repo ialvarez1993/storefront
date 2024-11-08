@@ -9,7 +9,7 @@ await loadCart();
 </script>
 
 <template>
-  <div v-if="cart?.order?.websiteOrderLine?.length > 0" class="pb-20">
+  <div v-if="cart?.order?.websiteOrderLine?.length > 0" class="pb-20 mt-32">
     <div class="flex justify-between mt-8 mb-10">
       <h1 class="font-bold typography-headline-3 md:typography-headline-2">
         Cart
@@ -34,7 +34,7 @@ await loadCart();
         <template #prefix>
           <SfIconArrowBack />
         </template>
-        {{ $t("backToShopping") }}
+        Volver a la tienda
       </SfButton>
     </div>
     <div
@@ -60,7 +60,7 @@ await loadCart();
   </div>
   <div
     v-else
-    class="flex items-center justify-center flex-col pt-24 pb-32"
+    class="flex items-center justify-center mt-36 flex-col pt-24 pb-32"
     data-testid="cart-page-content"
   >
     <NuxtImg

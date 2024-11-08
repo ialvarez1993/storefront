@@ -35,7 +35,7 @@ useHead(websiteHomepageHead(websiteHomepage.value, ""));
   <section class="mx-24" >
     <CardSamsung />
   </section>
-  <!-- <CategoryCard :categories="categories" /> -->
+  <CategoryCard :categories="categories" />
   <CardsItems />
 
   <NuxtLazyHydrate when-visible>

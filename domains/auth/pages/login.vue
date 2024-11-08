@@ -26,9 +26,9 @@ const NuxtLink = resolveComponent("NuxtLink");
 </script>
 
 <template>
-  <NuxtLayout name="auth" :heading="$t('auth.login.heading')">
+  <NuxtLayout  name="auth" :heading="$t('auth.login.heading')">
     <form
-      class="border-neutral-200 md:border flex flex-col gap-4 md:p-6 rounded-md"
+      class="mt-52 border-neutral-200 md:border flex flex-col gap-4 md:p-6 rounded-md"
       @submit.prevent="handleLogin"
     >
       <label>

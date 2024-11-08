@@ -10,6 +10,12 @@ import {
   ArrowUpIcon,
 } from "@heroicons/vue/24/outline";
 
+const { loadCart, totalItemsInCart } = useCart();
+
+onMounted(async () => {
+  await loadCart(true);
+});
+
 const isCompact = ref(false);
 const isMenuOpen = ref(false);
 const activeDropdown = ref(null);
@@ -17,19 +23,19 @@ const currency = ref("VES");
 
 const categories = {
   ferreteria: [
-    { name: "Construcción", href: "#construccion" },
-    { name: "Electricidad", href: "#electricidad" },
-    { name: "Jardín", href: "#jardin" },
-    { name: "Baño y fontanería", href: "#bano-fontaneria" },
+    { name: "Construcción", href: "/category/15" },
+    { name: "Electricidad", href: "/category/15" },
+    { name: "Jardín", href: "/category/15" },
+    { name: "Baño y fontanería", href: "/category/15" },
   ],
   digital: [
-    { name: "Computación", href: "#computacion" },
-    { name: "Impresoras", href: "#impresoras" },
-    { name: "Móviles", href: "#moviles" },
-    { name: "Smartwatches", href: "#smartwatches" },
-    { name: "Fotografía", href: "#fotografia" },
-    { name: "Smart home", href: "#smart-home" },
-    { name: "Videojuegos", href: "#videojuegos" },
+    { name: "Computación", href: "/category/15" },
+    { name: "Impresoras", href: "/category/15" },
+    { name: "Móviles", href: "/category/15" },
+    { name: "Smartwatches", href: "/category/15" },
+    { name: "Fotografía", href: "/category/15" },
+    { name: "Smart home", href: "/category/15" },
+    { name: "Videojuegos", href: "/category/15" },
   ],
 };
 
@@ -115,7 +121,11 @@ onUnmounted(() => {
         </div>
 
         <div class="flex items-center gap-6">
-          <NuxtLink to="/atencion" class="hidden md:flex items-center gap-2">
+          <NuxtLink
+            external
+            to="https://www.whatsapp.com/"
+            class="hidden md:flex items-center gap-2"
+          >
             <svg
               version="1.0"
               xmlns="http://www.w3.org/2000/svg"
@@ -155,17 +165,17 @@ onUnmounted(() => {
             </div>
           </NuxtLink>
 
-          <NuxtLink to="/cuenta" class="hidden md:flex items-center gap-2">
+          <NuxtLink to="/login" class="hidden md:flex items-center gap-2">
             <UserIcon class="h-5 w-5" />
             <span v-if="!isCompact" class="text-sm">Mi cuenta</span>
           </NuxtLink>
 
-          <NuxtLink to="/carrito" class="relative">
+          <NuxtLink to="/cart" class="relative">
             <ShoppingCartIcon class="h-6 w-6" />
             <span
               class="absolute -top-2 -right-2 bg-[#FFC107] text-black text-xs rounded-full h-5 w-5 flex items-center justify-center"
             >
-              0
+              {{ totalItemsInCart }}
             </span>
           </NuxtLink>
 
@@ -200,7 +210,7 @@ onUnmounted(() => {
               <NuxtLink
                 v-for="item in items"
                 :key="item.name"
-                :to="item.href"
+                to="/category/15"
                 class="block px-4 py-2 hover:bg-gray-100"
               >
                 {{ item.name }}
@@ -263,7 +273,10 @@ onUnmounted(() => {
             ]"
             :key="item"
           >
-            <NuxtLink to="#" class="block px-4 py-2 hover:bg-gray-100">
+            <NuxtLink
+              to="/category/15"
+              class="block px-4 py-2 hover:bg-gray-100"
+            >
               {{ item }}
             </NuxtLink>
           </li>

@@ -1,21 +1,4 @@
 <script setup lang="ts">
-import {
-  SfButton,
-  SfChip,
-  SfCounter,
-  SfIconCompareArrows,
-  SfIconFavorite,
-  SfIconFavoriteFilled,
-  SfIconPackage,
-  SfIconSafetyCheck,
-  SfIconSell,
-  SfIconShoppingCart,
-  SfIconShoppingCartCheckout,
-  SfIconWarehouse,
-  SfLink,
-  SfRating,
-  SfThumbnail,
-} from "@storefront-ui/vue";
 import type { LocationQueryRaw } from "vue-router";
 import type { OrderLine, Product } from "~/graphql";
 
@@ -48,25 +31,25 @@ useHead(productHead(productVariant.value, String(route.fullPath)));
 
 const params = computed(() => ({
   combinationId: Object.values(route.query)?.map((value) =>
-    parseInt(value as string),
+    parseInt(value as string)
   ),
   productTemplateId: productTemplate?.value?.id,
 }));
 
 const selectedSize = computed(() =>
-  route.query.Size ? Number(route.query.Size) : getAllSizes?.value?.[0]?.value,
+  route.query.Size ? Number(route.query.Size) : getAllSizes?.value?.[0]?.value
 );
 
 const selectedColor = computed(() =>
   route.query.Color
     ? Number(route.query.Color)
-    : getAllColors?.value?.[0]?.value,
+    : getAllColors?.value?.[0]?.value
 );
 
 const selectedMaterial = computed(() =>
   route.query.Material
     ? Number(route.query.Material)
-    : getAllMaterials?.value?.[0]?.value,
+    : getAllMaterials?.value?.[0]?.value
 );
 
 const productDetailsOpen = ref(true);
@@ -94,14 +77,14 @@ const updateFilter = async (filter: LocationQueryRaw | undefined) => {
 const tomorrow = computed(() => {
   const date = new Date();
   date.setDate(date.getDate() + 1);
-  return date;
+  return date.toDateString().slice(0, 10);
 });
 
 const productsInCart = computed(() => {
   return (
     cart.value?.order?.orderLines?.find(
       (orderLine: OrderLine) =>
-        orderLine.product?.id === productVariant?.value.id,
+        orderLine.product?.id === productVariant?.value.id
     )?.quantity || 0
   );
 });
@@ -133,13 +116,14 @@ await loadProductVariant(params.value);
     <div v-if="productTemplate?.id && !loadingProductTemplate">
       <UiBreadcrumb
         :breadcrumbs="breadcrumbs"
-        class="self-start mt-5 mb-10 cursor-pointer"
+        class="self-start mb-10 cursor-pointer"
       />
       <div
-        class="md:grid grid-areas-product-page grid-cols-product-page gap-x-6"
+        class="md:grid grid-areas-product-page mt-[8rem] grid-cols-product-page gap-x-6"
       >
         <section class="grid-in-left-top md:h-full xl:max-h-[700px]">
-          <LazyUiGallery :images="getImages" />
+          {{getImages}}
+          <ProductView :images="getImages" />
         </section>
         <section class="col-span-5 grid-in-right md:mb-0">
           <div
@@ -149,7 +133,6 @@ await loadProductVariant(params.value);
             <div
               class="inline-flex items-center justify-center font-medium rounded-none bg-secondary-800 text-sm p-1.5 gap-1 mb-4"
             >
-              <SfIconSell color="white" size="sm" class="mr-1" />
               <span class="mr-1 text-white">{{ $t(`sale`) }}</span>
             </div>
             <h1
@@ -184,15 +167,6 @@ await loadProductVariant(params.value);
               </span>
             </div>
             <div class="inline-flex items-center mt-4 mb-2">
-              <SfRating size="xs" :value="4" :max="5" />
-              <SfCounter class="ml-1" size="xs">26</SfCounter>
-              <SfLink
-                href="#"
-                variant="secondary"
-                class="ml-2 text-xs text-neutral-500"
-              >
-                26 reviews
-              </SfLink>
             </div>
             <p
               class="mb-4 font-normal typography-text-sm"
@@ -205,7 +179,6 @@ await loadProductVariant(params.value);
                 v-show="productsInCart"
                 class="w-full mb-4 bg-primary-200 p-2 rounded-md text-center text-primary-700"
               >
-                <SfIconShoppingCartCheckout />
                 {{ productsInCart }} products in cart
               </div>
               <div class="flex flex-col md:flex-row flex-wrap gap-4">
@@ -214,98 +187,32 @@ await loadProductVariant(params.value);
                   :value="quantitySelectorValue"
                   class="min-w-[145px] flex-grow flex-shrink-0 basis-0"
                 />
-                <SfButton
-                  :disabled="loadingProductVariant"
-                  type="button"
-                  size="lg"
-                  class="flex-grow-[2] flex-shrink basis-auto whitespace-nowrap"
-                  @click="handleCartAdd"
-                >
-                  <template #prefix>
-                    <SfIconShoppingCart size="sm" />
-                  </template>
-                  {{ $t("addToCart") }}
-                </SfButton>
               </div>
               <div class="flex justify-center mt-4 gap-x-4">
-                <SfButton type="button" size="sm" variant="tertiary">
-                  <template #prefix>
-                    <SfIconCompareArrows size="sm" />
-                  </template>
-                  {{ $t("compare") }}
-                </SfButton>
-                <SfButton
-                  type="button"
-                  size="sm"
-                  variant="tertiary"
-                  :class="
-                    productVariant?.isInWishlist ? 'bg-primary-100' : 'bg-white'
-                  "
-                  @click="
-                    isInWishlist(productVariant?.id as number)
-                      ? handleWishlistRemoveItem(productVariant)
-                      : handleWishlistAddItem(productVariant)
-                  "
-                >
-                  <SfIconFavoriteFilled
-                    v-show="isInWishlist(productVariant?.id as number)"
-                    size="sm"
-                  />
-                  <SfIconFavorite
-                    v-show="!isInWishlist(productVariant?.id as number)"
-                    size="sm"
-                  />
-                  {{
-                    isInWishlist(productVariant?.id as number)
-                      ? $t("wishlist.removeFromWishlist")
-                      : $t("wishlist.addToWishlist")
-                  }}
-                </SfButton>
               </div>
             </div>
             <div class="flex first:mt-4">
-              <SfIconPackage
-                size="sm"
-                class="flex-shrink-0 mr-1 text-neutral-500"
-              />
               <p class="text-sm">
                 <i18n-t keypath="additionalInfo.shipping" scope="global">
                   <template #date>
                     {{ tomorrow }}
                   </template>
                   <template #addAddress>
-                    <SfLink class="ml-1" href="#" variant="secondary">{{
-                      $t("additionalInfo.addAddress")
-                    }}</SfLink>
                   </template>
                 </i18n-t>
               </p>
             </div>
             <div class="flex mt-4">
-              <SfIconWarehouse
-                size="sm"
-                class="flex-shrink-0 mr-1 text-neutral-500"
-              />
               <p class="text-sm">
                 <i18n-t keypath="additionalInfo.pickup" scope="global">
                   <template #checkAvailability>
-                    <SfLink class="ml-1" href="#" variant="secondary">{{
-                      $t("additionalInfo.checkAvailability")
-                    }}</SfLink>
                   </template>
                 </i18n-t>
               </p>
             </div>
             <div class="flex mt-4">
-              <SfIconSafetyCheck
-                size="sm"
-                class="flex-shrink-0 mr-1 text-neutral-500"
-              />
               <i18n-t keypath="additionalInfo.returns" scope="global">
                 <template #details>
-                  <SfLink class="ml-1" href="#" variant="secondary">{{
-                    $t("additionalInfo.details")
-                  }}</SfLink>
                 </template>
               </i18n-t>
             </div>
@@ -328,21 +235,6 @@ await loadProductVariant(params.value);
                 :key="value"
                 class="mr-2 mb-2 uppercase"
               >
-                <SfChip
-                  class="min-w-[48px]"
-                  size="sm"
-                  :v-model="value"
-                  :input-props="{
-                    onClick: (e) => value == selectedSize && e.preventDefault(),
-                  }"
-                  :model-value="value == selectedSize"
-                  @update:model-value="
-                    value != selectedSize &&
-                      updateFilter({ ['Size']: value.toString() })
-                  "
-                >
-                  {{ label }}
-                </SfChip>
               </span>
             </fieldset>
             <fieldset
@@ -359,22 +251,6 @@ await loadProductVariant(params.value);
                 :key="value"
                 class="mr-2 mb-2 uppercase"
               >
-                <SfChip
-                  class="min-w-[48px]"
-                  size="sm"
-                  :v-model="value"
-                  :input-props="{
-                    onClick: (e) =>
-                      value == selectedMaterial && e.preventDefault(),
-                  }"
-                  :model-value="value == selectedMaterial"
-                  @update:model-value="
-                    value != selectedMaterial &&
-                      updateFilter({ ['Material']: value.toString() })
-                  "
-                >
-                  {{ label }}
-                </SfChip>
               </span>
             </fieldset>
             <fieldset
@@ -391,25 +267,6 @@ await loadProductVariant(params.value);
                 :key="value"
                 class="mr-2 mb-2 uppercase"
               >
-                <SfChip
-                  class="min-w-[48px]"
-                  size="sm"
-                  :v-model="value"
-                  :input-props="{
-                    onClick: (e) =>
-                      value == selectedColor && e.preventDefault(),
-                  }"
-                  :model-value="value == selectedColor"
-                  @update:model-value="
-                    value != selectedColor &&
-                      updateFilter({ ['Color']: value.toString() })
-                  "
-                >
-                  <template #prefix>
-                    <SfThumbnail size="sm" :style="{ background: label }" />
-                  </template>
-                  {{ label }}
-                </SfChip>
               </span>
             </fieldset>
           </div>
@@ -453,12 +310,12 @@ await loadProductVariant(params.value);
       <section class="lg:mx-4 mt-28 mb-20">
         <ProductSlider :text="$t('recommendWithThis')" />
       </section>
-      <section class="pb-16" v-if="list?.length > 0">
+      <section v-if="list?.length > 0" class="pb-16">
         <ClientOnly>
           <LazyProductSlider
+            key="recent-views"
             :heading="$t('recentViews')"
             :ids="list"
-            key="recent-views"
             key-for-composable="recent-views"
           />
         </ClientOnly>

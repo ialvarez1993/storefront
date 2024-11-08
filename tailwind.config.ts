@@ -1,8 +1,6 @@
 import type { Config } from "tailwindcss";
 import { tailwindConfig } from "@storefront-ui/vue/tailwind-config";
 import sfTypography from "@storefront-ui/typography";
-import daisyui from "daisyui";
-import tailwindcssAnimate from "tailwindcss-animate";
 
 export default <Config>{
   presets: [tailwindConfig],
