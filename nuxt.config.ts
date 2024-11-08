@@ -94,9 +94,16 @@ export default defineNuxtConfig({
   },
 
   vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: '@use "@/assets/css/_variables.scss" as *;'
+        }
+      },
     optimizeDeps: {
       include: ["lodash-es"],
     },
+  },
   },
 
   build: {

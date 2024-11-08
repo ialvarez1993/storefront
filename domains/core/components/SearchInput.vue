@@ -305,96 +305,183 @@ watch(searchHits, animateResults);
   </div>
 </template>
 
+
 <style lang="scss" scoped>
 .search-container {
-  @apply relative w-full max-w-2xl mx-auto;
+  position: relative;
+  width: 100%;
+  max-width: 42rem;
+  margin-left: auto;
+  margin-right: auto;
 
   .search-input {
-    @apply transition-all duration-200 border border-gray-200 rounded-full shadow-sm;
+    transition-property: all;
+    transition-duration: 200ms;
+    border-width: 1px;
+    border-color: rgb(229 231 235);
+    border-radius: 9999px;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
 
     &.is-focused {
-      @apply border-primary-500 ring-2 ring-primary-500/20;
+      border-color: #0ea5e9; // Color primary-500
+      ring-width: 2px;
+      ring-color: rgba(14, 165, 233, 0.2); // primary-500 con opacidad
     }
   }
 
   .search-button {
-    @apply rounded-full px-4 min-w-[80px];
+    border-radius: 9999px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    min-width: 80px;
   }
 
   .search-results-panel {
-    @apply absolute left-0 right-0 mt-2 bg-white rounded-lg shadow-lg border border-gray-200
-           overflow-hidden max-h-[80vh] overflow-y-auto z-50;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-top: 0.5rem;
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    border-width: 1px;
+    border-color: rgb(229 231 235);
+    overflow: hidden;
+    max-height: 80vh;
+    overflow-y: auto;
+    z-index: 50;
   }
 
   .search-loading {
-    @apply flex flex-col items-center justify-center p-8 space-y-4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    gap: 1rem;
   }
 
   .search-result-item {
-    @apply transition-colors duration-150;
+    transition-property: color, background-color, border-color;
+    transition-duration: 150ms;
 
     &.is-highlighted {
-      @apply bg-primary-50;
+      background-color: #f0f9ff; // Color primary-50
     }
 
     .search-result-image {
-      @apply w-16 h-16 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden;
+      width: 4rem;
+      height: 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgb(243 244 246);
+      border-radius: 0.5rem;
+      overflow: hidden;
 
       img {
-        @apply w-full h-full object-cover;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
 
       .placeholder-image {
-        @apply text-gray-400;
+        color: rgb(156 163 175);
       }
     }
 
     .search-result-title {
-      @apply text-sm font-medium text-gray-900 truncate;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: rgb(17 24 39);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .search-result-description {
-      @apply text-xs text-gray-500 line-clamp-1;
+      font-size: 0.75rem;
+      color: rgb(107 114 128);
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
 
     .search-result-meta {
-      @apply flex items-center gap-2 mt-1;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.25rem;
 
       .search-result-price {
-        @apply text-sm font-semibold text-primary-600;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #0284c7; // Color primary-600
       }
 
       .search-result-category {
-        @apply text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full;
+        font-size: 0.75rem;
+        color: rgb(107 114 128);
+        background-color: rgb(243 244 246);
+        padding: 0.125rem 0.5rem;
+        border-radius: 9999px;
       }
     }
   }
 
   .search-no-results {
-    @apply flex flex-col items-center justify-center p-8 space-y-4 text-center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    gap: 1rem;
+    text-align: center;
   }
 
   .suggestion-section {
-    @apply p-4;
+    padding: 1rem;
 
     &:not(:last-child) {
-      @apply border-b border-gray-200;
+      border-bottom-width: 1px;
+      border-color: rgb(229 231 235);
     }
 
     .suggestion-title {
-      @apply flex items-center gap-2 text-sm font-medium text-gray-500 mb-3;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: rgb(107 114 128);
+      margin-bottom: 0.75rem;
     }
 
     .suggestion-list {
-      @apply space-y-2;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
     }
 
     .suggestion-item {
-      @apply flex items-center gap-2 px-3 py-2 text-sm text-gray-700 rounded-md
-             hover:bg-gray-50 cursor-pointer transition-colors duration-150;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 0.75rem;
+      font-size: 0.875rem;
+      color: rgb(55 65 81);
+      border-radius: 0.375rem;
+      cursor: pointer;
+      transition-property: color, background-color;
+      transition-duration: 150ms;
+
+      &:hover {
+        background-color: rgb(249 250 251);
+      }
 
       .trend-icon {
-        @apply text-lg;
+        font-size: 1.125rem;
       }
     }
   }
@@ -403,11 +490,13 @@ watch(searchHits, animateResults);
 // Animations
 .fade-enter-active,
 .fade-leave-active {
-  @apply transition-opacity duration-150;
+  transition-property: opacity;
+  transition-duration: 150ms;
 }
 
 .fade-enter-from,
 .fade-leave-to {
-  @apply opacity-0;
+  opacity: 0;
 }
 </style>
+
