@@ -46,7 +46,10 @@ const NuxtLink = resolveComponent("NuxtLink");
       <caption class="invisible">
         List of orders
       </caption>
-      <thead class="border-b-2 border-neutral-200">
+      <thead
+        v-if="orders?.orders?.length !== 0"
+        class="border-b-2 border-neutral-200"
+      >
         <tr>
           <th class="py-4 pr-4 font-medium">
             {{ $t("account.myOrders.orderId") }}
