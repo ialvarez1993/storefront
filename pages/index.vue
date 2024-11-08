@@ -14,10 +14,30 @@ useHead(websiteHomepageHead(websiteHomepage.value, ""));
 <template>
   <MainBanner />
   <FeatureBox />
-  <section class="mb-16">
-    <Product />
+  <section class="pb-16">
+    <NuxtLazyHydrate when-visible>
+      <LazyProductSlider
+        key="inspired-by-picks"
+        :heading="$t('heading.discount')"
+        key-for-composable="inspired-by-picks"
+      />
+    </NuxtLazyHydrate>
   </section>
-  <CategoryCard :categories="categories" />
+  <section class="pb-16">
+    <NuxtLazyHydrate when-visible>
+      <LazyProductSlider
+        key="inspired-by-picks"
+        :heading="$t('heading.categories')"
+        key-for-composable="inspired-by-picks"
+      />
+    </NuxtLazyHydrate>
+  </section>
+  <section class="mx-24" >
+    <CardSamsung />
+  </section>
+  <!-- <CategoryCard :categories="categories" /> -->
+  <CardsItems />
+
   <NuxtLazyHydrate when-visible>
     <LazyDisplay />
   </NuxtLazyHydrate>
