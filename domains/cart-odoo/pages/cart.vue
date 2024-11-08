@@ -31,7 +31,7 @@ await loadCart(false);
       </SfButton>
     </div>
     <div
-      class="lg:grid lg:grid-cols-12 md:gap-x-6"
+      class="lg:grid  lg:grid-cols-12 md:gap-x-6"
       data-testid="cart-page-content"
     >
       <div class="col-span-7 mb-10 lg:mb-0">

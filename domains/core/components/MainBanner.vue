@@ -141,7 +141,7 @@ const slides = [
     subtitle: "Celular Cubot P80 Dual Sim 256 Gb Global 8 Gb",
     price: 279,
     discount: 30,
-    image: "/placeholder.svg",
+    image: "/images/display-1.png",
     brand: "hp",
   },
 ];

@@ -10,7 +10,7 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "codegen": "graphql-codegen",
-    "predev": "yarn codegen",
+    "predev": "bun codegen",
     "lint:js": "eslint --ext \".ts,.vue\" --ignore-path .gitignore . --fix",
     "lint:style": "stylelint \"**/*.{vue,css,scss}\" --ignore-path .gitignore --fix",
     "lint:prettier": "prettier --write \"**/*.{js,ts,vue,css,scss,json,md}\"",
@@ -113,6 +113,8 @@
     "daisyui": "^4.12.14",
     "git-cz": "^4.9.0",
     "husky": "^9.0.11",
+    "sass": "^1.80.6",
+    "sass-loader": "^16.0.3",
     "tailwind-scrollbar": "^3.1.0"
   },
   "engines": {

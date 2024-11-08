@@ -1,4 +1,5 @@
-<script lang="ts" setup>
+<!-- ProductCard.vue -->
+<script setup lang="ts">
 import {
   SfRating,
   SfCounter,
@@ -9,7 +10,7 @@ import {
 } from "@storefront-ui/vue";
 import type { Product } from "~/graphql";
 
-defineProps({
+const props = defineProps({
   imageUrl: {
     type: String,
     required: true,
@@ -47,31 +48,41 @@ defineProps({
     required: false,
   },
   firstVariant: {
-    type: Object,
+    type: Object as PropType<Product>,
     required: false,
   },
+  isInWishlist: {
+    type: Boolean,
+    default: false
+  },
   loading: {
-    type: String as PropType<"eager" | "lazy" | undefined>,
-    required: false,
+    type: String as PropType<"eager" | "lazy">,
     default: "lazy",
   },
 });
 
 const { cartAdd } = useCart();
-const { wishlistAddItem, isInWishlist, wishlistRemoveItem } = useWishlist();
+const { wishlistAddItem, wishlistRemoveItem } = useWishlist();
 
-const handleWishlistAddItem = async (firstVariant: Product) => {
-  await wishlistAddItem(firstVariant.id);
+const handleAddToCart = async () => {
+  if (props.firstVariant?.id) {
+    await cartAdd(props.firstVariant.id, 1);
+  }
 };
 
-const handleWishlistRemoveItem = async (firstVariant: Product) => {
-  await wishlistRemoveItem(firstVariant.id);
+const toggleWishlist = async () => {
+  if (!props.firstVariant?.id) return;
+
+  if (props.isInWishlist) {
+    await wishlistRemoveItem(props.firstVariant.id);
+  } else {
+    await wishlistAddItem(props.firstVariant.id);
+  }
 };
 </script>
+
 <template>
-  <div
-    class="relative border border-neutral-200 rounded-md hover:shadow-lg min-h-[330px] flex flex-col justify-around"
-  >
+  <div class="relative border border-neutral-200 rounded-md hover:shadow-lg min-h-[330px] flex flex-col justify-around">
     <div class="relative">
       <NuxtLink :to="slug">
         <NuxtImg
@@ -89,24 +100,17 @@ const handleWishlistRemoveItem = async (firstVariant: Product) => {
         variant="tertiary"
         size="sm"
         square
-        :class="[
-          'absolute bottom-0 right-0 mr-2 mb-2 bg-white border border-neutral-200 !rounded-full',
-          { '!bg-green-200': isInWishlist(firstVariant?.id) },
-        ]"
+        class="absolute bottom-0 right-0 mr-2 mb-2 bg-white border border-neutral-200 !rounded-full"
+        :class="{ '!bg-green-200': isInWishlist }"
         aria-label="Add to wishlist"
-        @click="
-          isInWishlist(firstVariant?.id)
-            ? handleWishlistRemoveItem(firstVariant as Product)
-            : handleWishlistAddItem(firstVariant as Product)
-        "
+        @click="toggleWishlist"
       >
-        <SfIconFavoriteFilled v-if="isInWishlist(firstVariant?.id)" size="sm" />
+        <SfIconFavoriteFilled v-if="isInWishlist" size="sm" />
         <SfIconFavorite v-else size="sm" />
       </SfButton>
     </div>
-    <div
-      class="p-2 border-t border-neutral-200 typography-text-sm flex flex-col justify-between gap-1 h-full"
-    >
+
+    <div class="p-2 border-t border-neutral-200 typography-text-sm flex flex-col justify-between gap-1 h-full">
       <NuxtLink
         :to="slug"
         variant="secondary"
@@ -114,32 +118,36 @@ const handleWishlistRemoveItem = async (firstVariant: Product) => {
       >
         {{ name }}
       </NuxtLink>
-      <div class="flex items-center">
-        <SfRating size="xs" :value="rating ?? 0" :max="5" />
+
+      <div v-if="rating" class="flex items-center">
+        <SfRating size="xs" :value="rating" :max="5" />
         <SfCounter size="xs">{{ ratingCount }}</SfCounter>
       </div>
+
       <p
         v-if="description"
         class="block font-normal leading-5 typography-text-sm text-neutral-700"
       >
         {{ description }}
       </p>
-      <div class="flex justify-between">
+
+      <div class="flex justify-between items-center">
         <div class="block">
-          <span class="font-bold typography-text-sm">{{
-            $currency(regularPrice)
-          }}</span>
+          <span class="font-bold typography-text-sm">
+            {{ $currency(regularPrice) }}
+          </span>
           <span
             v-if="specialPrice"
             class="ml-1.5 font-normal typography-text-xs line-through"
-            >{{ $currency(specialPrice) }}</span
           >
+            {{ $currency(specialPrice) }}
+          </span>
         </div>
+
         <SfButton
           type="button"
-          class="ottom-2"
           size="sm"
-          @click="cartAdd(firstVariant?.id, 1)"
+          @click="handleAddToCart"
         >
           <template #prefix>
             <SfIconShoppingCart size="sm" />

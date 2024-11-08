@@ -30,6 +30,7 @@ export default defineNuxtConfig({
   ],
 
   modules: [
+    '@vueuse/nuxt',
     "@pinia/nuxt",
     "@nuxtjs/tailwindcss",
     "@nuxtjs/i18n",
@@ -93,9 +94,16 @@ export default defineNuxtConfig({
   },
 
   vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          additionalData: '@use "@/assets/css/_variables.scss" as *;'
+        }
+      },
     optimizeDeps: {
       include: ["lodash-es"],
     },
+  },
   },
 
   build: {
