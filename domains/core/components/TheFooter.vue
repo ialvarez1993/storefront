@@ -1,263 +1,124 @@
 <template>
-  <footer class="pt-10 bg-neutral-100">
-    <div
-      class="grid justify-center grid-cols-[1fr_1fr] md:grid-cols-[repeat(4,1fr)] narrow-container"
-    >
-      <div
-        v-for="{ label, subcategories } in categories"
-        :key="label"
-        class="grid grid-cols xs:pb-4"
-      >
-        <div
-          class="ml-4 text-lg font-medium leading-7 text-neutral-900 font-body"
-        >
-          {{ label }}
+  <footer class="bg-black text-white px-6 py-12 md:py-16">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+      <!-- Social Media Column -->
+      <div>
+        <h2 class="font-bold text-lg mb-4 uppercase tracking-wider">
+          Síguenos
+        </h2>
+        <div class="flex gap-4">
+          <NuxtLink to="#" class="hover:opacity-80 transition-opacity">
+            <Icon name="lucide:facebook" class="w-6 h-6 text-amber-400" />
+            <span class="sr-only">Facebook</span>
+          </NuxtLink>
+          <NuxtLink to="#" class="hover:opacity-80 transition-opacity">
+            <Icon name="lucide:instagram" class="w-6 h-6 text-amber-400" />
+            <span class="sr-only">Instagram</span>
+          </NuxtLink>
         </div>
-        <SfListItem
-          v-for="{ subcategoryLabel, link } in subcategories"
-          :key="subcategoryLabel"
-          class="py-2 !bg-transparent typography-text-sm font-body"
-        >
-          <SfLink
-            class="no-underline text-neutral-600 hover:underline hover:!text-neutral-900 active:underline active:!text-neutral-900"
-            variant="secondary"
-            :href="link"
-          >
-            {{ subcategoryLabel }}
-          </SfLink>
-        </SfListItem>
       </div>
-    </div>
-    <hr />
-    <div class="py-10 md:flex md:mx-auto max-w-[1336px]">
-      <div
-        v-for="{ label, icon, link, details } in contactOptions"
-        :key="label"
-        class="mx-auto my-4 text-center"
-      >
-        <component :is="icon" size="lg" />
-        <p class="py-1 my-2 font-medium typography-text-lg font-body">
-          <SfLink
-            variant="secondary"
-            class="no-underline text-neutral-600 hover:underline hover:!text-neutral-900 active:underline active:!text-neutral-900"
-            :href="link"
-          >
-            {{ label }}
-          </SfLink>
-        </p>
-        <p
-          v-for="option in details"
-          :key="option"
-          class="leading-5 typography-text-sm text-neutral-600 font-body"
-        >
-          {{ option }}
-        </p>
+
+      <!-- Tu Punto Column -->
+      <div>
+        <h2 class="font-bold text-lg mb-4 uppercase tracking-wider">
+          Tu punto
+        </h2>
+        <ul class="space-y-2">
+          <li>
+            <NuxtLink to="/about" class="hover:text-gray-300 transition-colors">
+              Acerca de nosotros
+            </NuxtLink>
+          </li>
+          <li>
+            <NuxtLink to="/auth" class="hover:text-gray-300 transition-colors">
+              Registro
+            </NuxtLink>
+          </li>
+          <li>
+            <NuxtLink to="/user" class="hover:text-gray-300 transition-colors">
+              Tu cuenta
+            </NuxtLink>
+          </li>
+        </ul>
       </div>
-    </div>
-    <div class="bg-primary-900">
-      <div
-        class="px-4 md:px-6 xl:px-8 xxl:px-0 max-w-[1336px] justify-end py-10 md:flex md:py-6 mx-auto"
-      >
-        <div class="flex justify-center py-2 gap-x-4 md:self-start">
-          <SfButton
-            v-for="{ label, link, icon } in socialMedia"
-            :key="label"
-            tag="a"
-            square
-            variant="tertiary"
-            class="text-white active:text-white hover:text-white hover:!bg-neutral-500 active:!bg-transparent"
-            :href="link"
-            :aria-label="`Go to ${label} page`"
-          >
-            <component :is="icon" loading="lazy" />
-          </SfButton>
-        </div>
-        <div
-          class="flex items-center justify-center gap-6 py-2 my-4 md:ml-auto md:my-0"
-        >
-          <SfLink
-            v-for="{ label, link } in bottomLinks"
-            :key="label"
-            variant="secondary"
-            class="text-white no-underline typography-text-sm active:text-white active:underline hover:text-white hover:underline"
-            :href="link"
-          >
-            {{ label }}
-          </SfLink>
-        </div>
-        <p
-          class="flex items-center justify-center py-2 pb-14 md:pb-2 leading-5 text-center typography-text-sm text-white/50 font-body md:ml-6"
-        >
-          @{{ new Date().getFullYear() }} Tupunto.com
-        </p>
+
+      <!-- Comprar Column -->
+      <div>
+        <h2 class="font-bold text-lg mb-4 uppercase tracking-wider">Comprar</h2>
+        <ul class="space-y-2">
+          <li>
+            <NuxtLink to="#" class="hover:text-gray-300 transition-colors">
+              Ferretería
+            </NuxtLink>
+          </li>
+          <li>
+            <NuxtLink to="#" class="hover:text-gray-300 transition-colors">
+              Digital
+            </NuxtLink>
+          </li>
+          <li>
+            <NuxtLink to="#" class="hover:text-gray-300 transition-colors">
+              Todos los productos
+            </NuxtLink>
+          </li>
+          <li>
+            <NuxtLink to="#" class="hover:text-gray-300 transition-colors">
+              Ofertas
+            </NuxtLink>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Ayuda Column -->
+      <div>
+        <h2 class="font-bold text-lg mb-4 uppercase tracking-wider">Ayuda</h2>
+        <ul class="space-y-2">
+          <li>
+            <a
+              href="https://zoom.red/tracking-de-envios-personas/"
+              onclick="window.open(this.href,'_blank');return false;"
+              class="hover:text-gray-300 transition-colors"
+            >
+              Rastrea tu pedido
+            </a>
+          </li>
+          <li>
+            <NuxtLink
+              to="/changes"
+              class="hover:text-gray-300 transition-colors"
+            >
+              Cambios y devoluciones
+            </NuxtLink>
+          </li>
+          <li>
+            <NuxtLink to="#" class="hover:text-gray-300 transition-colors">
+              Preguntas frecuentes
+            </NuxtLink>
+          </li>
+          <li>
+            <NuxtLink
+              to="/contact"
+              class="hover:text-gray-300 transition-colors"
+            >
+              Contáctanos
+            </NuxtLink>
+          </li>
+          <li>
+            <NuxtLink to="#" class="hover:text-gray-300 transition-colors">
+              Información de envíos
+            </NuxtLink>
+          </li>
+          <li>
+            <NuxtLink to="#" class="hover:text-gray-300 transition-colors">
+              Información de pagos
+            </NuxtLink>
+          </li>
+        </ul>
       </div>
     </div>
   </footer>
 </template>
-<script lang="ts" setup>
-import {
-  SfIconContactSupport,
-  SfIconFacebook,
-  SfIconHelp,
-  SfIconInstagram,
-  SfIconCall,
-  SfIconPinterest,
-  SfIconTwitter,
-  SfIconYoutube,
-  SfButton,
-  SfLink,
-  SfListItem,
-} from "@storefront-ui/vue";
 
-const categories = [
-  {
-    label: "How to buy",
-    subcategories: [
-      {
-        subcategoryLabel: "Payment methods",
-        link: "#",
-      },
-      {
-        subcategoryLabel: "Order pickup",
-        link: "#",
-      },
-      {
-        subcategoryLabel: "Purchase status",
-        link: "#",
-      },
-      {
-        subcategoryLabel: "Track orders",
-        link: "#",
-      },
-      {
-        subcategoryLabel: "Returns",
-        link: "#",
-      },
-    ],
-  },
-  {
-    label: "Help",
-    subcategories: [
-      {
-        subcategoryLabel: "Help centers",
-        link: "#",
-      },
-      {
-        subcategoryLabel: "Security & fraud",
-        link: "#",
-      },
-      {
-        subcategoryLabel: "Feedback",
-        link: "#",
-      },
-      {
-        subcategoryLabel: "Contact",
-        link: "#",
-      },
-    ],
-  },
-  {
-    label: "Services",
-    subcategories: [
-      {
-        subcategoryLabel: "Gift cards",
-        link: "#",
-      },
-      {
-        subcategoryLabel: "Order pickup",
-        link: "#",
-      },
-      {
-        subcategoryLabel: "Purchase status",
-        link: "#",
-      },
-      {
-        subcategoryLabel: "Track orders",
-        link: "#",
-      },
-    ],
-  },
-  {
-    label: "About",
-    subcategories: [
-      {
-        subcategoryLabel: "About us",
-        link: "#",
-      },
-      {
-        subcategoryLabel: "Order pickup",
-        link: "#",
-      },
-      {
-        subcategoryLabel: "Purchase status",
-        link: "#",
-      },
-      {
-        subcategoryLabel: "Track orders",
-        link: "#",
-      },
-      {
-        subcategoryLabel: "Returns",
-        link: "#",
-      },
-    ],
-  },
-];
-const socialMedia = [
-  {
-    label: "Facebook",
-    link: "#",
-    icon: SfIconFacebook,
-  },
-  {
-    label: "Twitter",
-    link: "#",
-    icon: SfIconTwitter,
-  },
-  {
-    label: "Instagram",
-    link: "#",
-    icon: SfIconInstagram,
-  },
-  {
-    label: "Pinterest",
-    link: "#",
-    icon: SfIconPinterest,
-  },
-  {
-    label: "Youtube",
-    link: "#",
-    icon: SfIconYoutube,
-  },
-];
-const contactOptions = [
-  {
-    label: "Help center",
-    link: "#",
-    details: ["Find answers online anytime"],
-    icon: SfIconHelp,
-  },
-  {
-    label: "Live chat",
-    link: "#",
-    details: ["Mon–Fri, 5am–10pm PT", "Sat–Sun, 6am–9pm PT"],
-    icon: SfIconContactSupport,
-  },
-  {
-    label: "1 234 567 8901",
-    link: "#",
-    details: ["Mon–Fri, 5am–10pm PT", "Sat–Sun, 6am–9pm PT"],
-    icon: SfIconCall,
-  },
-];
-const bottomLinks = [
-  {
-    label: "Terms",
-    link: "#",
-  },
-  {
-    label: "Privacy policy",
-    link: "#",
-  },
-];
+<script setup>
+// No se requieren imports ya que Nuxt maneja los componentes automáticamente
 </script>

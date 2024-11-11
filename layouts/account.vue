@@ -97,7 +97,6 @@
   </main>
   <Newsletter />
   <TheFooter />
-  <BottomNavbar />
 </template>
 
 <script setup>

@@ -39,7 +39,7 @@ const subscribeNewsletter = async () => {
         <SfButton
           :disabled="!emailValidation"
           type="submit"
-          class="w-[325px] bg-yellow-500 disabled:bg-yellow-300 !text-black hover:bg-yellow-400"
+          class="bg-yellow-500 w-auto sm:w-[325px] disabled:bg-yellow-300 !text-black hover:bg-yellow-400"
         >
           Suscribirse al boletín
         </SfButton>

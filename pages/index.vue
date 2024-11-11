@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { useWebsiteHomePage } from "~/domains/core/composable/useWebsiteHomePage";
+import websiteHomepageHead from "../domains/core/utils/websiteHomepageHead";
+import { useCategory } from "../domains/category/composables/useCategory";
 
 const { loadCategoryList, categories } = useCategory();
 const { getWebsiteHomepage, websiteHomepage } = useWebsiteHomePage();
@@ -32,7 +34,7 @@ useHead(websiteHomepageHead(websiteHomepage.value, ""));
       />
     </NuxtLazyHydrate>
   </section>
-  <section class="mx-24">
+  <section class="">
     <CardSamsung />
   </section>
   <CategoryCard :categories="categories" />

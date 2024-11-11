@@ -1,10 +1,10 @@
 <template>
   <div
-    class="flex gap-4 mb-16 p-4 bg-gradient-to-br from-gray-50 to-gray-200 min-h-screen"
+    class="flex flex-wrap gap-4 mb-16 p-4 bg-gradient-to-br from-gray-50 to-gray-200 min-h-screen"
   >
     <!-- Panel Izquierdo -->
     <div
-      class="w-[300px] h-[600px] rounded-lg overflow-hidden relative bg-gradient-to-b from-[#001428] to-[#003366] hover:shadow-2xl transition-shadow duration-300"
+      class="w-full md:w-[300px] h-[500px] md:h-[600px] rounded-lg overflow-hidden relative bg-gradient-to-b from-[#001428] to-[#003366] hover:shadow-2xl transition-shadow duration-300"
     >
       <div class="p-6 flex flex-col h-full animate-fade-in">
         <div class="text-white text-xl mb-2 font-bold tracking-wide">
@@ -30,7 +30,7 @@
         <NuxtImg
           src="/images/display-1.png"
           alt="Mobile App Preview"
-          class="absolute bottom-4 left-1/2 -translate-x-1/2 hover:scale-105 transition-transform duration-300"
+          class="absolute bottom-4 left-1/2 transform -translate-x-1/2 hover:scale-105 transition-transform duration-300"
           width="250"
           height="400"
         />
@@ -38,13 +38,15 @@
     </div>
 
     <!-- Contenido Principal -->
-    <div class="flex-1 animate-fade-in">
+    <div class="flex-1 animate-fade-in w-full">
       <h1
-        class="text-2xl font-bold text-center mb-8 tracking-wider text-gray-800 hover:text-gray-900 transition-colors"
+        class="text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-8 tracking-wider text-gray-800 hover:text-gray-900 transition-colors"
       >
         DESCUBRE LOS DESCUENTOS DE 24 HORAS
       </h1>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+      >
         <div
           v-for="product in products"
           :key="product.id"
@@ -65,7 +67,7 @@
           </div>
           <div class="p-4 pt-0">
             <h3
-              class="text-sm font-medium mb-2 whitespace-pre-line group-hover:text-blue-600 transition-colors"
+              class="text-sm font-medium mb-2 whitespace-pre-line group-hover:text-yellow-600 transition-colors"
             >
               {{ product.name }}
             </h3>

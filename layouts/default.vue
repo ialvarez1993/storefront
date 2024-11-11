@@ -9,9 +9,6 @@
 
   <LazyNewsletter />
   <NuxtLazyHydrate when-visible>
-    <LazyBottomNavbar />
-  </NuxtLazyHydrate>
-  <NuxtLazyHydrate when-visible>
     <LazyTheFooter />
   </NuxtLazyHydrate>
 

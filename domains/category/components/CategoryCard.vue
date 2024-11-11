@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { computed, ref } from "vue";
+
 const props = defineProps({
   categories: {
     type: Array,
@@ -7,72 +9,94 @@ const props = defineProps({
 });
 
 const topCategories = computed(() => props.categories);
-const filteredCategories: any = computed(() =>
-  topCategories.value?.filter(
-    (category: any) => category.name === "WOMEN" || category.name === "MEN",
+const filteredCategories = computed(() =>
+  topCategories.value.filter(
+    (category) => category.name === "WOMEN" || category.name === "MEN",
   ),
 );
 
 const items = ref([
   {
+    name: "WOMEN",
     image: "/images/women-card.png",
   },
   {
+    name: "MEN",
     image: "/images/men-card.png",
   },
 ]);
 </script>
 
 <template>
-  <h2
-    class="text-center mb-6 font-bold typography-headline-3 md:typography-headline-2 !font-designer uppercase"
-  >
-    Shop by category
-  </h2>
-  <div
-    class="md:px-6 mb-10 flex flex-nowrap md:flex-wrap md:justify-center"
-    data-testid="category-card"
-  >
-    <div
-      v-for="{ name, slug } in filteredCategories"
-      :key="name"
-      class="mr-2 md:mr-6 group"
+  <section class="container mx-auto my-14 px-4">
+    <h2
+      class="text-center font-bold text-4xl md:text-5xl uppercase mb-10 typography-headline-3 md:typography-headline-2"
     >
-      <NuxtLink
-        :to="slug"
-        class="w-full h-full z-1 focus-visible:outline focus-visible:outline-offset focus-visible:rounded-md"
-        :aria-label="name"
+      Shop by category
+    </h2>
+    <div
+      class="flex flex-wrap justify-center gap-6"
+      data-testid="category-card"
+    >
+      <div
+        v-for="{ name, slug } in filteredCategories"
+        :key="name"
+        class="group relative w-60 h-60 rounded-full overflow-hidden shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl"
       >
-        <div
-          class="relative h-[240px] w-[240px] rounded-full bg-neutral-100 group-hover:shadow-xl group-active:shadow-none"
+        <NuxtLink
+          :to="slug"
+          class="block w-full h-full focus:outline-none focus-visible:outline focus-visible:outline-offset focus-visible:rounded-md"
+          :aria-label="name"
         >
-          <NuxtImg
-            v-if="name == 'WOMEN'"
-            :src="items[0].image"
-            :alt="name || 'women'"
-            width="240"
-            height="240"
-            loading="lazy"
-            format="webp"
-          />
-          <NuxtImg
-            v-if="name == 'MEN'"
-            :src="items[1].image"
-            :alt="name || 'men'"
-            width="240"
-            height="240"
-            loading="lazy"
-            format="webp"
-          />
-        </div>
-        <div class="flex justify-center">
+          <div class="relative w-full h-full bg-neutral-100">
+            <NuxtImg
+              v-if="name === 'WOMEN'"
+              :src="items[0].image"
+              :alt="`${name} category`"
+              width="240"
+              height="240"
+              loading="lazy"
+              format="webp"
+              class="w-full h-full object-cover rounded-full transition-transform duration-300 ease-in-out group-hover:scale-105"
+            />
+            <NuxtImg
+              v-if="name === 'MEN'"
+              :src="items[1].image"
+              :alt="`${name} category`"
+              width="240"
+              height="240"
+              loading="lazy"
+              format="webp"
+              class="w-full h-full object-cover rounded-full transition-transform duration-300 ease-in-out group-hover:scale-105"
+            />
+          </div>
           <p
-            class="mt-4 font-semibold no-underline text-normal-900 typography-text-base group-hover:underline group-hover:text-primary-800 group-hover:font-normal group-active:text-primary-800 group-active:font-normal"
+            class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white bg-opacity-75 px-4 py-2 rounded-full font-semibold text-lg text-neutral-900 shadow-md transition duration-300 ease-in-out group-hover:bg-primary-800 group-hover:text-white"
           >
             {{ name }}
           </p>
-        </div>
-      </NuxtLink>
+        </NuxtLink>
+      </div>
     </div>
-  </div>
+  </section>
 </template>
+
+<style lang="scss" scoped>
+$primary-color: #4a90e2;
+
+.container {
+  max-width: 1200px;
+}
+
+.group:hover .shadow-lg {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.focus\:ring-4 {
+  outline: 2px solid $primary-color;
+}
+
+.group:hover .transition-transform {
+  transform: scale(1.05);
+}
+</style>

@@ -76,8 +76,7 @@ export default defineNuxtConfig({
     },
   },
   i18n: {
-    baseUrl: "http://localhost:3000",
-    strategy: "prefix_except_default",
+    strategy: "no_prefix",
     locales: [
       {
         code: "es",

@@ -39,7 +39,7 @@ const items = ref([
     <div
       v-for="item in items"
       :key="item.title"
-      class="relative flex md:max-w-screen-3xl md:[&:not(:first-of-type)]:flex-1 md:first-of-type:w-full first:bg-secondary-200 last:bg-warning-200 even:bg-negative-200"
+      class="relative flex md:max-w-screen-3xl md:[&:not(:first-of-type)]:flex-1 md:first-of-type:w-full first:bg-rose-300 last:bg-yellow-300 even:bg-black/50"
     >
       <div
         :class="[
