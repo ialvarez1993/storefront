@@ -1,31 +1,46 @@
 <script lang="ts" setup>
-import { SfButton, SfIconArrowBack } from '@storefront-ui/vue'
-import Discount from '~/domains/core/components/ui/Discount.vue'
+import { SfButton, SfIconArrowBack } from "@storefront-ui/vue";
+import Discount from "~/domains/core/components/ui/Discount.vue";
 
-const NuxtLink = resolveComponent('NuxtLink')
-const { cart, loadCart } = useCart()
+const NuxtLink = resolveComponent("NuxtLink");
+const { cart, loadCart } = useCart();
 
-await loadCart()
+await loadCart();
 </script>
 
 <template>
   <div v-if="cart?.order?.websiteOrderLine?.length > 0" class="pb-20 mt-32">
     <div class="flex justify-between mt-8 mb-10">
-      <h1 class="font-bold typography-headline-3 md:typography-headline-2">Cart</h1>
-      <SfButton to="/cart" class="flex md:hidden whitespace-nowrap" size="sm" variant="tertiary">
+      <h1 class="font-bold typography-headline-3 md:typography-headline-2">
+        Cart
+      </h1>
+      <SfButton
+        to="/cart"
+        class="flex md:hidden whitespace-nowrap"
+        size="sm"
+        variant="tertiary"
+      >
         <template #prefix>
           <SfIconArrowBack />
         </template>
-        {{ $t('back') }}
+        {{ $t("back") }}
       </SfButton>
-      <SfButton to="/category/15" class="hidden md:flex" variant="tertiary" :tag="NuxtLink">
+      <SfButton
+        to="/category/15"
+        class="hidden md:flex"
+        variant="tertiary"
+        :tag="NuxtLink"
+      >
         <template #prefix>
           <SfIconArrowBack />
         </template>
         Volver a la tienda
       </SfButton>
     </div>
-    <div class="lg:grid lg:grid-cols-12 md:gap-x-6" data-testid="cart-page-content">
+    <div
+      class="lg:grid lg:grid-cols-12 md:gap-x-6"
+      data-testid="cart-page-content"
+    >
       <div class="col-span-7 mb-10 lg:mb-0">
         <div v-for="orderLine in cart.order?.orderLines" :key="orderLine?.id">
           <CartCollectedProductCard :order-line="orderLine" />
@@ -36,7 +51,7 @@ await loadCart()
         <UiOrderSummary :cart="cart">
           <NuxtLink to="/checkout">
             <SfButton size="lg" class="w-full mb-4 md:mb-0">
-              {{ $t('goToCheckout') }}
+              {{ $t("goToCheckout") }}
             </SfButton>
           </NuxtLink>
         </UiOrderSummary>
@@ -55,6 +70,6 @@ await loadCart()
       height="192"
       loading="lazy"
     />
-    <h2 class="mt-8">{{ $t('emptyCart') }}</h2>
+    <h2 class="mt-8">{{ $t("emptyCart") }}</h2>
   </div>
 </template>

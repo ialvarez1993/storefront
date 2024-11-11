@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { SfLink, SfButton, SfIconClose } from '@storefront-ui/vue'
-import type { Product } from '~/graphql'
+import { SfLink, SfButton, SfIconClose } from "@storefront-ui/vue";
+import type { Product } from "~/graphql";
 
-const NuxtLink = resolveComponent('NuxtLink')
+const NuxtLink = resolveComponent("NuxtLink");
 
-const { toggleWishlistSideBar } = useWishlistUiState()
+const { toggleWishlistSideBar } = useWishlistUiState();
 
 defineProps({
   product: {
     type: Object as PropType<Product>,
-    required: true
-  }
-})
+    required: true,
+  },
+});
 </script>
 
 <template>

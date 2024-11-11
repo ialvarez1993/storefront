@@ -1,16 +1,23 @@
 <script setup lang="ts">
-import { SfLoaderCircular, SfDrawer, SfButton, SfIconClose, useTrapFocus } from '@storefront-ui/vue'
-import type { Product } from '~/graphql'
+import {
+  SfLoaderCircular,
+  SfDrawer,
+  SfButton,
+  SfIconClose,
+  useTrapFocus,
+} from "@storefront-ui/vue";
+import type { Product } from "~/graphql";
 
-const { wishlist, wishlistRemoveItem, wishlistTotalItems, loading } = useWishlist()
-const { wishlistSidebarIsOpen, toggleWishlistSideBar } = useWishlistUiState()
+const { wishlist, wishlistRemoveItem, wishlistTotalItems, loading } =
+  useWishlist();
+const { wishlistSidebarIsOpen, toggleWishlistSideBar } = useWishlistUiState();
 
-const wishlistDrawerRef = ref()
-useTrapFocus(wishlistDrawerRef, { activeState: wishlistSidebarIsOpen })
+const wishlistDrawerRef = ref();
+useTrapFocus(wishlistDrawerRef, { activeState: wishlistSidebarIsOpen });
 
 const handleWishlistRemoveItem = async (firstVariant: Product) => {
-  await wishlistRemoveItem(firstVariant.id)
-}
+  await wishlistRemoveItem(firstVariant.id);
+};
 </script>
 
 <template>
@@ -50,15 +57,23 @@ const handleWishlistRemoveItem = async (firstVariant: Product) => {
               </SfButton>
             </div>
             <div v-if="!loading">
-              <div v-if="wishlistTotalItems > 0" class="overflow-y-scroll h-[800px] p-4 text-black">
+              <div
+                v-if="wishlistTotalItems > 0"
+                class="overflow-y-scroll h-[800px] p-4 text-black"
+              >
                 <div class="flex items-center font-medium pb-6">
                   <p class="text-gray-600 mr-1">Number of products :</p>
                   {{ wishlistTotalItems }}
                 </div>
-                <div v-for="item in wishlist?.wishlistItems || []" :key="item?.id">
+                <div
+                  v-for="item in wishlist?.wishlistItems || []"
+                  :key="item?.id"
+                >
                   <WishlistCollectedProductCard
                     :product="item?.product as Product"
-                    @remove-from-wishlist="handleWishlistRemoveItem(item?.product as Product)"
+                    @remove-from-wishlist="
+                      handleWishlistRemoveItem(item?.product as Product)
+                    "
                   />
                 </div>
               </div>

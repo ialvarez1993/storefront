@@ -2,7 +2,7 @@ module.exports = {
   extends: [
     "stylelint-config-standard",
     "stylelint-config-recommended-vue",
-    "stylelint-config-tailwindcss"
+    "stylelint-config-tailwindcss",
   ],
   rules: {
     "at-rule-no-unknown": [
@@ -14,21 +14,22 @@ module.exports = {
           "variants",
           "responsive",
           "screen",
-          "layer"
-        ]
-      }
+          "layer",
+        ],
+      },
     ],
-    "no-descending-specificity": null
+    "no-descending-specificity": null,
   },
   overrides: [
     {
       files: ["*.vue", "**/*.vue"],
-      customSyntax: "postcss-html"
+      customSyntax: "postcss-html",
     },
     {
       files: ["assets/css/tailwind.css"],
       customSyntax: "postcss",
-      rules: {}
-    }
-  ]
+      rules: {},
+    },
+  ],
+  ignoreFiles: ["**/coverage/lcov-report/**"],
 };

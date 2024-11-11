@@ -1,67 +1,68 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import type { Product, QueryProductsArgs } from '~/graphql'
+import { ref, onMounted } from "vue";
+import type { Product, QueryProductsArgs } from "~/graphql";
 
-const sliderContainer = ref<HTMLElement | null>(null)
-const currentIndex = ref(0)
+const sliderContainer = ref<HTMLElement | null>(null);
+const currentIndex = ref(0);
 
 const props = defineProps({
   heading: String,
   text: String,
   ids: {
     type: Array as PropType<number[]>,
-    default: () => []
+    default: () => [],
   },
   keyForComposable: {
     type: String,
-    default: ''
-  }
-})
+    default: "",
+  },
+});
 
-const { loadProductTemplateList, loading, productTemplateList } = useProductTemplateList(
-  props.keyForComposable,
-  props.keyForComposable
-)
-const { getRegularPrice, getSpecialPrice } = useProductAttributes()
+const { loadProductTemplateList, loading, productTemplateList } =
+  useProductTemplateList(props.keyForComposable, props.keyForComposable);
+const { getRegularPrice, getSpecialPrice } = useProductAttributes();
 
-const scrollAmount = 1200 // Ajustado para mostrar 5 productos
+const scrollAmount = 1200; // Ajustado para mostrar 5 productos
 
 const handlePrev = () => {
   if (sliderContainer.value) {
-    sliderContainer.value.scrollLeft -= scrollAmount
+    sliderContainer.value.scrollLeft -= scrollAmount;
   }
-}
+};
 
 const handleNext = () => {
   if (sliderContainer.value) {
-    sliderContainer.value.scrollLeft += scrollAmount
+    sliderContainer.value.scrollLeft += scrollAmount;
   }
-}
+};
 
 const calculateDiscount = (regular: number, special: number) => {
-  return Math.round(((regular - special) / regular) * 100)
-}
+  return Math.round(((regular - special) / regular) * 100);
+};
 
 const loadProducts = async () => {
   const params: QueryProductsArgs = {
-    pageSize: 15 // Aumentado para cargar más productos
-  }
+    pageSize: 15, // Aumentado para cargar más productos
+  };
 
   if (props.ids?.length > 0) {
-    params.filter = { ids: props.ids } as any
+    params.filter = { ids: props.ids } as any;
   }
 
-  await loadProductTemplateList(params, true)
-}
+  await loadProductTemplateList(params, true);
+};
 
 onMounted(() => {
-  loadProducts()
-})
+  loadProducts();
+});
 </script>
 
 <template>
   <section class="px-2 py-6 w-full max-w-[1440px] mx-auto">
-    <h2 v-if="heading" class="text-xl font-bold text-center mb-6 uppercase tracking-wide">
+    <h2
+      v-if="heading"
+      class="text-xl font-bold text-center mb-6 uppercase tracking-wide"
+    >
       {{ heading }}
     </h2>
 
@@ -75,7 +76,10 @@ onMounted(() => {
           <i class="fas fa-chevron-left"></i>
         </button>
 
-        <div ref="sliderContainer" class="flex overflow-x-hidden scroll-smooth gap-3 px-8">
+        <div
+          ref="sliderContainer"
+          class="flex overflow-x-hidden scroll-smooth gap-3 px-8"
+        >
           <div
             v-for="productTemplate in productTemplateList"
             :key="productTemplate.id"
@@ -85,17 +89,21 @@ onMounted(() => {
               <!-- Badges -->
               <div class="badges-container">
                 <span
-                  v-if="getSpecialPrice(productTemplate.firstVariant as Product)"
+                  v-if="
+                    getSpecialPrice(productTemplate.firstVariant as Product)
+                  "
                   class="badge discount"
                 >
                   -{{
                     calculateDiscount(
                       getRegularPrice(productTemplate.firstVariant as Product),
-                      getSpecialPrice(productTemplate.firstVariant as Product)
+                      getSpecialPrice(productTemplate.firstVariant as Product),
                     )
                   }}%
                 </span>
-                <span v-if="productTemplate.isNew" class="badge new"> New </span>
+                <span v-if="productTemplate.isNew" class="badge new">
+                  New
+                </span>
               </div>
 
               <!-- Image -->
@@ -106,7 +114,7 @@ onMounted(() => {
                       String(productTemplate.image),
                       250,
                       250,
-                      String(productTemplate.imageFilename)
+                      String(productTemplate.imageFilename),
                     )
                   "
                   :alt="productTemplate?.name"
@@ -141,32 +149,49 @@ onMounted(() => {
                       :class="n <= productTemplate.rating ? 'active' : ''"
                     ></i>
                   </div>
-                  <span class="reviews">({{ productTemplate.ratingCount }})</span>
+                  <span class="reviews"
+                    >({{ productTemplate.ratingCount }})</span
+                  >
                 </div>
 
                 <!-- Price -->
                 <div class="price-container">
                   <span
-                    v-if="getSpecialPrice(productTemplate.firstVariant as Product)"
+                    v-if="
+                      getSpecialPrice(productTemplate.firstVariant as Product)
+                    "
                     class="original-price"
                   >
-                    {{ $currency(getRegularPrice(productTemplate.firstVariant as Product)) }}
+                    {{
+                      $currency(
+                        getRegularPrice(
+                          productTemplate.firstVariant as Product,
+                        ),
+                      )
+                    }}
                   </span>
                   <span class="final-price">
                     {{
                       $currency(
-                        getSpecialPrice(productTemplate.firstVariant as Product) ||
-                          getRegularPrice(productTemplate.firstVariant as Product)
+                        getSpecialPrice(
+                          productTemplate.firstVariant as Product,
+                        ) ||
+                          getRegularPrice(
+                            productTemplate.firstVariant as Product,
+                          ),
                       )
                     }}
                   </span>
                 </div>
 
                 <!-- Stock -->
-                <div class="stock-status" :class="{ 'in-stock': productTemplate.inStock }">
+                <div
+                  class="stock-status"
+                  :class="{ 'in-stock': productTemplate.inStock }"
+                >
                   <span class="status-dot"></span>
                   <span class="status-text">
-                    {{ productTemplate.inStock ? 'En stock' : 'Agotado' }}
+                    {{ productTemplate.inStock ? "En stock" : "Agotado" }}
                   </span>
                 </div>
               </div>

@@ -91,7 +91,9 @@
               {
                 "type": "directory",
                 "name": "components",
-                "contents": [{ "type": "file", "name": "CartCollectedProductCard.vue" }]
+                "contents": [
+                  { "type": "file", "name": "CartCollectedProductCard.vue" }
+                ]
               },
               {
                 "type": "directory",
@@ -113,7 +115,9 @@
               {
                 "type": "directory",
                 "name": "components",
-                "contents": [{ "type": "file", "name": "CartCollectedProductCard.vue" }]
+                "contents": [
+                  { "type": "file", "name": "CartCollectedProductCard.vue" }
+                ]
               },
               {
                 "type": "directory",
@@ -137,7 +141,9 @@
                       {
                         "type": "directory",
                         "name": "odoo",
-                        "contents": [{ "type": "file", "name": "cart-load.get.ts" }]
+                        "contents": [
+                          { "type": "file", "name": "cart-load.get.ts" }
+                        ]
                       }
                     ]
                   },
@@ -334,7 +340,9 @@
               {
                 "type": "directory",
                 "name": "utils",
-                "contents": [{ "type": "file", "name": "websiteHomepageHead.ts" }]
+                "contents": [
+                  { "type": "file", "name": "websiteHomepageHead.ts" }
+                ]
               }
             ]
           },
@@ -444,7 +452,9 @@
               {
                 "type": "directory",
                 "name": "composables",
-                "contents": [{ "type": "file", "name": "useRecentViewProducts.ts" }]
+                "contents": [
+                  { "type": "file", "name": "useRecentViewProducts.ts" }
+                ]
               },
               { "type": "file", "name": "nuxt.config.ts" },
               { "type": "file", "name": "package.json" }
@@ -515,7 +525,9 @@
               {
                 "type": "directory",
                 "name": "components",
-                "contents": [{ "type": "file", "name": "WishlistCollectedProductCard.vue" }]
+                "contents": [
+                  { "type": "file", "name": "WishlistCollectedProductCard.vue" }
+                ]
               },
               {
                 "type": "directory",

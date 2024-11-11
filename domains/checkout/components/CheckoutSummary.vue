@@ -1,37 +1,37 @@
 <script setup lang="ts">
-import { SfButton, SfLink } from '@storefront-ui/vue'
+import { SfButton, SfLink } from "@storefront-ui/vue";
 
-import type { PaymentProvider } from '~/graphql'
+import type { PaymentProvider } from "~/graphql";
 
-const { cart } = useCart()
-const router = useRouter()
-const { makeGiftCardPayment, loading: discountLoading } = useDiscount()
-const { loadPaymentMethods, paymentProviders } = usePayment()
+const { cart } = useCart();
+const router = useRouter();
+const { makeGiftCardPayment, loading: discountLoading } = useDiscount();
+const { loadPaymentMethods, paymentProviders } = usePayment();
 
-const selectedProvider = ref<PaymentProvider | null>(null)
-const isPaymentWithCardReady = ref(false)
-const providerPaymentHandler = ref()
-const loading = ref(false)
-const showPaymentModal = ref(false)
-const giftCards = ref(cart.value?.order?.giftCards)
+const selectedProvider = ref<PaymentProvider | null>(null);
+const isPaymentWithCardReady = ref(false);
+const providerPaymentHandler = ref();
+const loading = ref(false);
+const showPaymentModal = ref(false);
+const giftCards = ref(cart.value?.order?.giftCards);
 
 const hasFullPaymentWithGiftCard = computed(() => {
   if (giftCards.value && giftCards.value?.length > 0) {
-    return cart.value?.order?.amountTotal === 0
+    return cart.value?.order?.amountTotal === 0;
   }
-})
+});
 
 onMounted(async () => {
-  await loadPaymentMethods()
+  await loadPaymentMethods();
   if (paymentProviders.value.length > 0) {
-    showPaymentModal.value = true
-    selectedProvider.value = paymentProviders.value[0]
+    showPaymentModal.value = true;
+    selectedProvider.value = paymentProviders.value[0];
   }
-})
+});
 
 const handleGiftCardPayment = async () => {
-  await makeGiftCardPayment()
-}
+  await makeGiftCardPayment();
+};
 </script>
 
 <template>
@@ -43,7 +43,7 @@ const handleGiftCardPayment = async () => {
       :disabled="discountLoading"
       @click.prevent="handleGiftCardPayment"
     >
-      {{ $t('placeOrder') }}
+      {{ $t("placeOrder") }}
     </SfButton>
 
     <SfButton
@@ -53,7 +53,7 @@ const handleGiftCardPayment = async () => {
       :disabled="!selectedProvider || !isPaymentWithCardReady || loading"
       @click="providerPaymentHandler"
     >
-      {{ $t('placeOrder') }}
+      {{ $t("placeOrder") }}
     </SfButton>
 
     <p class="text-sm text-center mt-4 pb-4 md:pb-0">
@@ -63,7 +63,7 @@ const handleGiftCardPayment = async () => {
             href="#"
             class="focus:outline focus:outline-offset-2 focus:outline-2 outline-secondary-600 rounded"
           >
-            {{ $t('termsAndConditions') }}
+            {{ $t("termsAndConditions") }}
           </SfLink>
         </template>
         <template #privacyPolicy>
@@ -71,19 +71,25 @@ const handleGiftCardPayment = async () => {
             href="#"
             class="focus:outline focus:outline-offset-2 focus:outline-2 outline-secondary-600 rounded"
           >
-            {{ $t('privacyPolicy') }}
+            {{ $t("privacyPolicy") }}
           </SfLink>
         </template>
       </i18n-t>
     </p>
     <component
-      v-if="showPaymentModal && !!selectedProvider?.code && !hasFullPaymentWithGiftCard"
+      v-if="
+        showPaymentModal &&
+        !!selectedProvider?.code &&
+        !hasFullPaymentWithGiftCard
+      "
       :is="getPaymentProviderComponentName(selectedProvider?.code)"
       :key="selectedProvider?.id"
       :provider="selectedProvider"
       :cart="cart"
       @is-payment-ready="($event: any) => (isPaymentWithCardReady = $event)"
-      @provider-payment-handler="($event: any) => (providerPaymentHandler = $event)"
+      @provider-payment-handler="
+        ($event: any) => (providerPaymentHandler = $event)
+      "
       @payment-loading="($event: any) => (loading = $event)"
     />
   </UiOrderSummary>

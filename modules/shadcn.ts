@@ -1,103 +1,108 @@
-import { defineNuxtModule, addComponent, addComponentsDir, tryResolveModule } from 'nuxt/kit'
+import {
+  defineNuxtModule,
+  addComponent,
+  addComponentsDir,
+  tryResolveModule,
+} from "nuxt/kit";
 
 export interface ShadcnVueOptions {
   /**
    * Prefix for all the imported component
    */
-  prefix: string
+  prefix: string;
 
   /**
    * Directory that the component lives in.
    * @default "~/components/ui"
    */
-  componentDir: string
+  componentDir: string;
 }
 
 export default defineNuxtModule<ShadcnVueOptions>({
   defaults: {
-    prefix: 'Ui',
-    componentDir: '~/components/ui'
+    prefix: "Ui",
+    componentDir: "~/components/ui",
   },
   meta: {
-    name: 'ShadcnVue',
-    configKey: 'shadcn',
-    version: '0.0.1',
+    name: "ShadcnVue",
+    configKey: "shadcn",
+    version: "0.0.1",
     compatibility: {
-      nuxt: '>=3.9.0',
-      bridge: false
-    }
+      nuxt: ">=3.9.0",
+      bridge: false,
+    },
   },
   async setup({ componentDir, prefix }) {
-    const veeValidate = await tryResolveModule('vee-validate')
-    const vaulVue = await tryResolveModule('vaul-vue')
+    const veeValidate = await tryResolveModule("vee-validate");
+    const vaulVue = await tryResolveModule("vaul-vue");
 
     addComponentsDir(
       {
         path: componentDir,
-        extensions: ['.vue'],
+        extensions: [".vue"],
         prefix,
-        pathPrefix: false
+        pathPrefix: false,
       },
       {
-        prepend: true
-      }
-    )
+        prepend: true,
+      },
+    );
 
     if (veeValidate !== undefined) {
       addComponent({
-        filePath: 'vee-validate',
-        export: 'Form',
+        filePath: "vee-validate",
+        export: "Form",
         name: `${prefix}Form`,
-        priority: 999
-      })
+        priority: 999,
+      });
 
       addComponent({
-        filePath: 'vee-validate',
-        export: 'Field',
+        filePath: "vee-validate",
+        export: "Field",
         name: `${prefix}FormField`,
-        priority: 999
-      })
+        priority: 999,
+      });
     }
 
     if (vaulVue !== undefined) {
-      ;['DrawerPortal', 'DrawerTrigger', 'DrawerClose'].forEach((item) => {
+      ["DrawerPortal", "DrawerTrigger", "DrawerClose"].forEach((item) => {
         addComponent({
-          filePath: 'vaul-vue',
+          filePath: "vaul-vue",
           export: item,
           name: prefix + item,
-          priority: 999
-        })
-      })
+          priority: 999,
+        });
+      });
     }
 
     addComponent({
-      filePath: 'radix-vue',
-      export: 'PaginationRoot',
+      filePath: "radix-vue",
+      export: "PaginationRoot",
       name: `${prefix}Pagination`,
-      priority: 999
-    })
+      priority: 999,
+    });
 
     addComponent({
-      filePath: 'radix-vue',
-      export: 'PaginationList',
+      filePath: "radix-vue",
+      export: "PaginationList",
       name: `${prefix}PaginationList`,
-      priority: 999
-    })
+      priority: 999,
+    });
 
     addComponent({
-      filePath: 'radix-vue',
-      export: 'PaginationListItem',
+      filePath: "radix-vue",
+      export: "PaginationListItem",
       name: `${prefix}PaginationListItem`,
-      priority: 999
-    })
-  }
-})
+      priority: 999,
+    });
+  },
+});
 
-declare module '@nuxt/schema' {
+declare module "@nuxt/schema" {
   interface NuxtConfig {
-    shadcn?: ShadcnVueOptions
+    shadcn?: ShadcnVueOptions;
   }
   interface NuxtOptions {
-    shadcn?: ShadcnVueOptions
+    shadcn?: ShadcnVueOptions;
   }
 }

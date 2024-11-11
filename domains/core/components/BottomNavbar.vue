@@ -6,28 +6,28 @@ import {
   SfIconHome,
   SfIconPerson,
   SfIconShoppingCart,
-  useDisclosure
-} from '@storefront-ui/vue'
+  useDisclosure,
+} from "@storefront-ui/vue";
 
-const NuxtLink = resolveComponent('NuxtLink')
+const NuxtLink = resolveComponent("NuxtLink");
 
-const collectedProducts: any = ref('')
-const isActive = ref(false)
+const collectedProducts: any = ref("");
+const isActive = ref(false);
 const setIsActive = (param: boolean) => {
-  isActive.value = param
-}
+  isActive.value = param;
+};
 
-const { toggleWishlistSideBar } = useWishlistUiState()
-const { loadWishlist, wishlistTotalItems } = useWishlist()
+const { toggleWishlistSideBar } = useWishlistUiState();
+const { loadWishlist, wishlistTotalItems } = useWishlist();
 
 const handleOpenWishListSidebar = async () => {
-  toggleWishlistSideBar()
-  await loadWishlist()
-}
+  toggleWishlistSideBar();
+  await loadWishlist();
+};
 
 onMounted(async () => {
-  await loadWishlist()
-})
+  await loadWishlist();
+});
 </script>
 
 <template>
@@ -40,7 +40,7 @@ onMounted(async () => {
       variant="tertiary"
       :class="[
         '!p-1 !pt-3 flex flex-col h-full w-full rounded-none bg-primary-700 text-white hover:text-white hover:bg-primary-800 active:text-white active:bg-primary-900 !text-xs !font-base',
-        { 'text-white bg-primary-900': $route.path === '/' && !isActive }
+        { 'text-white bg-primary-900': $route.path === '/' && !isActive },
       ]"
       size="sm"
       :tag="NuxtLink"
@@ -52,7 +52,7 @@ onMounted(async () => {
           <SfIconHome />
         </div>
       </template>
-      {{ $t('home') }}
+      {{ $t("home") }}
     </SfButton>
 
     <SfButton
@@ -60,7 +60,7 @@ onMounted(async () => {
       variant="tertiary"
       :class="[
         '!p-1 !pt-3 flex flex-col h-full w-full rounded-none bg-primary-700 text-white hover:text-white hover:bg-primary-800 active:text-white active:bg-primary-900 !text-xs !font-base',
-        { 'text-white bg-primary-900': isActive }
+        { 'text-white bg-primary-900': isActive },
       ]"
       size="sm"
       @click="handleOpenWishListSidebar"
@@ -75,14 +75,14 @@ onMounted(async () => {
           />
         </div>
       </template>
-      {{ $t('wishlist.wishlist') }}
+      {{ $t("wishlist.wishlist") }}
     </SfButton>
     <SfButton
       key="cart"
       variant="tertiary"
       :class="[
         '!p-1 !pt-3 flex flex-col h-full w-full rounded-none bg-primary-700 text-white hover:text-white hover:bg-primary-800 active:text-white active:bg-primary-900 !text-xs !font-base',
-        { 'text-white bg-primary-900': $route.path === '/cart' && !isActive }
+        { 'text-white bg-primary-900': $route.path === '/cart' && !isActive },
       ]"
       size="sm"
       :tag="NuxtLink"
@@ -98,7 +98,7 @@ onMounted(async () => {
           />
         </div>
       </template>
-      {{ $t('cart') }}
+      {{ $t("cart") }}
     </SfButton>
     <SfButton
       key="account"
@@ -106,8 +106,9 @@ onMounted(async () => {
       :class="[
         '!p-1 !pt-3 flex flex-col h-full w-full rounded-none bg-primary-700 text-white hover:text-white hover:bg-primary-800 active:text-white active:bg-primary-900 !text-xs !font-base',
         {
-          'text-white bg-primary-900': $route.path === '/my-account' && !isActive
-        }
+          'text-white bg-primary-900':
+            $route.path === '/my-account' && !isActive,
+        },
       ]"
       size="sm"
       :tag="NuxtLink"

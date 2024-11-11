@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { SfButton, SfIconArrowBack } from '@storefront-ui/vue'
-const NuxtLink = resolveComponent('NuxtLink')
-const error = useError()
+import { SfButton, SfIconArrowBack } from "@storefront-ui/vue";
+const NuxtLink = resolveComponent("NuxtLink");
+const error = useError();
 </script>
 <template>
   <NuxtLayout>
@@ -18,7 +18,12 @@ const error = useError()
         />
         <p class="mt-8 font-medium">Pagina no encontrada</p>
         <div class="my-10">
-          <SfButton to="/category/53" class="hidden md:flex" variant="secondary" :tag="NuxtLink">
+          <SfButton
+            to="/category/53"
+            class="hidden md:flex"
+            variant="secondary"
+            :tag="NuxtLink"
+          >
             <template #prefix>
               <SfIconArrowBack />
             </template>
@@ -36,9 +41,16 @@ const error = useError()
           width="300"
           height="300"
         />
-        <p class="mt-8 text-center font-medium">Vuelva a intentarlo mas tarde</p>
+        <p class="mt-8 text-center font-medium">
+          Vuelva a intentarlo mas tarde
+        </p>
         <div class="my-10">
-          <SfButton to="/category/53" class="hidden md:flex" variant="secondary" :tag="NuxtLink">
+          <SfButton
+            to="/category/53"
+            class="hidden md:flex"
+            variant="secondary"
+            :tag="NuxtLink"
+          >
             <template #prefix>
               <SfIconArrowBack />
             </template>

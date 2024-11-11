@@ -1,11 +1,15 @@
 <template>
-  <div class="flex gap-4 mb-16 p-4 bg-gradient-to-br from-gray-50 to-gray-200 min-h-screen">
+  <div
+    class="flex gap-4 mb-16 p-4 bg-gradient-to-br from-gray-50 to-gray-200 min-h-screen"
+  >
     <!-- Panel Izquierdo -->
     <div
       class="w-[300px] h-[600px] rounded-lg overflow-hidden relative bg-gradient-to-b from-[#001428] to-[#003366] hover:shadow-2xl transition-shadow duration-300"
     >
       <div class="p-6 flex flex-col h-full animate-fade-in">
-        <div class="text-white text-xl mb-2 font-bold tracking-wide">Descuentos</div>
+        <div class="text-white text-xl mb-2 font-bold tracking-wide">
+          Descuentos
+        </div>
         <div
           class="inline-flex bg-green-500 text-white px-3 py-1 rounded-md text-sm mb-2 w-fit hover:bg-green-600 transition-colors"
         >
@@ -65,23 +69,38 @@
             >
               {{ product.name }}
             </h3>
-            <div v-if="product.originalPrice" class="text-gray-500 line-through text-sm">
+            <div
+              v-if="product.originalPrice"
+              class="text-gray-500 line-through text-sm"
+            >
               {{ product.originalPrice }} VES
             </div>
             <div class="flex items-center justify-between mt-1">
-              <div class="font-bold text-lg text-gray-900">{{ product.price }} VES</div>
+              <div class="font-bold text-lg text-gray-900">
+                {{ product.price }} VES
+              </div>
             </div>
             <div v-if="product.rating" class="flex items-center gap-0.5 my-2">
               <Icon
                 v-for="i in 5"
                 :key="i"
-                :name="i <= product.rating ? 'heroicons:star-solid' : 'heroicons:star'"
+                :name="
+                  i <= product.rating
+                    ? 'heroicons:star-solid'
+                    : 'heroicons:star'
+                "
                 class="w-4 h-4"
-                :class="i <= product.rating ? 'text-yellow-400' : 'text-gray-300'"
+                :class="
+                  i <= product.rating ? 'text-yellow-400' : 'text-gray-300'
+                "
               />
-              <span class="text-xs text-gray-500 ml-1">({{ product.reviews }})</span>
+              <span class="text-xs text-gray-500 ml-1"
+                >({{ product.reviews }})</span
+              >
             </div>
-            <div class="text-green-500 text-sm font-medium flex items-center gap-1">
+            <div
+              class="text-green-500 text-sm font-medium flex items-center gap-1"
+            >
               <Icon name="heroicons:check-circle" class="w-4 h-4" />
               Disponible
             </div>
@@ -96,93 +115,93 @@
 const products = [
   {
     id: 1,
-    name: 'Bicicleta estática spinning',
-    price: '8,488.74',
-    originalPrice: '10,500.00',
-    image: '/images/display-1.png',
+    name: "Bicicleta estática spinning",
+    price: "8,488.74",
+    originalPrice: "10,500.00",
+    image: "/images/display-1.png",
     rating: 5,
     reviews: 7,
     onSale: true,
-    available: true
+    available: true,
   },
   {
     id: 1,
-    name: 'Bicicleta estática spinning',
-    price: '8,488.74',
-    originalPrice: '10,500.00',
-    image: '/images/display-1.png',
+    name: "Bicicleta estática spinning",
+    price: "8,488.74",
+    originalPrice: "10,500.00",
+    image: "/images/display-1.png",
     rating: 5,
     reviews: 7,
     onSale: true,
-    available: true
+    available: true,
   },
   {
     id: 1,
-    name: 'Bicicleta estática spinning',
-    price: '8,488.74',
-    originalPrice: '10,500.00',
-    image: '/images/display-1.png',
+    name: "Bicicleta estática spinning",
+    price: "8,488.74",
+    originalPrice: "10,500.00",
+    image: "/images/display-1.png",
     rating: 5,
     reviews: 7,
     onSale: true,
-    available: true
+    available: true,
   },
   {
     id: 1,
-    name: 'Bicicleta estática spinning',
-    price: '8,488.74',
-    originalPrice: '10,500.00',
-    image: '/images/display-1.png',
+    name: "Bicicleta estática spinning",
+    price: "8,488.74",
+    originalPrice: "10,500.00",
+    image: "/images/display-1.png",
     rating: 5,
     reviews: 7,
     onSale: true,
-    available: true
+    available: true,
   },
   {
     id: 1,
-    name: 'Bicicleta estática spinning',
-    price: '8,488.74',
-    originalPrice: '10,500.00',
-    image: '/images/display-1.png',
+    name: "Bicicleta estática spinning",
+    price: "8,488.74",
+    originalPrice: "10,500.00",
+    image: "/images/display-1.png",
     rating: 5,
     reviews: 7,
     onSale: true,
-    available: true
+    available: true,
   },
   {
     id: 1,
-    name: 'Bicicleta estática spinning',
-    price: '8,488.74',
-    originalPrice: '10,500.00',
-    image: '/images/display-1.png',
+    name: "Bicicleta estática spinning",
+    price: "8,488.74",
+    originalPrice: "10,500.00",
+    image: "/images/display-1.png",
     rating: 5,
     reviews: 7,
     onSale: true,
-    available: true
+    available: true,
   },
   {
     id: 1,
-    name: 'Bicicleta estática spinning',
-    price: '8,488.74',
-    originalPrice: '10,500.00',
-    image: '/images/display-1.png',
+    name: "Bicicleta estática spinning",
+    price: "8,488.74",
+    originalPrice: "10,500.00",
+    image: "/images/display-1.png",
     rating: 5,
     reviews: 7,
     onSale: true,
-    available: true
+    available: true,
   },
   {
     id: 1,
-    name: 'Bicicleta estática spinning',
-    price: '8,488.74',
-    originalPrice: '10,500.00',
-    image: '/images/display-1.png',
+    name: "Bicicleta estática spinning",
+    price: "8,488.74",
+    originalPrice: "10,500.00",
+    image: "/images/display-1.png",
     rating: 5,
     reviews: 7,
     onSale: true,
-    available: true
-  }
-]
+    available: true,
+  },
+];
 </script>
 
 <style scoped>

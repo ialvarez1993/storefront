@@ -40,77 +40,77 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-  images: string[]
-  altText?: string
-}>()
+  images: string[];
+  altText?: string;
+}>();
 
 const emit = defineEmits<{
-  (e: 'image-click', image: string): void
-}>()
+  (e: "image-click", image: string): void;
+}>();
 
 // Estado local
-const currentImage = ref(props.images[0])
-const imageContainer = ref<HTMLElement | null>(null)
-const mainImage = ref<HTMLImageElement | null>(null)
-const zoomLens = ref<HTMLElement | null>(null)
-const isZoomed = ref(false)
-const lensStyle = ref({})
-const zoomStyle = ref({})
+const currentImage = ref(props.images[0]);
+const imageContainer = ref<HTMLElement | null>(null);
+const mainImage = ref<HTMLImageElement | null>(null);
+const zoomLens = ref<HTMLElement | null>(null);
+const isZoomed = ref(false);
+const lensStyle = ref({});
+const zoomStyle = ref({});
 
 // Constantes
-const LENS_SIZE = 100
-const ZOOM_MULTIPLIER = 9
+const LENS_SIZE = 100;
+const ZOOM_MULTIPLIER = 9;
 
 // Métodos del zoom
 const handleZoom = (event: MouseEvent) => {
-  if (!imageContainer.value || !mainImage.value) return
+  if (!imageContainer.value || !mainImage.value) return;
 
-  const rect = imageContainer.value.getBoundingClientRect()
-  let mouseX = event.clientX - rect.left
-  let mouseY = event.clientY - rect.top
+  const rect = imageContainer.value.getBoundingClientRect();
+  let mouseX = event.clientX - rect.left;
+  let mouseY = event.clientY - rect.top;
 
-  const halfLens = LENS_SIZE / 2
+  const halfLens = LENS_SIZE / 2;
 
-  mouseX = Math.max(halfLens, Math.min(mouseX, rect.width - halfLens))
-  mouseY = Math.max(halfLens, Math.min(mouseY, rect.height - halfLens))
+  mouseX = Math.max(halfLens, Math.min(mouseX, rect.width - halfLens));
+  mouseY = Math.max(halfLens, Math.min(mouseY, rect.height - halfLens));
 
   lensStyle.value = {
     left: `${mouseX - halfLens}px`,
     top: `${mouseY - halfLens}px`,
     width: `${LENS_SIZE}px`,
-    height: `${LENS_SIZE}px`
-  }
+    height: `${LENS_SIZE}px`,
+  };
 
-  const xRatio = (mouseX / rect.width) * 100
-  const yRatio = (mouseY / rect.height) * 100
+  const xRatio = (mouseX / rect.width) * 100;
+  const yRatio = (mouseY / rect.height) * 100;
 
   zoomStyle.value = {
     backgroundImage: `url('${currentImage.value}')`,
     backgroundSize: `${rect.width * ZOOM_MULTIPLIER}px ${rect.height * ZOOM_MULTIPLIER}px`,
-    backgroundPosition: `${xRatio}% ${yRatio}%`
-  }
-}
+    backgroundPosition: `${xRatio}% ${yRatio}%`,
+  };
+};
 
 // Otros métodos
 const setCurrentImage = (image: string) => {
-  currentImage.value = image
-  emit('image-click', image)
-}
+  currentImage.value = image;
+  emit("image-click", image);
+};
 
 const handleMouseEnter = () => {
-  isZoomed.value = true
-}
+  isZoomed.value = true;
+};
 
 const handleMouseLeave = () => {
-  isZoomed.value = false
-  lensStyle.value = {}
-  zoomStyle.value = {}
-}
+  isZoomed.value = false;
+  lensStyle.value = {};
+  zoomStyle.value = {};
+};
 
 // Watchers
 watch(currentImage, () => {
-  isZoomed.value = false
-  lensStyle.value = {}
-  zoomStyle.value = {}
-})
+  isZoomed.value = false;
+  lensStyle.value = {};
+  zoomStyle.value = {};
+});
 </script>

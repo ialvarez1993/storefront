@@ -1,7 +1,11 @@
-import gql from 'graphql-tag'
+import gql from "graphql-tag";
 
 export default gql`
-  mutation ($providerId: Int!, $paymentDetails: GenericScalar!, $transactionReference: String!) {
+  mutation (
+    $providerId: Int!
+    $paymentDetails: GenericScalar!
+    $transactionReference: String!
+  ) {
     adyenPaymentDetails(
       providerId: $providerId
       paymentDetails: $paymentDetails
@@ -10,4 +14,4 @@ export default gql`
       adyenPaymentDetails
     }
   }
-`
+`;

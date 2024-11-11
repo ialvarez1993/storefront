@@ -1,17 +1,17 @@
 <script lang="ts" setup>
-import { SfScrollable } from '@storefront-ui/vue'
-import { ref } from 'vue'
+import { SfScrollable } from "@storefront-ui/vue";
+import { ref } from "vue";
 
 const props = defineProps({
   images: {
     type: Array,
-    default: []
-  }
-})
+    default: [],
+  },
+});
 
-const thumbsRef = ref<HTMLElement>()
-const activeIndex = ref(0)
-const images = computed<any[]>(() => props.images)
+const thumbsRef = ref<HTMLElement>();
+const activeIndex = ref(0);
+const images = computed<any[]>(() => props.images);
 </script>
 
 <template>

@@ -1,23 +1,23 @@
 // i18n.config.ts
 export default defineI18nConfig(() => ({
   legacy: false,
-  locale: 'es',
+  locale: "es",
   messages: {
     es: {
-      welcome: 'Bienvenido',
+      welcome: "Bienvenido",
       nav: {
-        home: 'Inicio',
-        about: 'Acerca de',
-        contact: 'Contacto'
-      }
+        home: "Inicio",
+        about: "Acerca de",
+        contact: "Contacto",
+      },
     },
     en: {
-      welcome: 'Welcome',
+      welcome: "Welcome",
       nav: {
-        home: 'Home',
-        about: 'About',
-        contact: 'Contact'
-      }
-    }
-  }
-}))
+        home: "Home",
+        about: "About",
+        contact: "Contact",
+      },
+    },
+  },
+}));

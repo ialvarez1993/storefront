@@ -9,7 +9,10 @@
     </button>
 
     <transition name="fade">
-      <div v-if="isOpen" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+      <div
+        v-if="isOpen"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+      >
         <div
           class="bg-white sm:max-w-[900px] max-h-[80vh] w-full rounded-lg shadow-lg overflow-y-auto p-6"
         >
@@ -47,44 +50,44 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Heart } from 'lucide-vue-next'
+import { ref } from "vue";
+import { Heart } from "lucide-vue-next";
 
 // Tipo para los items de favoritos
 type FavoriteItem = {
-  id: string
-  name: string
-  description: string
-  price: string
-  image: string
-}
+  id: string;
+  name: string;
+  description: string;
+  price: string;
+  image: string;
+};
 
 // Datos mock para los items favoritos
 const mockFavorites: FavoriteItem[] = [
   {
-    id: '1',
-    name: 'Wireless Headphones',
-    description: 'High-quality sound with noise cancellation',
-    price: '$199.99',
-    image: '/images/display-1.png'
+    id: "1",
+    name: "Wireless Headphones",
+    description: "High-quality sound with noise cancellation",
+    price: "$199.99",
+    image: "/images/display-1.png",
   },
   {
-    id: '2',
-    name: 'Smart Watch',
-    description: 'Track your fitness and stay connected',
-    price: '$249.99',
-    image: '/images/display-2.png'
+    id: "2",
+    name: "Smart Watch",
+    description: "Track your fitness and stay connected",
+    price: "$249.99",
+    image: "/images/display-2.png",
   },
   {
-    id: '3',
-    name: 'Portable Charger',
-    description: '20000mAh capacity for multiple device charges',
-    price: '$49.99',
-    image: '/images/display-3.png'
-  }
-]
+    id: "3",
+    name: "Portable Charger",
+    description: "20000mAh capacity for multiple device charges",
+    price: "$49.99",
+    image: "/images/display-3.png",
+  },
+];
 
-const isOpen = ref(false)
+const isOpen = ref(false);
 </script>
 
 <style scoped lang="scss">

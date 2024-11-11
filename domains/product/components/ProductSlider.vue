@@ -1,17 +1,18 @@
 <script setup lang="ts">
-import { SfScrollable } from '@storefront-ui/vue'
-import type { Product } from '~/graphql'
+import { SfScrollable } from "@storefront-ui/vue";
+import type { Product } from "~/graphql";
 
 defineProps({
   heading: String,
-  text: String
-})
+  text: String,
+});
 
-const { loadProductTemplateList, loading, productTemplateList } = useProductTemplateList('')
-const { getRegularPrice, getSpecialPrice } = useProductAttributes()
+const { loadProductTemplateList, loading, productTemplateList } =
+  useProductTemplateList("");
+const { getRegularPrice, getSpecialPrice } = useProductAttributes();
 
-const numOfProducts = 10
-await loadProductTemplateList({ pageSize: numOfProducts })
+const numOfProducts = 10;
+await loadProductTemplateList({ pageSize: numOfProducts });
 </script>
 
 <template>
@@ -34,10 +35,19 @@ await loadProductTemplateList({ pageSize: numOfProducts })
       v-for="productTemplate in productTemplateList"
       :key="productTemplate.id"
       class="min-w-[190px]"
-      :slug="mountUrlSlugForProductVariant(productTemplate.firstVariant as Product) || ''"
+      :slug="
+        mountUrlSlugForProductVariant(
+          productTemplate.firstVariant as Product,
+        ) || ''
+      "
       :name="productTemplate?.name || ''"
       :image-url="
-        $getImage(String(productTemplate.image), 370, 370, String(productTemplate.imageFilename))
+        $getImage(
+          String(productTemplate.image),
+          370,
+          370,
+          String(productTemplate.imageFilename),
+        )
       "
       :image-alt="productTemplate?.name || ''"
       :regular-price="getRegularPrice(productTemplate.firstVariant as Product)"

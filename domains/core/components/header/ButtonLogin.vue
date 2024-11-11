@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { SfButton } from '@storefront-ui/vue'
+import { SfButton } from "@storefront-ui/vue";
 
-const NuxtLink = resolveComponent('NuxtLink')
+const NuxtLink = resolveComponent("NuxtLink");
 
-const { isAuthenticated } = useAuth()
+const { isAuthenticated } = useAuth();
 </script>
 
 <template>
@@ -16,7 +16,10 @@ const { isAuthenticated } = useAuth()
     square
   >
     <template #prefix>
-      <Icon :name="isAuthenticated ? 'ion:person' : 'ion:person-outline'" size="22px" />
+      <Icon
+        :name="isAuthenticated ? 'ion:person' : 'ion:person-outline'"
+        size="22px"
+      />
     </template>
   </SfButton>
   <!-- 

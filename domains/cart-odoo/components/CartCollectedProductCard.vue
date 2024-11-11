@@ -1,16 +1,20 @@
 <script setup lang="ts">
-import { SfIconRemoveShoppingCart, SfIconSell, SfLink } from '@storefront-ui/vue'
-import { type OrderLine, type Product } from '~/graphql'
-const NuxtLink = resolveComponent('NuxtLink')
+import {
+  SfIconRemoveShoppingCart,
+  SfIconSell,
+  SfLink,
+} from "@storefront-ui/vue";
+import { type OrderLine, type Product } from "~/graphql";
+const NuxtLink = resolveComponent("NuxtLink");
 
 defineProps({
   orderLine: {
     type: Object as PropType<OrderLine>,
-    required: true
-  }
-})
+    required: true,
+  },
+});
 
-const { updateItemQuantity, removeItemFromCart } = useCart()
+const { updateItemQuantity, removeItemFromCart } = useCart();
 </script>
 
 <template>
@@ -19,7 +23,10 @@ const { updateItemQuantity, removeItemFromCart } = useCart()
     data-testid="cart-product-card"
   >
     <div class="relative overflow-hidden rounded-md w-[100px] sm:w-[176px]">
-      <SfLink :to="mountUrlSlugForProductVariant(orderLine.product as Product)" :tag="NuxtLink">
+      <SfLink
+        :to="mountUrlSlugForProductVariant(orderLine.product as Product)"
+        :tag="NuxtLink"
+      >
         <NuxtImg
           class="w-full h-auto border rounded-md border-neutral-200"
           :src="
@@ -27,7 +34,7 @@ const { updateItemQuantity, removeItemFromCart } = useCart()
               String(orderLine.product?.image),
               370,
               370,
-              String(orderLine.product?.imageFilename)
+              String(orderLine.product?.imageFilename),
             )
           "
           :alt="orderLine.product?.imageFilename ?? ''"
@@ -41,7 +48,7 @@ const { updateItemQuantity, removeItemFromCart } = useCart()
         class="absolute top-0 left-0 text-white bg-secondary-600 py-1 pl-1.5 pr-2 text-xs font-medium"
       >
         <SfIconSell size="xs" class="mr-1" />
-        {{ $t('sale') }}
+        {{ $t("sale") }}
       </div>
     </div>
     <div class="flex flex-col pl-4 min-w-[180px] flex-1">
@@ -60,14 +67,21 @@ const { updateItemQuantity, removeItemFromCart } = useCart()
         />
       </div>
       <div class="my-2 sm:mb-0">
-        <ul class="text-xs font-normal leading-5 sm:typography-text-sm text-neutral-700">
-          <li v-for="attribute in orderLine.product?.variantAttributeValues" :key="attribute.id">
+        <ul
+          class="text-xs font-normal leading-5 sm:typography-text-sm text-neutral-700"
+        >
+          <li
+            v-for="attribute in orderLine.product?.variantAttributeValues"
+            :key="attribute.id"
+          >
             <span class="mr-1">{{ attribute.attribute?.name }}:</span>
             <span class="font-medium">{{ attribute.name }}</span>
           </li>
         </ul>
       </div>
-      <div class="items-start sm:items-center sm:mt-auto flex flex-col sm:flex-row">
+      <div
+        class="items-start sm:items-center sm:mt-auto flex flex-col sm:flex-row"
+      >
         <span
           v-if="orderLine.priceSubtotal"
           class="text-secondary-700 sm:order-1 font-bold typography-text-sm sm:typography-text-lg sm:ml-auto"
@@ -80,7 +94,12 @@ const { updateItemQuantity, removeItemFromCart } = useCart()
               orderLine.product?.combinationInfo?.price
             "
           >
-            {{ $currency(orderLine.product?.combinationInfo?.list_price * orderLine?.quantity) }}
+            {{
+              $currency(
+                orderLine.product?.combinationInfo?.list_price *
+                  orderLine?.quantity,
+              )
+            }}
           </span>
         </span>
         <span

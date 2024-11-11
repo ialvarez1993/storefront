@@ -14,7 +14,9 @@
     <div class="particles-container absolute inset-0"></div>
 
     <!-- Main Content -->
-    <div class="absolute inset-0 flex items-center container mx-auto px-4 sm:px-6 lg:px-8">
+    <div
+      class="absolute inset-0 flex items-center container mx-auto px-4 sm:px-6 lg:px-8"
+    >
       <div class="content-wrapper max-w-4xl animate-slide-up">
         <!-- Title Group -->
         <div class="space-y-6">
@@ -27,8 +29,11 @@
             </span>
           </h1>
 
-          <p class="text-xl sm:text-2xl text-white/90 font-light animate-fade-in">
-            Oportunidad única, lavadora/Secadora SAMSUNG con tecnología de última generación
+          <p
+            class="text-xl sm:text-2xl text-white/90 font-light animate-fade-in"
+          >
+            Oportunidad única, lavadora/Secadora SAMSUNG con tecnología de
+            última generación
           </p>
 
           <!-- Features List -->
@@ -40,14 +45,14 @@
 
 <script setup lang="ts">
 const features = [
-  { icon: 'fas fa-tint', text: 'Ahorro de agua hasta 40%' },
-  { icon: 'fas fa-bolt', text: 'Eficiencia energética A+++' },
-  { icon: 'fas fa-shield-alt', text: '10 años de garantía' }
-]
+  { icon: "fas fa-tint", text: "Ahorro de agua hasta 40%" },
+  { icon: "fas fa-bolt", text: "Eficiencia energética A+++" },
+  { icon: "fas fa-shield-alt", text: "10 años de garantía" },
+];
 
 const handleButtonHover = () => {
   // Aquí puedes agregar lógica adicional para el hover si lo deseas
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -57,10 +62,14 @@ const handleButtonHover = () => {
 
 .bg-gradient-overlay {
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(45deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.4) 100%);
+    background: linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(0, 0, 0, 0.4) 100%
+    );
     z-index: 1;
   }
 }
@@ -160,7 +169,7 @@ const handleButtonHover = () => {
 // Particles animation
 .particles-container {
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     width: 100%;
     height: 100%;

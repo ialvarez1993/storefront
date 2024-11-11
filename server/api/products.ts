@@ -1,18 +1,18 @@
-import productFragment from '../fragments/productFragment'
+import productFragment from "../fragments/productFragment";
 
-const odooBaseUrl = `http://localhost:8069/graphql/vsf`
+const odooBaseUrl = `http://localhost:8069/graphql/vsf`;
 
 const headers = {
-  'Content-Type': 'application/json',
-  'resquest-host': 'localhost:3000',
-  'X-Frame-Options': '*'
-}
+  "Content-Type": "application/json",
+  "resquest-host": "localhost:3000",
+  "X-Frame-Options": "*",
+};
 
 export default defineCachedEventHandler(
   async (event) => {
     const results = await $fetch({
       url: odooBaseUrl,
-      method: 'post',
+      method: "post",
       data: {
         query: `
       query products {
@@ -23,13 +23,13 @@ export default defineCachedEventHandler(
             }
           }
         }
-    `
+    `,
       },
-      headers
-    })
+      headers,
+    });
 
-    const products = results.data.data.products.products
-    return products
+    const products = results.data.data.products.products;
+    return products;
   },
-  { maxAge: 60 * 60 * 24 * 7 }
-)
+  { maxAge: 60 * 60 * 24 * 7 },
+);

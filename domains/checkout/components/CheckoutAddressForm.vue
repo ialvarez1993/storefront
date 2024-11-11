@@ -6,19 +6,19 @@ import {
   SfLoaderCircular,
   SfModal,
   SfSelect,
-  useDisclosure
-} from '@storefront-ui/vue'
-import type { PropType } from 'vue'
+  useDisclosure,
+} from "@storefront-ui/vue";
+import type { PropType } from "vue";
 import {
   AddressEnum,
   type AddAddressInput,
   type Country,
   type Partner,
   type State,
-  type UpdateAddressInput
-} from '~/graphql'
+  type UpdateAddressInput,
+} from "~/graphql";
 
-import { useCountryList } from '~/domains/core/composable/useCountryList'
+import { useCountryList } from "~/domains/core/composable/useCountryList";
 
 const props = defineProps({
   heading: String,
@@ -26,100 +26,107 @@ const props = defineProps({
   buttonText: String,
   type: {
     type: String as PropType<AddressEnum>,
-    required: true
+    required: true,
   },
   savedAddress: {
     type: Object as PropType<Partner>,
-    default: () => {}
-  }
-})
+    default: () => {},
+  },
+});
 
 /**
  * @TODO extract this form behaviour, undo, commit, validate, etc. to a separate form composable
  */
 
-const { city, country, name, state, street, phone, zip } = toRefs(props.savedAddress)
-name.value = name.value === 'Public user' ? '' : name.value
+const { city, country, name, state, street, phone, zip } = toRefs(
+  props.savedAddress,
+);
+name.value = name.value === "Public user" ? "" : name.value;
 
-const countryId = toRef(country.value?.id)
-const stateId = toRef(state.value?.id)
+const countryId = toRef(country.value?.id);
+const stateId = toRef(state.value?.id);
 
-const { commit: commitCity, undo: undoCity } = useManualRefHistory(city)
-const { commit: commitCountry, undo: undoCountry } = useManualRefHistory(countryId)
-const { commit: commitName, undo: undoName } = useManualRefHistory(name)
-const { commit: commitState, undo: undoState } = useManualRefHistory(stateId)
-const { commit: commitStreet, undo: undoStreet } = useManualRefHistory(street)
-const { commit: commitPhone, undo: undoPhone } = useManualRefHistory(phone)
-const { commit: commitZip, undo: undoZip } = useManualRefHistory(zip)
+const { commit: commitCity, undo: undoCity } = useManualRefHistory(city);
+const { commit: commitCountry, undo: undoCountry } =
+  useManualRefHistory(countryId);
+const { commit: commitName, undo: undoName } = useManualRefHistory(name);
+const { commit: commitState, undo: undoState } = useManualRefHistory(stateId);
+const { commit: commitStreet, undo: undoStreet } = useManualRefHistory(street);
+const { commit: commitPhone, undo: undoPhone } = useManualRefHistory(phone);
+const { commit: commitZip, undo: undoZip } = useManualRefHistory(zip);
 
-const { isOpen, open, close } = useDisclosure()
-const { addAddress, updateAddress } = useAddresses()
+const { isOpen, open, close } = useDisclosure();
+const { addAddress, updateAddress } = useAddresses();
 
-const { countries } = useCountryList()
+const { countries } = useCountryList();
 
-const isCartUpdateLoading = false
+const isCartUpdateLoading = false;
 
 const handleSaveAddress = async () => {
   const data: UpdateAddressInput = {
     name: name.value,
-    street: street.value?.split(' ')?.[0] || '',
-    street2: street.value?.split(' ')?.[1] || '',
+    street: street.value?.split(" ")?.[0] || "",
+    street2: street.value?.split(" ")?.[1] || "",
     city: city.value,
     zip: zip.value,
     phone: phone.value,
     countryId: Number(countryId.value),
-    stateId: Number(stateId.value)
-  }
+    stateId: Number(stateId.value),
+  };
 
   if (props.savedAddress?.id && props.savedAddress.id !== 4) {
-    data.id = props.savedAddress.id
-    await updateAddress(data, props.type)
-    commitAll()
-    return close()
+    data.id = props.savedAddress.id;
+    await updateAddress(data, props.type);
+    commitAll();
+    return close();
   }
 
-  await addAddress(data as unknown as AddAddressInput, props.type)
-  commitAll()
-  close()
-}
+  await addAddress(data as unknown as AddAddressInput, props.type);
+  commitAll();
+  close();
+};
 
 const selectedCountry = computed<Country>(
   () =>
-    countries.value.countries?.find((item: any) => item.id === countryId.value) || ({} as Country)
-)
+    countries.value.countries?.find(
+      (item: any) => item.id === countryId.value,
+    ) || ({} as Country),
+);
 
 const selectedState = computed<State>(
   () =>
-    selectedCountry.value?.states?.find((item: any) => item.id === stateId.value) || ({} as State)
-)
+    selectedCountry.value?.states?.find(
+      (item: any) => item.id === stateId.value,
+    ) || ({} as State),
+);
 
-const states = computed(() => selectedCountry.value?.states || [])
+const states = computed(() => selectedCountry.value?.states || []);
 
 const commitAll = () => {
-  commitCity()
-  commitCountry()
-  commitName()
-  commitState()
-  commitStreet()
-  commitZip()
-  commitPhone()
-}
+  commitCity();
+  commitCountry();
+  commitName();
+  commitState();
+  commitStreet();
+  commitZip();
+  commitPhone();
+};
 
 const handleOpenModal = () => {
-  commitAll()
-  open()
-}
+  commitAll();
+  open();
+};
 
 const handleCloseModal = () => {
-  close()
-  undoCity()
-  undoCountry()
-  undoName()
-  undoState()
-  undoStreet()
-  undoZip()
-  undoPhone()
-}
+  close();
+  undoCity();
+  undoCountry();
+  undoName();
+  undoState();
+  undoStreet();
+  undoZip();
+  undoPhone();
+};
 </script>
 
 <template>
@@ -130,16 +137,16 @@ const handleCloseModal = () => {
       </h2>
 
       <SfButton size="sm" variant="tertiary" @click="handleOpenModal">
-        {{ savedAddress.id ? $t('contactInfo.edit') : $t('contactInfo.add') }}
+        {{ savedAddress.id ? $t("contactInfo.edit") : $t("contactInfo.add") }}
       </SfButton>
     </div>
 
     <div v-if="savedAddress.id" class="mt-2 md:w-[520px]">
-      <p>{{ `${name} ${street || ''}` }}</p>
+      <p>{{ `${name} ${street || ""}` }}</p>
       <p>{{ phone }}</p>
-      <p>{{ selectedCountry?.name || '' }}</p>
-      <p>{{ selectedState?.name || '' }}</p>
-      <p>{{ `${city || ''} ${zip || ''}` }}</p>
+      <p>{{ selectedCountry?.name || "" }}</p>
+      <p>{{ selectedState?.name || "" }}</p>
+      <p>{{ `${city || ""} ${zip || ""}` }}</p>
     </div>
 
     <div v-if="!savedAddress" class="w-full md:max-w-[520px]">
@@ -173,7 +180,10 @@ const handleCloseModal = () => {
           >
             <icon name="ion:close" size="20px" />
           </SfButton>
-          <h3 id="address-modal-title" class="text-neutral-900 text-lg md:text-2xl font-bold mb-4">
+          <h3
+            id="address-modal-title"
+            class="text-neutral-900 text-lg md:text-2xl font-bold mb-4"
+          >
             {{ heading }}
           </h3>
         </header>
@@ -183,7 +193,7 @@ const handleCloseModal = () => {
           @submit.prevent="handleSaveAddress"
         >
           <label>
-            <UiFormLabel>{{ $t('form.NameLabel') }}</UiFormLabel>
+            <UiFormLabel>{{ $t("form.NameLabel") }}</UiFormLabel>
             <SfInput
               v-model="name"
               name="name"
@@ -193,7 +203,7 @@ const handleCloseModal = () => {
             />
           </label>
           <label class="md:col-span-2">
-            <UiFormLabel>{{ $t('form.streetNameLabel') }}</UiFormLabel>
+            <UiFormLabel>{{ $t("form.streetNameLabel") }}</UiFormLabel>
             <SfInput
               v-model="street"
               name="streetName"
@@ -203,7 +213,7 @@ const handleCloseModal = () => {
             />
           </label>
           <label class="md:col-span-3">
-            <UiFormLabel>{{ $t('form.phoneLabel') }}</UiFormLabel>
+            <UiFormLabel>{{ $t("form.phoneLabel") }}</UiFormLabel>
             <SfInput
               v-model="phone"
               name="phone"
@@ -214,10 +224,15 @@ const handleCloseModal = () => {
             />
           </label>
           <label class="md:col-span-3">
-            <UiFormLabel>{{ $t('form.countryLabel') }}</UiFormLabel>
-            <SfSelect v-model="countryId" name="country" autocomplete="country-name" required>
+            <UiFormLabel>{{ $t("form.countryLabel") }}</UiFormLabel>
+            <SfSelect
+              v-model="countryId"
+              name="country"
+              autocomplete="country-name"
+              required
+            >
               <option key="placeholder" :value="null">
-                {{ $t('form.selectPlaceholder') }}
+                {{ $t("form.selectPlaceholder") }}
               </option>
               <option
                 v-for="country in countries.countries"
@@ -229,7 +244,7 @@ const handleCloseModal = () => {
             </SfSelect>
           </label>
           <label class="md:col-span-3">
-            <UiFormLabel>{{ $t('form.stateLabel') }}</UiFormLabel>
+            <UiFormLabel>{{ $t("form.stateLabel") }}</UiFormLabel>
             <SfSelect
               v-model="stateId"
               name="state"
@@ -238,7 +253,7 @@ const handleCloseModal = () => {
               required
             >
               <option key="placeholder" :value="null">
-                {{ $t('form.selectPlaceholder') }}
+                {{ $t("form.selectPlaceholder") }}
               </option>
               <option v-for="state in states" :key="state.id" :value="state.id">
                 {{ state.name }}
@@ -247,7 +262,7 @@ const handleCloseModal = () => {
           </label>
 
           <label class="md:col-span-2">
-            <UiFormLabel>{{ $t('form.cityLabel') }}</UiFormLabel>
+            <UiFormLabel>{{ $t("form.cityLabel") }}</UiFormLabel>
             <SfInput
               v-model="city"
               name="city"
@@ -257,7 +272,7 @@ const handleCloseModal = () => {
             />
           </label>
           <label>
-            <UiFormLabel>{{ $t('form.postalCodeLabel') }}</UiFormLabel>
+            <UiFormLabel>{{ $t("form.postalCodeLabel") }}</UiFormLabel>
             <SfInput
               v-model="zip"
               name="postalCode"
@@ -272,21 +287,32 @@ const handleCloseModal = () => {
             class="md:col-span-3 flex items-center gap-2"
           >
             <SfCheckbox name="useAsShipping" />
-            {{ $t('form.useAsShippingLabel') }}
+            {{ $t("form.useAsShippingLabel") }}
           </label>
 
-          <div class="md:col-span-3 flex flex-col-reverse md:flex-row justify-end mt-6 gap-4">
-            <SfButton type="reset" class="" variant="secondary" @click="handleCloseModal">
-              {{ $t('contactInfo.cancel') }}
+          <div
+            class="md:col-span-3 flex flex-col-reverse md:flex-row justify-end mt-6 gap-4"
+          >
+            <SfButton
+              type="reset"
+              class=""
+              variant="secondary"
+              @click="handleCloseModal"
+            >
+              {{ $t("contactInfo.cancel") }}
             </SfButton>
-            <SfButton type="submit" class="min-w-[120px]" :disabled="isCartUpdateLoading">
+            <SfButton
+              type="submit"
+              class="min-w-[120px]"
+              :disabled="isCartUpdateLoading"
+            >
               <SfLoaderCircular
                 v-if="isCartUpdateLoading"
                 class="flex justify-center items-center"
                 size="sm"
               />
               <span v-else>
-                {{ $t('contactInfo.save') }}
+                {{ $t("contactInfo.save") }}
               </span>
             </SfButton>
           </div>

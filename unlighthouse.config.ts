@@ -1,11 +1,11 @@
 export default {
   scanner: {
-    device: 'mobile',
-    include: ['/', '/category/*', '/product/*']
+    device: "mobile",
+    include: ["/", "/category/*", "/product/*"],
   },
   lighthouseOptions: {
-    onlyCategories: ['performance']
-  }
+    onlyCategories: ["performance"],
+  },
   // # docker config
   // puppeteerOptions: {
   //  args: ['--no-sandbox'],
@@ -13,4 +13,4 @@ export default {
   //server: {
   //  open: true,
   //},
-}
+};
