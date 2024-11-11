@@ -1,14 +1,9 @@
 <script setup lang="ts">
-import {
-  SfButton,
-  SfIconTune,
-  useDisclosure,
-  SfLoaderCircular,
-} from "@storefront-ui/vue";
-import type { Product } from "~/graphql";
+import { SfButton, SfIconTune, useDisclosure, SfLoaderCircular } from '@storefront-ui/vue'
+import type { Product } from '~/graphql'
 
-const route = useRoute();
-const { isOpen, open, close } = useDisclosure();
+const route = useRoute()
+const { isOpen, open, close } = useDisclosure()
 
 // searching on odoo with query params
 const {
@@ -17,47 +12,46 @@ const {
   organizedAttributes,
   categories,
   loadProductTemplateList,
-  productTemplateList,
-} = useProductTemplateList(route.fullPath, route.fullPath);
+  productTemplateList
+} = useProductTemplateList(route.fullPath, route.fullPath)
 
-const { getFacetsFromURL } = useUiHelpers();
-const { getRegularPrice, getSpecialPrice } = useProductAttributes();
+const { getFacetsFromURL } = useUiHelpers()
+const { getRegularPrice, getSpecialPrice } = useProductAttributes()
 
 const breadcrumbs = [
-  { name: "Home", link: "/" },
-  { name: "Search", link: "/" },
-];
+  { name: 'Home', link: '/' },
+  { name: 'Search', link: '/' }
+]
 
-const maxVisiblePages = useState("search-page-max-visible", () => 1);
-const setMaxVisiblePages = (isWide: boolean) =>
-  (maxVisiblePages.value = isWide ? 5 : 1);
+const maxVisiblePages = useState('search-page-max-visible', () => 1)
+const setMaxVisiblePages = (isWide: boolean) => (maxVisiblePages.value = isWide ? 5 : 1)
 
-watch(isWideScreen, (value) => setMaxVisiblePages(value));
+watch(isWideScreen, (value) => setMaxVisiblePages(value))
 watch(isTabletScreen, (value) => {
   if (value && isOpen.value) {
-    close();
+    close()
   }
-});
+})
 
 watch(
   () => route,
   async () => {
-    await loadProductTemplateList(getFacetsFromURL(route.query));
+    await loadProductTemplateList(getFacetsFromURL(route.query))
   },
-  { deep: true, immediate: true },
-);
+  { deep: true, immediate: true }
+)
 
 const pagination = computed(() => ({
   currentPage: route?.query?.page ? Number(route.query.page) : 1,
   totalPages: Math.ceil(totalItems.value / 12) || 1,
   totalItems: totalItems.value,
   itemsPerPage: 12,
-  pageOptions: [5, 12, 15, 20],
-}));
+  pageOptions: [5, 12, 15, 20]
+}))
 
 onMounted(() => {
-  setMaxVisiblePages(isWideScreen.value);
-});
+  setMaxVisiblePages(isWideScreen.value)
+})
 </script>
 <template>
   <div class="pb-20">
@@ -86,14 +80,8 @@ onMounted(() => {
       <div class="col-span-12 lg:col-span-8 xl:col-span-9">
         <template v-if="!loading">
           <div class="flex justify-between items-center mb-6">
-            <span class="font-bold font-headings md:text-lg"
-              >{{ totalItems }} Products
-            </span>
-            <SfButton
-              variant="tertiary"
-              class="lg:hidden whitespace-nowrap"
-              @click="open"
-            >
+            <span class="font-bold font-headings md:text-lg">{{ totalItems }} Products </span>
+            <SfButton variant="tertiary" class="lg:hidden whitespace-nowrap" @click="open">
               <template #prefix>
                 <SfIconTune />
               </template>
@@ -111,7 +99,7 @@ onMounted(() => {
               loading="eager"
               :slug="
                 mountUrlSlugForProductVariant(
-                  (productTemplate.firstVariant || productTemplate) as Product,
+                  (productTemplate.firstVariant || productTemplate) as Product
                 )
               "
               :image-url="
@@ -119,16 +107,12 @@ onMounted(() => {
                   String(productTemplate.image),
                   370,
                   370,
-                  String(productTemplate.imageFilename),
+                  String(productTemplate.imageFilename)
                 )
               "
               :image-alt="productTemplate?.name || ''"
-              :regular-price="
-                getRegularPrice(productTemplate.firstVariant as Product) || 250
-              "
-              :special-price="
-                getSpecialPrice(productTemplate.firstVariant as Product)
-              "
+              :regular-price="getRegularPrice(productTemplate.firstVariant as Product) || 250"
+              :special-price="getSpecialPrice(productTemplate.firstVariant as Product)"
               :rating-count="123"
               :rating="Number(4)"
               :first-variant="productTemplate.firstVariant as Product"

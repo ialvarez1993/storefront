@@ -1,31 +1,23 @@
 <script setup>
-import {
-  SfDropdown,
-  SfButton,
-  SfLink,
-  SfIconMoreHoriz,
-} from "@storefront-ui/vue";
+import { SfDropdown, SfButton, SfLink, SfIconMoreHoriz } from '@storefront-ui/vue'
 
 defineProps({
-  breadcrumbs: Array,
-});
+  breadcrumbs: Array
+})
 
-const dropdownOpened = ref(false);
+const dropdownOpened = ref(false)
 const close = () => {
-  dropdownOpened.value = false;
-};
+  dropdownOpened.value = false
+}
 const toggle = () => {
-  dropdownOpened.value = !dropdownOpened.value;
-};
+  dropdownOpened.value = !dropdownOpened.value
+}
 
-const NuxtLink = resolveComponent("NuxtLink");
+const NuxtLink = resolveComponent('NuxtLink')
 </script>
 
 <template>
-  <nav
-    data-testid="breadcrumbs"
-    class="inline-flex items-center text-sm font-normal font-body"
-  >
+  <nav data-testid="breadcrumbs" class="inline-flex items-center text-sm font-normal font-body">
     <ol class="flex w-auto leading-none group md:flex-wrap pl-0">
       <li class="flex items-center sm:hidden text-neutral-500 z-1">
         <SfDropdown
@@ -56,11 +48,7 @@ const NuxtLink = resolveComponent("NuxtLink");
             class="px-4 py-2 rounded-md shadow-md border-neutral-100"
             data-testid="breadcrumbs-dropdown"
           >
-            <li
-              v-for="item in breadcrumbs"
-              :key="item.name"
-              class="py-2 last-of-type:hidden"
-            >
+            <li v-for="item in breadcrumbs" :key="item.name" class="py-2 last-of-type:hidden">
               <SfLink
                 :tag="NuxtLink"
                 :to="item.link"

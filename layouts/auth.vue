@@ -1,11 +1,11 @@
 <script setup lang="ts">
 defineProps<{
-  heading: string;
-}>();
+  heading: string
+}>()
 
-const { loadUser } = useAuth();
+const { loadUser } = useAuth()
 
-await loadUser(true);
+await loadUser(true)
 </script>
 
 <template>
@@ -14,13 +14,10 @@ await loadUser(true);
     :class="[
       'mx-auto px-4 pt-4 pb-20 md:px-0 md:mt-4',
       { 'md:mb-8': heading },
-      heading ? 'md:max-w-[630px]' : 'md:max-w-[677px]',
+      heading ? 'md:max-w-[630px]' : 'md:max-w-[677px]'
     ]"
   >
-    <h1
-      v-if="heading"
-      class="font-bold mb-10 typography-headline-3 md:typography-headline-2"
-    >
+    <h1 v-if="heading" class="font-bold mb-10 typography-headline-3 md:typography-headline-2">
       {{ heading }}
     </h1>
     <slot />

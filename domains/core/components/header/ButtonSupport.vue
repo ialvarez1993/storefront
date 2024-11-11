@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { SfButton } from "@storefront-ui/vue";
+import { SfButton } from '@storefront-ui/vue'
 
-const NuxtLink = resolveComponent("NuxtLink");
+const NuxtLink = resolveComponent('NuxtLink')
 </script>
 
 <template>

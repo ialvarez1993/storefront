@@ -1,58 +1,53 @@
 <script lang="ts">
 export default {
-  inheritAttrs: false,
-};
+  inheritAttrs: false
+}
 </script>
 <script lang="ts" setup>
-import { type PropType, computed } from "vue";
-import {
-  SfSelectSize,
-  SfIconExpandMore,
-  useFocusVisible,
-  useDisclosure,
-} from "@storefront-ui/vue";
+import { type PropType, computed } from 'vue'
+import { SfSelectSize, SfIconExpandMore, useFocusVisible, useDisclosure } from '@storefront-ui/vue'
 
 const props = defineProps({
   size: {
     type: String as PropType<`${SfSelectSize}`>,
-    default: SfSelectSize.base,
+    default: SfSelectSize.base
   },
   placeholder: {
     type: String,
-    default: "",
+    default: ''
   },
   required: {
     type: Boolean,
-    default: false,
+    default: false
   },
   disabled: {
     type: Boolean,
-    default: false,
+    default: false
   },
   invalid: {
     type: Boolean,
-    default: false,
+    default: false
   },
   modelValue: {
     type: Number,
-    default: "",
+    default: ''
   },
   wrapperClassName: {
     type: String,
-    default: "",
-  },
-});
+    default: ''
+  }
+})
 const emit = defineEmits<{
-  (event: "update:modelValue", param: string): void;
-}>();
+  (event: 'update:modelValue', param: string): void
+}>()
 
-const { isOpen, close, open } = useDisclosure();
-const { isFocusVisible } = useFocusVisible();
+const { isOpen, close, open } = useDisclosure()
+const { isFocusVisible } = useFocusVisible()
 
 const modelProxy = computed({
   get: () => props.modelValue,
-  set: (value: string) => emit("update:modelValue", value),
-});
+  set: (value: string) => emit('update:modelValue', value)
+})
 </script>
 
 <template>
@@ -60,9 +55,9 @@ const modelProxy = computed({
     :class="[
       'relative flex flex-col rounded-md',
       {
-        'focus-within:outline focus-within:outline-offset': isFocusVisible,
+        'focus-within:outline focus-within:outline-offset': isFocusVisible
       },
-      wrapperClassName,
+      wrapperClassName
     ]"
     data-testid="select"
   >
@@ -76,8 +71,8 @@ const modelProxy = computed({
           'py-1.5': size === SfSelectSize.sm,
           'py-2': size === SfSelectSize.base,
           'py-3 text-base': size === SfSelectSize.lg,
-          '!ring-negative-700 ring-2': invalid && !disabled,
-        },
+          '!ring-negative-700 ring-2': invalid && !disabled
+        }
       ]"
       data-testid="select-input"
       @blur="close"
@@ -95,8 +90,8 @@ const modelProxy = computed({
         :class="[
           'bg-neutral-300 text-sm',
           {
-            'text-base': size === SfSelectSize.lg,
-          },
+            'text-base': size === SfSelectSize.lg
+          }
         ]"
         data-testid="select-placeholder"
       >
@@ -109,7 +104,7 @@ const modelProxy = computed({
         :class="[
           'absolute -translate-y-1 pointer-events-none top-1/3 right-4 transition easy-in-out duration-0.5',
           disabled ? 'text-disabled-500' : 'text-neutral-500',
-          isOpen ? 'rotate-180' : '',
+          isOpen ? 'rotate-180' : ''
         ]"
       />
     </slot>

@@ -2,25 +2,25 @@
 const props = defineProps({
   categories: {
     type: Array,
-    required: true,
-  },
-});
+    required: true
+  }
+})
 
-const topCategories = computed(() => props.categories);
+const topCategories = computed(() => props.categories)
 const filteredCategories: any = computed(() =>
   topCategories.value?.filter(
-    (category: any) => category.name === "WOMEN" || category.name === "MEN",
-  ),
-);
+    (category: any) => category.name === 'WOMEN' || category.name === 'MEN'
+  )
+)
 
 const items = ref([
   {
-    image: "/images/women-card.png",
+    image: '/images/women-card.png'
   },
   {
-    image: "/images/men-card.png",
-  },
-]);
+    image: '/images/men-card.png'
+  }
+])
 </script>
 
 <template>
@@ -33,11 +33,7 @@ const items = ref([
     class="md:px-6 mb-10 flex flex-nowrap md:flex-wrap md:justify-center"
     data-testid="category-card"
   >
-    <div
-      v-for="{ name, slug } in filteredCategories"
-      :key="name"
-      class="mr-2 md:mr-6 group"
-    >
+    <div v-for="{ name, slug } in filteredCategories" :key="name" class="mr-2 md:mr-6 group">
       <NuxtLink
         :to="slug"
         class="w-full h-full z-1 focus-visible:outline focus-visible:outline-offset focus-visible:rounded-md"

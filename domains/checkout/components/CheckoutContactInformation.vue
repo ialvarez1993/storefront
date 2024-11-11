@@ -1,67 +1,61 @@
 <script lang="ts" setup>
-import {
-  SfButton,
-  SfInput,
-  SfSwitch,
-  SfModal,
-  useDisclosure,
-} from "@storefront-ui/vue";
-import type { MutationCreateUpdatePartnerArgs, Partner } from "~/graphql";
-const { updatePartner } = useAuth();
+import { SfButton, SfInput, SfSwitch, SfModal, useDisclosure } from '@storefront-ui/vue'
+import type { MutationCreateUpdatePartnerArgs, Partner } from '~/graphql'
+const { updatePartner } = useAuth()
 
 const props = defineProps({
   heading: {
     type: String,
-    required: true,
+    required: true
   },
   partnerData: {
     type: Object as PropType<Partner>,
-    required: true,
-  },
-});
+    required: true
+  }
+})
 
 /**
  * @TODO extract this form behaviour, undo, commit, validate, etc. to a separate form composable
  */
-const { isOpen, open, close } = useDisclosure();
-const { email, name } = toRefs(props.partnerData);
-const { commit: commitEmail, undo: undoEmail } = useManualRefHistory(email);
-const { commit: commitName, undo: undoName } = useManualRefHistory(name);
+const { isOpen, open, close } = useDisclosure()
+const { email, name } = toRefs(props.partnerData)
+const { commit: commitEmail, undo: undoEmail } = useManualRefHistory(email)
+const { commit: commitName, undo: undoName } = useManualRefHistory(name)
 
 watch(
   () => props.partnerData,
   (newPartnerData) => {
     if (newPartnerData.isPublic && newPartnerData.id === 4) {
-      name.value = "";
+      name.value = ''
     }
   },
-  { immediate: true },
-);
+  { immediate: true }
+)
 
-const subscribeNewsletter = ref(true);
+const subscribeNewsletter = ref(true)
 
 const handleUpdatePartnerData = async () => {
   const data: MutationCreateUpdatePartnerArgs = {
     email: String(email.value),
     name: String(name.value),
-    subscribeNewsletter: subscribeNewsletter.value,
-  };
-  await updatePartner(data);
+    subscribeNewsletter: subscribeNewsletter.value
+  }
+  await updatePartner(data)
 
-  commitEmail();
-  commitName();
-  close();
-};
+  commitEmail()
+  commitName()
+  close()
+}
 const handleOpenModal = () => {
-  commitEmail();
-  commitName();
-  open();
-};
+  commitEmail()
+  commitName()
+  open()
+}
 const handleCancel = () => {
-  undoEmail();
-  undoName();
-  close();
-};
+  undoEmail()
+  undoName()
+  close()
+}
 </script>
 
 <template>
@@ -71,13 +65,10 @@ const handleCancel = () => {
         {{ props.heading }}
       </h2>
       <SfButton size="sm" variant="tertiary" @click="handleOpenModal">
-        {{ partnerData.id ? $t("contactInfo.edit") : $t("contactInfo.add") }}
+        {{ partnerData.id ? $t('contactInfo.edit') : $t('contactInfo.add') }}
       </SfButton>
     </div>
-    <div
-      v-if="partnerData?.name && partnerData?.email"
-      class="mt-2 md:w-[520px]"
-    >
+    <div v-if="partnerData?.name && partnerData?.email" class="mt-2 md:w-[520px]">
       <p>{{ name }}</p>
       <p>{{ email }}</p>
     </div>
@@ -97,27 +88,16 @@ const handleCancel = () => {
         aria-labelledby="contact-modal-title"
       >
         <header>
-          <SfButton
-            square
-            variant="tertiary"
-            class="absolute right-2 top-2"
-            @click="handleCancel"
-          >
+          <SfButton square variant="tertiary" class="absolute right-2 top-2" @click="handleCancel">
             <icon name="ion:close" size="20px" />
           </SfButton>
-          <h3
-            id="contact-modal-title"
-            class="text-neutral-900 text-lg md:text-2xl font-bold mb-4"
-          >
-            {{ $t("contactInfo.heading") }}
+          <h3 id="contact-modal-title" class="text-neutral-900 text-lg md:text-2xl font-bold mb-4">
+            {{ $t('contactInfo.heading') }}
           </h3>
         </header>
-        <form
-          data-testid="contact-information-form"
-          @submit.prevent="handleUpdatePartnerData"
-        >
+        <form data-testid="contact-information-form" @submit.prevent="handleUpdatePartnerData">
           <label>
-            <UiFormLabel>{{ $t("contactInfo.name") }}</UiFormLabel>
+            <UiFormLabel>{{ $t('contactInfo.name') }}</UiFormLabel>
             <SfInput
               v-model="name"
               name="name"
@@ -128,7 +108,7 @@ const handleCancel = () => {
           </label>
           <div class="mt-4" />
           <label>
-            <UiFormLabel>{{ $t("contactInfo.email") }}</UiFormLabel>
+            <UiFormLabel>{{ $t('contactInfo.email') }}</UiFormLabel>
             <SfInput
               v-model="email"
               name="email"
@@ -139,21 +119,16 @@ const handleCancel = () => {
           </label>
           <div class="mt-4">
             <label>
-              <UiFormLabel>{{ $t("contactInfo.subescribe") }}</UiFormLabel>
+              <UiFormLabel>{{ $t('contactInfo.subescribe') }}</UiFormLabel>
               <SfSwitch v-model="subscribeNewsletter" />
             </label>
           </div>
           <div class="mt-4 flex flex-col-reverse md:flex-row md:justify-end">
-            <SfButton
-              type="reset"
-              class="md:mr-4"
-              variant="secondary"
-              @click="handleCancel"
-            >
-              {{ $t("contactInfo.cancel") }}
+            <SfButton type="reset" class="md:mr-4" variant="secondary" @click="handleCancel">
+              {{ $t('contactInfo.cancel') }}
             </SfButton>
             <SfButton type="submit" class="min-w-[120px] mb-4 md:mb-0">
-              {{ $t("contactInfo.save") }}
+              {{ $t('contactInfo.save') }}
             </SfButton>
           </div>
         </form>

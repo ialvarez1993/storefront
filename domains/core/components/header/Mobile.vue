@@ -7,53 +7,51 @@ import {
   SfIconSearch,
   SfListItem,
   useDisclosure,
-  useTrapFocus,
-} from "@storefront-ui/vue";
-import { onClickOutside } from "@vueuse/core";
-import type { Category } from "~/graphql";
+  useTrapFocus
+} from '@storefront-ui/vue'
+import { onClickOutside } from '@vueuse/core'
+import type { Category } from '~/graphql'
 
-const { isOpen, toggle, close } = useDisclosure();
-const { searchModalToggle } = useSearch();
+const { isOpen, toggle, close } = useDisclosure()
+const { searchModalToggle } = useSearch()
 
-const NuxtLink = resolveComponent("NuxtLink");
+const NuxtLink = resolveComponent('NuxtLink')
 
-const menuRef = ref();
-const drawerRef = ref();
-const searchRef = ref();
-const showSearchClerkRef = ref();
+const menuRef = ref()
+const drawerRef = ref()
+const searchRef = ref()
+const showSearchClerkRef = ref()
 
 useTrapFocus(drawerRef, {
   activeState: isOpen,
   arrowKeysUpDown: true,
-  initialFocus: "container",
-});
+  initialFocus: 'container'
+})
 
 onClickOutside(menuRef, () => {
-  close();
-});
+  close()
+})
 
 onClickOutside(searchRef, () => {
-  showSearchClerkRef.value = false;
-});
+  showSearchClerkRef.value = false
+})
 
-const filteredCategories = inject<Category[]>("filteredTopCategories");
+const filteredCategories = inject<Category[]>('filteredTopCategories')
 
 const bannerDetails = {
-  image: "/images/watch.png",
-  title: "New in designer watches",
-};
+  image: '/images/watch.png',
+  title: 'New in designer watches'
+}
 </script>
 
 <template>
   <header
     ref="menuRef"
     :class="[
-      'text-white h-14 md:h-20 flex z-50 md:sticky md:top-0 md:shadow-md flex-wrap md:flex-nowrap w-full py-2 md:py-5 border-0 bg-primary-700 border-neutral-200 md:z-10',
+      'text-white h-14 md:h-20 flex z-50 md:sticky md:top-0 md:shadow-md flex-wrap md:flex-nowrap w-full py-2 md:py-5 border-0 bg-primary-700 border-neutral-200 md:z-10'
     ]"
   >
-    <div
-      class="flex items-center justify-center lg:justify-start h-full w-full narrow-container"
-    >
+    <div class="flex items-center justify-center lg:justify-start h-full w-full narrow-container">
       <NuxtLink to="/" aria-label="Homepage" class="h-6 md:h-7 -mt-1.5">
         <VsfLogo />
       </NuxtLink>
@@ -81,9 +79,7 @@ const bannerDetails = {
                   <div
                     class="sticky top-0 flex items-center justify-between py-2 px-4 bg-primary-700 w-full"
                   >
-                    <div
-                      class="flex items-center typography-text-lg font-medium text-white"
-                    >
+                    <div class="flex items-center typography-text-lg font-medium text-white">
                       Browse products
                     </div>
                     <SfButton
@@ -110,10 +106,7 @@ const bannerDetails = {
                     </h2>
                     <hr class="mb-3.5" />
                     <ul>
-                      <li
-                        v-for="{ name, slug, childs: subcategory } in childs"
-                        :key="name"
-                      >
+                      <li v-for="{ name, slug, childs: subcategory } in childs" :key="name">
                         <SfListItem
                           v-if="subcategory !== null"
                           tag="a"

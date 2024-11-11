@@ -1,74 +1,60 @@
 <script setup lang="ts">
-import { SfButton, SfLoaderCircular } from "@storefront-ui/vue";
-import { useOrders } from "~/domains/orders/composable/useOrders";
-import {
-  PaymentTransactionState,
-  type Order,
-  type PaymentTransaction,
-} from "~/graphql";
+import { SfButton, SfLoaderCircular } from '@storefront-ui/vue'
+import { useOrders } from '~/domains/orders/composable/useOrders'
+import { PaymentTransactionState, type Order, type PaymentTransaction } from '~/graphql'
 
 definePageMeta({
-  layout: "account",
-  middleware: ["auth-check"],
-});
+  layout: 'account',
+  middleware: ['auth-check']
+})
 
-const { getOrders, orders, loading } = useOrders();
+const { getOrders, orders, loading } = useOrders()
 
 onMounted(async () => {
-  await getOrders();
-});
+  await getOrders()
+})
 
-const isTransactionCancelled = (
-  transaction?: PaymentTransaction | null,
-): boolean => {
-  return transaction?.state === PaymentTransactionState.Canceled;
-};
+const isTransactionCancelled = (transaction?: PaymentTransaction | null): boolean => {
+  return transaction?.state === PaymentTransactionState.Canceled
+}
 
 const getLastOrderTransaction = (order: Order): PaymentTransaction | null => {
-  return order.transactions?.[order.transactions.length - 1] ?? null;
-};
+  return order.transactions?.[order.transactions.length - 1] ?? null
+}
 
-const NuxtLink = resolveComponent("NuxtLink");
+const NuxtLink = resolveComponent('NuxtLink')
 </script>
 
 <template>
   <UiDivider class="w-screen -mx-4 md:col-span-3 md:w-auto md:mx-0" />
-  <h2
-    class="invisible md:block typography-headline-4 font-bold mx-4 capitalize"
-  >
-    {{ $t("account.myOrders.heading") }}
+  <h2 class="invisible md:block typography-headline-4 font-bold mx-4 capitalize">
+    {{ $t('account.myOrders.heading') }}
   </h2>
 
   <div v-if="orders?.orders" class="col-span-3">
-    <table
-      class="invisible md:block sm:visible xs:visible text-left typography-text-sm mx-4"
-    >
+    <table class="invisible md:block sm:visible xs:visible text-left typography-text-sm mx-4">
       <caption class="invisible">
         List of orders
       </caption>
       <thead class="border-b-2 border-neutral-200">
         <tr>
           <th class="py-4 pr-4 font-medium">
-            {{ $t("account.myOrders.orderId") }}
+            {{ $t('account.myOrders.orderId') }}
           </th>
           <th class="py-4 px-4 font-medium lg:whitespace-nowrap">
-            {{ $t("account.myOrders.orderDate") }}
+            {{ $t('account.myOrders.orderDate') }}
           </th>
           <th class="py-4 px-4 font-medium">
-            {{ $t("account.myOrders.amount") }}
+            {{ $t('account.myOrders.amount') }}
           </th>
           <th class="py-4 px-4 font-medium">
-            {{ $t("account.myOrders.status") }}
+            {{ $t('account.myOrders.status') }}
           </th>
           <th class="py-4 pl-4"></th>
         </tr>
       </thead>
       <tbody>
-        <tr
-          v-for="order in orders.orders"
-          :key="order?.id"
-          class="border-b border-neutral-200"
-        >
+        <tr v-for="order in orders.orders" :key="order?.id" class="border-b border-neutral-200">
           <td class="py-4 pr-4 lg:whitespace-nowrap">{{ order?.name }}</td>
           <td class="p-4 lg:whitespace-nowrap">{{ order?.dateOrder }}</td>
           <td class="p-4">
@@ -79,14 +65,12 @@ const NuxtLink = resolveComponent("NuxtLink");
             :class="[
               'p-4',
               {
-                'text-negative-700': isTransactionCancelled(
-                  getLastOrderTransaction(order),
-                ),
+                'text-negative-700': isTransactionCancelled(getLastOrderTransaction(order))
               },
               ,
             ]"
           >
-            {{ getLastOrderTransaction(order)?.state ?? "--" }}
+            {{ getLastOrderTransaction(order)?.state ?? '--' }}
           </td>
           <td class="py-1.5 pl-4 text-right w-full">
             <SfButton
@@ -95,7 +79,7 @@ const NuxtLink = resolveComponent("NuxtLink");
               variant="tertiary"
               :to="`/my-account/my-orders/${order?.id}`"
             >
-              {{ $t("account.myOrders.details") }}
+              {{ $t('account.myOrders.details') }}
             </SfButton>
           </td>
         </tr>
@@ -115,10 +99,10 @@ const NuxtLink = resolveComponent("NuxtLink");
       loading="lazy"
     />
     <h3 class="typography-headline-3 font-bold mb-4 mt-6">
-      {{ $t("account.myOrders.noOrders") }}
+      {{ $t('account.myOrders.noOrders') }}
     </h3>
     <SfButton variant="secondary" class="!ring-neutral-200">
-      {{ $t("account.myOrders.continue") }}</SfButton
+      {{ $t('account.myOrders.continue') }}</SfButton
     >
   </div>
   <NuxtPage />

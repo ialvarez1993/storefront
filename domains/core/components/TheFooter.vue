@@ -8,9 +8,7 @@
         :key="label"
         class="grid grid-cols xs:pb-4"
       >
-        <div
-          class="ml-4 text-lg font-medium leading-7 text-neutral-900 font-body"
-        >
+        <div class="ml-4 text-lg font-medium leading-7 text-neutral-900 font-body">
           {{ label }}
         </div>
         <SfListItem
@@ -72,9 +70,7 @@
             <component :is="icon" loading="lazy" />
           </SfButton>
         </div>
-        <div
-          class="flex items-center justify-center gap-6 py-2 my-4 md:ml-auto md:my-0"
-        >
+        <div class="flex items-center justify-center gap-6 py-2 my-4 md:ml-auto md:my-0">
           <SfLink
             v-for="{ label, link } in bottomLinks"
             :key="label"
@@ -106,158 +102,158 @@ import {
   SfIconYoutube,
   SfButton,
   SfLink,
-  SfListItem,
-} from "@storefront-ui/vue";
+  SfListItem
+} from '@storefront-ui/vue'
 
 const categories = [
   {
-    label: "How to buy",
+    label: 'How to buy',
     subcategories: [
       {
-        subcategoryLabel: "Payment methods",
-        link: "#",
+        subcategoryLabel: 'Payment methods',
+        link: '#'
       },
       {
-        subcategoryLabel: "Order pickup",
-        link: "#",
+        subcategoryLabel: 'Order pickup',
+        link: '#'
       },
       {
-        subcategoryLabel: "Purchase status",
-        link: "#",
+        subcategoryLabel: 'Purchase status',
+        link: '#'
       },
       {
-        subcategoryLabel: "Track orders",
-        link: "#",
+        subcategoryLabel: 'Track orders',
+        link: '#'
       },
       {
-        subcategoryLabel: "Returns",
-        link: "#",
-      },
-    ],
+        subcategoryLabel: 'Returns',
+        link: '#'
+      }
+    ]
   },
   {
-    label: "Help",
+    label: 'Help',
     subcategories: [
       {
-        subcategoryLabel: "Help centers",
-        link: "#",
+        subcategoryLabel: 'Help centers',
+        link: '#'
       },
       {
-        subcategoryLabel: "Security & fraud",
-        link: "#",
+        subcategoryLabel: 'Security & fraud',
+        link: '#'
       },
       {
-        subcategoryLabel: "Feedback",
-        link: "#",
+        subcategoryLabel: 'Feedback',
+        link: '#'
       },
       {
-        subcategoryLabel: "Contact",
-        link: "#",
-      },
-    ],
+        subcategoryLabel: 'Contact',
+        link: '#'
+      }
+    ]
   },
   {
-    label: "Services",
+    label: 'Services',
     subcategories: [
       {
-        subcategoryLabel: "Gift cards",
-        link: "#",
+        subcategoryLabel: 'Gift cards',
+        link: '#'
       },
       {
-        subcategoryLabel: "Order pickup",
-        link: "#",
+        subcategoryLabel: 'Order pickup',
+        link: '#'
       },
       {
-        subcategoryLabel: "Purchase status",
-        link: "#",
+        subcategoryLabel: 'Purchase status',
+        link: '#'
       },
       {
-        subcategoryLabel: "Track orders",
-        link: "#",
-      },
-    ],
+        subcategoryLabel: 'Track orders',
+        link: '#'
+      }
+    ]
   },
   {
-    label: "About",
+    label: 'About',
     subcategories: [
       {
-        subcategoryLabel: "About us",
-        link: "#",
+        subcategoryLabel: 'About us',
+        link: '#'
       },
       {
-        subcategoryLabel: "Order pickup",
-        link: "#",
+        subcategoryLabel: 'Order pickup',
+        link: '#'
       },
       {
-        subcategoryLabel: "Purchase status",
-        link: "#",
+        subcategoryLabel: 'Purchase status',
+        link: '#'
       },
       {
-        subcategoryLabel: "Track orders",
-        link: "#",
+        subcategoryLabel: 'Track orders',
+        link: '#'
       },
       {
-        subcategoryLabel: "Returns",
-        link: "#",
-      },
-    ],
-  },
-];
+        subcategoryLabel: 'Returns',
+        link: '#'
+      }
+    ]
+  }
+]
 const socialMedia = [
   {
-    label: "Facebook",
-    link: "#",
-    icon: SfIconFacebook,
+    label: 'Facebook',
+    link: '#',
+    icon: SfIconFacebook
   },
   {
-    label: "Twitter",
-    link: "#",
-    icon: SfIconTwitter,
+    label: 'Twitter',
+    link: '#',
+    icon: SfIconTwitter
   },
   {
-    label: "Instagram",
-    link: "#",
-    icon: SfIconInstagram,
+    label: 'Instagram',
+    link: '#',
+    icon: SfIconInstagram
   },
   {
-    label: "Pinterest",
-    link: "#",
-    icon: SfIconPinterest,
+    label: 'Pinterest',
+    link: '#',
+    icon: SfIconPinterest
   },
   {
-    label: "Youtube",
-    link: "#",
-    icon: SfIconYoutube,
-  },
-];
+    label: 'Youtube',
+    link: '#',
+    icon: SfIconYoutube
+  }
+]
 const contactOptions = [
   {
-    label: "Help center",
-    link: "#",
-    details: ["Find answers online anytime"],
-    icon: SfIconHelp,
+    label: 'Help center',
+    link: '#',
+    details: ['Find answers online anytime'],
+    icon: SfIconHelp
   },
   {
-    label: "Live chat",
-    link: "#",
-    details: ["Mon–Fri, 5am–10pm PT", "Sat–Sun, 6am–9pm PT"],
-    icon: SfIconContactSupport,
+    label: 'Live chat',
+    link: '#',
+    details: ['Mon–Fri, 5am–10pm PT', 'Sat–Sun, 6am–9pm PT'],
+    icon: SfIconContactSupport
   },
   {
-    label: "1 234 567 8901",
-    link: "#",
-    details: ["Mon–Fri, 5am–10pm PT", "Sat–Sun, 6am–9pm PT"],
-    icon: SfIconCall,
-  },
-];
+    label: '1 234 567 8901',
+    link: '#',
+    details: ['Mon–Fri, 5am–10pm PT', 'Sat–Sun, 6am–9pm PT'],
+    icon: SfIconCall
+  }
+]
 const bottomLinks = [
   {
-    label: "Terms",
-    link: "#",
+    label: 'Terms',
+    link: '#'
   },
   {
-    label: "Privacy policy",
-    link: "#",
-  },
-];
+    label: 'Privacy policy',
+    link: '#'
+  }
+]
 </script>

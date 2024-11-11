@@ -1,13 +1,13 @@
 <!-- SearchInput.vue -->
 <script setup>
-import { watch, ref, computed, onMounted, nextTick } from 'vue';
-import { SfInput, SfButton, SfLoaderCircular } from '@storefront-ui/vue';
-import { useDebounceFn,useIntersectionObserver } from '@vueuse/core';
-import gsap from 'gsap';
+import { watch, ref, computed, onMounted, nextTick } from "vue";
+import { SfInput, SfButton, SfLoaderCircular } from "@storefront-ui/vue";
+import { useDebounceFn, useIntersectionObserver } from "@vueuse/core";
+import gsap from "gsap";
 
 const formSearchTemplateRef = ref(null);
 const searchResultsRef = ref(null);
-const recentSearchesKey = 'recent-searches';
+const recentSearchesKey = "recent-searches";
 const maxRecentSearches = 5;
 
 // Estados locales
@@ -17,9 +17,9 @@ const recentSearches = ref([]);
 
 // Trending searches (ejemplo - idealmente vendría del backend)
 const trendingSearches = [
-  { id: 1, term: 'Nuevos productos', icon: '🆕' },
-  { id: 2, term: 'Más vendidos', icon: '🔥' },
-  { id: 3, term: 'Ofertas', icon: '💎' },
+  { id: 1, term: "Nuevos productos", icon: "🆕" },
+  { id: 2, term: "Más vendidos", icon: "🔥" },
+  { id: 3, term: "Ofertas", icon: "💎" },
 ];
 
 const {
@@ -42,8 +42,8 @@ const debouncedSearch = useDebounceFn(() => {
 
 // Computed properties
 const hasResults = computed(() => searchHits.value.length > 0);
-const shouldShowSuggestions = computed(() =>
-  isInputFocused.value && !showResultSearch.value && !loading.value
+const shouldShowSuggestions = computed(
+  () => isInputFocused.value && !showResultSearch.value && !loading.value,
 );
 
 // Intersection Observer para lazy loading
@@ -62,7 +62,7 @@ const loadRecentSearches = () => {
     const saved = localStorage.getItem(recentSearchesKey);
     recentSearches.value = saved ? JSON.parse(saved) : [];
   } catch (e) {
-    console.error('Error loading recent searches:', e);
+    console.error("Error loading recent searches:", e);
   }
 };
 
@@ -76,13 +76,13 @@ const saveRecentSearch = (term) => {
 // Animaciones
 const animateResults = async () => {
   await nextTick();
-  const results = document.querySelectorAll('.search-result-item');
+  const results = document.querySelectorAll(".search-result-item");
   gsap.from(results, {
     y: 20,
     opacity: 0,
     duration: 0.4,
     stagger: 0.05,
-    ease: 'power2.out',
+    ease: "power2.out",
   });
 };
 
@@ -118,14 +118,14 @@ const handleKeydown = (event) => {
   if (!searchHits.value.length) return;
 
   switch (event.key) {
-    case 'ArrowDown':
+    case "ArrowDown":
       event.preventDefault();
       highlightedIndex.value = Math.min(
         highlightedIndex.value + 1,
-        searchHits.value.length - 1
+        searchHits.value.length - 1,
       );
       break;
-    case 'ArrowUp':
+    case "ArrowUp":
       event.preventDefault();
       highlightedIndex.value = Math.max(highlightedIndex.value - 1, -1);
       break;
@@ -153,11 +153,7 @@ watch(searchHits, animateResults);
       @keydown.enter.prevent="enterPress"
     >
       <template #prefix>
-        <Icon
-          name="ion:search"
-          size="20px"
-          class="text-gray-500 ml-3"
-        />
+        <Icon name="ion:search" size="20px" class="text-gray-500 ml-3" />
       </template>
 
       <template #suffix>
@@ -182,9 +178,7 @@ watch(searchHits, animateResults);
             :disabled="loading || !searchInputValue"
             @click="search"
           >
-            <template v-if="!loading">
-              Buscar
-            </template>
+            <template v-if="!loading"> Buscar </template>
             <SfLoaderCircular v-else size="sm" />
           </SfButton>
         </div>
@@ -242,7 +236,12 @@ watch(searchHits, animateResults);
                     </p>
                     <div class="search-result-meta">
                       <span v-if="hit.price" class="search-result-price">
-                        {{ new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(hit.price) }}
+                        {{
+                          new Intl.NumberFormat("es-ES", {
+                            style: "currency",
+                            currency: "EUR",
+                          }).format(hit.price)
+                        }}
                       </span>
                       <span v-if="hit.category" class="search-result-category">
                         {{ hit.category }}
@@ -256,7 +255,9 @@ watch(searchHits, animateResults);
 
           <div v-else class="search-no-results">
             <Icon name="ion:search-outline" size="48px" class="text-gray-400" />
-            <p class="text-gray-600">No se encontraron resultados para "{{ searchInputValue }}"</p>
+            <p class="text-gray-600">
+              No se encontraron resultados para "{{ searchInputValue }}"
+            </p>
           </div>
         </div>
 
@@ -273,7 +274,10 @@ watch(searchHits, animateResults);
                 v-for="term in recentSearches"
                 :key="term"
                 class="suggestion-item"
-                @click="searchInputValue = term; search()"
+                @click="
+                  searchInputValue = term;
+                  search();
+                "
               >
                 <Icon name="ion:refresh-outline" />
                 {{ term }}
@@ -292,7 +296,10 @@ watch(searchHits, animateResults);
                 v-for="trend in trendingSearches"
                 :key="trend.id"
                 class="suggestion-item"
-                @click="searchInputValue = trend.term; search()"
+                @click="
+                  searchInputValue = trend.term;
+                  search();
+                "
               >
                 <span class="trend-icon">{{ trend.icon }}</span>
                 {{ trend.term }}
@@ -304,7 +311,6 @@ watch(searchHits, animateResults);
     </transition>
   </div>
 </template>
-
 
 <style lang="scss" scoped>
 .search-container {
@@ -330,6 +336,8 @@ watch(searchHits, animateResults);
   }
 
   .search-button {
+    background-color: #ffc107b4;
+    color: #000000;
     border-radius: 9999px;
     padding-left: 1rem;
     padding-right: 1rem;
@@ -499,4 +507,3 @@ watch(searchHits, animateResults);
   opacity: 0;
 }
 </style>
-

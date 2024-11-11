@@ -1,19 +1,6 @@
 <template>
-  <svg
-    width="71"
-    height="71"
-    viewBox="0 0 71 71"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <mask
-      id="dzgievp3ma"
-      maskUnits="userSpaceOnUse"
-      x="0"
-      y="0"
-      width="71"
-      height="71"
-    >
+  <svg width="71" height="71" viewBox="0 0 71 71" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <mask id="dzgievp3ma" maskUnits="userSpaceOnUse" x="0" y="0" width="71" height="71">
       <path fill="#D9D9D9" d="M0 0h71v71H0z" />
     </mask>
     <g mask="url(#dzgievp3ma)">
@@ -26,4 +13,3 @@
 </template>
 
 <script lang="ts" setup></script>
-

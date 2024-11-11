@@ -1,60 +1,62 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import type { Product, QueryProductsArgs } from "~/graphql";
+import { ref, onMounted } from 'vue'
+import type { Product, QueryProductsArgs } from '~/graphql'
 
-const sliderContainer = ref<HTMLElement | null>(null);
-const currentIndex = ref(0);
+const sliderContainer = ref<HTMLElement | null>(null)
+const currentIndex = ref(0)
 
 const props = defineProps({
   heading: String,
   text: String,
   ids: {
     type: Array as PropType<number[]>,
-    default: () => [],
+    default: () => []
   },
   keyForComposable: {
     type: String,
-    default: "",
-  },
-});
+    default: ''
+  }
+})
 
-const { loadProductTemplateList, loading, productTemplateList } =
-  useProductTemplateList(props.keyForComposable, props.keyForComposable);
-const { getRegularPrice, getSpecialPrice } = useProductAttributes();
+const { loadProductTemplateList, loading, productTemplateList } = useProductTemplateList(
+  props.keyForComposable,
+  props.keyForComposable
+)
+const { getRegularPrice, getSpecialPrice } = useProductAttributes()
 
-const scrollAmount = 1200; // Ajustado para mostrar 5 productos
+const scrollAmount = 1200 // Ajustado para mostrar 5 productos
 
 const handlePrev = () => {
   if (sliderContainer.value) {
-    sliderContainer.value.scrollLeft -= scrollAmount;
+    sliderContainer.value.scrollLeft -= scrollAmount
   }
-};
+}
 
 const handleNext = () => {
   if (sliderContainer.value) {
-    sliderContainer.value.scrollLeft += scrollAmount;
+    sliderContainer.value.scrollLeft += scrollAmount
   }
-};
+}
 
 const calculateDiscount = (regular: number, special: number) => {
-  return Math.round(((regular - special) / regular) * 100);
-};
+  return Math.round(((regular - special) / regular) * 100)
+}
 
 const loadProducts = async () => {
   const params: QueryProductsArgs = {
     pageSize: 15 // Aumentado para cargar más productos
-  };
-
-  if (props.ids?.length > 0) {
-    params.filter = { ids: props.ids } as any;
   }
 
-  await loadProductTemplateList(params, true);
-};
+  if (props.ids?.length > 0) {
+    params.filter = { ids: props.ids } as any
+  }
+
+  await loadProductTemplateList(params, true)
+}
 
 onMounted(() => {
-  loadProducts();
-});
+  loadProducts()
+})
 </script>
 
 <template>
@@ -69,17 +71,11 @@ onMounted(() => {
 
     <div v-else-if="productTemplateList.length > 0" class="relative">
       <div class="flex justify-center items-center">
-        <button
-          @click="handlePrev"
-          class="nav-btn left-0"
-        >
+        <button @click="handlePrev" class="nav-btn left-0">
           <i class="fas fa-chevron-left"></i>
         </button>
 
-        <div
-          ref="sliderContainer"
-          class="flex overflow-x-hidden scroll-smooth gap-3 px-8"
-        >
+        <div ref="sliderContainer" class="flex overflow-x-hidden scroll-smooth gap-3 px-8">
           <div
             v-for="productTemplate in productTemplateList"
             :key="productTemplate.id"
@@ -92,25 +88,27 @@ onMounted(() => {
                   v-if="getSpecialPrice(productTemplate.firstVariant as Product)"
                   class="badge discount"
                 >
-                  -{{ calculateDiscount(
-                    getRegularPrice(productTemplate.firstVariant as Product),
-                    getSpecialPrice(productTemplate.firstVariant as Product)
-                  ) }}%
+                  -{{
+                    calculateDiscount(
+                      getRegularPrice(productTemplate.firstVariant as Product),
+                      getSpecialPrice(productTemplate.firstVariant as Product)
+                    )
+                  }}%
                 </span>
-                <span v-if="productTemplate.isNew" class="badge new">
-                  New
-                </span>
+                <span v-if="productTemplate.isNew" class="badge new"> New </span>
               </div>
 
               <!-- Image -->
               <div class="img-container">
                 <img
-                  :src="$getImage(
-                    String(productTemplate.image),
-                    250,
-                    250,
-                    String(productTemplate.imageFilename)
-                  )"
+                  :src="
+                    $getImage(
+                      String(productTemplate.image),
+                      250,
+                      250,
+                      String(productTemplate.imageFilename)
+                    )
+                  "
                   :alt="productTemplate?.name"
                   class="product-img"
                 />
@@ -155,7 +153,12 @@ onMounted(() => {
                     {{ $currency(getRegularPrice(productTemplate.firstVariant as Product)) }}
                   </span>
                   <span class="final-price">
-                    {{ $currency(getSpecialPrice(productTemplate.firstVariant as Product) || getRegularPrice(productTemplate.firstVariant as Product)) }}
+                    {{
+                      $currency(
+                        getSpecialPrice(productTemplate.firstVariant as Product) ||
+                          getRegularPrice(productTemplate.firstVariant as Product)
+                      )
+                    }}
                   </span>
                 </div>
 
@@ -171,10 +174,7 @@ onMounted(() => {
           </div>
         </div>
 
-        <button
-          @click="handleNext"
-          class="nav-btn right-0"
-        >
+        <button @click="handleNext" class="nav-btn right-0">
           <i class="fas fa-chevron-right"></i>
         </button>
       </div>

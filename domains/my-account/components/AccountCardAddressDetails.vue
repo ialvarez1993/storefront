@@ -1,61 +1,51 @@
 <script setup lang="ts">
-import { SfButton, SfIconClose, useDisclosure } from "@storefront-ui/vue";
-import {
-  AddressEnum,
-  type AddressFormFieldsInputExtendedFields,
-  type Partner,
-} from "~/graphql";
+import { SfButton, SfIconClose, useDisclosure } from '@storefront-ui/vue'
+import { AddressEnum, type AddressFormFieldsInputExtendedFields, type Partner } from '~/graphql'
 
-const { isOpen, open, close } = useDisclosure();
-const { deleteAddress, loadAddresses } = useAddresses();
+const { isOpen, open, close } = useDisclosure()
+const { deleteAddress, loadAddresses } = useAddresses()
 
 const props = defineProps({
   addresses: {
     type: Array as PropType<Partner[]>,
-    required: true,
+    required: true
   },
   header: {
     type: String,
-    required: true,
+    required: true
   },
   type: {
     type: String as PropType<AddressEnum.Billing | AddressEnum.Shipping>,
-    required: true,
-  },
-});
+    required: true
+  }
+})
 
-const edit = ref(false);
-const addressForEdit = ref<AddressFormFieldsInputExtendedFields>();
+const edit = ref(false)
+const addressForEdit = ref<AddressFormFieldsInputExtendedFields>()
 
-const handleOpenFormForEditAddress = (
-  address: AddressFormFieldsInputExtendedFields,
-) => {
-  edit.value = true;
-  addressForEdit.value = address;
-  open();
-};
+const handleOpenFormForEditAddress = (address: AddressFormFieldsInputExtendedFields) => {
+  edit.value = true
+  addressForEdit.value = address
+  open()
+}
 
 const handleOpenFormToAddAddress = () => {
-  edit.value = false;
-  open();
-};
+  edit.value = false
+  open()
+}
 
 const handleRemoveAddress = async (id: number) => {
-  await deleteAddress({ id: id });
-  await loadAddresses(props.type);
-};
+  await deleteAddress({ id: id })
+  await loadAddresses(props.type)
+}
 
 const handleCloseAfterSaveAddress = async () => {
-  await loadAddresses(props.type);
-  close();
-};
+  await loadAddresses(props.type)
+  close()
+}
 </script>
 <template>
-  <div
-    class="md:col-span-1 col-span-3"
-    v-for="address in addresses"
-    :key="address.id"
-  >
+  <div class="md:col-span-1 col-span-3" v-for="address in addresses" :key="address.id">
     <AccountAddressData
       @on-click="handleOpenFormForEditAddress(address)"
       :header="address.name || ''"
@@ -64,7 +54,7 @@ const handleCloseAfterSaveAddress = async () => {
       <p>{{ `${address.name}, ${address.street}` }}</p>
       <p>{{ address.phone }}</p>
       <p>{{ `${address.country?.name}` }}</p>
-      <p>{{ `${address?.state?.name || ""}` }}</p>
+      <p>{{ `${address?.state?.name || ''}` }}</p>
       <p>{{ `${address.city} ${address.zip}` }}</p>
       <template v-slot:footer>
         <SfButton
@@ -91,18 +81,10 @@ const handleCloseAfterSaveAddress = async () => {
       aria-labelledby="address-modal-title"
     >
       <header>
-        <SfButton
-          square
-          variant="tertiary"
-          class="absolute right-2 top-2"
-          @click="close"
-        >
+        <SfButton square variant="tertiary" class="absolute right-2 top-2" @click="close">
           <SfIconClose />
         </SfButton>
-        <h3
-          id="address-modal-title"
-          class="text-neutral-900 text-lg md:text-2xl font-bold mb-4"
-        >
+        <h3 id="address-modal-title" class="text-neutral-900 text-lg md:text-2xl font-bold mb-4">
           {{ header }}
         </h3>
       </header>

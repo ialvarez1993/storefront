@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { useWebsiteHomePage } from "~/domains/core/composable/useWebsiteHomePage";
+import { useWebsiteHomePage } from '~/domains/core/composable/useWebsiteHomePage'
 
-const { loadCategoryList, categories } = useCategory();
-const { getWebsiteHomepage, websiteHomepage } = useWebsiteHomePage();
+const { loadCategoryList, categories } = useCategory()
+const { getWebsiteHomepage, websiteHomepage } = useWebsiteHomePage()
 
-await getWebsiteHomepage();
+await getWebsiteHomepage()
 await loadCategoryList({
-  filter: { parent: true, id: null },
-});
-useHead(websiteHomepageHead(websiteHomepage.value, ""));
+  filter: { parent: true, id: null }
+})
+useHead(websiteHomepageHead(websiteHomepage.value, ''))
 </script>
 
 <template>
@@ -32,7 +32,7 @@ useHead(websiteHomepageHead(websiteHomepage.value, ""));
       />
     </NuxtLazyHydrate>
   </section>
-  <section class="mx-24" >
+  <section class="mx-24">
     <CardSamsung />
   </section>
   <CategoryCard :categories="categories" />

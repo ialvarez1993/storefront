@@ -6,83 +6,85 @@ import {
   SfButton,
   SfIconShoppingCart,
   SfIconFavorite,
-  SfIconFavoriteFilled,
-} from "@storefront-ui/vue";
-import type { Product } from "~/graphql";
+  SfIconFavoriteFilled
+} from '@storefront-ui/vue'
+import type { Product } from '~/graphql'
 
 const props = defineProps({
   imageUrl: {
     type: String,
-    required: true,
+    required: true
   },
   imageAlt: {
     type: String,
-    required: true,
+    required: true
   },
   name: {
     type: String,
-    required: true,
+    required: true
   },
   slug: {
     type: String,
-    required: true,
+    required: true
   },
   description: {
     type: String,
-    required: false,
+    required: false
   },
   ratingCount: {
     type: Number,
-    required: false,
+    required: false
   },
   rating: {
     type: Number,
-    required: false,
+    required: false
   },
   regularPrice: {
     type: Number,
-    required: true,
+    required: true
   },
   specialPrice: {
     type: Number,
-    required: false,
+    required: false
   },
   firstVariant: {
     type: Object as PropType<Product>,
-    required: false,
+    required: false
   },
   isInWishlist: {
     type: Boolean,
     default: false
   },
   loading: {
-    type: String as PropType<"eager" | "lazy">,
-    default: "lazy",
-  },
-});
+    type: String as PropType<'eager' | 'lazy'>,
+    default: 'lazy'
+  }
+})
 
-const { cartAdd } = useCart();
-const { wishlistAddItem, wishlistRemoveItem } = useWishlist();
+const { cartAdd } = useCart()
+const { wishlistAddItem, wishlistRemoveItem } = useWishlist()
 
 const handleAddToCart = async () => {
   if (props.firstVariant?.id) {
-    await cartAdd(props.firstVariant.id, 1);
+    await cartAdd(props.firstVariant.id, 1)
   }
-};
+}
 
 const toggleWishlist = async () => {
-  if (!props.firstVariant?.id) return;
+  if (!props.firstVariant?.id) return
 
   if (props.isInWishlist) {
-    await wishlistRemoveItem(props.firstVariant.id);
+    await wishlistRemoveItem(props.firstVariant.id)
   } else {
-    await wishlistAddItem(props.firstVariant.id);
+    await wishlistAddItem(props.firstVariant.id)
   }
-};
+}
 </script>
 
 <template>
-  <div class="relative border border-neutral-200 rounded-md hover:shadow-lg min-h-[330px] flex flex-col justify-around">
+  <div
+    class="relative border border-neutral-200 rounded-md hover:shadow-lg min-h-[330px] flex flex-col justify-around"
+  >
     <div class="relative">
       <NuxtLink :to="slug">
         <NuxtImg
@@ -110,12 +112,10 @@ const toggleWishlist = async () => {
       </SfButton>
     </div>
 
-    <div class="p-2 border-t border-neutral-200 typography-text-sm flex flex-col justify-between gap-1 h-full">
-      <NuxtLink
-        :to="slug"
-        variant="secondary"
-        class="no-underline self-start text-left"
-      >
+    <div
+      class="p-2 border-t border-neutral-200 typography-text-sm flex flex-col justify-between gap-1 h-full"
+    >
+      <NuxtLink :to="slug" variant="secondary" class="no-underline self-start text-left">
         {{ name }}
       </NuxtLink>
 
@@ -124,10 +124,7 @@ const toggleWishlist = async () => {
         <SfCounter size="xs">{{ ratingCount }}</SfCounter>
       </div>
 
-      <p
-        v-if="description"
-        class="block font-normal leading-5 typography-text-sm text-neutral-700"
-      >
+      <p v-if="description" class="block font-normal leading-5 typography-text-sm text-neutral-700">
         {{ description }}
       </p>
 
@@ -136,19 +133,12 @@ const toggleWishlist = async () => {
           <span class="font-bold typography-text-sm">
             {{ $currency(regularPrice) }}
           </span>
-          <span
-            v-if="specialPrice"
-            class="ml-1.5 font-normal typography-text-xs line-through"
-          >
+          <span v-if="specialPrice" class="ml-1.5 font-normal typography-text-xs line-through">
             {{ $currency(specialPrice) }}
           </span>
         </div>
 
-        <SfButton
-          type="button"
-          size="sm"
-          @click="handleAddToCart"
-        >
+        <SfButton type="button" size="sm" @click="handleAddToCart">
           <template #prefix>
             <SfIconShoppingCart size="sm" />
           </template>

@@ -1,0 +1,50 @@
+{
+  "productos": [
+    {
+      "id": 1,
+      "nombre": "Smartphone Galaxy S21",
+      "precio": 799.99,
+      "categoria": "Electrónica",
+      "stock": 15,
+      "imagen": "samsung-s21.jpg"
+    },
+    {
+      "id": 2,
+      "nombre": "MacBook Pro 13",
+      "precio": 1299.99,
+      "categoria": "Computadoras",
+      "stock": 8,
+      "imagen": "macbook-pro.jpg"
+    },
+    {
+      "id": 3,
+      "nombre": "Audífonos Sony WH-1000XM4",
+      "precio": 349.99,
+      "categoria": "Audio",
+      "stock": 20,
+      "imagen": "sony-headphones.jpg"
+    }
+  ],
+  "categorias": [
+    {
+      "id": 1,
+      "nombre": "Electrónica"
+    },
+    {
+      "id": 2,
+      "nombre": "Computadoras"
+    },
+    {
+      "id": 3,
+      "nombre": "Audio"
+    }
+  ],
+  "carrito": [
+    {
+      "id": 1,
+      "productoId": 1,
+      "cantidad": 2,
+      "precioUnitario": 799.99
+    }
+  ]
+}

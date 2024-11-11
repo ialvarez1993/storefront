@@ -1,9 +1,7 @@
 {
-  // https://nuxt.com/docs/guide/concepts/typescript
-  "extends": "./.nuxt/tsconfig.json",
-  "references": [
-    {
-      "path": "./tsconfig.node.json"
-    },
-  ]
+  "compilerOptions": {
+    "strict": false, // Desactiva las comprobaciones estrictas
+    "skipLibCheck": true, // Ignora las comprobaciones en los archivos de bibliotecas
+    "forceConsistentCasingInFileNames": false
+  }
 }

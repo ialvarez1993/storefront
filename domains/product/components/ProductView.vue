@@ -1,231 +1,217 @@
 <template>
-    <div class="container mx-auto px-4 py-8">
-      <nav class="breadcrumb-container">
-        <NuxtLink to="/" class="breadcrumb-link">
-          <Icon name="lucide:home" class="w-4 h-4 mr-1" />
-          Inicio
-        </NuxtLink>
-        <Icon name="lucide:chevron-right" class="w-4 h-4 mx-2 text-gray-400" />
-        <span class="text-gray-600">Aire acondicionado 24.000 BTU Split</span>
-      </nav>
+  <div class="container mx-auto px-4 py-8">
+    <nav class="breadcrumb-container">
+      <NuxtLink to="/" class="breadcrumb-link">
+        <Icon name="lucide:home" class="w-4 h-4 mr-1" />
+        Inicio
+      </NuxtLink>
+      <Icon name="lucide:chevron-right" class="w-4 h-4 mx-2 text-gray-400" />
+      <span class="text-gray-600">Aire acondicionado 24.000 BTU Split</span>
+    </nav>
 
-      <div class="grid md:grid-cols-2 gap-12 mt-6">
-        <!-- Contenedor de imagen con zoom -->
-        <div class="image-zoom-container">
-          <div
-            ref="imageContainer"
-            class="main-image-container"
-            @mousemove="handleZoom"
-            @mouseleave="handleMouseLeave"
-            @mouseenter="handleMouseEnter"
+    <div class="grid md:grid-cols-2 gap-12 mt-6">
+      <!-- Contenedor de imagen con zoom -->
+      <div class="image-zoom-container">
+        <div
+          ref="imageContainer"
+          class="main-image-container"
+          @mousemove="handleZoom"
+          @mouseleave="handleMouseLeave"
+          @mouseenter="handleMouseEnter"
+        >
+          <NuxtImg
+            ref="mainImage"
+            :src="currentImage"
+            alt="Aire acondicionado 24.000 BTU Split"
+            class="main-image"
+            :class="{ zoomed: isZoomed }"
+          />
+          <div v-show="isZoomed" ref="zoomLens" class="zoom-lens" :style="lensStyle" />
+          <div v-show="isZoomed" class="zoom-result" :style="zoomStyle" />
+        </div>
+
+        <!-- Miniaturas -->
+        <div class="thumbnails-container">
+          <button
+            v-for="(image, index) in images"
+            :key="index"
+            class="thumbnail-btn"
+            :class="{ active: currentImage === image }"
+            @click="setCurrentImage(image)"
           >
-            <NuxtImg
-              ref="mainImage"
-              :src="currentImage"
-              alt="Aire acondicionado 24.000 BTU Split"
-              class="main-image"
-              :class="{ zoomed: isZoomed }"
-            />
-            <div
-              v-show="isZoomed"
-              ref="zoomLens"
-              class="zoom-lens"
-              :style="lensStyle"
-            />
-            <div v-show="isZoomed" class="zoom-result" :style="zoomStyle" />
-          </div>
+            <NuxtImg :src="image" :alt="`Thumbnail ${index + 1}`" class="thumbnail-img" />
+          </button>
+        </div>
+      </div>
+      <!-- Información del producto -->
+      <div class="product-info">
+        <h1 class="product-title">Aire acondicionado 24.000 BTU Split</h1>
 
-          <!-- Miniaturas -->
-          <div class="thumbnails-container">
-            <button
-              v-for="(image, index) in images"
-              :key="index"
-              class="thumbnail-btn"
-              :class="{ active: currentImage === image }"
-              @click="setCurrentImage(image)"
-            >
-              <NuxtImg
-                :src="image"
-                :alt="`Thumbnail ${index + 1}`"
-                class="thumbnail-img"
-              />
+        <div class="price-container !mt-2">
+          <span class="currency">$</span>
+          <span class="amount">750</span>
+          <span class="decimals">.00</span>
+        </div>
+
+        <div class="rating !mt-3">
+          <div class="stars">
+            <Icon
+              v-for="n in 5"
+              :key="n"
+              name="lucide:star"
+              class="star-icon"
+              :class="{ filled: n <= 4 }"
+            />
+          </div>
+        </div>
+
+        <div class="stock-status">
+          <Icon name="lucide:check-circle" class="w-5 h-5 mr-2" />
+          <span>En stock, listo para ser enviado</span>
+        </div>
+
+        <div class="quantity-selector">
+          <span class="quantity-label">Cantidad</span>
+          <div class="quantity-controls">
+            <button class="quantity-btn" :disabled="quantity <= 1" @click="decrementQuantity">
+              <Icon name="lucide:minus" class="w-4 h-4" />
+            </button>
+            <input
+              type="number"
+              :value="quantity"
+              min="1"
+              class="quantity-input"
+              @input="(e) => (quantity = parseInt(e.target.value, 10) || 1)"
+            />
+            <button class="quantity-btn" @click="incrementQuantity">
+              <Icon name="lucide:plus" class="w-4 h-4" />
             </button>
           </div>
         </div>
-        <!-- Información del producto -->
-        <div class="product-info">
-          <h1 class="product-title">Aire acondicionado 24.000 BTU Split</h1>
 
-          <div class="price-container !mt-2">
-            <span class="currency">$</span>
-            <span class="amount">750</span>
-            <span class="decimals">.00</span>
-          </div>
+        <button class="add-to-cart-btn">
+          <Icon name="lucide:shopping-cart" class="w-5 h-5 mr-2" />
+          Agregar al carrito
+        </button>
 
-          <div class="rating !mt-3">
-            <div class="stars">
-              <Icon
-                v-for="n in 5"
-                :key="n"
-                name="lucide:star"
-                class="star-icon"
-                :class="{ filled: n <= 4 }"
-              />
+        <button class="whatsapp-btn">
+          <Icon name="lucide:message-circle" class="w-5 h-5 mr-2" />
+          Contáctanos por WhatsApp
+        </button>
+
+        <!-- Características del producto -->
+        <div class="features">
+          <div class="feature-item">
+            <Icon name="lucide:truck" class="feature-icon" />
+            <div class="feature-text">
+              <strong>Envío Gratis</strong>
+              <span>Entrega estimada: 2-4 días</span>
             </div>
           </div>
-
-          <div class="stock-status">
-            <Icon name="lucide:check-circle" class="w-5 h-5 mr-2" />
-            <span>En stock, listo para ser enviado</span>
-          </div>
-
-          <div class="quantity-selector">
-            <span class="quantity-label">Cantidad</span>
-            <div class="quantity-controls">
-              <button
-                class="quantity-btn"
-                :disabled="quantity <= 1"
-                @click="decrementQuantity"
-              >
-                <Icon name="lucide:minus" class="w-4 h-4" />
-              </button>
-              <input
-                type="number"
-                :value="quantity"
-                min="1"
-                class="quantity-input"
-                @input="(e) => (quantity = parseInt(e.target.value, 10) || 1)"
-              />
-              <button class="quantity-btn" @click="incrementQuantity">
-                <Icon name="lucide:plus" class="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-
-          <button class="add-to-cart-btn">
-            <Icon name="lucide:shopping-cart" class="w-5 h-5 mr-2" />
-            Agregar al carrito
-          </button>
-
-          <button class="whatsapp-btn">
-            <Icon name="lucide:message-circle" class="w-5 h-5 mr-2" />
-            Contáctanos por WhatsApp
-          </button>
-
-          <!-- Características del producto -->
-          <div class="features">
-            <div class="feature-item">
-              <Icon name="lucide:truck" class="feature-icon" />
-              <div class="feature-text">
-                <strong>Envío Gratis</strong>
-                <span>Entrega estimada: 2-4 días</span>
-              </div>
-            </div>
-            <div class="feature-item">
-              <Icon name="lucide:shield-check" class="feature-icon" />
-              <div class="feature-text">
-                <strong>Garantía de 2 años</strong>
-                <span>Garantía oficial del fabricante</span>
-              </div>
+          <div class="feature-item">
+            <Icon name="lucide:shield-check" class="feature-icon" />
+            <div class="feature-text">
+              <strong>Garantía de 2 años</strong>
+              <span>Garantía oficial del fabricante</span>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script setup>
 // Estado para las imágenes
 
-console.log('Images prop:', props.images);
-const images = ref(["/images/display-1.png", "/images/display-2.png"]);
-const currentImage = ref(images.value[0]);
+const images = ref(['/images/display-1.png', '/images/display-2.png'])
+const currentImage = ref(images.value[0])
 
 // Referencias y estado para el zoom
-const imageContainer = ref(null);
-const mainImage = ref(null);
-const zoomLens = ref(null);
-const isZoomed = ref(false);
-const lensStyle = ref({});
-const zoomStyle = ref({});
+const imageContainer = ref(null)
+const mainImage = ref(null)
+const zoomLens = ref(null)
+const isZoomed = ref(false)
+const lensStyle = ref({})
+const zoomStyle = ref({})
 
 // Agregar estado para la cantidad
-const quantity = ref(1);
+const quantity = ref(1)
 
 // Funciones para el control de cantidad
 const incrementQuantity = () => {
-  quantity.value++;
-};
+  quantity.value++
+}
 
 const decrementQuantity = () => {
   if (quantity.value > 1) {
-    quantity.value--;
+    quantity.value--
   }
-};
+}
 
 // Constantes para el zoom
-const LENS_SIZE = 100;
-const ZOOM_MULTIPLIER = 9;
+const LENS_SIZE = 100
+const ZOOM_MULTIPLIER = 9
 
 // Cambiar imagen actual
 const setCurrentImage = (image) => {
-  currentImage.value = image;
-};
+  currentImage.value = image
+}
 
 // Manejar entrada del mouse
 const handleMouseEnter = () => {
-  isZoomed.value = true;
-};
+  isZoomed.value = true
+}
 
 // Manejar salida del mouse
 const handleMouseLeave = () => {
-  isZoomed.value = false;
-  lensStyle.value = {};
-  zoomStyle.value = {};
-};
+  isZoomed.value = false
+  lensStyle.value = {}
+  zoomStyle.value = {}
+}
 
 // Calcular posición del zoom
 const handleZoom = (event) => {
-  if (!imageContainer.value || !mainImage.value) return;
+  if (!imageContainer.value || !mainImage.value) return
 
-  const rect = imageContainer.value.getBoundingClientRect();
-  const image = mainImage.value;
+  const rect = imageContainer.value.getBoundingClientRect()
+  const image = mainImage.value
 
   // Calcular posición relativa del mouse
-  let mouseX = event.clientX - rect.left;
-  let mouseY = event.clientY - rect.top;
+  let mouseX = event.clientX - rect.left
+  let mouseY = event.clientY - rect.top
 
   // Calcular límites
-  const halfLens = LENS_SIZE / 2;
-  mouseX = Math.max(halfLens, Math.min(mouseX, rect.width - halfLens));
-  mouseY = Math.max(halfLens, Math.min(mouseY, rect.height - halfLens));
+  const halfLens = LENS_SIZE / 2
+  mouseX = Math.max(halfLens, Math.min(mouseX, rect.width - halfLens))
+  mouseY = Math.max(halfLens, Math.min(mouseY, rect.height - halfLens))
 
   // Actualizar posición de la lente
   lensStyle.value = {
     left: `${mouseX - halfLens}px`,
     top: `${mouseY - halfLens}px`,
     width: `${LENS_SIZE}px`,
-    height: `${LENS_SIZE}px`,
-  };
+    height: `${LENS_SIZE}px`
+  }
 
   // Calcular posición del zoom
-  const xRatio = (mouseX / rect.width) * 100;
-  const yRatio = (mouseY / rect.height) * 100;
+  const xRatio = (mouseX / rect.width) * 100
+  const yRatio = (mouseY / rect.height) * 100
 
   // Actualizar estilo del zoom
   zoomStyle.value = {
     backgroundImage: `url('${currentImage.value}')`,
     backgroundSize: `${rect.width * ZOOM_MULTIPLIER}px ${rect.height * ZOOM_MULTIPLIER}px`,
-    backgroundPosition: `${xRatio}% ${yRatio}%`,
-  };
-};
+    backgroundPosition: `${xRatio}% ${yRatio}%`
+  }
+}
 
 // Observar cambios en la imagen actual para reiniciar el zoom
 watch(currentImage, () => {
-  isZoomed.value = false;
-  lensStyle.value = {};
-  zoomStyle.value = {};
-});
+  isZoomed.value = false
+  lensStyle.value = {}
+  zoomStyle.value = {}
+})
 </script>
 
 <style lang="scss" scoped>
@@ -573,7 +559,7 @@ watch(currentImage, () => {
   }
 
   &:hover::after {
-    content: "";
+    content: '';
     @apply absolute bottom-full left-1/2 transform -translate-x-1/2
            border-4 border-transparent border-t-gray-900 mb-1;
   }

@@ -1,27 +1,27 @@
-import type { CodegenConfig } from "@graphql-codegen/cli";
+import type { CodegenConfig } from '@graphql-codegen/cli'
 
 const config: CodegenConfig = {
   overwrite: true,
   schema: [
     {
-      "http://localhost:8069/graphql/vsf": {},
-    },
+      'http://localhost:8069/graphql/vsf': {}
+    }
   ],
   config: {
     preResolveTypes: true,
-    avoidOptionals: true,
+    avoidOptionals: true
   },
   ignoreNoDocuments: true,
   generates: {
-    "./graphql/gql/": {
-      documents: ["graphql/**/*.tsx"],
-      preset: "client",
+    './graphql/gql/': {
+      documents: ['graphql/**/*.tsx'],
+      preset: 'client',
       config: {
         preResolveTypes: true,
-        avoidOptionals: true,
-      },
-    },
-  },
-};
+        avoidOptionals: true
+      }
+    }
+  }
+}
 
-export default config;
+export default config

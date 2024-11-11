@@ -1,32 +1,27 @@
 <script setup lang="ts">
-import {
-  SfButton,
-  SfIconChevronLeft,
-  SfIconChevronRight,
-  usePagination,
-} from "@storefront-ui/vue";
+import { SfButton, SfIconChevronLeft, SfIconChevronRight, usePagination } from '@storefront-ui/vue'
 
-const route = useRoute();
-const router = useRouter();
+const route = useRoute()
+const router = useRouter()
 
 const props = defineProps({
   currentPage: {
     type: Number,
-    required: true,
+    required: true
   },
   pageSize: {
     type: Number,
-    required: true,
+    required: true
   },
   totalItems: {
     type: Number,
-    required: true,
+    required: true
   },
   maxVisiblePages: {
     type: Number,
-    required: true,
-  },
-});
+    required: true
+  }
+})
 
 const pagination = computed<any>(() =>
   reactive(
@@ -34,18 +29,18 @@ const pagination = computed<any>(() =>
       totalItems: props?.totalItems,
       currentPage: props?.currentPage,
       pageSize: props?.pageSize,
-      maxPages: props?.maxVisiblePages,
-    }),
-  ),
-);
+      maxPages: props?.maxVisiblePages
+    })
+  )
+)
 
 const setParams = (filter: any) => {
-  router.push({ query: { ...route.query, ...filter } });
-};
+  router.push({ query: { ...route.query, ...filter } })
+}
 
 onMounted(() => {
-  pagination.value?.setPage(route.query.page ? Number(route.query.page) : 1);
-});
+  pagination.value?.setPage(route.query.page ? Number(route.query.page) : 1)
+})
 </script>
 
 <template>
@@ -63,8 +58,8 @@ onMounted(() => {
       variant="tertiary"
       class="gap-3"
       @click="
-        pagination.prev();
-        setParams({ ['page']: pagination.selectedPage });
+        pagination.prev()
+        setParams({ ['page']: pagination.selectedPage })
       "
     >
       <template #prefix>
@@ -78,9 +73,8 @@ onMounted(() => {
           :class="[
             'flex pt-1 border-t-4 border-transparent',
             {
-              'font-medium border-t-4 !border-primary-500':
-                pagination.selectedPage === 1,
-            },
+              'font-medium border-t-4 !border-primary-500': pagination.selectedPage === 1
+            }
           ]"
         >
           <button
@@ -88,8 +82,8 @@ onMounted(() => {
             class="px-4 py-3 md:w-12 rounded-md text-neutral-500 hover:bg-primary-100 hover:text-primary-800 active:bg-primary-200 active:text-primary-900"
             :aria-current="pagination.selectedPage === 1"
             @click="
-              pagination.setPage(1);
-              setParams({ ['page']: 1 });
+              pagination.setPage(1)
+              setParams({ ['page']: 1 })
             "
           >
             1
@@ -108,20 +102,15 @@ onMounted(() => {
           </button>
         </div>
       </li>
-      <li
-        v-if="
-          maxVisiblePages === 1 &&
-          pagination.selectedPage === pagination.totalPages
-        "
-      >
+      <li v-if="maxVisiblePages === 1 && pagination.selectedPage === pagination.totalPages">
         <div class="flex pt-1 border-t-4 border-transparent">
           <button
             type="button"
             class="px-4 py-3 md:w-12 rounded-md text-neutral-500 hover:bg-primary-100 hover:text-primary-800 active:bg-primary-200 active:text-primary-900"
             :aria-current="pagination.endPage - 1 === pagination.selectedPage"
             @click="
-              pagination.setPage(pagination.endPage - 1);
-              setParams({ ['page']: pagination.selectedPage });
+              pagination.setPage(pagination.endPage - 1)
+              setParams({ ['page']: pagination.selectedPage })
             "
           >
             {{ pagination.endPage - 1 }}
@@ -133,9 +122,8 @@ onMounted(() => {
           :class="[
             'flex pt-1 border-t-4 border-transparent',
             {
-              'font-medium border-t-4 !border-primary-700':
-                pagination.selectedPage === page,
-            },
+              'font-medium border-t-4 !border-primary-700': pagination.selectedPage === page
+            }
           ]"
         >
           <button
@@ -144,13 +132,13 @@ onMounted(() => {
               'px-4 py-3 md:w-12 text-neutral-500 rounded-md hover:bg-primary-100 hover:text-primary-800 active:bg-primary-200 active:text-primary-900',
               {
                 '!text-neutral-900 hover:!text-primary-800 active:!text-primary-900':
-                  pagination.selectedPage === page,
-              },
+                  pagination.selectedPage === page
+              }
             ]"
             :aria-current="pagination.selectedPage === page"
             @click="
-              pagination.setPage(page);
-              setParams({ ['page']: page });
+              pagination.setPage(page)
+              setParams({ ['page']: page })
             "
           >
             {{ page }}
@@ -164,8 +152,8 @@ onMounted(() => {
             class="px-4 py-3 md:w-12 rounded-md text-neutral-500 hover:bg-primary-100 hover:text-primary-800 active:bg-primary-200 active:text-primary-900"
             aria-label="Second page"
             @click="
-              pagination.setPage(2);
-              setParams({ ['page']: 2 });
+              pagination.setPage(2)
+              setParams({ ['page']: 2 })
             "
           >
             2
@@ -190,8 +178,8 @@ onMounted(() => {
             'flex pt-1 border-t-4 border-transparent',
             {
               'font-medium border-t-4 !border-primary-500':
-                pagination.selectedPage === pagination.totalPages,
-            },
+                pagination.selectedPage === pagination.totalPages
+            }
           ]"
         >
           <button
@@ -199,8 +187,8 @@ onMounted(() => {
             class="px-4 py-3 md:w-12 rounded-md text-neutral-500 hover:bg-primary-100 hover:text-primary-800 active:bg-primary-200 active:text-primary-900"
             :aria-current="pagination.totalPages === pagination.selectedPage"
             @click="
-              pagination.setPage(pagination.totalPages);
-              setParams({ ['page']: pagination.totalPages });
+              pagination.setPage(pagination.totalPages)
+              setParams({ ['page']: pagination.totalPages })
             "
           >
             {{ pagination.totalPages }}
@@ -216,8 +204,8 @@ onMounted(() => {
       variant="tertiary"
       class="gap-3"
       @click="
-        pagination.next();
-        setParams({ ['page']: pagination.selectedPage });
+        pagination.next()
+        setParams({ ['page']: pagination.selectedPage })
       "
     >
       <span class="hidden sm:inline-flex">Next</span>

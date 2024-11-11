@@ -23,7 +23,7 @@
           </div>
 
           <button
-            class="bg-[#FDB813] text-white hover:bg-[#FDB813]/90 font-semibold px-8 py-3 rounded-md transition-colors"
+            class="bg-[#000000] text-white hover:bg-[#FDB813]/90 font-semibold px-8 py-3 rounded-md transition-colors"
           >
             Ver producto
           </button>

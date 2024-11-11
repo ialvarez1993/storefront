@@ -8,7 +8,7 @@ html {
 
 @font-face {
   font-family: Designer;
-  src: url("/assets/fonts/DesignerRegular.ttf");
+  src: url('/assets/fonts/DesignerRegular.ttf');
 }
 
 /* Firefox */

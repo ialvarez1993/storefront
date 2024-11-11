@@ -1,0 +1,797 @@
+[
+  {
+    "type": "directory",
+    "name": ".",
+    "contents": [
+      {
+        "type": "directory",
+        "name": "apps",
+        "contents": [{ "type": "directory", "name": "web" }]
+      },
+      { "type": "file", "name": "app.vue" },
+      {
+        "type": "directory",
+        "name": "assets",
+        "contents": [
+          {
+            "type": "directory",
+            "name": "css",
+            "contents": [
+              { "type": "file", "name": "tailwind.css" },
+              { "type": "file", "name": "_variables.scss" }
+            ]
+          },
+          {
+            "type": "directory",
+            "name": "fonts",
+            "contents": [{ "type": "file", "name": "DesignerRegular.ttf" }]
+          }
+        ]
+      },
+      { "type": "file", "name": "bun.lockb" },
+      { "type": "file", "name": "codegen.ts" },
+      { "type": "file", "name": "commitlint.config.js" },
+      {
+        "type": "directory",
+        "name": "compasables",
+        "contents": [{ "type": "file", "name": "useHeader.ts" }]
+      },
+      { "type": "file", "name": "components.json" },
+      { "type": "file", "name": "docker-compose.yml" },
+      { "type": "file", "name": "Dockerfile" },
+      {
+        "type": "directory",
+        "name": "domains",
+        "contents": [
+          {
+            "type": "directory",
+            "name": "auth",
+            "contents": [
+              {
+                "type": "directory",
+                "name": "composables",
+                "contents": [{ "type": "file", "name": "useAuth.ts" }]
+              },
+              { "type": "file", "name": "nuxt.config.ts" },
+              {
+                "type": "directory",
+                "name": "pages",
+                "contents": [
+                  {
+                    "type": "directory",
+                    "name": "forgot-password",
+                    "contents": [{ "type": "file", "name": "new-password.vue" }]
+                  },
+                  { "type": "file", "name": "login.vue" },
+                  { "type": "file", "name": "offline.vue" },
+                  { "type": "file", "name": "reset-password-success.vue" },
+                  { "type": "file", "name": "reset-password.vue" },
+                  { "type": "file", "name": "signup.vue" }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "directory",
+            "name": "ayuda",
+            "contents": [
+              { "type": "directory", "name": "composables" },
+              { "type": "file", "name": "nuxt.config.ts" },
+              {
+                "type": "directory",
+                "name": "pages",
+                "contents": [{ "type": "file", "name": "changes12.vue" }]
+              }
+            ]
+          },
+          {
+            "type": "directory",
+            "name": "cart-odoo",
+            "contents": [
+              {
+                "type": "directory",
+                "name": "components",
+                "contents": [{ "type": "file", "name": "CartCollectedProductCard.vue" }]
+              },
+              {
+                "type": "directory",
+                "name": "composables",
+                "contents": [{ "type": "file", "name": "useCart.ts" }]
+              },
+              { "type": "file", "name": "nuxt.config.ts" },
+              {
+                "type": "directory",
+                "name": "pages",
+                "contents": [{ "type": "file", "name": "cart.vue" }]
+              }
+            ]
+          },
+          {
+            "type": "directory",
+            "name": "cart-redis",
+            "contents": [
+              {
+                "type": "directory",
+                "name": "components",
+                "contents": [{ "type": "file", "name": "CartCollectedProductCard.vue" }]
+              },
+              {
+                "type": "directory",
+                "name": "composables",
+                "contents": [{ "type": "file", "name": "useCart.ts" }]
+              },
+              { "type": "file", "name": "nuxt.config.ts" },
+              {
+                "type": "directory",
+                "name": "pages",
+                "contents": [{ "type": "file", "name": "cart.vue" }]
+              },
+              {
+                "type": "directory",
+                "name": "server",
+                "contents": [
+                  {
+                    "type": "directory",
+                    "name": "api",
+                    "contents": [
+                      {
+                        "type": "directory",
+                        "name": "odoo",
+                        "contents": [{ "type": "file", "name": "cart-load.get.ts" }]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "directory",
+                    "name": "plugins",
+                    "contents": [{ "type": "file", "name": "manage-cart.ts" }]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "directory",
+            "name": "category",
+            "contents": [
+              {
+                "type": "directory",
+                "name": "components",
+                "contents": [
+                  { "type": "file", "name": "CategoryCard.vue" },
+                  { "type": "file", "name": "CategoryEmptyState.vue" },
+                  { "type": "file", "name": "CategoryFilterSidebar.vue" },
+                  { "type": "file", "name": "CategoryMobileSidebar.vue" }
+                ]
+              },
+              {
+                "type": "directory",
+                "name": "composables",
+                "contents": [
+                  { "type": "file", "name": "useCategory.ts" },
+                  { "type": "file", "name": "useUiHelpers.ts" }
+                ]
+              },
+              { "type": "file", "name": "nuxt.config.ts" },
+              {
+                "type": "directory",
+                "name": "pages",
+                "contents": [
+                  {
+                    "type": "directory",
+                    "name": "category",
+                    "contents": [{ "type": "file", "name": "[id].vue" }]
+                  }
+                ]
+              },
+              {
+                "type": "directory",
+                "name": "utils",
+                "contents": [
+                  { "type": "file", "name": "categoryHead.ts" },
+                  { "type": "file", "name": "index.ts" }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "directory",
+            "name": "checkout",
+            "contents": [
+              {
+                "type": "directory",
+                "name": "components",
+                "contents": [
+                  { "type": "file", "name": "CheckoutAddressForm.vue" },
+                  { "type": "file", "name": "CheckoutContactInformation.vue" },
+                  { "type": "file", "name": "CheckoutHeader.vue" },
+                  { "type": "file", "name": "CheckoutPayment.vue" },
+                  { "type": "file", "name": "CheckoutShippingMethod.vue" },
+                  { "type": "file", "name": "CheckoutSummary.vue" },
+                  { "type": "file", "name": "ProviderAdyen.global.vue" },
+                  { "type": "file", "name": "ProviderListOptions.vue" }
+                ]
+              },
+              {
+                "type": "directory",
+                "name": "composables",
+                "contents": [
+                  { "type": "file", "name": "useAddress.ts" },
+                  { "type": "file", "name": "useAdyenDirectPayment.ts" },
+                  { "type": "file", "name": "useDeliveryMethod.ts" },
+                  { "type": "file", "name": "useDiscount.ts" },
+                  { "type": "file", "name": "usePayment.ts" }
+                ]
+              },
+              { "type": "file", "name": "nuxt.config.ts" },
+              {
+                "type": "directory",
+                "name": "pages",
+                "contents": [
+                  { "type": "file", "name": "checkout.vue" },
+                  { "type": "file", "name": "payment-fail.vue" },
+                  { "type": "file", "name": "thank-you.vue" }
+                ]
+              },
+              {
+                "type": "directory",
+                "name": "utils",
+                "contents": [{ "type": "file", "name": "index.ts" }]
+              }
+            ]
+          },
+          {
+            "type": "directory",
+            "name": "core",
+            "contents": [
+              {
+                "type": "directory",
+                "name": "components",
+                "contents": [
+                  { "type": "file", "name": "BottomNavbar.vue" },
+                  { "type": "file", "name": "CardSamsung.vue" },
+                  { "type": "file", "name": "CardsItems.vue" },
+                  { "type": "file", "name": "Display.vue" },
+                  { "type": "file", "name": "FeatureBox.vue" },
+                  {
+                    "type": "directory",
+                    "name": "header",
+                    "contents": [
+                      { "type": "file", "name": "ButtonCart.vue" },
+                      { "type": "file", "name": "ButtonLogin.vue" },
+                      { "type": "file", "name": "ButtonSupport.vue" },
+                      { "type": "file", "name": "ButtonWishlist.vue" },
+                      { "type": "file", "name": "Desktop.vue" },
+                      { "type": "file", "name": "Mobile.vue" }
+                    ]
+                  },
+                  {
+                    "type": "directory",
+                    "name": "icon",
+                    "contents": [
+                      { "type": "file", "name": "CreditCard.vue" },
+                      { "type": "file", "name": "Delivery.vue" },
+                      { "type": "file", "name": "House.vue" },
+                      { "type": "file", "name": "Safety.vue" }
+                    ]
+                  },
+                  { "type": "file", "name": "MainBanner.vue" },
+                  { "type": "file", "name": "ModalFavorites.vue" },
+                  { "type": "file", "name": "Newsletter.vue" },
+                  { "type": "file", "name": "NumberTitle.vue" },
+                  { "type": "file", "name": "ProductSlider.vue" },
+                  { "type": "file", "name": "Product.vue" },
+                  { "type": "file", "name": "SearchInput.vue" },
+                  { "type": "file", "name": "TheFooter.vue" },
+                  { "type": "file", "name": "TheHeader.vue" },
+                  {
+                    "type": "directory",
+                    "name": "ui",
+                    "contents": [
+                      { "type": "file", "name": "AccordionItem.vue" },
+                      { "type": "file", "name": "Alert.vue" },
+                      { "type": "file", "name": "Breadcrumb.vue" },
+                      { "type": "file", "name": "Discount.vue" },
+                      { "type": "file", "name": "Divider.vue" },
+                      {
+                        "type": "directory",
+                        "name": "form",
+                        "contents": [
+                          { "type": "file", "name": "CustomSfSelect.vue" },
+                          { "type": "file", "name": "EmailInput.vue" },
+                          { "type": "file", "name": "HelperText.vue" },
+                          { "type": "file", "name": "Label.vue" },
+                          { "type": "file", "name": "PasswordInput.vue" },
+                          { "type": "file", "name": "SelectCountries.vue" },
+                          { "type": "file", "name": "SelectStates.vue" }
+                        ]
+                      },
+                      { "type": "file", "name": "Gallery.vue" },
+                      { "type": "file", "name": "MegaMenu.vue" },
+                      { "type": "file", "name": "Modal.vue" },
+                      { "type": "file", "name": "OrderSummary.vue" },
+                      { "type": "file", "name": "Overlay.vue" },
+                      { "type": "file", "name": "Pagination.vue" },
+                      { "type": "file", "name": "ProductCard.vue" },
+                      { "type": "file", "name": "QuantitySelector.vue" }
+                    ]
+                  },
+                  { "type": "file", "name": "VsfLogo.vue" },
+                  { "type": "file", "name": "WishlistSidebar.vue" }
+                ]
+              },
+              {
+                "type": "directory",
+                "name": "composable",
+                "contents": [
+                  { "type": "file", "name": "useCore.ts" },
+                  { "type": "file", "name": "useCountryList.ts" },
+                  { "type": "file", "name": "useStateList.ts" },
+                  { "type": "file", "name": "useWebsiteHomePage.ts" }
+                ]
+              },
+              { "type": "file", "name": "nuxt.config.ts" },
+              {
+                "type": "directory",
+                "name": "utils",
+                "contents": [{ "type": "file", "name": "websiteHomepageHead.ts" }]
+              }
+            ]
+          },
+          {
+            "type": "directory",
+            "name": "my-account",
+            "contents": [
+              {
+                "type": "directory",
+                "name": "components",
+                "contents": [
+                  { "type": "file", "name": "AccountAddressData.vue" },
+                  { "type": "file", "name": "AccountCardAddressDetails.vue" },
+                  { "type": "file", "name": "AccountContactInformation.vue" },
+                  { "type": "file", "name": "AccountFormAddress.vue" },
+                  { "type": "file", "name": "AccountFormName.vue" },
+                  { "type": "file", "name": "AccountFormPassword.vue" },
+                  { "type": "file", "name": "AccountProfileData.vue" }
+                ]
+              },
+              { "type": "file", "name": "nuxt.config.ts" },
+              {
+                "type": "directory",
+                "name": "pages",
+                "contents": [
+                  {
+                    "type": "directory",
+                    "name": "my-account",
+                    "contents": [
+                      { "type": "file", "name": "billing-details.vue" },
+                      { "type": "file", "name": "index.vue" },
+                      {
+                        "type": "directory",
+                        "name": "my-orders",
+                        "contents": [{ "type": "file", "name": "[id].vue" }]
+                      },
+                      { "type": "file", "name": "my-orders.vue" },
+                      { "type": "file", "name": "personal-data.vue" },
+                      { "type": "file", "name": "shipping-details.vue" }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "directory",
+            "name": "orders",
+            "contents": [
+              {
+                "type": "directory",
+                "name": "composable",
+                "contents": [{ "type": "file", "name": "useOrders.ts" }]
+              }
+            ]
+          },
+          {
+            "type": "directory",
+            "name": "product",
+            "contents": [
+              {
+                "type": "directory",
+                "name": "components",
+                "contents": [
+                  { "type": "file", "name": "ProductCardHorizontal.vue" },
+                  { "type": "file", "name": "ProductGallery.vue" },
+                  { "type": "file", "name": "ProductSlider.vue" },
+                  { "type": "file", "name": "ProductView.vue" }
+                ]
+              },
+              {
+                "type": "directory",
+                "name": "composables",
+                "contents": [
+                  { "type": "file", "name": "useProductAttributes.ts" },
+                  { "type": "file", "name": "useProductTemplateList.ts" },
+                  { "type": "file", "name": "useProductTemplate.ts" },
+                  { "type": "file", "name": "useProductVariant.ts" }
+                ]
+              },
+              { "type": "file", "name": "nuxt.config.ts" },
+              {
+                "type": "directory",
+                "name": "pages",
+                "contents": [
+                  {
+                    "type": "directory",
+                    "name": "product",
+                    "contents": [{ "type": "file", "name": "[slug].vue" }]
+                  }
+                ]
+              },
+              {
+                "type": "directory",
+                "name": "utils",
+                "contents": [
+                  { "type": "file", "name": "index.ts" },
+                  { "type": "file", "name": "productHead.ts" }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "directory",
+            "name": "recent-view-products",
+            "contents": [
+              {
+                "type": "directory",
+                "name": "composables",
+                "contents": [{ "type": "file", "name": "useRecentViewProducts.ts" }]
+              },
+              { "type": "file", "name": "nuxt.config.ts" },
+              { "type": "file", "name": "package.json" }
+            ]
+          },
+          {
+            "type": "directory",
+            "name": "search-algolia",
+            "contents": [
+              {
+                "type": "directory",
+                "name": "components",
+                "contents": [
+                  { "type": "file", "name": "DesktopSearchList.vue" },
+                  { "type": "file", "name": "MobileSearchList.vue" }
+                ]
+              },
+              {
+                "type": "directory",
+                "name": "composables",
+                "contents": [{ "type": "file", "name": "useSearch.ts" }]
+              },
+              { "type": "file", "name": "nuxt.config.ts" },
+              {
+                "type": "directory",
+                "name": "pages",
+                "contents": [{ "type": "file", "name": "search.vue" }]
+              },
+              {
+                "type": "directory",
+                "name": "utils",
+                "contents": [
+                  { "type": "file", "name": "types.ts" },
+                  { "type": "file", "name": "uiHelpers.ts" }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "directory",
+            "name": "search-default",
+            "contents": [
+              {
+                "type": "directory",
+                "name": "components",
+                "contents": [
+                  { "type": "file", "name": "DesktopSearchList.vue" },
+                  { "type": "file", "name": "MobileSearchList.vue" }
+                ]
+              },
+              {
+                "type": "directory",
+                "name": "composables",
+                "contents": [{ "type": "file", "name": "useSearch.ts" }]
+              },
+              { "type": "file", "name": "nuxt.config.ts" },
+              {
+                "type": "directory",
+                "name": "pages",
+                "contents": [{ "type": "file", "name": "search.vue" }]
+              }
+            ]
+          },
+          {
+            "type": "directory",
+            "name": "wishlist",
+            "contents": [
+              {
+                "type": "directory",
+                "name": "components",
+                "contents": [{ "type": "file", "name": "WishlistCollectedProductCard.vue" }]
+              },
+              {
+                "type": "directory",
+                "name": "composables",
+                "contents": [
+                  { "type": "file", "name": "useWishlist.ts" },
+                  { "type": "file", "name": "useWishlistUiState.ts" }
+                ]
+              },
+              { "type": "file", "name": "nuxt.config.ts" }
+            ]
+          }
+        ]
+      },
+      { "type": "file", "name": "error.vue" },
+      { "type": "file", "name": "eslint.config.mjs" },
+      { "type": "file", "name": "estructura.json" },
+      {
+        "type": "directory",
+        "name": "graphql",
+        "contents": [
+          {
+            "type": "directory",
+            "name": "gql",
+            "contents": [
+              { "type": "file", "name": "fragment-masking.ts" },
+              { "type": "file", "name": "gql.ts" },
+              { "type": "file", "name": "graphql.ts" },
+              { "type": "file", "name": "index.ts" }
+            ]
+          },
+          { "type": "file", "name": "index.ts" },
+          { "type": "file", "name": "types.ts" }
+        ]
+      },
+      { "type": "file", "name": "jest.config.js" },
+      {
+        "type": "directory",
+        "name": "lang",
+        "contents": [
+          { "type": "file", "name": "en.json" },
+          { "type": "file", "name": "es.json" }
+        ]
+      },
+      {
+        "type": "directory",
+        "name": "layouts",
+        "contents": [
+          { "type": "file", "name": "account.vue" },
+          { "type": "file", "name": "auth.vue" },
+          { "type": "file", "name": "default.vue" }
+        ]
+      },
+      {
+        "type": "directory",
+        "name": "lib",
+        "contents": [{ "type": "file", "name": "utils.ts" }]
+      },
+      { "type": "file", "name": "LICENSE" },
+      {
+        "type": "directory",
+        "name": "middleware",
+        "contents": [{ "type": "file", "name": "auth-check.ts" }]
+      },
+      { "type": "file", "name": "nuxt.config.ts" },
+      { "type": "file", "name": "package.json" },
+      {
+        "type": "directory",
+        "name": "pages",
+        "contents": [
+          { "type": "file", "name": "carrito.vue" },
+          { "type": "file", "name": "index.vue" }
+        ]
+      },
+      {
+        "type": "directory",
+        "name": "plugins",
+        "contents": [
+          { "type": "file", "name": "1.getImage.ts" },
+          { "type": "file", "name": "2.sdk.ts" },
+          { "type": "file", "name": "3.toast.client.ts" },
+          { "type": "file", "name": "4.currency.ts" }
+        ]
+      },
+      { "type": "file", "name": "postcss.config.js" },
+      {
+        "type": "directory",
+        "name": "providers",
+        "contents": [{ "type": "file", "name": "odoo-provider.ts" }]
+      },
+      {
+        "type": "directory",
+        "name": "public",
+        "contents": [
+          { "type": "file", "name": "favicon.ico" },
+          {
+            "type": "directory",
+            "name": "images",
+            "contents": [
+              { "type": "file", "name": "apple-pay.svg" },
+              { "type": "file", "name": "display-1.png" },
+              { "type": "file", "name": "display-2.png" },
+              { "type": "file", "name": "display-3.png" },
+              { "type": "file", "name": "email-sent.png" },
+              { "type": "file", "name": "empty-cart.svg" },
+              { "type": "file", "name": "google-pay.svg" },
+              { "type": "file", "name": "hero.png" },
+              { "type": "file", "name": "icon-contacto-header.webp" },
+              { "type": "file", "name": "main-banner.webp" },
+              { "type": "file", "name": "men-card.png" },
+              { "type": "file", "name": "new-card.png" },
+              { "type": "file", "name": "order-success.svg" },
+              { "type": "file", "name": "paypal.svg" },
+              { "type": "file", "name": "product.webp" },
+              { "type": "file", "name": "returns.png" },
+              { "type": "file", "name": "signup-success.svg" },
+              { "type": "file", "name": "something-went-wrong.svg" },
+              { "type": "file", "name": "watch.png" },
+              { "type": "file", "name": "women-card.png" }
+            ]
+          },
+          {
+            "type": "directory",
+            "name": "img",
+            "contents": [{ "type": "file", "name": "logo.svg" }]
+          }
+        ]
+      },
+      { "type": "file", "name": "README.md" },
+      {
+        "type": "directory",
+        "name": "server",
+        "contents": [
+          {
+            "type": "directory",
+            "name": "api",
+            "contents": [
+              {
+                "type": "directory",
+                "name": "odoo",
+                "contents": [
+                  { "type": "file", "name": "envs.get.ts" },
+                  { "type": "file", "name": "mutation.post.ts" },
+                  { "type": "file", "name": "query-no-cache.post.ts" },
+                  { "type": "file", "name": "query.post.ts" }
+                ]
+              },
+              { "type": "file", "name": "products.ts" }
+            ]
+          },
+          {
+            "type": "directory",
+            "name": "fragments",
+            "contents": [
+              { "type": "file", "name": "addressFragment.ts" },
+              { "type": "file", "name": "index.ts" },
+              { "type": "file", "name": "orderFragment.ts" },
+              { "type": "file", "name": "partnerFragment.ts" },
+              { "type": "file", "name": "productFragment.ts" },
+              { "type": "file", "name": "wishlistItemsFragment.ts" }
+            ]
+          },
+          {
+            "type": "directory",
+            "name": "middleware",
+            "contents": [{ "type": "file", "name": "apolloClient.ts" }]
+          },
+          {
+            "type": "directory",
+            "name": "mutations",
+            "contents": [
+              { "type": "file", "name": "AddAddress.ts" },
+              { "type": "file", "name": "AdyenPaymentDetails.ts" },
+              { "type": "file", "name": "AdyenPaymentMethods.ts" },
+              { "type": "file", "name": "AdyenPayments.ts" },
+              { "type": "file", "name": "AdyenProviderInfo.ts" },
+              { "type": "file", "name": "AdyenTransaction.ts" },
+              { "type": "file", "name": "ApplyCouponMutation.ts" },
+              { "type": "file", "name": "ApplyGiftCardMutation.ts" },
+              { "type": "file", "name": "CartAddItem.ts" },
+              { "type": "file", "name": "CartRemoveItem.ts" },
+              { "type": "file", "name": "CartUpdateQuantity.ts" },
+              { "type": "file", "name": "ChangePasswordMutation.ts" },
+              { "type": "file", "name": "CreateNewAccountMutation.ts" },
+              { "type": "file", "name": "CreateUpdatePartner.ts" },
+              { "type": "file", "name": "DeleteAddress.ts" },
+              { "type": "file", "name": "index.ts" },
+              { "type": "file", "name": "LoginMutation.ts" },
+              { "type": "file", "name": "LogoutMutation.ts" },
+              { "type": "file", "name": "MakeGiftCardPaymentMutation.ts" },
+              { "type": "file", "name": "NewsletterSubscribeMutation.ts" },
+              { "type": "file", "name": "RegisterUserMutation.ts" },
+              { "type": "file", "name": "SelectCurrentAddress.ts" },
+              { "type": "file", "name": "SendResetPasswordMutation.ts" },
+              { "type": "file", "name": "ShippingMethod.ts" },
+              { "type": "file", "name": "UpdateAddress.ts" },
+              { "type": "file", "name": "UpdateMyAccountMutation.ts" },
+              { "type": "file", "name": "UpdatePasswordMutation.ts" },
+              { "type": "file", "name": "WishlistAddItem.ts" },
+              { "type": "file", "name": "WishlistRemoveItem.ts" }
+            ]
+          },
+          {
+            "type": "directory",
+            "name": "plugins",
+            "contents": [{ "type": "file", "name": "route-cache.ts" }]
+          },
+          {
+            "type": "directory",
+            "name": "queries",
+            "contents": [
+              { "type": "file", "name": "GetAddressesQuery.ts" },
+              { "type": "file", "name": "GetCategoriesQuery.ts" },
+              { "type": "file", "name": "GetCategoryQuery.ts" },
+              { "type": "file", "name": "GetCountriesQuery.ts" },
+              { "type": "file", "name": "GetDeliveryMethodsQuery.ts" },
+              { "type": "file", "name": "GetOrderQuery.ts" },
+              { "type": "file", "name": "GetOrdersQuery.ts" },
+              { "type": "file", "name": "GetPaymentConfirmation.ts" },
+              { "type": "file", "name": "GetPaymentMethodsQuery.ts" },
+              { "type": "file", "name": "GetProductTemplateListQuery.ts" },
+              { "type": "file", "name": "GetProductTemplateQuery.ts" },
+              { "type": "file", "name": "GetProductVariantQuery.ts" },
+              { "type": "file", "name": "GetStatesQuery.ts" },
+              { "type": "file", "name": "GetWebsiteHomepageQuery.ts" },
+              { "type": "file", "name": "index.ts" },
+              { "type": "file", "name": "LoadCartQuery.ts" },
+              { "type": "file", "name": "LoadUserQuery.ts" },
+              { "type": "file", "name": "StockLotsQuery.ts" },
+              { "type": "file", "name": "WishlistLoadQuery.ts" }
+            ]
+          },
+          {
+            "type": "directory",
+            "name": "routes",
+            "contents": [
+              {
+                "type": "directory",
+                "name": "web",
+                "contents": [{ "type": "file", "name": "health.ts" }]
+              }
+            ]
+          },
+          { "type": "file", "name": "tsconfig.json" },
+          {
+            "type": "directory",
+            "name": "utils",
+            "contents": [
+              { "type": "file", "name": "getApolloClient.ts" },
+              { "type": "file", "name": "getCached.ts" }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "directory",
+        "name": "stores",
+        "contents": [{ "type": "file", "name": "main.ts" }]
+      },
+      { "type": "file", "name": "tailwind.config.ts" },
+      { "type": "file", "name": "tsconfig.json" },
+      { "type": "file", "name": "tsconfig.node.json" },
+      { "type": "file", "name": "tupunto.drawio.png" },
+      {
+        "type": "directory",
+        "name": "types",
+        "contents": [{ "type": "file", "name": "index.ts" }]
+      },
+      { "type": "file", "name": "unlighthouse.config.ts" },
+      {
+        "type": "directory",
+        "name": "utils",
+        "contents": [{ "type": "file", "name": "uiHelper.ts" }]
+      },
+      { "type": "file", "name": "yarn.lock" }
+    ]
+  },
+  { "type": "report", "directories": 99, "files": 282 }
+]

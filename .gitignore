@@ -1,5 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
 ### Node template
+.sonnar
 # Logs
 logs
 *.log
@@ -71,7 +72,7 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-
+.sonnar/
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -109,3 +110,16 @@ version
 !config/example.json
 config/*.json
 .prettierrc
+.sonnar/
+
+# Ignorar toda la carpeta .sonar/scanner-report
+.sonar/scanner-report/
+
+# Ignorar archivos específicos de .sonar
+.sonar/.sonar_lock
+.sonar/report-task.txt
+
+# Ignorar archivos de configuración de ESLint y Husky
+.eslintrc.js
+.husky/
+

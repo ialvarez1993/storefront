@@ -1,21 +1,21 @@
 <script setup lang="ts">
-type SearchHitEmit = (event: "select", parameter: any) => void;
+type SearchHitEmit = (event: 'select', parameter: any) => void
 type SearchClerkProps = {
-  hits?: any[];
-  searchText: string;
-};
+  hits?: any[]
+  searchText: string
+}
 
-const props = defineProps<SearchClerkProps>();
-defineEmits<SearchHitEmit>();
+const props = defineProps<SearchClerkProps>()
+defineEmits<SearchHitEmit>()
 
 const makeSearchBold = (text: string) => {
   return text
     .toLocaleLowerCase()
     .replace(
       props.searchText,
-      `<b class='font-extrabold text-[16px] capitalize'>${props.searchText}</b>`,
-    );
-};
+      `<b class='font-extrabold text-[16px] capitalize'>${props.searchText}</b>`
+    )
+}
 </script>
 <template>
   <ul
@@ -30,10 +30,7 @@ const makeSearchBold = (text: string) => {
       role="option"
       @click="$emit('select', product)"
     >
-      <span
-        class="text-black text-sm font-medium capitalize"
-        v-html="makeSearchBold(product.name)"
-      >
+      <span class="text-black text-sm font-medium capitalize" v-html="makeSearchBold(product.name)">
       </span>
     </li>
   </ul>

@@ -1,86 +1,78 @@
-import type { Category } from "~/graphql";
-import type { Meta } from "@unhead/vue";
+import type { Category } from '~/graphql'
+import type { Meta } from '@unhead/vue'
 
 const validateCategorySEO = (category, fullPath) => {
-  const warnings = [];
+  const warnings = []
 
   if (!category?.metaTitle) {
-    warnings.push(
-      `[WARNING] - The category from slug ${fullPath} does not have the metaTitle.`,
-    );
+    warnings.push(`[WARNING] - The category from slug ${fullPath} does not have the metaTitle.`)
   }
   if (!category?.metaDescription) {
     warnings.push(
-      `[WARNING] - The category from slug ${fullPath} does not have the metaDescription.`,
-    );
+      `[WARNING] - The category from slug ${fullPath} does not have the metaDescription.`
+    )
   }
   if (!category?.jsonLd) {
-    warnings.push(
-      `[WARNING] - The category from slug ${fullPath} does not have the jsonLd.`,
-    );
+    warnings.push(`[WARNING] - The category from slug ${fullPath} does not have the jsonLd.`)
   }
   if (!category?.metaKeyword) {
-    warnings.push(
-      `[WARNING] - The category from slug ${fullPath} does not have the metaKeyword.`,
-    );
+    warnings.push(`[WARNING] - The category from slug ${fullPath} does not have the metaKeyword.`)
   }
   if (!category?.metaImage) {
-    warnings.push(
-      `[WARNING] - The category from slug ${fullPath} does not have the metaImage.`,
-    );
+    warnings.push(`[WARNING] - The category from slug ${fullPath} does not have the metaImage.`)
   }
 
-  warnings.forEach((warning) => console.warn(warning));
-};
+  warnings.forEach((warning) => console.warn(warning))
+}
 
 export default (category: Category, fullPath: string) => {
-  validateCategorySEO(category, fullPath);
+  validateCategorySEO(category, fullPath)
 
   return {
-    title: category?.metaTitle || category?.name || "Category page",
+    title: category?.metaTitle || category?.name || 'Category page',
     meta: [
       {
-        hid: "title",
-        name: "title",
-        content: category?.metaTitle || `${category?.name} | ${category?.id}`,
+        hid: 'title',
+        name: 'title',
+        content: category?.metaTitle || `${category?.name} | ${category?.id}`
       },
       category?.metaDescription && {
-        hid: "description",
-        name: "description",
-        content: category.metaDescription,
+        hid: 'description',
+        name: 'description',
+        content: category.metaDescription
       },
       category?.metaDescription && {
-        hid: "og:description",
-        name: "og:description",
-        content: category.metaDescription,
+        hid: 'og:description',
+        name: 'og:description',
+        content: category.metaDescription
       },
       {
-        hid: "og:title",
-        name: "og:title",
-        content: category?.metaTitle || category?.name || "Category page",
+        hid: 'og:title',
+        name: 'og:title',
+        content: category?.metaTitle || category?.name || 'Category page'
       },
       {
-        hid: "twitter:title",
-        name: "twitter:title",
-        content: category?.metaTitle || category?.name || "Category page",
+        hid: 'twitter:title',
+        name: 'twitter:title',
+        content: category?.metaTitle || category?.name || 'Category page'
       },
       category?.metaDescription && {
-        hid: "twitter:description",
-        name: "twitter:description",
-        content: category.metaDescription,
-      },
+        hid: 'twitter:description',
+        name: 'twitter:description',
+        content: category.metaDescription
+      }
     ].filter(Boolean) as Meta[],
     script: [
       category?.jsonLd && {
-        type: "application/ld+json",
-        children: JSON.stringify(category.jsonLd),
-      },
+        type: 'application/ld+json',
+        children: JSON.stringify(category.jsonLd)
+      }
     ].filter(Boolean),
     link: [
       {
-        rel: "canonical",
-        href: `https://vsfsdk.labs.odoogap.com${fullPath}`,
-      },
-    ],
-  };
-};
+        rel: 'canonical',
+        href: `https://vsfsdk.labs.odoogap.com${fullPath}`
+      }
+    ]
+  }
+}

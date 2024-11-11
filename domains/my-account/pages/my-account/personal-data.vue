@@ -1,55 +1,50 @@
 <script setup lang="ts">
-import {
-  SfButton,
-  SfIconClose,
-  SfModal,
-  useDisclosure,
-} from "@storefront-ui/vue";
-import { unrefElement } from "@vueuse/core";
+import { SfButton, SfIconClose, SfModal, useDisclosure } from '@storefront-ui/vue'
+import { unrefElement } from '@vueuse/core'
 
 definePageMeta({
-  layout: "account",
-  middleware: ["auth-check"],
-});
-const { isOpen, open, close } = useDisclosure();
-const { loadUser, user, updatePartner, updatePassword } = useAuth();
-const lastActiveElement = ref();
-const modalElement = ref();
-const openedForm = ref("");
+  layout: 'account',
+  middleware: ['auth-check']
+})
+const { isOpen, open, close } = useDisclosure()
+const { loadUser, user, updatePartner, updatePassword } = useAuth()
+const lastActiveElement = ref()
+const modalElement = ref()
+const openedForm = ref('')
 const openModal = async (modalName: string) => {
-  openedForm.value = modalName;
-  lastActiveElement.value = document.activeElement;
-  open();
-  await nextTick();
-  unrefElement(modalElement).focus();
-};
+  openedForm.value = modalName
+  lastActiveElement.value = document.activeElement
+  open()
+  await nextTick()
+  unrefElement(modalElement).focus()
+}
 
 const closeModal = () => {
-  close();
-  lastActiveElement.value.focus();
-};
+  close()
+  lastActiveElement.value.focus()
+}
 
 const saveNewContactInfo = async (userData: any) => {
   await updatePartner({
     id: user.value?.id,
     email: userData?.email ? userData?.email : user.value?.email,
     name: userData?.fullName ? userData.fullName : user.value?.name,
-    subscribeNewsletter: userData?.subscribeNewsletter,
-  });
-  closeModal();
-};
+    subscribeNewsletter: userData?.subscribeNewsletter
+  })
+  closeModal()
+}
 
 const saveNewPassword = async (passwords: any) => {
   if (passwords.firstNewPassword === passwords.secondNewPassword) {
     await updatePassword({
       currentPassword: passwords.oldPassword,
-      newPassword: passwords.firstNewPassword,
-    });
+      newPassword: passwords.firstNewPassword
+    })
   }
-};
+}
 onMounted(async () => {
-  await loadUser(true);
-});
+  await loadUser(true)
+})
 </script>
 <template>
   <UiDivider class="w-screen -mx-4 md:col-span-3 md:w-auto md:mx-0" />
@@ -91,10 +86,7 @@ onMounted(async () => {
         >
           <SfIconClose />
         </SfButton>
-        <h3
-          id="address-modal-title"
-          class="text-neutral-900 text-lg md:text-2xl font-bold mb-6"
-        >
+        <h3 id="address-modal-title" class="text-neutral-900 text-lg md:text-2xl font-bold mb-6">
           {{ $t(`account.accountSettings.personalData.${openedForm}`) }}
         </h3>
       </header>

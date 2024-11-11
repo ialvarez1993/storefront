@@ -8,7 +8,7 @@
         v-if="isRoot"
         class="mb-10 md:mb-10 md:mx-0 font-bold typography-headline-3 md:typography-headline-2"
       >
-        {{ $t("account.heading") }}
+        {{ $t('account.heading') }}
       </h1>
       <div v-else class="flex justify-start items-center mb-10 mt-4">
         <div v-for="({ subsections }, i) in sections" :key="i">
@@ -30,14 +30,14 @@
           <template #prefix>
             <SfIconArrowBack />
           </template>
-          {{ $t("account.back") }}
+          {{ $t('account.back') }}
         </SfButton>
       </div>
       <div class="md:flex gap-10 pb-20" data-testid="account-page-sidebar">
         <div
           :class="[
             'border-t md:border border-neutral-200 pt-4 pb-4 md:p-4 md:rounded-md min-w-[300px] md:block',
-            { hidden: !isRoot },
+            { hidden: !isRoot }
           ]"
         >
           <ul
@@ -58,9 +58,8 @@
                 :class="[
                   'first-of-type:py-4 md:first-of-type:px-4 md:first-of-type:py-2 px-0 md:px-4 rounded-md active:bg-primary-100 !text-neutral-900',
                   {
-                    'font-medium bg-primary-100':
-                      router.currentRoute.value.path === link,
-                  },
+                    'font-medium bg-primary-100': router.currentRoute.value.path === link
+                  }
                 ]"
               >
                 <template #prefix><SfIconBase /></template>
@@ -80,7 +79,7 @@
               @click="handleLogout"
             >
               <template #prefix><SfIconBase /></template>
-              {{ $t("account.logout") }}
+              {{ $t('account.logout') }}
             </SfListItem>
           </ul>
         </div>
@@ -108,64 +107,62 @@ import {
   SfListItem,
   SfButton,
   SfIconArrowBack,
-  SfIconChevronRight,
-} from "@storefront-ui/vue";
+  SfIconChevronRight
+} from '@storefront-ui/vue'
 
-const NuxtLink = resolveComponent("NuxtLink");
-const { t } = useI18n();
-const router = useRouter();
-const { logout } = useAuth();
+const NuxtLink = resolveComponent('NuxtLink')
+const { t } = useI18n()
+const router = useRouter()
+const { logout } = useAuth()
 const sections = [
   {
-    title: t("account.accountSettings.heading"),
+    title: t('account.accountSettings.heading'),
     icon: SfIconPerson,
     subsections: [
       {
-        label: t("account.accountSettings.section.personalData"),
-        link: "/my-account/personal-data",
+        label: t('account.accountSettings.section.personalData'),
+        link: '/my-account/personal-data'
       },
       {
-        label: t("account.accountSettings.section.billingDetails"),
-        link: "/my-account/billing-details",
+        label: t('account.accountSettings.section.billingDetails'),
+        link: '/my-account/billing-details'
       },
       {
-        label: t("account.accountSettings.section.shippingDetails"),
-        link: "/my-account/shipping-details",
-      },
-    ],
+        label: t('account.accountSettings.section.shippingDetails'),
+        link: '/my-account/shipping-details'
+      }
+    ]
   },
   {
-    title: t("account.myOrders.heading"),
+    title: t('account.myOrders.heading'),
     icon: SfIconShoppingCart,
     subsections: [
       {
-        label: t("account.myOrders.section.myOrders"),
-        link: "/my-account/my-orders",
-      },
-    ],
-  },
-];
+        label: t('account.myOrders.section.myOrders'),
+        link: '/my-account/my-orders'
+      }
+    ]
+  }
+]
 
-const currentPath = computed(() => router.currentRoute.value.path);
-const path = "/my-account";
-const rootPathRegex = new RegExp(`^${path}/?$`);
-const isRoot = computed(() => rootPathRegex.test(currentPath.value));
+const currentPath = computed(() => router.currentRoute.value.path)
+const path = '/my-account'
+const rootPathRegex = new RegExp(`^${path}/?$`)
+const isRoot = computed(() => rootPathRegex.test(currentPath.value))
 const findCurrentPage = computed(() =>
   sections
     .flatMap(({ subsections }) => subsections)
-    .find(({ link }) => currentPath.value.includes(link)),
-);
+    .find(({ link }) => currentPath.value.includes(link))
+)
 
 const breadcrumbs = computed(() => [
-  { name: t("home"), link: "/" },
-  { name: t("account.heading"), link: "/my-account" },
-  ...(isRoot.value
-    ? []
-    : [{ name: findCurrentPage.value?.label, link: currentPath.value }]),
-]);
+  { name: t('home'), link: '/' },
+  { name: t('account.heading'), link: '/my-account' },
+  ...(isRoot.value ? [] : [{ name: findCurrentPage.value?.label, link: currentPath.value }])
+])
 
 const handleLogout = async () => {
-  await logout();
-  router.push("/");
-};
+  await logout()
+  router.push('/')
+}
 </script>

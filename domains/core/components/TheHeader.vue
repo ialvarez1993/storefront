@@ -9,6 +9,7 @@ import {
   XMarkIcon,
   ArrowUpIcon,
 } from "@heroicons/vue/24/outline";
+import ButtonIdiomas from "./header/ButtonIdiomas.vue";
 
 const { loadCart, totalItemsInCart } = useCart();
 
@@ -72,22 +73,16 @@ onUnmounted(() => {
       { 'shadow-md': isCompact },
     ]"
   >
+    <!-- Top banner -->
     <div
       v-if="!isCompact"
       class="bg-black text-white px-4 py-2 flex justify-between items-center text-sm"
     >
-      <span class="hidden sm:inline">Envíos gratis a todo Venezuela</span>
-      <div class="relative">
-        <button
-          class="text-white text-sm p-0 hover:bg-transparent flex items-center"
-          @click="currency = currency === 'VES' ? 'USD' : 'VES'"
-        >
-          {{ currency === "VES" ? "Bolívares (VES)" : "Dólares (USD)" }}
-          <ChevronDownIcon class="ml-1 h-4 w-4" />
-        </button>
-      </div>
+      <span class="hidden sm:inline">{{ $t("benefits.shipping.title") }}</span>
+      <ButtonIdiomas />
     </div>
 
+    <!-- Main header -->
     <div
       :class="[
         'container mx-auto px-4 transition-all duration-300',
@@ -95,10 +90,11 @@ onUnmounted(() => {
       ]"
     >
       <div class="flex items-center justify-between gap-4">
+        <!-- Left section -->
         <div class="flex items-center gap-4">
           <button
             v-if="isCompact"
-            class="p-2 hover:bg-gray-100"
+            class="p-2 hover:bg-gray-100 lg:hidden"
             @click="toggleMenu"
           >
             <component
@@ -111,20 +107,29 @@ onUnmounted(() => {
           </NuxtLink>
         </div>
 
+        <!-- Search bar -->
         <div
           :class="[
             'flex-1 max-w-2xl transition-all duration-300',
             isCompact ? 'px-4' : '',
+            'hidden md:block',
           ]"
         >
           <SearchInput />
         </div>
 
+        <!-- Favorites -->
+        <div v-if="!isCompact" class="hidden lg:block">
+          <ModalFavorites />
+        </div>
+
+        <!-- Right section -->
         <div class="flex items-center gap-6">
+          <!-- WhatsApp -->
           <NuxtLink
             external
             to="https://www.whatsapp.com/"
-            class="hidden md:flex items-center gap-2"
+            class="hidden lg:flex items-center gap-2"
           >
             <svg
               version="1.0"
@@ -165,11 +170,13 @@ onUnmounted(() => {
             </div>
           </NuxtLink>
 
-          <NuxtLink to="/login" class="hidden md:flex items-center gap-2">
+          <!-- User account -->
+          <NuxtLink to="/login" class="hidden lg:flex items-center gap-2">
             <UserIcon class="h-5 w-5" />
             <span v-if="!isCompact" class="text-sm">Mi cuenta</span>
           </NuxtLink>
 
+          <!-- Shopping cart -->
           <NuxtLink to="/cart" class="relative">
             <ShoppingCartIcon class="h-6 w-6" />
             <span
@@ -179,6 +186,7 @@ onUnmounted(() => {
             </span>
           </NuxtLink>
 
+          <!-- Scroll to top -->
           <button
             v-if="isCompact"
             class="p-2 hover:bg-gray-100"
@@ -188,9 +196,15 @@ onUnmounted(() => {
           </button>
         </div>
       </div>
+
+      <!-- Mobile search -->
+      <div class="mt-4 md:hidden">
+        <SearchInput />
+      </div>
     </div>
 
-    <nav v-if="!isCompact" class="border-t border-b">
+    <!-- Navigation -->
+    <nav v-if="!isCompact" class="border-t border-b hidden lg:block">
       <div class="container mx-auto px-4">
         <ul class="flex items-center gap-8">
           <li
@@ -235,9 +249,10 @@ onUnmounted(() => {
       </div>
     </nav>
 
+    <!-- Mobile menu -->
     <div
       v-if="isMenuOpen && isCompact"
-      class="absolute top-full left-0 w-full bg-white shadow-lg"
+      class="absolute top-full left-0 w-full bg-white shadow-lg lg:hidden"
     >
       <div class="container mx-auto py-4">
         <ul class="space-y-2">
@@ -285,3 +300,30 @@ onUnmounted(() => {
     </div>
   </header>
 </template>
+
+<style scoped>
+@media (width <= 640px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+@media (width >= 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+
+@media (width >= 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+
+@media (width >= 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+</style>

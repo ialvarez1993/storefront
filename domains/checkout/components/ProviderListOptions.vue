@@ -1,38 +1,31 @@
 <script setup lang="ts">
-import type { PaymentProvider } from "~/graphql";
+import type { PaymentProvider } from '~/graphql'
 
 type CheckoutPaymentProps = {
-  activeProvider: PaymentProvider;
-  paymentProviders: PaymentProvider[];
-};
+  activeProvider: PaymentProvider
+  paymentProviders: PaymentProvider[]
+}
 
-type CheckoutPaymentEmits = (
-  event: "update:activePayment",
-  parameter: PaymentProvider,
-) => void;
+type CheckoutPaymentEmits = (event: 'update:activePayment', parameter: PaymentProvider) => void
 
-const props = defineProps<CheckoutPaymentProps>();
-const emit = defineEmits<CheckoutPaymentEmits>();
+const props = defineProps<CheckoutPaymentProps>()
+const emit = defineEmits<CheckoutPaymentEmits>()
 
 onMounted(() => {
   if (props.paymentProviders.length > 0) {
-    emit("update:activePayment", props.paymentProviders[0]);
+    emit('update:activePayment', props.paymentProviders[0])
   }
-});
+})
 </script>
 
 <template>
   <div data-testid="checkout-payment" class="md:px-4 py-6">
     <fieldset>
       <legend class="text-neutral-900 text-lg font-bold mb-4">
-        {{ $t("checkoutPayment.heading") }}
+        {{ $t('checkoutPayment.heading') }}
       </legend>
       <div class="grid gap-4 grid-cols-2">
-        <label
-          v-for="provider in paymentProviders"
-          :key="provider.id"
-          class="relative"
-        >
+        <label v-for="provider in paymentProviders" :key="provider.id" class="relative">
           <input
             type="radio"
             name="payment_method"

@@ -17,12 +17,7 @@
       {{ backTextMobile }}
     </SfButton>
 
-    <SfButton
-      :tag="NuxtLink"
-      :to="backLink"
-      class="hidden md:flex"
-      variant="tertiary"
-    >
+    <SfButton :tag="NuxtLink" :to="backLink" class="hidden md:flex" variant="tertiary">
       <template #prefix>
         <SfIconArrowBack />
       </template>
@@ -32,25 +27,25 @@
 </template>
 
 <script setup lang="ts">
-import { SfButton, SfIconArrowBack } from "@storefront-ui/vue";
-const NuxtLink = resolveComponent("NuxtLink");
+import { SfButton, SfIconArrowBack } from '@storefront-ui/vue'
+const NuxtLink = resolveComponent('NuxtLink')
 
 defineProps({
   title: {
     type: String,
-    default: "Checkout",
+    default: 'Checkout'
   },
   backLink: {
     type: String,
-    default: "/cart",
+    default: '/cart'
   },
   backTextMobile: {
     type: String,
-    default: "Back",
+    default: 'Back'
   },
   backTextDesktop: {
     type: String,
-    default: "Back to Cart",
-  },
-});
+    default: 'Back to Cart'
+  }
+})
 </script>
