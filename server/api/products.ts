@@ -1,6 +1,6 @@
 import productFragment from "../fragments/productFragment";
 
-const odooBaseUrl = `http://localhost:8069/graphql/vsf`;
+const odooBaseUrl = `http://localhost:8017/graphql/vsf`;
 
 const headers = {
   "Content-Type": "application/json",

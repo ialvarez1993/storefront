@@ -480,7 +480,7 @@ export type Mutation = {
 
 
 export type MutationAddAddressArgs = {
-  address?: InputMaybe<AddAddressInput>;
+  address: InputMaybe<AddAddressInput>;
   type: AddressEnum;
 };
 
@@ -518,17 +518,17 @@ export type MutationAdyenTransactionArgs = {
 
 
 export type MutationApplyCouponArgs = {
-  promo?: InputMaybe<Scalars['String']['input']>;
+  promo: InputMaybe<Scalars['String']['input']>;
 };
 
 
 export type MutationApplyGiftCardArgs = {
-  promo?: InputMaybe<Scalars['String']['input']>;
+  promo: InputMaybe<Scalars['String']['input']>;
 };
 
 
 export type MutationCartAddMultipleItemsArgs = {
-  products?: Array<InputMaybe<ProductInput>>;
+  products: Array<InputMaybe<ProductInput>>;
 };
 
 
@@ -538,7 +538,7 @@ export type MutationCartRemoveMultipleItemsArgs = {
 
 
 export type MutationCartUpdateMultipleItemsArgs = {
-  lines?: Array<InputMaybe<CartLineInput>>;
+  lines: Array<InputMaybe<CartLineInput>>;
 };
 
 
@@ -549,7 +549,7 @@ export type MutationChangePasswordArgs = {
 
 
 export type MutationContactUsArgs = {
-  contactus?: InputMaybe<ContactUsParams>;
+  contactus: InputMaybe<ContactUsParams>;
 };
 
 
@@ -561,7 +561,7 @@ export type MutationCreateUpdatePartnerArgs = {
 
 
 export type MutationDeleteAddressArgs = {
-  address?: InputMaybe<DeleteAddressInput>;
+  address: InputMaybe<DeleteAddressInput>;
 };
 
 
@@ -573,7 +573,7 @@ export type MutationLoginArgs = {
 
 
 export type MutationNewsletterSubscribeArgs = {
-  email?: InputMaybe<Scalars['String']['input']>;
+  email: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -591,7 +591,7 @@ export type MutationResetPasswordArgs = {
 
 
 export type MutationSelectAddressArgs = {
-  address?: InputMaybe<SelectAddressInput>;
+  address: InputMaybe<SelectAddressInput>;
   type: AddressEnum;
 };
 
@@ -630,7 +630,7 @@ export type MutationUpdateAddressArgs = {
 
 
 export type MutationUpdateMyAccountArgs = {
-  myaccount?: InputMaybe<UpdateMyAccountParams>;
+  myaccount: InputMaybe<UpdateMyAccountParams>;
 };
 
 
@@ -641,7 +641,7 @@ export type MutationUpdatePasswordArgs = {
 
 
 export type MutationUserAddMultipleMailingArgs = {
-  mailings?: Array<InputMaybe<MailingInput>>;
+  mailings: Array<InputMaybe<MailingInput>>;
 };
 
 
@@ -920,6 +920,7 @@ export type ProductInput = {
 export type ProductList = Products & {
   __typename?: 'ProductList';
   attributeValues: Maybe<Array<Maybe<AttributeValue>>>;
+  filterCounts: Maybe<Scalars['GenericScalar']['output']>;
   maxPrice: Maybe<Scalars['Float']['output']>;
   minPrice: Maybe<Scalars['Float']['output']>;
   products: Maybe<Array<Maybe<Product>>>;
@@ -959,6 +960,7 @@ export type ProductVariantData = ProductVariant & {
 
 export type Products = {
   attributeValues: Maybe<Array<Maybe<AttributeValue>>>;
+  filterCounts: Maybe<Scalars['GenericScalar']['output']>;
   maxPrice: Maybe<Scalars['Float']['output']>;
   minPrice: Maybe<Scalars['Float']['output']>;
   products: Maybe<Array<Maybe<Product>>>;
@@ -1004,7 +1006,7 @@ export type QueryAddressesArgs = {
 
 
 export type QueryAttributeArgs = {
-  id?: InputMaybe<Scalars['Int']['input']>;
+  id: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -1018,7 +1020,7 @@ export type QueryCategoriesArgs = {
 
 
 export type QueryCategoryArgs = {
-  id?: InputMaybe<Scalars['Int']['input']>;
+  id: InputMaybe<Scalars['Int']['input']>;
   slug?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -1033,12 +1035,12 @@ export type QueryCountriesArgs = {
 
 
 export type QueryCountryArgs = {
-  id?: InputMaybe<Scalars['Int']['input']>;
+  id: InputMaybe<Scalars['Int']['input']>;
 };
 
 
 export type QueryInvoiceArgs = {
-  id?: InputMaybe<Scalars['Int']['input']>;
+  id: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -1059,7 +1061,7 @@ export type QueryMailingContactsArgs = {
 
 
 export type QueryMailingListArgs = {
-  id?: InputMaybe<Scalars['Int']['input']>;
+  id: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -1073,7 +1075,7 @@ export type QueryMailingListsArgs = {
 
 
 export type QueryOrderArgs = {
-  id?: InputMaybe<Scalars['Int']['input']>;
+  id: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -1086,7 +1088,7 @@ export type QueryOrdersArgs = {
 
 
 export type QueryPaymentProviderArgs = {
-  id?: InputMaybe<Scalars['Int']['input']>;
+  id: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -1104,8 +1106,8 @@ export type QueryProductArgs = {
 
 
 export type QueryProductVariantArgs = {
-  combinationId?: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
-  productTemplateId?: InputMaybe<Scalars['Int']['input']>;
+  combinationId: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+  productTemplateId: InputMaybe<Scalars['Int']['input']>;
 };
 
 
@@ -1119,17 +1121,17 @@ export type QueryProductsArgs = {
 
 
 export type QueryWebsiteFooterArgs = {
-  noParent?: InputMaybe<Scalars['Boolean']['input']>;
+  noParent: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
 export type QueryWebsiteMegaMenuArgs = {
-  noParent?: InputMaybe<Scalars['Boolean']['input']>;
+  noParent: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 
 export type QueryWebsiteMenuArgs = {
-  noParent?: InputMaybe<Scalars['Boolean']['input']>;
+  noParent: InputMaybe<Scalars['Boolean']['input']>;
 };
 
 export type Ribbon = {

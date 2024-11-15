@@ -7,7 +7,7 @@ import { Queries } from "~/server/queries";
 
 export default defineEventHandler((event) => {
   const config: MiddlewareConfig = {
-    odooGraphqlUrl: `http://localhost:8069/graphql/vsf`,
+    odooGraphqlUrl: `http://localhost:8017/graphql/vsf`,
     queries: { ...Queries, ...Mutations },
     headers: {
       "REAL-IP": getRequestIP(event) || "",

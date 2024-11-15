@@ -125,7 +125,7 @@ const handleWishlistRemoveItem = async (firstVariant: Product) => {
 await loadProductTemplate({ slug: route.path });
 await loadProductVariant(params.value);
 
-addProductToRecentViews(productTemplate.value.id);
+addProductToRecentViews(productTemplate.value?.id);
 </script>
 
 <template>
