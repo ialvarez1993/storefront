@@ -19,6 +19,7 @@ const setIsActive = (param: boolean) => {
 
 const { toggleWishlistSideBar } = useWishlistUiState();
 const { loadWishlist, wishlistTotalItems } = useWishlist();
+const { loadCart, totalItemsInCart } = useCart();
 
 const handleOpenWishListSidebar = async () => {
   toggleWishlistSideBar();
@@ -27,6 +28,10 @@ const handleOpenWishListSidebar = async () => {
 
 onMounted(async () => {
   await loadWishlist();
+});
+
+onMounted(async () => {
+  await loadCart(true);
 });
 </script>
 
@@ -91,10 +96,14 @@ onMounted(async () => {
     >
       <template #prefix>
         <div class="relative">
-          <SfIconShoppingCart />
+          <Icon
+            :name="totalItemsInCart > 0 ? 'ion:cart-sharp' : 'ion:cart-outline'"
+            size="22px"
+          />
           <SfBadge
-            :content="3"
+            :content="totalItemsInCart"
             class="outline-white bg-white !text-neutral-900 translate-x-[5px] translate-y-[-3px]"
+            data-testid="cart-badge"
           />
         </div>
       </template>
@@ -120,7 +129,7 @@ onMounted(async () => {
           <SfIconPerson />
         </div>
       </template>
-      account
+      {{ $t("account.navBarBottomHeading") }}
     </SfButton>
   </nav>
 </template>
