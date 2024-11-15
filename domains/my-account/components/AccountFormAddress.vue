@@ -50,14 +50,14 @@ if (props.isEditForm) {
   addressFormFieldsInput.value.name = props.address?.name ?? "";
   addressFormFieldsInput.value.phone = props.address?.phone ?? "";
   addressFormFieldsInput.value.city = props.address?.city ?? "";
-  addressFormFieldsInput.value.countryId = props.address?.country.id ?? 0;
-  addressFormFieldsInput.value.stateId = props.address?.state.id ?? 0;
+  addressFormFieldsInput.value.countryId = props.address?.countryId ?? 0;
+  addressFormFieldsInput.value.stateId = props.address?.stateId ?? 0;
   addressFormFieldsInput.value.city = props.address?.city ?? "";
   addressFormFieldsInput.value.zip = props.address?.zip ?? "";
   addressFormFieldsInput.value.street = props.address?.street ?? "";
 }
 
-const billingAddresIsTheSameAsShipping = ref(false);
+const billingAddressIsTheSameAsShipping = ref(false);
 
 const handleSubmit = async () => {
   if (props.isEditForm) {
@@ -74,7 +74,7 @@ const handleSubmit = async () => {
   await addAddress(addressFormFieldsInput.value as AddAddressInput, props.type);
 
   if (
-    billingAddresIsTheSameAsShipping.value &&
+    billingAddressIsTheSameAsShipping.value &&
     props.type === AddressEnum.Billing &&
     !props.isEditForm
   ) {
@@ -155,8 +155,8 @@ const handleSubmit = async () => {
       class="md:col-span-2"
     >
       <SfCheckbox
-        v-model="billingAddresIsTheSameAsShipping"
-        name="billingAddresIsTheSameAsShipping"
+        v-model="billingAddressIsTheSameAsShipping"
+        name="billingAddressIsTheSameAsShipping"
       />
       {{ $t("account.accountSettings.billingDetails.sameAddress") }}
     </label>
