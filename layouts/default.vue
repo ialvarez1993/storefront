@@ -1,16 +1,18 @@
 <script lang="ts" setup></script>
 
 <template>
-  <TheHeader />
+  <div class="font-sass">
+    <TheHeader />
 
-  <main class="w-full narrow-container bg-white">
-    <slot></slot>
-  </main>
+    <main class="w-full narrow-container bg-white">
+      <slot></slot>
+    </main>
 
-  <LazyNewsletter />
-  <NuxtLazyHydrate when-visible>
-    <LazyTheFooter />
-  </NuxtLazyHydrate>
+    <LazyNewsletter />
+    <NuxtLazyHydrate when-visible>
+      <LazyTheFooter />
+    </NuxtLazyHydrate>
 
-  <WishlistSidebar />
+    <WishlistSidebar />
+  </div>
 </template>

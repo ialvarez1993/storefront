@@ -1,4 +1,7 @@
 {
+  "HeaderUp": {
+    "Shipping": "Envíos gratis a todo Venezuela"
+  },
   "hero": {
     "title": "LA NUEVA NOTEBOOK QUE BUSCABAS YA ESTÁ AQUÍ",
     "subtitle": "Lenovo Legión 5 I5 8GB RAM",
@@ -6,7 +9,8 @@
   },
   "benefits": {
     "shipping": {
-      "title": "Envsdsd gratis en toda Venezuela"
+      "title": "Envios gratis",
+      "subtitle": "En toda venezuela"
     },
     "homeDelivery": {
       "title": "Recibe en tu casa",
@@ -21,7 +25,48 @@
       "subtitle": "Estamos respaldados"
     }
   },
+  "cardColletiom": {
+    "card1": {
+      "title1": "Fresco y atrevido",
+      "title2": "NUEVA COLECCIÓN",
+      "description1": "Añade un toque de color a tu atuendo",
+      "cta": "Descúbrelo ahora",
+      "section1": {
+        "title1": "Días soleados",
+        "title2": "INSPÍRATE",
+        "description1": "Salga a la calle con estilo con nuestra colección de gafas de sol",
+        "cta": "Descúbrelo ahora"
+      }
+    },
+    "card2": {
+      "title1": "INSPÍRATE",
+      "title2": "Días soleados",
+      "description1": "Salga a la calle con estilo con nuestra colección de gafas de sol",
+      "cta": "Descúbrelo ahora",
+      "section1": {
+        "title1": "Días soleados",
+        "title2": "INSPÍRATE",
+        "description1": "Salga a la calle con estilo con nuestra colección de gafas de sol",
+        "cta": "Descúbrelo ahora"
+      }
+    },
+    "card3": {
+      "title1": "SER ACTIVO",
+      "title2": "Días soleados",
+      "description1": "Explore la naturaleza con nuestras mochilas",
+      "cta": "Descúbrelo ahora",
+      "section1": {
+        "title1": "Días soleados",
+        "title2": "INSPÍRATE",
+        "description1": "Salga a la calle con estilo con nuestra colección de gafas de sol",
+        "cta": "Descúbrelo ahora"
+      }
+    },
+    "button": "Descubrelo Ahora"
+  },
   "products": {
+    "statusOff": "Agotado",
+    "StatusAvailable": "Disponible",
     "officeChair": {
       "name": "Office Chair",
       "price": "70.00",
@@ -43,12 +88,25 @@
     "men": "MEN",
     "discounts": "Descuentos",
     "technology": "Tecnología",
-    "viewAll": "Ver todo"
+    "viewAll": "Ver todo",
+    "help": {
+      "subcategories": {
+        "cambios_devoluciones": "Cambios Y Devoluciones\t",
+        "helpCenter": "Centro de ayuda"
+      },
+      "saubcategories": {
+        "cambios_devoluciones": "Cambios y devoluciones"
+      },
+      "label": "Ayuda"
+    }
   },
   "promos": {
     "washer": {
-      "title": "LO ÚLTIMO EN LAVADORAS AL 50%",
-      "description": "Oportunidad única, lavadora/Secadora SAMSUNG con tecnología de última generación"
+      "title": "LO ÚLTIMO EN",
+      "subtitle": "LAVADORAS AL 50%",
+      "description": "Oportunidad única, lavadora/Secadora SAMSUNG con tecnología de última generación",
+      "texto": "Oportunidad única, lavadora/Secadora SAMSUNG con tecnología de última generación",
+      "button": "Hacer compras"
     },
     "collections": {
       "new": {
@@ -73,32 +131,6 @@
     "placeholder": "Introduce tu email",
     "button": "Suscribirse al boletín",
     "disclaimer": "Para más información sobre cómo gestionamos tus datos, consulta nuestro Aviso de Privacidad. Puedes cancelar tu suscripción en cualquier momento sin coste alguno."
-  },
-  "footer": {
-    "howToBuy": {
-      "title": "How to buy",
-      "links": [
-        "Payment methods",
-        "Order pickup",
-        "Purchase status",
-        "Track orders",
-        "Returns"
-      ]
-    },
-    "help": {
-      "title": "Help",
-      "links": ["Help centers", "Security & fraud", "Feedback", "Contact"]
-    },
-    "contact": {
-      "chat": {
-        "title": "Live chat",
-        "hours": "Mon–Fri, 5am–10pm PT\nSat–Sun, 6am–9pm PT"
-      },
-      "phone": {
-        "number": "1 234 567 8901",
-        "hours": "Mon–Fri, 5am–10pm PT\nSat–Sun, 6am–9pm PT"
-      }
-    }
   },
   "heading": {
     "discount": "LOS MEJORES DESCUENTOS DE LA SEMANA",
@@ -188,6 +220,21 @@
   "currentPage": "Página {page} de {totalPages}",
   "checkout": "Pasarela de pago",
   "backToCart": "Volver a mi carrito",
+  "headerCatalog": {
+    "Digital": "Digital",
+    "homeImprovementStore": "Ferreteria",
+    "allProducts": "Todos los productos",
+    "Highlights": "Lo más destacado",
+    "Offers": "Ofertas",
+    "About": "Acerca De Nosotros",
+    "Contact": "Contacto"
+  },
+  "banner": {
+    "priceBaner": "Precio",
+    "discount": "De descuento",
+    "product": "Ver producto"
+  },
+  "cuenta": "Mi cuenta",
   "back": "Atrás",
   "placeOrder": "Realizar pedido y pagar",
   "termsInfo": "Al realizar mi pedido, acepta nuestros {terms} y nuestra {privacyPolicy}",
@@ -233,7 +280,12 @@
   "color": "Color",
   "addToCart": "Añadir al carrito",
   "addToCartShort": "Agregar",
-  "search": "Buscar",
+  "search": "Buscar productos, marcas y más...",
+  "searchButton": "Buscar",
+  "sopport": {
+    "attention": "Atención a cliente",
+    "write": "Escríbenos / Llámanos"
+  },
   "vsfHomepage": "Homepage",
   "home": "Inicio",
   "cart": "Carrito",
@@ -451,6 +503,93 @@
       "repeatPassword": "Repetir nueva contraseña",
       "help": "8 o más caracteres con una mezcla de letras, números y símbolos.",
       "description": "Cree la nueva contraseña que desea utilizar para iniciar sesión en su cuenta."
+    }
+  },
+  "shopCategory": "Comprar por categoría\t",
+  "discountCardProduct": "Descuentos",
+  "tecnologia": "Tecnologia",
+  "superMenu": {
+    "titleMain1": "Ropa Casual",
+
+    "title1Main1": "Chaquetas",
+    "slug1Main1": "/chaquetas",
+    "title2Main1": "Blazer",
+    "slug2Main1": "/blazer",
+    "title3Main1": "Blusas",
+    "slug3Main1": "/blusas",
+    "title4Main1": "Camisas",
+    "slug4Main1": "/camisas",
+    "title5Main1": "Camisetas",
+    "slug5Main1": "/camisetas",
+    "title6Main1": "Vaqueros",
+    "slug6Main1": "/vaqueros",
+    "title7Main1": "Pantalones",
+    "slug7Main1": "/pantalones",
+    "title8Main1": "Faldas",
+    "slug8Main1": "/faldas",
+    "title9Main1": "Vestidos",
+    "slug9Main1": "/vestidos",
+    "title10Main1": "Trajes de Baño",
+    "slug10Main1": "/trajes-de-bano",
+
+    "titleMain2": "Zapatos",
+
+    "title1Main2": "Zapatillas",
+    "slug1Main2": "/zapatillas",
+    "title2Main2": "Botas",
+    "slug2Main2": "/botas",
+    "title3Main2": "Botines",
+    "slug3Main2": "/botines",
+    "title4Main2": "Tacones",
+    "slug4Main2": "/tacones",
+    "title5Main2": "Bailarinas",
+    "slug5Main2": "/bailarinas",
+
+    "titleMain3": "Bolsos",
+
+    "title1Main3": "Bolso de mano",
+    "slug1Main3": "/clutches",
+    "title2Main3": "Bolsos de Hombro",
+    "slug2Main3": "/bolsos-de-hombro",
+    "title3Main3": "Bolsos de Compras",
+    "slug3Main3": "/bolsos-de-compras",
+    "title4Main3": "Bolsos",
+    "slug4Main3": "/bolsos-de-mano",
+    "title5Main3": "Carteras",
+    "slug5Main3": "/carteras",
+    "detailsSuperMenu": "Lance su proyecto con nuestras herramientas y recursos premium.",
+    "detailsSuperMenuButton": "EMPIEZA AHORA"
+  },
+  "CardSlide": "DESCUBRE LOS DESCUENTOS DE 24 HORAS",
+  "footer": {
+    "navegacion": {
+      "redes_sociales": {
+        "facebook": "https://www.facebook.com/tu_pagina",
+        "instagram": "https://www.instagram.com/tu_perfil"
+      },
+
+      "informacion": {
+        "quienes_somos": "Acerca de nosotros",
+        "registro": "Registro",
+        "cuenta": "Tu cuenta",
+        "ayuda": "ayuda",
+        "rastrear_pedido": "Rastrear tu pedido",
+        "cambios_devoluciones": "Cambios y devoluciones",
+        "preguntas_frecuentes": "Preguntas Frecuentes",
+        "contacto": "Contactanos",
+        "envios": "Informacion De Envios",
+        "pagos": "Información de pago",
+        "siguenos": "Siguenos"
+      },
+      "categorias": {
+        "ferreteria": "Ferreteria",
+        "digital": "Digital",
+        "todos_productos": "Todos los productos",
+        "ofertas": "Ofertas"
+      },
+      "acciones": {
+        "comprar": "comprar"
+      }
     }
   }
 }

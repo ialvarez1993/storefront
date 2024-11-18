@@ -7,7 +7,7 @@
             { icon, title, description, isDisabled }, index
           ) in cardDetails"
           :key="`${title}-${index}`"
-          class="flex w-full max-w-[325px] sm:w-[375px] lg:w-[496px] items-left"
+          class="flex w-full max-w-[325px] sm:w-[300px] lg:w-[496px] items-left"
         >
           <component
             :is="icon"
@@ -21,7 +21,7 @@
                 { 'text-disabled-900': isDisabled },
               ]"
             >
-              {{ title }}
+              {{ $t(title) }}
             </p>
             <p
               :class="[
@@ -29,7 +29,7 @@
                 { 'text-disabled-700': isDisabled },
               ]"
             >
-              {{ description }}
+              {{ $t(description) }}
             </p>
           </div>
         </div>
@@ -46,26 +46,26 @@ import iconSafety from "./icon/Safety.vue";
 const cardDetails = [
   {
     icon: iconDelivery,
-    title: "Envíos gratis",
-    description: " en toda Venezuela",
+    title: "benefits.shipping.title",
+    description: "benefits.shipping.subtitle",
     isDisabled: false,
   },
   {
     icon: iconHouse,
-    title: "Recibe en tu casa",
-    description: "Sin salir, a tan solo un click",
+    title: "benefits.homeDelivery.title",
+    description: "benefits.homeDelivery.subtitle",
     isDisabled: false,
   },
   {
     icon: iconCreditCard,
-    title: "Pagos 100% seguros",
-    description: "Todos los métodos de pago",
+    title: "benefits.securePay.title",
+    description: "benefits.securePay.subtitle",
     isDisabled: false,
   },
   {
     icon: iconSafety,
-    title: "Confianza y seguridad",
-    description: "Estamos respaldados",
+    title: "benefits.trust.title",
+    description: "benefits.trust.subtitle",
     isDisabled: false,
   },
 ];

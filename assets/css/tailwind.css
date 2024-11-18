@@ -11,6 +11,18 @@ html {
   src: url("/assets/fonts/DesignerRegular.ttf");
 }
 
+@font-face {
+  font-display: swap;
+  font-family: "roboto";
+  src: url("/assets/fonts/roboto/Roboto-Bold.woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "Robotolight";
+  src: url("/assets/fonts/roboto/Roboto-Medium.woff2");
+}
+
 /* Firefox */
 * {
   box-sizing: border-box;

@@ -1,6 +1,11 @@
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, PropType } from "vue";
 import type { Product, QueryProductsArgs } from "~/graphql";
+import { useProductTemplateList } from "../../product/composables/useProductTemplateList";
+import { useCart } from "../../cart-odoo/composables/useCart";
+import { useProductAttributes } from "../../product/composables/useProductAttributes";
+import { useWishlist } from "../../wishlist/composables/useWishlist";
+const { cartAdd } = useCart();
 
 const sliderContainer = ref<HTMLElement | null>(null);
 const currentIndex = ref(0);
@@ -15,6 +20,10 @@ const props = defineProps({
   keyForComposable: {
     type: String,
     default: "",
+  },
+  firstVariant: {
+    type: Object,
+    required: false,
   },
 });
 
@@ -52,6 +61,16 @@ const loadProducts = async () => {
   await loadProductTemplateList(params, true);
 };
 
+const { wishlistAddItem, isInWishlist, wishlistRemoveItem } = useWishlist();
+
+const handleWishlistAddItem = async (firstVariant: Product) => {
+  await wishlistAddItem(firstVariant.id);
+};
+
+const handleWishlistRemoveItem = async (firstVariant: Product) => {
+  await wishlistRemoveItem(firstVariant.id);
+};
+
 onMounted(() => {
   loadProducts();
 });
@@ -61,7 +80,7 @@ onMounted(() => {
   <section class="px-2 py-6 w-full max-w-[1440px] mx-auto">
     <h2
       v-if="heading"
-      class="text-xl font-bold text-center mb-6 uppercase tracking-wide"
+      class="text-xl !font-header font-bold text-center mb-6 uppercase tracking-wide"
     >
       {{ heading }}
     </h2>
@@ -124,10 +143,15 @@ onMounted(() => {
                 <!-- Hover Actions -->
                 <div class="hover-overlay">
                   <div class="action-buttons">
-                    <button class="action-btn preview">
-                      <i class="fas fa-eye"></i>
-                    </button>
-                    <button class="action-btn cart">
+                    <NuxtLink :to="productTemplate?.slug">
+                      <button class="action-btn preview">
+                        <i class="fas fa-eye"></i>
+                      </button>
+                    </NuxtLink>
+                    <button
+                      class="action-btn cart"
+                      @click="cartAdd(productTemplate.firstVariant?.id, 1)"
+                    >
                       <i class="fas fa-shopping-cart"></i>
                     </button>
                   </div>
@@ -191,7 +215,11 @@ onMounted(() => {
                 >
                   <span class="status-dot"></span>
                   <span class="status-text">
-                    {{ productTemplate.inStock ? "En stock" : "Agotado" }}
+                    {{
+                      productTemplate.inStock
+                        ? $t("products.StatusAvailable")
+                        : $t("products.statusOff")
+                    }}
                   </span>
                 </div>
               </div>

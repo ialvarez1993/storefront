@@ -1,5 +1,5 @@
 <template>
-  <div class="slider-container">
+  <div class="slider-container pt-56 sm:pt-20 md:pt-36 pb-80 sm:pb-0">
     <!-- Background with curve -->
     <div class="slider-background">
       <div
@@ -17,7 +17,9 @@
       >
         <div class="slider-info" :class="{ 'slide-enter': slideAnimation }">
           <div class="info-content">
-            <h2 class="info-title">
+            <h2
+              class="info-title !text-black sm:!text-white pt-10 sm:pt-0 !font-header"
+            >
               {{ slides[currentSlide].title }}
             </h2>
             <p class="info-subtitle">
@@ -25,7 +27,7 @@
             </p>
           </div>
 
-          <button class="primary-button">Ver producto</button>
+          <button class="primary-button">{{ $t("banner.product") }}</button>
         </div>
 
         <div class="slider-media" :class="{ 'slide-enter': slideAnimation }">
@@ -48,7 +50,7 @@
           </div>
 
           <div class="price-tag">
-            <div class="price-label">PRECIO</div>
+            <div class="price-label">{{ $t("banner.priceBaner") }}</div>
             <div class="price-amount">${{ slides[currentSlide].price }}</div>
           </div>
 
@@ -56,7 +58,7 @@
             <span class="discount-amount"
               >{{ slides[currentSlide].discount }}%</span
             >
-            <span class="discount-label">DE DESCUENTO</span>
+            <span class="discount-label">{{ $t("banner.discount") }}</span>
           </div>
         </div>
       </div>
@@ -213,7 +215,7 @@ onBeforeUnmount(() => {
 
 <style lang="scss">
 .slider-container {
-  @apply relative my-5 w-full overflow-hidden mt-[12rem] sm:mt-[8rem] h-[400px];
+  @apply relative my-5 w-full overflow-hidden mt-[12rem] sm:mt-[5rem] md:mt-0 xl:mt-16 lg:mt-[3rem] 2xl:mt-[12rem] 3xl:mt-[12rem] 4xl:mt-[10rem] h-[400px];
 
   @screen sm {
     height: 450px;
@@ -225,7 +227,7 @@ onBeforeUnmount(() => {
 }
 
 .slider-background {
-  @apply absolute inset-0 z-10;
+  @apply absolute  inset-0 z-10;
 }
 
 .slider-gradient {
@@ -237,7 +239,7 @@ onBeforeUnmount(() => {
 }
 
 .slider-grid {
-  @apply grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8 items-center w-full;
+  @apply grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8 items-center w-full;
 }
 
 .slider-info {
@@ -277,7 +279,7 @@ onBeforeUnmount(() => {
 }
 
 .product-image {
-  @apply w-full h-auto object-contain;
+  @apply w-full h-auto object-contain 4xl:max-w-[70rem];
 }
 
 .brand-logo {

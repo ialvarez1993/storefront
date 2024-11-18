@@ -1,12 +1,17 @@
 {
+  "HeaderUp": {
+    "Shipping": "Free shipping to all Venezuela"
+  },
   "billing": {
     "heading": "Dirección de Facturación",
     "description": "Agregue una dirección de facturación. Recibirá la factura en la dirección de correo electrónico proporcionada anteriormente.",
     "addButton": "Agregar dirección de facturación"
   },
   "heading": {
-    "discount": "THE BEST DISCOUNTS OF THE WEEK"
+    "discount": "THE BEST DISCOUNTS OF THE WEEK",
+    "categories": "catalogs"
   },
+
   "shipping": {
     "heading": "Shipping Address",
     "description": "Add a shipping address to view shipping details.",
@@ -49,6 +54,7 @@
   "delivery": "Delivery",
   "promoCode": "Código promocional ({count})",
   "discounts": "Descuentos ({count})",
+  "discountCardProduct": "Discounts",
   "giftCard": "Tarjeta de regalo ({count})",
   "remove": "Eliminar",
   "emptyCart": "Tu carrito está vacío",
@@ -131,10 +137,29 @@
   "color": "Color",
   "addToCart": "Añadir al carrito",
   "addToCartShort": "Agregar",
-  "search": "Buscar",
+  "search": "Search for products, brands and more...",
+  "searchButton": "Search",
   "vsfHomepage": "Homepage",
+  "cuenta": "My account",
+  "headerCatalog": {
+    "homeImprovementStore": "Home Improvement",
+    "Digital": "Digital",
+    "allProducts": "All products",
+    "Highlights": "The most outstanding",
+    "Offers": "Offers",
+    "About": "About",
+    "Contact": "Contact"
+  },
+  "banner": {
+    "priceBaner": "Price",
+    "discount": "Discount",
+    "product": "View product"
+  },
   "home": "Inicio",
-  "products": "Productos",
+  "sopport": {
+    "attention": "Customer service",
+    "write": "Write us / Call us"
+  },
   "cart": "Carrito",
   "wishlist": {
     "wishlist": "Wishlist",
@@ -165,6 +190,7 @@
   "compare": "Comparar",
   "addToList": "Añadir a la lista",
   "category": "Categoría",
+  "shopCategory": "Shop by category",
   "categories": {
     "howToBuy": {
       "label": "Como comprar",
@@ -177,12 +203,16 @@
       }
     },
     "help": {
-      "label": "Ayuda",
+      "label": "Help",
       "subcategories": {
-        "helpCenter": "Centro de ayuda",
+        "cambios_devoluciones": "Returns And Exchanges\t",
+        "helpCenter": "Help Center",
         "securityFraud": "Seguridad",
         "feedback": "Comentario",
         "contact": "Contacto"
+      },
+      "saubcategories": {
+        "cambios_devoluciones": "Returns and exchanges"
       }
     },
     "services": {
@@ -253,6 +283,37 @@
   "reviewsCount": "{count} reseñas",
   "recommendedProducts": "Recomendado con este producto.",
   "outOfStock": "Agotado",
+  "superMenu": {
+    "titleMain1": "Casual Wear",
+    "title1Main1": "Jackets",
+    "title2Main1": "Blazer",
+    "title3Main1": "Tops",
+    "title4Main1": "Shirts",
+    "title5Main1": "T-Shirts",
+    "title6Main1": "Jeans",
+    "title7Main1": "Trouser",
+    "title8Main1": "Skirts",
+    "title9Main1": "Dresses",
+    "title10Main1": "Swimwear",
+    "titleMain2": "Shoes",
+    "title1Main2": "Sneakers",
+    "title2Main2": "Boots",
+    "title3Main2": "Ankle Boots",
+    "title4Main2": "Pumps",
+    "title5Main2": "Ballerinas",
+    "titleMain3": "Bags",
+    "title1Main3": "Clutches",
+    "title2Main3": "Shoulder Bags",
+    "title3Main3": "Shopper",
+    "title4Main3": "Handbag",
+    "title5Main3": "Wallets",
+    "addAddress": "Add an address",
+    "pickup": "Pickup not available at Super center. {checkAvailability}",
+    "checkAvailability": "Check availability nearby",
+    "returns": "Free returns within 30 days. {details}",
+    "detailsSuperMenu": "Launch your project with our premium tools and resources.",
+    "detailsSuperMenuButton": "START NOW"
+  },
   "additionalInfo": {
     "shipping": "Envío gratuito, llega antes del {date}. ¿Lo quieres más rápido?  {addAddress} para ver opciones",
     "addAddress": "Agregar una dirección",
@@ -402,22 +463,64 @@
   },
   "benefits": {
     "shipping": {
-      "title": "Env gratis en toda Venezuela"
+      "title": "Free shipping throughout Venezuela",
+      "subtitle": "Without leaving, just a click away"
     },
     "homeDelivery": {
-      "title": "Recibe en tu casa",
-      "subtitle": "Sin salir, a tan solo un click"
+      "title": "Receive at home",
+      "subtitle": "Without leaving, just a click away"
     },
     "securePay": {
-      "title": "Pagos 100% seguros",
-      "subtitle": "Todos los métodos de pago"
+      "title": "100% secure payments",
+      "subtitle": "All payment methods"
     },
     "trust": {
-      "title": "Confianza y seguridad",
-      "subtitle": "Estamos respaldados"
+      "title": "Confidence and security",
+      "subtitle": "We are supported"
     }
   },
+  "cardColletiom": {
+    "card1": {
+      "title1": "Fresh and bold",
+      "title2": "NEW COLLECTION",
+      "description1": "Add a touch of color to your outfit",
+      "cta": "Find out now",
+      "section1": {
+        "title1": "Días soleados",
+        "title2": "INSPÍRATE",
+        "description1": "Salga a la calle con estilo con nuestra colección de gafas de sol",
+        "cta": "Descúbrelo ahora"
+      }
+    },
+    "card2": {
+      "title1": "INSPIRE",
+      "title2": "Sunny days",
+      "description1": "Hit the streets in style with our sunglasses collection.",
+      "cta": "Descúbrelo ahora",
+      "section1": {
+        "title1": "Días soleados",
+        "title2": "INSPÍRATE",
+        "description1": "Salga a la calle con estilo con nuestra colección de gafas de sol",
+        "cta": "Descúbrelo ahora"
+      }
+    },
+    "card3": {
+      "title1": "BE ACTIVE",
+      "title2": "Sunny days",
+      "description1": "Explore nature with our backpacks",
+      "cta": "Descúbrelo ahora",
+      "section1": {
+        "title1": "Días soleados",
+        "title2": "INSPÍRATE",
+        "description1": "Salga a la calle con estilo con nuestra colección de gafas de sol",
+        "cta": "Descúbrelo ahora"
+      }
+    },
+    "button": "Find out now"
+  },
   "products": {
+    "statusOff": "Out of stock",
+    "StatusAvailable": "Available",
     "officeChair": {
       "name": "Office Chair",
       "price": "70.00",
@@ -434,17 +537,13 @@
       "status": "Agotado"
     }
   },
-  "categories": {
-    "women": "WOMEN",
-    "men": "MEN",
-    "discounts": "Descuentos",
-    "technology": "Tecnología",
-    "viewAll": "Ver todo"
-  },
   "promos": {
     "washer": {
-      "title": "LO ÚLTIMO EN LAVADORAS AL 50%",
-      "description": "Oportunidad única, lavadora/Secadora SAMSUNG con tecnología de última generación"
+      "title": "LATEST IN ",
+      "subtitle": "WASHING MACHINES AT 50% OFF",
+      "description": "Oportunidad única, lavadora/Secadora SAMSUNG con tecnología de última generación",
+      "texto": "Unique opportunity, SAMSUNG washer/dryer with state-of-the-art technology.",
+      "button": "Make a purchase"
     },
     "collections": {
       "new": {
@@ -465,34 +564,40 @@
     }
   },
   "newsletter": {
-    "title": "Sé el primero en enterarte de ofertas especiales, regalos y eventos exclusivos.",
-    "placeholder": "Introduce tu email",
-    "button": "Suscribirse al boletín",
-    "disclaimer": "Para más información sobre cómo gestionamos tus datos, consulta nuestro Aviso de Privacidad. Puedes cancelar tu suscripción en cualquier momento sin coste alguno."
+    "title": "Be the first to know about special offers, gifts and exclusive events.",
+    "placeholder": "Enter your email",
+    "button": "Subscribe to the newsletter",
+    "disclaimer": "For more information on how we handle your data, please see our Privacy Notice. You can unsubscribe at any time at no cost."
   },
+  "tecnologia": "Technology",
+  "CardSlide": "DISCOVER THE 24-HOUR DISCOUNTS\t",
   "footer": {
-    "howToBuy": {
-      "title": "How to buy",
-      "links": [
-        "Payment methods",
-        "Order pickup",
-        "Purchase status",
-        "Track orders",
-        "Returns"
-      ]
-    },
-    "help": {
-      "title": "Help",
-      "links": ["Help centers", "Security & fraud", "Feedback", "Contact"]
-    },
-    "contact": {
-      "chat": {
-        "title": "Live chat",
-        "hours": "Mon–Fri, 5am–10pm PT\nSat–Sun, 6am–9pm PT"
+    "navegacion": {
+      "redes_sociales": {
+        "facebook": "https://www.facebook.com/tu_pagina",
+        "instagram": "https://www.instagram.com/tu_perfil"
       },
-      "phone": {
-        "number": "1 234 567 8901",
-        "hours": "Mon–Fri, 5am–10pm PT\nSat–Sun, 6am–9pm PT"
+      "informacion": {
+        "quienes_somos": "About us",
+        "registro": "Registration",
+        "cuenta": "Your account\t",
+        "ayuda": "ayuda",
+        "siguenos": "Follow us at\t",
+        "rastrear_pedido": "Track your order",
+        "cambios_devoluciones": "Returns and Exchanges",
+        "preguntas_frecuentes": "Frequently Asked Questions",
+        "contacto": "Contact us",
+        "envios": "Shipping Information\t",
+        "pagos": "Payment Information\t"
+      },
+      "categorias": {
+        "ferreteria": " Home Improvement",
+        "digital": "Digital",
+        "todos_productos": "All products",
+        "ofertas": "Offers"
+      },
+      "acciones": {
+        "comprar": "buy"
       }
     }
   }

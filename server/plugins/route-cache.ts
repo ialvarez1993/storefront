@@ -25,12 +25,21 @@ export default defineNitroPlugin((nitroApp) => {
         name: enHandler.route,
         getKey: (event: H3Event) => {
           const headers = getRequestHeaders(event);
-          const userAgent: any = headers["user-agent"];
-          const flags = generateFlags(headers, userAgent);
-          if (flags.isDesktop) {
+          // Añadimos verificación de seguridad
+          const userAgent = headers["user-agent"] || "";
+
+          // Aseguramos que generateFlags reciba datos válidos
+          try {
+            const flags = generateFlags(headers, userAgent);
+            if (flags && flags.isDesktop) {
+              return `desktop-${event.path}`;
+            }
+            return `mobile-${event.path}`;
+          } catch (error) {
+            console.error('Error generating device flags:', error);
+            // Fallback por defecto
             return `desktop-${event.path}`;
           }
-          return `mobile-${event.path}`;
         },
         shouldInvalidateCache: (event: H3Event) => {
           return false;

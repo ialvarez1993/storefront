@@ -46,5 +46,273 @@
       "cantidad": 2,
       "precioUnitario": 799.99
     }
-  ]
+  ],
+  "acerca_de_nosotros": {
+    "historia": {
+      "fundacion": "2024",
+      "fundadores": [
+        "Nombre 1",
+        "Nombre 2"
+      ],
+      "mision": "Descripción de la misión de la empresa",
+      "vision": "Descripción de la visión de la empresa"
+    },
+    "valores": [
+      {
+        "nombre": "Innovación",
+        "descripcion": "Descripción del valor"
+      },
+      {
+        "nombre": "Calidad",
+        "descripcion": "Descripción del valor"
+      },
+      {
+        "nombre": "Servicio al Cliente",
+        "descripcion": "Descripción del valor"
+      }
+    ],
+    "equipo": [
+      {
+        "nombre": "Nombre Completo",
+        "cargo": "CEO",
+        "descripcion": "Breve biografía",
+        "contacto": {
+          "email": "email@empresa.com",
+          "telefono": "+1234567890"
+        }
+      }
+    ],
+    "ubicaciones": [
+      {
+        "tipo": "Oficina Principal",
+        "direccion": "Dirección completa",
+        "ciudad": "Ciudad",
+        "pais": "País",
+        "codigo_postal": "12345",
+        "coordenadas": {
+          "latitud": 0.0,
+          "longitud": 0.0
+        }
+      }
+    ]
+  },
+  "rastrear_pedido": {
+    "pedido": {
+      "numero_pedido": "ORD123456789",
+      "fecha_pedido": "2024-01-01T12:00:00Z",
+      "estado_actual": "En tránsito",
+      "historial_estados": [
+        {
+          "estado": "Procesando",
+          "fecha": "2024-01-01T12:00:00Z",
+          "ubicacion": "Centro de distribución",
+          "descripcion": "Pedido recibido y en procesamiento"
+        },
+        {
+          "estado": "En tránsito",
+          "fecha": "2024-01-02T12:00:00Z",
+          "ubicacion": "Centro de envíos",
+          "descripcion": "En camino al destino"
+        }
+      ],
+      "detalles_envio": {
+        "servicio": "Express",
+        "transportista": "Nombre del transportista",
+        "numero_seguimiento": "TRACK123456789",
+        "fecha_estimada_entrega": "2024-01-05T12:00:00Z"
+      },
+      "ubicacion_actual": {
+        "ciudad": "Ciudad actual",
+        "pais": "País",
+        "fecha_actualizacion": "2024-01-03T12:00:00Z"
+      }
+    }
+  },
+  "cambios_devoluciones": {
+    "politicas": {
+      "tiempo_devolucion": 30,
+      "condiciones_producto": [
+        "Sin usar",
+        "Con etiquetas originales",
+        "En empaque original"
+      ],
+      "exclusiones": [
+        "Productos en oferta",
+        "Ropa interior",
+        "Artículos personalizados"
+      ]
+    },
+    "proceso": {
+      "pasos": [
+        {
+          "orden": 1,
+          "descripcion": "Contactar servicio al cliente",
+          "detalles": "Información detallada del paso"
+        },
+        {
+          "orden": 2,
+          "descripcion": "Obtener autorización",
+          "detalles": "Información detallada del paso"
+        }
+      ]
+    },
+    "reembolsos": {
+      "metodos": [
+        {
+          "tipo": "Tarjeta original",
+          "tiempo_proceso": "5-7 días hábiles"
+        },
+        {
+          "tipo": "Crédito de tienda",
+          "tiempo_proceso": "Inmediato"
+        }
+      ],
+      "condiciones_especiales": [
+        "Descripción de condiciones especiales"
+      ]
+    }
+  },
+  "preguntas_frecuentes": {
+    "categorias": [
+      {
+        "nombre": "Pedidos",
+        "preguntas": [
+          {
+            "pregunta": "¿Cómo realizo un pedido?",
+            "respuesta": "Respuesta detallada",
+            "tags": [
+              "pedidos",
+              "compras"
+            ],
+            "util": true
+          },
+          {
+            "pregunta": "¿Cuánto tarda mi pedido?",
+            "respuesta": "Respuesta detallada",
+            "tags": [
+              "envios",
+              "tiempos"
+            ],
+            "util": true
+          }
+        ]
+      },
+      {
+        "nombre": "Pagos",
+        "preguntas": [
+          {
+            "pregunta": "¿Qué métodos de pago aceptan?",
+            "respuesta": "Respuesta detallada",
+            "tags": [
+              "pagos",
+              "metodos"
+            ],
+            "util": true
+          }
+        ]
+      }
+    ]
+  },
+  "informacion_envios": {
+    "metodos_envio": [
+      {
+        "tipo": "Estándar",
+        "tiempo_entrega": "3-5 días hábiles",
+        "costo": 10.00,
+        "restricciones": [
+          "No disponible para islas"
+        ],
+        "seguimiento": true
+      },
+      {
+        "tipo": "Express",
+        "tiempo_entrega": "1-2 días hábiles",
+        "costo": 25.00,
+        "restricciones": [],
+        "seguimiento": true
+      }
+    ],
+    "zonas_cobertura": [
+      {
+        "pais": "País",
+        "regiones": [
+          "Región 1",
+          "Región 2"
+        ],
+        "tiempo_estimado": "X días",
+        "costo_adicional": 0.00
+      }
+    ],
+    "restricciones": {
+      "productos_prohibidos": [
+        "Líquidos inflamables",
+        "Materiales peligrosos"
+      ],
+      "dimensiones_maximas": {
+        "largo": 100,
+        "ancho": 50,
+        "alto": 50,
+        "unidad": "cm"
+      },
+      "peso_maximo": {
+        "valor": 30,
+        "unidad": "kg"
+      }
+    }
+  },
+  "informacion_pago": {
+    "metodos_pago": [
+      {
+        "tipo": "Tarjeta de crédito",
+        "tarjetas_aceptadas": [
+          "Visa",
+          "Mastercard",
+          "American Express"
+        ],
+        "requisitos": [
+          "Tarjeta válida",
+          "CVV",
+          "Fecha de vencimiento"
+        ],
+        "procesamiento": "Inmediato"
+      },
+      {
+        "tipo": "PayPal",
+        "requisitos": [
+          "Cuenta PayPal verificada"
+        ],
+        "procesamiento": "Inmediato"
+      }
+    ],
+    "seguridad": {
+      "certificaciones": [
+        "PCI DSS",
+        "SSL"
+      ],
+      "protocolos": [
+        "3D Secure",
+        "Verificación en dos pasos"
+      ]
+    },
+    "politicas": {
+      "monedas_aceptadas": [
+        {
+          "codigo": "USD",
+          "nombre": "Dólar estadounidense"
+        },
+        {
+          "codigo": "EUR",
+          "nombre": "Euro"
+        }
+      ],
+      "tiempo_autorizacion": "24 horas",
+      "politica_reembolsos": {
+        "tiempo_proceso": "5-7 días hábiles",
+        "condiciones": [
+          "Pedido cancelado",
+          "Devolución aprobada"
+        ]
+      }
+    }
+  }
 }

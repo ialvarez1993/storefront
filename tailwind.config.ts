@@ -10,9 +10,32 @@ export default <Config>{
   css: [
     "~/assets/css/tailwind.css",
     "primevue/resources/themes/lara-light-blue/theme.css",
+    'primevue/resources/themes/lara-light-blue/theme.css',
+    'primevue/resources/primevue.min.css',
+    'primeicons/primeicons.css',
+    "./components/**/*.{vue,js,ts}", // Escanea archivos Vue, JS y TS dentro de la carpeta components
+    "./layouts/**/*.vue", // Solo archivos .vue dentro de layouts
+    "./pages/**/*.vue", // Solo archivos .vue dentro de pages
+    "./plugins/**/*.{js,ts}", // Archivos JS y TS dentro de plugins
+    "./nuxt.config.{js,ts}", // El archivo de configuración de Nuxt
+    "./app.vue", // El archivo principal de la app
+    "./node_modules/@storefront-ui/vue/**/*.{js,mjs}", // Módulos específicos de `@storefront-ui`
+    "./node_modules/@nuxt/ui/dist/**/*.{vue,js,ts}", // Módulos específicos de `@nuxt/ui`
+    "docs/content/**/*.md",
   ],
 
   theme: {
+    screens: {
+      sm: '640px',
+      md: '769px',
+      lg: '1024px',
+      xl: '1280px',
+      // Agrega tus propios breakpoints aquí
+      '2xl': '1536px',
+      '3xl': '2000px',
+      '4xl': '3000px',
+
+    },
     container: {
       center: true,
       padding: "2rem",
@@ -21,7 +44,11 @@ export default <Config>{
       },
     },
     fontFamily: {
-      designer: ["Designer", "sans-serif"],
+      sass: ["Roboto"],
+      robotolight: ["Robotolight"],
+
+      header: ["Designer"]
+
     },
     extend: {
       colors: {

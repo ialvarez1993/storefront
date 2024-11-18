@@ -145,196 +145,228 @@ watch(priceModel, (newValue) => {
 </script>
 
 <template>
-  <aside class="w-full lg:max-w-[376px]">
+  <aside class="w-full lg:max-w-[376px] font-sans">
+    <!-- Categorías -->
     <template v-if="categories.length">
       <div
-        class="py-2 px-4 mb-4 bg-neutral-100 typography-headline-6 font-bold text-neutral-900 uppercase tracking-widest md:rounded-md"
-        data-testid="category-tree"
+        class="bg-gradient-to-r from-yellow-700 to-yellow-500 p-4 rounded-lg shadow-lg mb-6"
       >
-        {{ $t("category") }}
+        <h3 class="text-white font-bold text-xl tracking-wider uppercase">
+          {{ $t("category") }}
+        </h3>
       </div>
 
-      <ul class="mt-4 mb-6 md:mt-2" data-testid="categories">
+      <ul class="space-y-2 mb-8" data-testid="categories">
         <SfListItem
-          v-for="(category, index) in categories"
+          v-for="category in categories"
           :key="category.name"
           size="lg"
+          class="transition-all group/categoryFilter duration-300 hover:!bg-black scale-100 hover:scale-105"
           :class="[
-            'md:sf-list-item-sm md:py-1.5 sf-list-item',
+            'rounded-md hover:!bg-black',
             {
-              'bg-primary-100 hover:bg-primary-100 active:bg-primary-100 font-medium':
+              'bg-indigo-50 border-l-4 border-indigo-600':
                 category.id === route.query.id,
             },
           ]"
-          data-testid="category-tree-item"
         >
           <span
-            class="flex gap-2 items-center"
+            class="flex items-center gap-3 p-2 cursor-pointer"
             @click="changeCategory(category.id)"
           >
+            <i class="fas fa-folder group-hover/categoryFilter:!text-white"></i>
             <span
-              class="text-base md:text-sm capitalize flex items-center"
-              data-testid="list-item-menu-label"
-              :class="{
-                'font-bold': category.slug === route.path,
-              }"
+              class="group-hover/categoryFilter:!text-white font-medium capitalize"
             >
-              <slot />
               {{ category.name }}
             </span>
           </span>
         </SfListItem>
       </ul>
     </template>
-    <h5
-      class="py-2 px-4 mb-6 bg-neutral-100 typography-headline-6 font-bold text-neutral-900 uppercase tracking-widest md:rounded-md"
-    >
-      Sort by
-    </h5>
-    <div class="px-2">
-      <SfSelect
-        v-model="sortBy.selected"
-        placeholder="Select sorting"
-        :aria-label="$t('sortBy')"
-        @update:model-value="changeSorting"
-      >
-        <option
-          v-for="{ id, value, attrName } in sortBy.options"
-          :key="id"
-          :selected="sortBy.selected === value"
-          :value="value"
+
+    <!-- Ordenamiento -->
+    <div class="bg-white rounded-lg p-4 mb-6">
+      <h5 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+        <i class="fas fa-sort text-black"></i>
+        Sort by
+      </h5>
+      <div class="px-2">
+        <SfSelect
+          v-model="sortBy.selected"
+          class="w-full border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500"
+          placeholder="Select sorting"
+          :aria-label="$t('sortBy')"
+          @update:model-value="changeSorting"
         >
-          {{ attrName }}
-        </option>
-      </SfSelect>
+          <option
+            v-for="{ id, value, attrName } in sortBy.options"
+            :key="id"
+            :value="value"
+          >
+            {{ attrName }}
+          </option>
+        </SfSelect>
+      </div>
     </div>
-    <h5
-      class="py-2 px-4 mt-6 mb-4 bg-neutral-100 typography-headline-6 font-bold text-neutral-900 uppercase tracking-widest md:rounded-md"
-    >
-      Filter
-    </h5>
-    <ul>
-      <li v-for="(facet, index) in facets" :key="index">
-        <SfAccordionItem v-model="opened[facet.label]">
-          <template #summary>
-            <div class="flex justify-between items-center p-2 mb-2">
-              <p class="p-2 font-medium typography-headline-5">
-                {{ facet?.label }}
-              </p>
-              <SfIconChevronLeft
-                :class="opened[facet.label] ? 'rotate-90' : '-rotate-90'"
-              />
-            </div>
-          </template>
-          <template v-if="facet.type == 'price'">
-            <fieldset id="radio-price">
-              <SfListItem
-                v-for="option in facet.options"
-                :key="option.id"
-                tag="label"
+
+    <!-- Filtros -->
+    <div class="bg-white rounded-lg shadow-md p-4">
+      <h5 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+        <i class="fas fa-filter text-black"></i>
+        Filter
+      </h5>
+
+      <ul class="space-y-4">
+        <li v-for="(facet, index) in facets" :key="index">
+          <SfAccordionItem
+            v-model="opened[facet.label]"
+            class="border border-gray-100 rounded-lg overflow-hidden"
+          >
+            <template #summary>
+              <div
+                class="flex justify-between items-center p-3 hover:bg-gray-50"
               >
-                <template #prefix>
-                  <SfRadio
-                    v-model="priceModel"
-                    class="flex items-center"
-                    :name="facet.label"
-                    :value="option.values"
+                <p class="font-medium text-gray-800 flex items-center gap-2">
+                  <i class="fas fa-tag text-black"></i>
+                  {{ facet?.label }}
+                </p>
+                <SfIconChevronLeft
+                  class="text-gray-500 transition-transform duration-300"
+                  :class="opened[facet.label] ? 'rotate-90' : '-rotate-90'"
+                />
+              </div>
+            </template>
+
+            <!-- Filtros de precio -->
+            <template v-if="facet.type == 'price'">
+              <fieldset id="radio-price" class="p-4">
+                <SfListItem
+                  v-for="option in facet.options"
+                  :key="option.id"
+                  tag="label"
+                  class="mb-2 last:mb-0"
+                >
+                  <template #prefix>
+                    <SfRadio
+                      v-model="priceModel"
+                      :name="facet.label"
+                      :value="option.values"
+                      class="transition-colors duration-200"
+                      :class="{
+                        'text-indigo-600': priceModel === option.values,
+                      }"
+                    />
+                  </template>
+                  <span
+                    class="ml-2 text-sm text-gray-600"
                     :class="{
-                      'bg-primary-700 border-primary-700 hover:bg-primary-800':
+                      'font-medium text-indigo-600':
                         priceModel === option.values,
                     }"
-                  />
-                </template>
-                <span
-                  class="text-sm mr-2"
-                  :class="{
-                    'font-medium': priceModel === option.values,
-                  }"
-                  >{{ option.label }}
-                </span>
-              </SfListItem>
-            </fieldset>
-          </template>
+                  >
+                    {{ option.label }}
+                  </span>
+                </SfListItem>
+              </fieldset>
+            </template>
 
-          <ul
-            v-if="facet.type === 'select'"
-            class="grid grid-cols-5 gap-2 px-3"
-          >
-            <li v-for="{ id, value, label } in facet.options" :key="id">
-              <SfChip
-                class="w-full"
-                size="sm"
-                :input-props="{ value }"
-                :model-value="isFilterSelected({ id, value })"
-                @update:model-value="selectFilter(facet, { id, value, label })"
-              >
-                {{ label }}
-              </SfChip>
-            </li>
-          </ul>
-          <ul v-if="facet.type === 'radio'" class="grid grid-cols-3 gap-2 px-3">
-            <li v-for="{ id, value, label } in facet.options" :key="id">
-              <SfChip
-                class="w-full"
-                size="sm"
-                :input-props="{ value }"
-                :model-value="isFilterSelected({ id, value })"
-                @update:model-value="selectFilter(facet, { id, value, label })"
-              >
-                {{ label }}
-              </SfChip>
-            </li>
-          </ul>
-          <template v-if="facet.type == 'color'">
-            <SfListItem
-              v-for="{ id, value, label, htmlColor } in facet.options"
-              :key="id"
-              size="sm"
-              tag="label"
-              :class="[
-                'px-4 bg-transparent hover:bg-transparent',
-                {
-                  'font-medium': isFilterSelected({ id, value }),
-                },
-              ]"
-              :selected="isFilterSelected({ id, value })"
+            <!-- Chips de selección -->
+            <ul
+              v-if="facet.type === 'select'"
+              class="grid grid-cols-2 md:grid-cols-3 gap-2 p-4"
             >
-              <template #prefix>
-                <SfCheckbox
-                  :value="label"
-                  class="appearance-none peer hidden"
+              <li v-for="{ id, value, label } in facet.options" :key="id">
+                <SfChip
+                  class="w-full transition-all duration-200 hover:scale-105"
+                  size="sm"
+                  :input-props="{ value }"
                   :model-value="isFilterSelected({ id, value })"
                   @update:model-value="
                     selectFilter(facet, { id, value, label })
                   "
-                />
-                <span
-                  class="inline-flex items-center justify-center p-1 transition duration-300 rounded-full cursor-pointer ring-1 ring-neutral-200 ring-inset outline-offset-2 outline-secondary-600 peer-checked:ring-2 peer-checked:ring-primary-700 peer-hover:bg-primary-100 peer-[&:not(:checked):hover]:ring-primary-200 peer-active:bg-primary-200 peer-active:ring-primary-300 peer-disabled:cursor-not-allowed peer-disabled:bg-disabled-100 peer-disabled:opacity-50 peer-disabled:ring-1 peer-disabled:ring-disabled-200 peer-disabled:hover:ring-disabled-200 peer-checked:hover:ring-primary-700 peer-checked:active:ring-primary-700 peer-focus-visible:outline"
                 >
-                  <SfThumbnail
-                    size="sm"
-                    :style="{ backgroundColor: htmlColor }"
+                  {{ label }}
+                </SfChip>
+              </li>
+            </ul>
+
+            <!-- Colores -->
+            <template v-if="facet.type == 'color'">
+              <div class="p-4 grid grid-cols-4 gap-4">
+                <SfListItem
+                  v-for="{ id, value, label, htmlColor } in facet.options"
+                  :key="id"
+                  size="sm"
+                  tag="label"
+                  class="flex flex-col items-center"
+                >
+                  <SfCheckbox
+                    :value="label"
+                    class="hidden"
+                    :model-value="isFilterSelected({ id, value })"
+                    @update:model-value="
+                      selectFilter(facet, { id, value, label })
+                    "
                   />
-                </span>
-              </template>
-              <p>
-                <span class="mr-2 typography-text-sm">{{ label }}</span>
-              </p>
-            </SfListItem>
-          </template>
-        </SfAccordionItem>
-        <hr class="my-4" />
-      </li>
-    </ul>
-    <div
-      class="flex flex-col lg:flex-row gap-y-4 lg:gap-y-0 lg:justify-between px-3 lg:px-0"
-    >
-      <SfButton variant="secondary" class="w-full mr-3" @click="clearFilters">
-        {{ $t("clearFilters") }}
-      </SfButton>
-      <SfButton class="w-full" @click="applyFilters">{{
-        $t("showProducts")
-      }}</SfButton>
+                  <div
+                    class="w-8 h-8 rounded-full shadow-md transition-transform duration-200 hover:scale-110"
+                    :style="{ backgroundColor: htmlColor }"
+                  ></div>
+                  <span class="mt-1 text-xs text-gray-600">{{ label }}</span>
+                </SfListItem>
+              </div>
+            </template>
+          </SfAccordionItem>
+        </li>
+      </ul>
+
+      <!-- Botones de acción -->
+      <div class="flex gap-4 mt-6">
+        <SfButton
+          variant="secondary"
+          class="flex-1 py-3 px-4 border border-gray-300 bg-slate-300 hover:bg-gray-400 transition-colors duration-200"
+          @click="clearFilters"
+        >
+          <i class="fas fa-times mr-2"></i>
+          {{ $t("clearFilters") }}
+        </SfButton>
+        <SfButton
+          class="flex-1 py-3 px-4 bg-black text-white hover:bg-black/80 transition-colors duration-200"
+          @click="applyFilters"
+        >
+          <i class="fas fa-check mr-2"></i>
+          {{ $t("showProducts") }}
+        </SfButton>
+      </div>
     </div>
   </aside>
 </template>
+
+<style lang="scss">
+.scale-102 {
+  transform: scale(1.02);
+}
+
+.sf-accordion-item {
+  &__content {
+    @apply bg-white;
+  }
+}
+
+.sf-chip {
+  @apply bg-gray-100 hover:bg-gray-200 text-gray-700;
+
+  &--selected {
+    @apply bg-indigo-100 text-indigo-700 border-indigo-600;
+  }
+}
+
+.sf-button {
+  @apply rounded-lg font-medium shadow-sm;
+
+  &--secondary {
+    @apply text-gray-700;
+  }
+}
+</style>

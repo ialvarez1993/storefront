@@ -17,9 +17,8 @@ const recentSearches = ref([]);
 
 // Trending searches (ejemplo - idealmente vendría del backend)
 const trendingSearches = [
-  { id: 1, term: "Nuevos productos", icon: "🆕" },
-  { id: 2, term: "Más vendidos", icon: "🔥" },
-  { id: 3, term: "Ofertas", icon: "💎" },
+  { id: 1, term: "women", icon: "👩‍🦲" },
+  { id: 2, term: "desk", icon: "✏️" },
 ];
 
 const {
@@ -38,7 +37,7 @@ const debouncedSearch = useDebounceFn(() => {
   if (searchInputValue.value.length >= 3) {
     search();
   }
-}, 300);
+}, 0);
 
 // Computed properties
 const hasResults = computed(() => searchHits.value.length > 0);
@@ -141,9 +140,9 @@ watch(searchHits, animateResults);
     <SfInput
       v-model="searchInputValue"
       type="text"
-      class="search-input [&::-webkit-search-cancel-button]:appearance-none"
+      class="search-input font-robotolight [&::-webkit-search-cancel-button]:appearance-none"
       :class="{ 'is-focused': isInputFocused }"
-      placeholder="Buscar productos, marcas y más..."
+      :placeholder="$t('search')"
       wrapper-class="flex-1 h-12 pr-0"
       size="base"
       @input="handleSearch"
@@ -178,7 +177,7 @@ watch(searchHits, animateResults);
             :disabled="loading || !searchInputValue"
             @click="search"
           >
-            <template v-if="!loading"> Buscar </template>
+            <template v-if="!loading"> {{ $t("searchButton") }} </template>
             <SfLoaderCircular v-else size="sm" />
           </SfButton>
         </div>
@@ -217,10 +216,16 @@ watch(searchHits, animateResults);
               >
                 <div class="flex items-center gap-4 p-3 hover:bg-gray-50">
                   <div class="search-result-image">
-                    {{ console.log(hit) }}
                     <NuxtImg
-                      v-if="hit.image_url"
-                      :src="hit.image_url"
+                      v-if="hit.combinationInfo.display_name"
+                      :src="
+                        $getImage(
+                          String(hit.image),
+                          250,
+                          250,
+                          String(hit.imageFilename),
+                        )
+                      "
                       :alt="hit.name"
                       class="rounded-lg object-cover"
                     />

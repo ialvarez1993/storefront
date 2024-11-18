@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LazyUiProductCard2 from "../../core/components/ui/ProductCard2.vue";
 import {
   SfButton,
   SfIconTune,
@@ -60,7 +61,7 @@ onMounted(() => {
 });
 </script>
 <template>
-  <div class="pb-20">
+  <div class="pb-20 mt-56 mx-10">
     <UiBreadcrumb :breadcrumbs="breadcrumbs" class="self-start mt-5 mb-5" />
     <h1 class="font-bold typography-headline-3 md:typography-headline-2 mb-10">
       Results for "{{ route.query.search }}"
@@ -104,7 +105,7 @@ onMounted(() => {
             v-if="totalItems > 0"
             class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5 mt-8"
           >
-            <LazyUiProductCard
+            <LazyUiProductCard2
               v-for="productTemplate in productTemplateList"
               :key="productTemplate.id"
               :name="productTemplate?.name || ''"

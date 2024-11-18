@@ -1,9 +1,9 @@
 <template>
   <section class="px-4 py-8 w-full max-w-7xl mx-auto">
     <h1
-      class="text-2xl md:text-3xl font-bold text-center mb-8 uppercase tracking-wider"
+      class="text-2xl  md:text-3xl font-bold font-header text-center mb-8 uppercase tracking-wider"
     >
-      Los Mejores Descuentos de la Semana
+      Los Mejores Descuentos de la Semanas
     </h1>
 
     <div class="relative">

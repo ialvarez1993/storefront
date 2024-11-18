@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ref, watch } from "vue";
+
 const model = defineModel();
 
 const emit = defineEmits(["is-field-valid"]);
@@ -28,7 +30,7 @@ watch(model, () => {
         v-bind="$attrs"
         v-model="model"
         type="text"
-        placeholder="Introduce tu email"
+        :placeholder="$t('newsletter.placeholder')"
         class="w-full text-base outline-none appearance-none text-neutral-900 disabled:cursor-not-allowed disabled:bg-transparent read-only:bg-transparent"
         @input="clearError"
       />

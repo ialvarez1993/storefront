@@ -1,4 +1,4 @@
-<script setup>
+<script lang="ts" setup>
 import { ref, onMounted, onUnmounted } from "vue";
 import {
   MagnifyingGlassIcon,
@@ -10,6 +10,21 @@ import {
   ArrowUpIcon,
 } from "@heroicons/vue/24/outline";
 import ButtonIdiomas from "./header/ButtonIdiomas.vue";
+import DivisasButton from "./header/DivisasButton.vue";
+import Supermenus from "./header/Supermenus.vue";
+import SupermenusDigital from "./header/SupermenusDigial.vue";
+import SideBar from "./ui/SideBar.vue";
+import TreeViewItem from "./header/TreeViewItem.vue";
+
+const { loadCategoryList, categories: categoriesData } = useCategory();
+const { loadWishlist } = useWishlist();
+
+provide(
+  "filteredTopCategories",
+  categoriesData.value?.filter(
+    (category) => category.name === "WOMEN" || category.name === "MEN",
+  ),
+);
 
 const { loadCart, totalItemsInCart } = useCart();
 
@@ -24,7 +39,7 @@ const currency = ref("VES");
 
 const categories = {
   ferreteria: [
-    { name: "Construcción", href: "/category/15" },
+    { name: "sopport.write", href: "/category/15" },
     { name: "Electricidad", href: "/category/15" },
     { name: "Jardín", href: "/category/15" },
     { name: "Baño y fontanería", href: "/category/15" },
@@ -76,10 +91,17 @@ onUnmounted(() => {
     <!-- Top banner -->
     <div
       v-if="!isCompact"
-      class="bg-black text-white px-4 py-2 flex justify-between items-center text-sm"
+      class="bg-black text-white px-4 py-2 flex items-center justify-between text-sm w-full"
     >
-      <span class="hidden sm:inline">{{ $t("benefits.shipping.title") }}</span>
-      <ButtonIdiomas />
+      <span class="items-center font-robotolight sm:inline whitespace-nowrap">
+        {{ $t("HeaderUp.Shipping") }}
+      </span>
+      <div class="flex items-center justify-end gap-8 w-full">
+        <div class="flex items-center justify-end w-full my-auto">
+          <ButtonIdiomas />
+          <DivisasButton class="ml-4" />
+        </div>
+      </div>
     </div>
 
     <!-- Main header -->
@@ -90,21 +112,19 @@ onUnmounted(() => {
       ]"
     >
       <div class="flex items-center justify-between gap-4">
-        <!-- Left section -->
+        <!-- Left section - Esta en modo mobile -->
         <div class="flex items-center gap-4">
-          <button
-            v-if="isCompact"
-            class="p-2 hover:bg-gray-100 lg:hidden"
-            @click="toggleMenu"
-          >
-            <component
-              :is="isMenuOpen ? XMarkIcon : Bars3Icon"
-              class="h-6 w-6"
-            />
-          </button>
+          <div v-if="isCompact">
+            <SideBar />
+          </div>
           <NuxtLink to="/" class="flex-shrink-0">
             <VsfLogo />
           </NuxtLink>
+          <!-- Icon Menu Resposive - Esta en modo default -->
+          <div v-if="!isCompact" class="grid grid-cols-2 lg:hidden">
+            <SideBar />
+            <ModalFavorites />
+          </div>
         </div>
 
         <!-- Search bar -->
@@ -128,8 +148,9 @@ onUnmounted(() => {
           <!-- WhatsApp -->
           <NuxtLink
             external
-            to="https://www.whatsapp.com/"
+            to="https://api.whatsapp.com/send?phone=584244062826&text=Hola%2C%20tu%20punto%20est%C3%A1%20cerca%20de%20ti%20%F0%9F%91%8D"
             class="hidden lg:flex items-center gap-2"
+            target="_blank"
           >
             <svg
               version="1.0"
@@ -163,17 +184,22 @@ onUnmounted(() => {
               </g>
             </svg>
             <div v-if="!isCompact" class="flex flex-col">
-              <span class="font-semibold text-sm">Atención al cliente</span>
-              <span class="text-xs text-muted-foreground"
-                >Escríbenos / Llámanos</span
-              >
+              <span class="font-semibold text-sm">{{
+                $t("sopport.attention")
+              }}</span>
+              <span class="text-xs !font-robotolight text-muted-foreground">
+                {{ $t("sopport.write") }}
+              </span>
             </div>
           </NuxtLink>
 
           <!-- User account -->
-          <NuxtLink to="/login" class="hidden lg:flex items-center gap-2">
+          <NuxtLink
+            to="/login"
+            class="hidden font-Gotham lg:flex items-center gap-2"
+          >
             <UserIcon class="h-5 w-5" />
-            <span v-if="!isCompact" class="text-sm">Mi cuenta</span>
+            <span v-if="!isCompact" class="text-sm">{{ $t("cuenta") }}</span>
           </NuxtLink>
 
           <!-- Shopping cart -->
@@ -207,43 +233,26 @@ onUnmounted(() => {
     <nav v-if="!isCompact" class="border-t border-b hidden lg:block">
       <div class="container mx-auto px-4">
         <ul class="flex items-center gap-8">
-          <li
-            v-for="(items, key) in categories"
-            :key="key"
-            class="relative group"
-          >
-            <button
-              class="h-12 px-3 text-base hover:bg-transparent hover:text-[#FFC107] group flex items-center"
-            >
-              {{ key.charAt(0).toUpperCase() + key.slice(1) }}
-              <ChevronDownIcon class="ml-1 h-4 w-4" />
-            </button>
-            <div
-              class="absolute top-full left-0 w-64 bg-white shadow-lg rounded-b-md py-2 z-50 hidden group-hover:block"
-            >
-              <NuxtLink
-                v-for="item in items"
-                :key="item.name"
-                to="/category/15"
-                class="block px-4 py-2 hover:bg-gray-100"
-              >
-                {{ item.name }}
-              </NuxtLink>
-            </div>
-          </li>
+          <Supermenus />
           <li
             v-for="item in [
-              'Todos los productos',
-              'Los más destacados',
-              'Ofertas',
+              {
+                name: 'headerCatalog.allProducts',
+                url: '/category/52',
+              },
+              { name: 'headerCatalog.Highlights', url: '/Highlights' },
+              { name: 'headerCatalog.Offers', url: '/Offers' },
+              { name: 'headerCatalog.About', url: '/about' },
+              { name: 'headerCatalog.Contact', url: '/contact' },
             ]"
-            :key="item"
+            :key="item.name"
           >
-            <button
-              class="h-12 px-3 text-base hover:bg-transparent hover:text-[#FFC107]"
+            <NuxtLink
+              :to="item.url"
+              class="h-12 px-3 rounded-lg text-base py-3 hover:bg-gray-200/50 hover:text-[#FFC107]"
             >
-              {{ item }}
-            </button>
+              {{ $t(item.name) }}
+            </NuxtLink>
           </li>
         </ul>
       </div>

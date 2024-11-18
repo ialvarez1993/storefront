@@ -1,6 +1,13 @@
+import Aura from '@primevue/themes/aura';
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  debug: true,
   devtools: { enabled: true },
+
+  robots: {
+    allow: "/category/*",
+  },
 
   app: {
     head: {
@@ -36,7 +43,6 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxt/scripts",
     "@nuxtjs/device",
-    "@nuxtjs/google-fonts",
     "nuxt-lazy-hydrate",
     "nuxt-lodash",
     "nuxt-icon",
@@ -49,6 +55,13 @@ export default defineNuxtConfig({
     "@nuxtjs/color-mode",
     "nuxt-lucide-icons",
   ],
+  primevue: {
+    options: {
+      theme: {
+        preset: Aura,
+      }
+    }
+  },
   shadcn: {
     prefix: "",
     componentDir: "./components/ui",
@@ -70,11 +83,7 @@ export default defineNuxtConfig({
     },
   },
 
-  googleFonts: {
-    families: {
-      "Red Hat Display": [400, 500, 700],
-    },
-  },
+
   i18n: {
     strategy: "no_prefix",
     locales: [
@@ -111,9 +120,6 @@ export default defineNuxtConfig({
           implementation: require("sass"),
         },
       },
-      optimizeDeps: {
-        include: ["lodash-es"],
-      },
     },
   },
 
@@ -149,22 +155,16 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
-    "/": { swr: Number(process.env?.NUXT_SWR_CACHE_TIME), prerender: true },
+    "/": { swr: Number(process.env?.NUXT_SWR_CACHE_TIME) },
     "/category/*": {
       swr: Number(process.env?.NUXT_SWR_CACHE_TIME),
-      prerender: true,
     },
     "/product/*": {
       swr: Number(process.env?.NUXT_SWR_CACHE_TIME),
-      prerender: true,
     },
-    "/carrito": { prerender: true },
   },
 
   nitro: {
-    prerender: {
-      failOnError: false,
-    },
     compressPublicAssets: false,
     storage: {
       redis: {
@@ -204,6 +204,6 @@ export default defineNuxtConfig({
   ssr: true,
   compatibilityDate: "2024-10-27",
   css: [
-    "@fortawesome/fontawesome-free/css/all.css", // Asegúrate de que la ruta sea correcta
+    "@fortawesome/fontawesome-free/css/all.css", "~/assets/css/tailwind.css",
   ],
 });

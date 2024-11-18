@@ -5,10 +5,17 @@ import {
   useDisclosure,
   SfLoaderCircular,
 } from "@storefront-ui/vue";
+
+const LazyProductCard2 = defineAsyncComponent(
+  () => import("~/domains/core/components/ui/ProductCard2.vue"),
+);
+
+const LazyProductCard2Desktop = defineAsyncComponent(
+  () => import("~/domains/core/components/ui/ProductCard2desktop.vue"),
+);
 import type { Product } from "~/graphql";
 
 const route = useRoute();
-const { isMobile, isDesktopOrTablet } = useDevice();
 
 const { isOpen, open, close } = useDisclosure();
 const {
@@ -77,33 +84,12 @@ if (category.value) {
 setMaxVisiblePages(isWideScreen.value);
 </script>
 <template>
-  <div class="pb-20">
+  <div class="pb-20 !mt-52 mx-20">
     <UiBreadcrumb :breadcrumbs="breadcrumbs" class="self-start mt-5 mb-5" />
     <h1 class="font-bold typography-headline-3 md:typography-headline-2 mb-10">
       All products
     </h1>
     <div class="grid grid-cols-12 lg:gap-x-6">
-      <div class="col-span-12 lg:col-span-4 xl:col-span-3">
-        <LazyCategoryFilterSidebar
-          v-show="isDesktopOrTablet"
-          :attributes="organizedAttributes"
-          :categories="categories"
-        />
-        <LazyCategoryMobileSidebar
-          v-show="isMobile"
-          :is-open="isOpen"
-          @close="close"
-        >
-          <template #default>
-            <CategoryFilterSidebar
-              class="block lg:hidden"
-              :attributes="organizedAttributes"
-              :categories="categories"
-              @close="close"
-            />
-          </template>
-        </LazyCategoryMobileSidebar>
-      </div>
       <div class="col-span-12 lg:col-span-8 xl:col-span-9">
         <div v-if="!loading">
           <div class="flex justify-between items-center mb-6">
@@ -125,7 +111,7 @@ setMaxVisiblePages(isWideScreen.value);
             v-if="productTemplateList.length > 0"
             class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-5 mt-8"
           >
-            <LazyUiProductCard
+            <LazyProductCard2Desktop
               v-for="productTemplate in productTemplateList"
               :key="productTemplate.id"
               :name="productTemplate?.name || ''"

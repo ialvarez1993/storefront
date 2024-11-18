@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mt-56">
     <NuxtLayout name="auth" :heading="$t('auth.resetPassword.heading')">
       <form
         class="pb-4 md:p-6 mt-10 md:border md:border-neutral-200 rounded-md"
@@ -16,7 +16,7 @@
           <SfButton
             :tag="NuxtLink"
             to="/login"
-            class="flex-1"
+            class="flex-1 bg-black !text-white"
             variant="tertiary"
           >
             {{ $t("auth.resetPassword.backToLogin") }}

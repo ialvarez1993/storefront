@@ -22,20 +22,24 @@
         <div class="space-y-6">
           <h1 class="title-group relative">
             <span
-              class="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-tight animate-text-reveal"
+              class="block text-4xl font-header sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-tight animate-text-reveal"
             >
-              LO ÚLTIMO EN <br />
-              <span class="text-gradient">LAVADORAS AL 50%</span>
+              {{ $t("promos.washer.title") }} <br />
+              <span class="text-gradient">
+                {{ $t("promos.washer.subtitle") }}</span
+              >
             </span>
           </h1>
 
           <p
             class="text-xl sm:text-2xl text-white/90 font-light animate-fade-in"
           >
-            Oportunidad única, lavadora/Secadora SAMSUNG con tecnología de
-            última generación
+            {{ $t("promos.washer.texto") }}
           </p>
 
+          <Button class="!bg-black !border-none hover:bg-white">{{
+            $t("promos.washer.button")
+          }}</Button>
           <!-- Features List -->
         </div>
       </div>

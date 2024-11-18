@@ -19,14 +19,12 @@ const subscribeNewsletter = async () => {
       <p
         class="typography-headline-4 text-white sm:typography-headline-3 font-bold"
       >
-        Sé el primero en enterarte de ofertas especiales, regalos y eventos
-        exclusivos.
+        {{ $t("newsletter.title") }}
       </p>
       <p
         class="typography-text-sm text-white sm:typography-text-base my-2 mb-4"
       >
-        Sé el primero en enterarte de ofertas especiales, regalos y eventos
-        exclusivos.
+        {{ $t("newsletter.title") }}
       </p>
       <form
         class="mb-4 flex flex-col sm:flex-row gap-4 max-w-[688px] mx-auto"
@@ -41,13 +39,11 @@ const subscribeNewsletter = async () => {
           type="submit"
           class="bg-yellow-500 w-auto sm:w-[325px] disabled:bg-yellow-300 !text-black hover:bg-yellow-400"
         >
-          Suscribirse al boletín
+          {{ $t("newsletter.button") }}
         </SfButton>
       </form>
       <div class="typography-text-xs text-neutral-600">
-        Para más información sobre cómo gestionamos tus datos, consulta nuestro
-        <SfLink href="#" class="!text-neutral-600">Aviso de Privacidad</SfLink>.
-        Puedes cancelar tu suscripción en cualquier momento sin coste alguno.
+        {{ $t("newsletter.disclaimer") }}
       </div>
     </div>
   </div>

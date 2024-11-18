@@ -8,7 +8,7 @@ const props = defineProps({
   },
 });
 
-const topCategories = computed(() => props.categories);
+const topCategories = computed(() => props.categories as any);
 const filteredCategories = computed(() =>
   topCategories.value.filter(
     (category) => category.name === "WOMEN" || category.name === "MEN",
@@ -17,11 +17,11 @@ const filteredCategories = computed(() =>
 
 const items = ref([
   {
-    name: "WOMEN",
+    name: "buyCategory.woman",
     image: "/images/women-card.png",
   },
   {
-    name: "MEN",
+    name: "buyCategory.men",
     image: "/images/men-card.png",
   },
 ]);
@@ -30,9 +30,9 @@ const items = ref([
 <template>
   <section class="container mx-auto my-14 px-4">
     <h2
-      class="text-center font-bold text-4xl md:text-5xl uppercase mb-10 typography-headline-3 md:typography-headline-2"
+      class="text-center font-bold !font-header uppercase mb-10 typography-headline-3 md:typography-headline-1"
     >
-      Shop by category
+      {{ $t("shopCategory") }}
     </h2>
     <div
       class="flex flex-wrap justify-center gap-6"
@@ -71,9 +71,9 @@ const items = ref([
             />
           </div>
           <p
-            class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white bg-opacity-75 px-4 py-2 rounded-full font-semibold text-lg text-neutral-900 shadow-md transition duration-300 ease-in-out group-hover:bg-primary-800 group-hover:text-white"
+            class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white bg-opacity-75 px-4 py-2 rounded-full font-semibold text-lg text-neutral-900 shadow-md transition duration-300 ease-in-out group-hover:bg-black group-hover:text-[#FFC107]"
           >
-            {{ name }}
+            {{ $t(name) }}
           </p>
         </NuxtLink>
       </div>
