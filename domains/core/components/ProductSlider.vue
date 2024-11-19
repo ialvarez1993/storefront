@@ -127,7 +127,7 @@ onMounted(() => {
 
               <!-- Image -->
               <div class="img-container">
-                <img
+                <NuxtImg
                   :src="
                     $getImage(
                       String(productTemplate.image),
@@ -136,7 +136,6 @@ onMounted(() => {
                       String(productTemplate.imageFilename),
                     )
                   "
-                  :alt="productTemplate?.name"
                   class="product-img"
                 />
 
@@ -266,6 +265,7 @@ onMounted(() => {
 
   .product-img {
     @apply w-full h-full object-contain transition-transform duration-300;
+
   }
 
   .hover-overlay {

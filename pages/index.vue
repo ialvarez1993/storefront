@@ -2,6 +2,7 @@
 import { useWebsiteHomePage } from "~/domains/core/composable/useWebsiteHomePage";
 import websiteHomepageHead from "../domains/core/utils/websiteHomepageHead";
 import { useCategory } from "../domains/category/composables/useCategory";
+import Marcas from "../domains/core/components/ui/Marcas.vue";
 
 const { loadCategoryList, categories } = useCategory();
 const { getWebsiteHomepage, websiteHomepage } = useWebsiteHomePage();
@@ -43,4 +44,5 @@ useHead(websiteHomepageHead(websiteHomepage.value, ""));
   <NuxtLazyHydrate when-visible>
     <LazyDisplay />
   </NuxtLazyHydrate>
+  <Marcas />
 </template>

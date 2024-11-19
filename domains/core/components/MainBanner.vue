@@ -7,7 +7,6 @@
         :style="{ clipPath: 'polygon(0 0, 100% 0, 85% 100%, 0% 100%)' }"
       />
     </div>
-
     <div class="slider-content">
       <div
         class="slider-grid"
@@ -32,7 +31,7 @@
 
         <div class="slider-media" :class="{ 'slide-enter': slideAnimation }">
           <NuxtImg
-            :src="slides[currentSlide].image"
+            :src="slides[currentSlide].url"
             :alt="slides[currentSlide].title"
             class="product-image"
             width="600"
@@ -118,52 +117,123 @@
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted, onBeforeUnmount } from "vue";
+<script lang="ts" setup>
+import { ref, onMounted, onBeforeUnmount, computed, watch } from "vue";
+import { useQuery } from "@tanstack/vue-query";
 
-const slides = [
-  {
-    title: "LA NUEVA NOTEBOOK QUE BUSCABAS YA ESTÁ AQUÍ",
-    subtitle: "Lenovo Legión 5 I5 8GB RAM",
-    price: 279,
-    discount: 30,
-    image: "/images/hero.png",
-    brand: "hp",
-  },
-  {
-    title: "ENCUENTRA LO ÚLTIMO EN CELULARES",
-    subtitle: "Celular Cubot P80 Dual Sim 256 Gb Global 8 Gb",
-    price: 279,
-    discount: 30,
-    image: "/images/display-1.png",
-    brand: "hp",
-  },
-];
+// Interfaces actualizadas según la estructura real
+interface Slide {
+  id: number;
+  title: string;
+  subtitle: string;
+  url: string | null;
+  call: string | null;
+    images: string | null;
+}
 
+interface BannerData {
+  id: number;
+  documentId: string;
+  slide: Slide[];
+  localizations: any[];
+}
+
+interface BannerResponse {
+  data: BannerData[];
+  meta: {
+    pagination: {
+      page: number;
+      pageSize: number;
+      pageCount: number;
+      total: number;
+    };
+  };
+}
+
+// Estado
 const currentSlide = ref(0);
 const slideAnimation = ref(true);
-const autoplayInterval = ref(null);
+const autoplayInterval = ref<NodeJS.Timeout | null>(null);
 const touchStartX = ref(0);
 const touchEndX = ref(0);
 
+// Slides por defecto
+const defaultSlides: Slide[] = [
+  {
+    id: 1,
+    title: "LA NUEVA NOTEBOOK QUE BUSCABAS YA ESTÁ AQUÍ..",
+    subtitle: "Lenovo Legión 5 I5 8GB RAM",
+    url: "/images/hero.png",
+        images: "/images/hero.png",
+    call: null
+  },
+  {
+    id: 2,
+    title: "ENCUENTRA LO ÚLTIMO EN CELULARES..",
+    subtitle: "Celular Cubot P80 Dual Sim 256 Gb Global 8 Gb",
+    url: "/images/display-1.png",
+        images: "/images/hero.png",
+    call: null
+  }
+];
+
+const fetchBanners = async (): Promise<BannerResponse> => {
+  const API_TOKEN = "17eec83c15384dd6215b8357bbecc348e37308c2a5d098f9aa626d2f73c63ca9c920a35a6038347ca501edc727682984ac7b60eaa476f4a82c78b7f3b8f06f40fdd73e073ae5b67fb857dfbb698231fa16d1f3930778693e8bc9be84b0d4dd9746f2ded7b388c3b4db4fce6c8a96d8c242b43ebd5e474b286c9c531551b4fd86";
+  const API_URL = `http://localhost:1337/api/banners?populate=*`;
+
+  const response = await fetch(API_URL, {
+    headers: {
+      Authorization: `Bearer ${API_TOKEN}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`Error ${response.status}: ${response.statusText}`);
+  }
+
+  return await response.json();
+};
+
+const {
+  data: bannersData,
+  isLoading,
+  error,
+} = useQuery({
+  queryKey: ["banners"],
+  queryFn: fetchBanners,
+});
+
+// Computed property actualizado
+const slides = computed(() => {
+  if (isLoading.value || !bannersData.value?.data?.[0]?.slide) {
+    return defaultSlides;
+  }
+
+  return bannersData.value.data[0].slide;
+});
+
+// Funciones del slider
 const nextSlide = () => {
+  if (slides.value.length <= 1) return;
   slideAnimation.value = false;
   setTimeout(() => {
-    currentSlide.value = (currentSlide.value + 1) % slides.length;
+    currentSlide.value = (currentSlide.value + 1) % slides.value.length;
     slideAnimation.value = true;
   }, 300);
 };
 
 const prevSlide = () => {
+  if (slides.value.length <= 1) return;
   slideAnimation.value = false;
   setTimeout(() => {
-    currentSlide.value =
-      (currentSlide.value - 1 + slides.length) % slides.length;
+    currentSlide.value = (currentSlide.value - 1 + slides.value.length) % slides.value.length;
     slideAnimation.value = true;
   }, 300);
 };
 
-const setCurrentSlide = (index) => {
+const setCurrentSlide = (index: number) => {
+  if (index < 0 || index >= slides.value.length) return;
   slideAnimation.value = false;
   setTimeout(() => {
     currentSlide.value = index;
@@ -171,22 +241,27 @@ const setCurrentSlide = (index) => {
   }, 300);
 };
 
+// Autoplay
 const startAutoplay = () => {
+  if (slides.value.length <= 1) return;
+  stopAutoplay();
   autoplayInterval.value = setInterval(nextSlide, 5000);
 };
 
 const stopAutoplay = () => {
   if (autoplayInterval.value) {
     clearInterval(autoplayInterval.value);
+    autoplayInterval.value = null;
   }
 };
 
-const handleTouchStart = (e) => {
+// Touch events
+const handleTouchStart = (e: TouchEvent) => {
   touchStartX.value = e.touches[0].clientX;
   stopAutoplay();
 };
 
-const handleTouchMove = (e) => {
+const handleTouchMove = (e: TouchEvent) => {
   touchEndX.value = e.touches[0].clientX;
 };
 
@@ -204,6 +279,16 @@ const handleTouchEnd = () => {
   startAutoplay();
 };
 
+// Debug watchers
+watch(bannersData, (newData) => {
+  console.log("Datos del banner actualizados:", newData);
+});
+
+watch(slides, (newSlides) => {
+  console.log("Slides actualizados:", newSlides);
+});
+
+// Lifecycle hooks
 onMounted(() => {
   startAutoplay();
 });

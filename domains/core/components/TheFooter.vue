@@ -7,13 +7,19 @@
           {{ $t("footer.navegacion.informacion.siguenos") }}
         </h2>
         <div class="flex gap-4">
-          <NuxtLink to="#" class="hover:opacity-80 transition-opacity">
-            <Icon name="lucide:facebook" class="w-6 h-6 text-amber-400" />
-            <span class="sr-only">Facebook</span>
-          </NuxtLink>
-          <NuxtLink to="#" class="hover:opacity-80 transition-opacity">
+          <NuxtLink
+            to="https://www.instagram.com/tu.puntocom/"
+            class="hover:opacity-80 transition-opacity"
+          >
             <Icon name="lucide:instagram" class="w-6 h-6 text-amber-400" />
             <span class="sr-only">Instagram</span>
+          </NuxtLink>
+          <NuxtLink
+            to="https://x.com/TupuntoCom"
+            class="hover:opacity-80 transition-opacity"
+          >
+            <Icon name="lucide:twitter" class="w-6 h-6 text-amber-400" />
+            <span class="sr-only">twitter</span>
           </NuxtLink>
         </div>
       </div>

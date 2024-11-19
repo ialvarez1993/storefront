@@ -1,4 +1,6 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+const isDev = process.dev;
+</script>
 
 <template>
   <div class="font-sass">
@@ -14,5 +16,6 @@
     </NuxtLazyHydrate>
 
     <WishlistSidebar />
+    <VueQueryDevTools v-if="isDev" />
   </div>
 </template>

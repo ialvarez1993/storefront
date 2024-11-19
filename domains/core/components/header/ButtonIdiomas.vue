@@ -29,12 +29,16 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted, onUnmounted } from "vue";
 import { ChevronDownIcon } from "@heroicons/vue/24/outline";
 import { useI18n } from "vue-i18n";
 
 const { locale, setLocale } = useI18n();
 const isOpen = ref(false);
+const localeCookie = useCookie("i18n_redirected", {
+  maxAge: 365 * 24 * 60 * 60, // 365 días
+  path: "/",
+});
 
 const currentLocale = computed(() => locale.value);
 
@@ -52,27 +56,39 @@ const toggleDropdown = () => {
 const changeLanguage = async (code) => {
   try {
     await setLocale(code);
+    // Guardar en cookie con una expiración larga (365 días)
+    localeCookie.value = code;
     isOpen.value = false;
+
+    // Actualizar localStorage como respaldo
+    localStorage.setItem("user-locale", code);
+
+    // Recargar la página para asegurar que todos los componentes se actualicen
+    window.location.reload();
   } catch (error) {
     console.error("Error al cambiar el idioma:", error);
   }
 };
 
 onMounted(() => {
-  document.addEventListener("click", (e) => {
-    if (!e.target.closest(".language-switcher")) {
-      isOpen.value = false;
-    }
-  });
+  // Recuperar idioma guardado
+  const savedLocale = localStorage.getItem("user-locale") || localeCookie.value;
+  if (savedLocale && savedLocale !== locale.value) {
+    changeLanguage(savedLocale);
+  }
+
+  document.addEventListener("click", closeDropdown);
 });
 
 onUnmounted(() => {
-  document.removeEventListener("click", (e) => {
-    if (!e.target.closest(".language-switcher")) {
-      isOpen.value = false;
-    }
-  });
+  document.removeEventListener("click", closeDropdown);
 });
+
+const closeDropdown = (e) => {
+  if (!e.target.closest(".language-switcher")) {
+    isOpen.value = false;
+  }
+};
 </script>
 
 <style lang="scss">

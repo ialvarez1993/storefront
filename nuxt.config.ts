@@ -2,8 +2,8 @@ import Aura from '@primevue/themes/aura';
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  debug: true,
   devtools: { enabled: true },
+
 
   robots: {
     allow: "/category/*",
@@ -54,6 +54,7 @@ export default defineNuxtConfig({
     "shadcn-nuxt",
     "@nuxtjs/color-mode",
     "nuxt-lucide-icons",
+    "@nuxtjs/storybook",
   ],
   primevue: {
     options: {
@@ -85,7 +86,7 @@ export default defineNuxtConfig({
 
 
   i18n: {
-    strategy: "no_prefix",
+    strategy: 'no_prefix',  // Cambiado para mejor SEO
     locales: [
       {
         code: "es",
@@ -104,15 +105,23 @@ export default defineNuxtConfig({
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: "i18n_redirected",
-      redirectOn: "root",
+      cookieSecure: process.env.NODE_ENV === 'production',
+      redirectOn: 'root',
+      alwaysRedirect: true,
+      fallbackLocale: 'es'
     },
     vueI18n: "./i18n.config.ts",
   },
+
+
   delayHydration: {
     mode: "init",
   },
 
   vite: {
+    optimizeDeps: {
+      include: ['@tanstack/vue-query']
+    },
     css: {
       preprocessorOptions: {
         scss: {
@@ -133,6 +142,7 @@ export default defineNuxtConfig({
       "ts-invariant",
       "vue-toastification",
       "@erpgap/odoo-sdk-api-client",
+      '@tanstack/vue-query'
     ],
   },
 

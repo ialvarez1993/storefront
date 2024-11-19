@@ -510,7 +510,6 @@
   "tecnologia": "Tecnologia",
   "superMenu": {
     "titleMain1": "Ropa Casual",
-
     "title1Main1": "Chaquetas",
     "slug1Main1": "/chaquetas",
     "title2Main1": "Blazer",
@@ -531,9 +530,7 @@
     "slug9Main1": "/vestidos",
     "title10Main1": "Trajes de Baño",
     "slug10Main1": "/trajes-de-bano",
-
     "titleMain2": "Zapatos",
-
     "title1Main2": "Zapatillas",
     "slug1Main2": "/zapatillas",
     "title2Main2": "Botas",
@@ -544,9 +541,7 @@
     "slug4Main2": "/tacones",
     "title5Main2": "Bailarinas",
     "slug5Main2": "/bailarinas",
-
     "titleMain3": "Bolsos",
-
     "title1Main3": "Bolso de mano",
     "slug1Main3": "/clutches",
     "title2Main3": "Bolsos de Hombro",
@@ -567,7 +562,6 @@
         "facebook": "https://www.facebook.com/tu_pagina",
         "instagram": "https://www.instagram.com/tu_perfil"
       },
-
       "informacion": {
         "quienes_somos": "Acerca de nosotros",
         "registro": "Registro",
@@ -591,5 +585,15 @@
         "comprar": "comprar"
       }
     }
-  }
+  },
+  "infoLoad": "Cargando información...",
+  "ErrorLoad": "Error",
+  "loadNosotros": "Sobre nosotros",
+  "loadHistoria": "Nuestra Historia",
+  "Mision": "Mision",
+  "LoadVision": "Vision",
+  "loadFounders": "Los fundadores",
+  "loadValores": "Valores",
+  "loadContact": "Conctato",
+  "ubicacion": "Ubicación"
 }

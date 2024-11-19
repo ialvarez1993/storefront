@@ -11,7 +11,6 @@
     "discount": "THE BEST DISCOUNTS OF THE WEEK",
     "categories": "catalogs"
   },
-
   "shipping": {
     "heading": "Shipping Address",
     "description": "Add a shipping address to view shipping details.",
@@ -600,5 +599,15 @@
         "comprar": "buy"
       }
     }
-  }
+  },
+  "infoLoad": "Loading information...",
+  "ErrorLoad": "Error",
+  "loadNosotros": "About us",
+  "loadHistoria": "                Our History",
+  "Mision": "Mission",
+  "LoadVision": "Visión",
+  "loadFounders": "Founders",
+  "loadValores": "Values",
+  "loadContact": "Contact",
+  "ubicacion": "Location"
 }

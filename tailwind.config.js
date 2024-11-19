@@ -3,7 +3,6 @@ import sfTypography from "@storefront-ui/typography";
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  plugins: [sfTypography],
   darkMode: ["class"],
   content: [
     "./pages/**/*.{ts,tsx,vue}",
