@@ -1,5 +1,6 @@
 <template>
-  <div class="slider-container pt-56 sm:pt-20 md:pt-36 pb-80 sm:pb-0">
+  <span class="py-52 bg-black" v-if="isLoading">Loading...</span>
+  <div v-else class="slider-container pt-56 sm:pt-20 md:pt-36 pb-80 sm:pb-0">
     <!-- Background with curve -->
     <div class="slider-background">
       <div
@@ -31,7 +32,7 @@
 
         <div class="slider-media" :class="{ 'slide-enter': slideAnimation }">
           <NuxtImg
-            :src="slides[currentSlide].url"
+            :src="slides[currentSlide].image?.url"
             :alt="slides[currentSlide].title"
             class="product-image"
             width="600"
@@ -39,18 +40,9 @@
             loading="lazy"
           />
 
-          <div class="brand-logo">
-            <NuxtImg
-              :src="'/images/hero.png'"
-              alt="Brand Logo"
-              class="w-8 h-8"
-              loading="lazy"
-            />
-          </div>
-
           <div class="price-tag">
             <div class="price-label">{{ $t("banner.priceBaner") }}</div>
-            <div class="price-amount">${{ slides[currentSlide].price }}</div>
+            <div class="price-amount">$ {{ slides[currentSlide].price }}</div>
           </div>
 
           <div class="discount-badge">
@@ -120,15 +112,61 @@
 <script lang="ts" setup>
 import { ref, onMounted, onBeforeUnmount, computed, watch } from "vue";
 import { useQuery } from "@tanstack/vue-query";
+import { useI18n } from "vue-i18n";
 
-// Interfaces actualizadas según la estructura real
+// Interfaces
 interface Slide {
+  id?: number;
+  title?: string;
+  subtitle?: string;
+  url?: string;
+  price?: string;
+  discount?: string;
+  image?: Brand;
+  brand?: Brand;
+}
+
+interface Brand {
   id: number;
-  title: string;
-  subtitle: string;
-  url: string | null;
-  call: string | null;
-    images: string | null;
+  documentId: string;
+  name: string;
+  alternativeText: string;
+  caption: string;
+  width: number;
+  height: number;
+  formats: Formats;
+  hash: string;
+  ext: string;
+  mime: string;
+  size: number;
+  url: string;
+  previewUrl: null;
+  provider: string;
+  provider_metadata: null;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date;
+  locale: null;
+}
+
+interface Formats {
+  thumbnail: Large;
+  small: Large;
+  medium: Large;
+  large: Large;
+}
+
+interface Large {
+  name: string;
+  hash: string;
+  ext: string;
+  mime: string;
+  path: null;
+  width: number;
+  height: number;
+  size: number;
+  sizeInBytes: number;
+  url: string;
 }
 
 interface BannerData {
@@ -157,143 +195,258 @@ const autoplayInterval = ref<NodeJS.Timeout | null>(null);
 const touchStartX = ref(0);
 const touchEndX = ref(0);
 
+// Debug flags
+const DEBUG = true;
+const log = (...args: any[]) => {
+  if (DEBUG) console.log(...args);
+};
+
 // Slides por defecto
 const defaultSlides: Slide[] = [
   {
     id: 1,
-    title: "LA NUEVA NOTEBOOK QUE BUSCABAS YA ESTÁ AQUÍ..",
-    subtitle: "Lenovo Legión 5 I5 8GB RAM",
+    title: "Sin Data",
+    subtitle: "SIN DATA",
     url: "/images/hero.png",
-        images: "/images/hero.png",
-    call: null
+    discount: "SIN DATA",
+    price: "SIN DATA",
   },
   {
     id: 2,
-    title: "ENCUENTRA LO ÚLTIMO EN CELULARES..",
-    subtitle: "Celular Cubot P80 Dual Sim 256 Gb Global 8 Gb",
-    url: "/images/display-1.png",
-        images: "/images/hero.png",
-    call: null
-  }
+    title: "Sin Data",
+    subtitle: "SIN DATA",
+    url: "SIN DATA",
+  },
 ];
 
-const fetchBanners = async (): Promise<BannerResponse> => {
-  const API_TOKEN = "17eec83c15384dd6215b8357bbecc348e37308c2a5d098f9aa626d2f73c63ca9c920a35a6038347ca501edc727682984ac7b60eaa476f4a82c78b7f3b8f06f40fdd73e073ae5b67fb857dfbb698231fa16d1f3930778693e8bc9be84b0d4dd9746f2ded7b388c3b4db4fce6c8a96d8c242b43ebd5e474b286c9c531551b4fd86";
-  const API_URL = `http://localhost:1337/api/banners?populate=*`;
-
-  const response = await fetch(API_URL, {
-    headers: {
-      Authorization: `Bearer ${API_TOKEN}`,
-      "Content-Type": "application/json",
-    },
-  });
-
-  if (!response.ok) {
-    throw new Error(`Error ${response.status}: ${response.statusText}`);
-  }
-
-  return await response.json();
+// API Configuration
+const API_CONFIG = {
+  TOKEN:
+    "17eec83c15384dd6215b8357bbecc348e37308c2a5d098f9aa626d2f73c63ca9c920a35a6038347ca501edc727682984ac7b60eaa476f4a82c78b7f3b8f06f40fdd73e073ae5b67fb857dfbb698231fa16d1f3930778693e8bc9be84b0d4dd9746f2ded7b388c3b4db4fce6c8a96d8c242b43ebd5e474b286c9c531551b4fd86",
+  BASE_URL: "http://localhost:1337/api",
+  ENDPOINTS: {
+    BANNERS: "/banners",
+  },
 };
 
+// Fetch banners with error handling
+const fetchBanners = async (): Promise<BannerResponse> => {
+  try {
+    const { locale } = useI18n();
+    const url = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.BANNERS}?populate[slide][populate]=*`;
+
+    log("Fetching banners from:", url);
+
+    const response = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${API_CONFIG.TOKEN}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    log("Received banner data:", data);
+    return data;
+  } catch (error) {
+    log("Error fetching banners:", error);
+    throw error;
+  }
+};
+
+// Query hook
 const {
   data: bannersData,
   isLoading,
   error,
+  refetch,
 } = useQuery({
   queryKey: ["banners"],
   queryFn: fetchBanners,
+  retry: 5,
 });
 
-// Computed property actualizado
+const BASE_IMAGE_URL = "http://localhost:1337";
+
 const slides = computed(() => {
   if (isLoading.value || !bannersData.value?.data?.[0]?.slide) {
+    log("Using default slides");
     return defaultSlides;
   }
 
-  return bannersData.value.data[0].slide;
+  return bannersData.value.data[0].slide.map((slide) => ({
+    ...slide,
+    image: slide.image
+      ? {
+          ...slide.image,
+          url: slide.image.url.startsWith("http")
+            ? slide.image.url
+            : `${BASE_IMAGE_URL}${slide.image.url}`,
+        }
+      : undefined,
+    brand: slide.brand
+      ? {
+          ...slide.brand,
+          url: slide.brand.url.startsWith("http")
+            ? slide.brand.url
+            : `${BASE_IMAGE_URL}${slide.brand.url}`,
+          formats: {
+            ...slide.brand.formats,
+            thumbnail: {
+              ...slide.brand.formats.thumbnail,
+              url: slide.brand.formats.thumbnail.url.startsWith("http")
+                ? slide.brand.formats.thumbnail.url
+                : `${BASE_IMAGE_URL}${slide.brand.formats.thumbnail.url}`,
+            },
+            small: {
+              ...slide.brand.formats.small,
+              url: slide.brand.formats.small.url.startsWith("http")
+                ? slide.brand.formats.small.url
+                : `${BASE_IMAGE_URL}${slide.brand.formats.small.url}`,
+            },
+            medium: {
+              ...slide.brand.formats.medium,
+              url: slide.brand.formats.medium.url.startsWith("http")
+                ? slide.brand.formats.medium.url
+                : `${BASE_IMAGE_URL}${slide.brand.formats.medium.url}`,
+            },
+            large: {
+              ...slide.brand.formats.large,
+              url: slide.brand.formats.large.url.startsWith("http")
+                ? slide.brand.formats.large.url
+                : `${BASE_IMAGE_URL}${slide.brand.formats.large.url}`,
+            },
+          },
+        }
+      : undefined,
+  }));
 });
 
-// Funciones del slider
+// Slider controls
 const nextSlide = () => {
-  if (slides.value.length <= 1) return;
+  if (slides.value.length <= 1) {
+    log("Not enough slides to move next");
+    return;
+  }
+
   slideAnimation.value = false;
   setTimeout(() => {
     currentSlide.value = (currentSlide.value + 1) % slides.value.length;
     slideAnimation.value = true;
+    log("Moving to next slide:", currentSlide.value);
   }, 300);
 };
 
 const prevSlide = () => {
-  if (slides.value.length <= 1) return;
+  if (slides.value.length <= 1) {
+    log("Not enough slides to move prev");
+    return;
+  }
+
   slideAnimation.value = false;
   setTimeout(() => {
-    currentSlide.value = (currentSlide.value - 1 + slides.value.length) % slides.value.length;
+    currentSlide.value =
+      (currentSlide.value - 1 + slides.value.length) % slides.value.length;
     slideAnimation.value = true;
+    log("Moving to previous slide:", currentSlide.value);
   }, 300);
 };
 
 const setCurrentSlide = (index: number) => {
-  if (index < 0 || index >= slides.value.length) return;
+  if (index < 0 || index >= slides.value.length) {
+    log("Invalid slide index:", index);
+    return;
+  }
+
   slideAnimation.value = false;
   setTimeout(() => {
     currentSlide.value = index;
     slideAnimation.value = true;
+    log("Setting current slide to:", index);
   }, 300);
 };
 
-// Autoplay
+// Autoplay controls
 const startAutoplay = () => {
-  if (slides.value.length <= 1) return;
+  if (slides.value.length <= 1) {
+    log("Not enough slides for autoplay");
+    return;
+  }
+
   stopAutoplay();
+  log("Starting autoplay");
   autoplayInterval.value = setInterval(nextSlide, 5000);
 };
 
 const stopAutoplay = () => {
   if (autoplayInterval.value) {
+    log("Stopping autoplay");
     clearInterval(autoplayInterval.value);
     autoplayInterval.value = null;
   }
 };
 
-// Touch events
+// Touch handlers
 const handleTouchStart = (e: TouchEvent) => {
   touchStartX.value = e.touches[0].clientX;
   stopAutoplay();
+  log("Touch start at:", touchStartX.value);
 };
 
 const handleTouchMove = (e: TouchEvent) => {
   touchEndX.value = e.touches[0].clientX;
+  log("Touch move to:", touchEndX.value);
 };
 
 const handleTouchEnd = () => {
   const swipeThreshold = 50;
   const swipeDistance = touchStartX.value - touchEndX.value;
 
+  log("Swipe distance:", swipeDistance);
+
   if (Math.abs(swipeDistance) > swipeThreshold) {
     if (swipeDistance > 0) {
       nextSlide();
+      log("Swiped left");
     } else {
       prevSlide();
+      log("Swiped right");
     }
   }
+
   startAutoplay();
 };
 
-// Debug watchers
-watch(bannersData, (newData) => {
-  console.log("Datos del banner actualizados:", newData);
-});
+// Watchers for debugging
+if (DEBUG) {
+  watch(bannersData, (newData) => {
+    log("Banner data updated:", newData);
+  });
 
-watch(slides, (newSlides) => {
-  console.log("Slides actualizados:", newSlides);
-});
+  watch(slides, (newSlides) => {
+    log("Slides updated:", newSlides);
+  });
+
+  watch(currentSlide, (newSlide) => {
+    log("Current slide changed to:", newSlide);
+  });
+
+  watch(slideAnimation, (newValue) => {
+    log("Slide animation state:", newValue);
+  });
+}
 
 // Lifecycle hooks
 onMounted(() => {
+  log("Component mounted");
   startAutoplay();
 });
 
 onBeforeUnmount(() => {
+  log("Component unmounting");
   stopAutoplay();
 });
 </script>

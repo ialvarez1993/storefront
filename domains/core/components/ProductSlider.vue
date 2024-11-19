@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, onMounted, PropType } from "vue";
+import { ref, onMounted } from "vue";
+import type { PropType } from "vue";
 import type { Product, QueryProductsArgs } from "~/graphql";
 import { useProductTemplateList } from "../../product/composables/useProductTemplateList";
 import { useCart } from "../../cart-odoo/composables/useCart";
@@ -265,7 +266,6 @@ onMounted(() => {
 
   .product-img {
     @apply w-full h-full object-contain transition-transform duration-300;
-
   }
 
   .hover-overlay {
