@@ -3,12 +3,47 @@ import { ref, onMounted } from "vue";
 import type { PropType } from "vue";
 import type { Product, QueryProductsArgs } from "~/graphql";
 import { useProductTemplateList } from "../../product/composables/useProductTemplateList";
-import ModalProductSlider from "../components/ModalProductSlider.vue";
-
 import { useCart } from "../../cart-odoo/composables/useCart";
 import { useProductAttributes } from "../../product/composables/useProductAttributes";
 import { useWishlist } from "../../wishlist/composables/useWishlist";
+import { useQuery } from "@tanstack/vue-query";
+
+const { locale } = useI18n();
 const { cartAdd } = useCart();
+const currentLang = locale.value;
+
+const API_URL_CATEGORY = `http://localhost:1337/api/home-titulo-popular?locale=${currentLang === "es" ? "es-VE" : "en"}`;
+const API_TOKEN =
+  "17eec83c15384dd6215b8357bbecc348e37308c2a5d098f9aa626d2f73c63ca9c920a35a6038347ca501edc727682984ac7b60eaa476f4a82c78b7f3b8f06f40fdd73e073ae5b67fb857dfbb698231fa16d1f3930778693e8bc9be84b0d4dd9746f2ded7b388c3b4db4fce6c8a96d8c242b43ebd5e474b286c9c531551b4fd86";
+
+const fetchDataTitlePopulate = async (): Promise<any> => {
+  try {
+    const response = await fetch(API_URL_CATEGORY, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${API_TOKEN}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error ${response.status}: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
+
+const { data: titleProduct } = useQuery({
+  queryKey: ["titlePopulate"],
+  queryFn: fetchDataTitlePopulate,
+  retry: 3,
+  retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+});
 
 const sliderContainer = ref<HTMLElement | null>(null);
 const currentIndex = ref(0);
@@ -77,30 +112,32 @@ const handleWishlistRemoveItem = async (firstVariant: Product) => {
 onMounted(() => {
   loadProducts();
 });
+
+const titleOne = computed(() => {
+  return titleProduct.value?.data ?? "Cargando";
+});
 </script>
 
 <template>
-  <section class="px-2 my py-6 w-full max-w-[1440px] mx-auto">
+  <section class="px-2 py-6 w-full max-w-[1440px] mx-auto">
     <h2
-      v-if="heading"
       class="text-center font-bold !font-header uppercase mb-10 typography-headline-3 md:typography-headline-2"
     >
-      {{ heading }}
+      {{ titleOne.Title }}
     </h2>
-
     <div v-if="loading" class="flex justify-center items-center py-4">
       <span class="loading-spinner"></span>
     </div>
 
     <div v-else-if="productTemplateList.length > 0" class="relative">
       <div class="flex justify-center items-center">
-        <button @click="handlePrev" class="nav-btn left-0">
+        <button @click="handlePrev" class="nav-btn left-4">
           <i class="fas fa-chevron-left"></i>
         </button>
 
         <div
           ref="sliderContainer"
-          class="flex overflow-x-hidden scroll-smooth gap-3 px-8"
+          class="flex overflow-x-hidden scroll-smooth gap-6 px-12"
         >
           <div
             v-for="productTemplate in productTemplateList"
@@ -108,13 +145,12 @@ onMounted(() => {
             class="product-card"
           >
             <div class="card-content">
-              <!-- Badges -->
               <div class="badges-container">
                 <span
                   v-if="
                     getSpecialPrice(productTemplate.firstVariant as Product)
                   "
-                  class="badge discount"
+                  class="badge"
                 >
                   -{{
                     calculateDiscount(
@@ -123,12 +159,8 @@ onMounted(() => {
                     )
                   }}%
                 </span>
-                <span v-if="productTemplate.isNew" class="badge new">
-                  New
-                </span>
               </div>
 
-              <!-- Image -->
               <div class="img-container">
                 <NuxtImg
                   :src="
@@ -141,42 +173,17 @@ onMounted(() => {
                   "
                   class="product-img"
                 />
-
-                <!-- Hover Actions -->
                 <div class="hover-overlay">
                   <div class="action-buttons">
-                    <ModalProductSlider />
-                    <button
-                      class="action-btn cart"
-                      @click="cartAdd(productTemplate.firstVariant?.id, 1)"
-                    >
-                      <i class="fas fa-shopping-cart"></i>
-                    </button>
+                    <NuxtLink :to="productTemplate?.slug">
+                      <button class="action-btn !bg-yellow-500">Ver</button>
+                    </NuxtLink>
                   </div>
                 </div>
               </div>
 
-              <!-- Info -->
               <div class="product-info">
-                <p class="brand">{{ productTemplate.brand }}</p>
                 <h3 class="title">{{ productTemplate?.name }}</h3>
-
-                <!-- Rating -->
-                <div v-if="productTemplate.rating" class="rating">
-                  <div class="stars">
-                    <i
-                      v-for="n in 5"
-                      :key="n"
-                      class="fas fa-star"
-                      :class="n <= productTemplate.rating ? 'active' : ''"
-                    ></i>
-                  </div>
-                  <span class="reviews"
-                    >({{ productTemplate.ratingCount }})</span
-                  >
-                </div>
-
-                <!-- Price -->
                 <div class="price-container">
                   <span
                     v-if="
@@ -205,181 +212,99 @@ onMounted(() => {
                     }}
                   </span>
                 </div>
-
-                <!-- Stock -->
-                <div
-                  class="stock-status"
-                  :class="{ 'in-stock': productTemplate.inStock }"
-                >
-                  <span class="status-dot"></span>
-                  <span class="status-text">
-                    {{
-                      productTemplate.inStock
-                        ? $t("products.StatusAvailable")
-                        : $t("products.statusOff")
-                    }}
-                  </span>
-                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <button @click="handleNext" class="nav-btn right-0">
+        <button @click="handleNext" class="nav-btn right-4">
           <i class="fas fa-chevron-right"></i>
         </button>
       </div>
     </div>
   </section>
-  <div class="flex justify-center">
-    <Button
-      :label="$t('ButtonExplorar')"
-      severity="warn"
-      class="!bg-yellow-500 !text-black !border-none hover:!bg-black hover:!text-white"
-      icon="pi pi-search"
-      iconPos="left"
-    />
-  </div>
 </template>
 
 <style lang="scss" scoped>
 .product-card {
-  @apply flex-none w-[220px];
+  @apply flex-none w-[250px];
 
   .card-content {
-    @apply relative bg-white rounded-lg overflow-hidden transition-all duration-300
-           hover:shadow-lg border border-gray-100;
+    @apply relative transition-all duration-300;
   }
 }
 
 .badges-container {
-  @apply absolute top-2 left-2 z-10 flex flex-col gap-1;
+  @apply absolute top-2 right-2 z-10;
 
   .badge {
-    @apply px-2 py-0.5 text-xs font-semibold rounded-md;
-
-    &.discount {
-      @apply bg-red-500 text-white;
-    }
-
-    &.new {
-      @apply bg-green-500 text-white;
-    }
+    @apply px-2 py-1 text-xs font-medium bg-black text-white rounded-full;
   }
 }
 
 .img-container {
-  @apply relative aspect-square overflow-hidden;
+  @apply relative rounded-full aspect-square overflow-hidden bg-gray-50;
 
   .product-img {
-    @apply w-full h-full object-contain transition-transform duration-300;
+    @apply w-full h-full object-contain transition-transform duration-300 p-4;
   }
 
   .hover-overlay {
-    @apply absolute inset-0 bg-black/40 opacity-0 transition-opacity duration-300
-           flex items-center justify-center backdrop-blur-sm;
+    @apply absolute inset-0 bg-black/20 opacity-0 transition-opacity duration-300
+
+flex items-center justify-center backdrop-blur-sm;
   }
 
   .action-buttons {
-    @apply flex gap-2 transform translate-y-4 transition-transform duration-300;
+    @apply transform scale-95 transition-transform duration-300;
   }
 
   .action-btn {
-    @apply w-10 h-10 rounded-full bg-white flex items-center justify-center
-           transition-transform duration-300 hover:scale-110;
+    @apply px-6 py-2 rounded-full bg-white text-sm font-medium
 
-    &.preview {
-      @apply text-black hover:bg-blue-50;
-    }
-
-    &.cart {
-      @apply text-black hover:bg-green-50;
-    }
+transition-all duration-300 hover:scale-105;
   }
 
   &:hover {
-    .product-img {
-      @apply scale-105;
-    }
-
     .hover-overlay {
       @apply opacity-100;
     }
 
     .action-buttons {
-      @apply translate-y-0;
+      @apply scale-100;
     }
   }
 }
 
 .product-info {
-  @apply p-3 space-y-1;
-
-  .brand {
-    @apply text-xs text-gray-500 font-medium;
-  }
+  @apply text-center mt-4 space-y-2;
 
   .title {
-    @apply text-sm font-medium text-gray-800 line-clamp-2 min-h-[2.5rem];
-  }
-
-  .rating {
-    @apply flex items-center gap-1;
-
-    .stars {
-      @apply flex text-xs;
-
-      i {
-        @apply text-gray-300;
-
-        &.active {
-          @apply text-yellow-400;
-        }
-      }
-    }
-
-    .reviews {
-      @apply text-xs text-gray-500;
-    }
+    @apply text-sm font-medium text-gray-800 line-clamp-1;
   }
 
   .price-container {
-    @apply flex items-baseline gap-2;
+    @apply flex items-center justify-center gap-2;
 
     .original-price {
       @apply text-xs text-gray-400 line-through;
     }
 
     .final-price {
-      @apply text-base font-bold text-black;
-    }
-  }
-
-  .stock-status {
-    @apply flex items-center gap-1.5 text-xs;
-
-    .status-dot {
-      @apply w-1.5 h-1.5 rounded-full bg-red-500;
-    }
-
-    &.in-stock {
-      @apply text-green-600;
-
-      .status-dot {
-        @apply bg-green-500;
-      }
+      @apply text-sm font-semibold text-gray-900;
     }
   }
 }
 
 .nav-btn {
   @apply absolute top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full
-         border border-gray-200 bg-white/90 backdrop-blur-sm
-         flex items-center justify-center transition-all duration-300
-         hover:bg-gray-50 hover:scale-110;
+
+bg-white/90 shadow-sm flex items-center justify-center
+
+transition-all duration-300 hover:bg-gray-50;
 }
 
 .loading-spinner {
-  @apply w-8 h-8  border-gray-200 border-t-blue-600 rounded-full animate-spin;
+  @apply w-8 h-8 border-2 border-gray-200 border-t-gray-800 rounded-full animate-spin;
 }
 </style>

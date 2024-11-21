@@ -75,7 +75,7 @@
       <button
         class="bg-yellow-500 hover:bg-yellow-600 text-black font-semibold px-8"
       >
-        Explorar más
+        Explorar más  {{  `${ButtonExplorar}`}}
       </button>
     </div>
   </section>

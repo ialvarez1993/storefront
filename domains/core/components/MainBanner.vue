@@ -35,7 +35,7 @@
   </div>
   <div
     v-else
-    class="slider-container pt-[19rem] sm:pt-20 md:pt-36 pb-80 sm:pb-0"
+    class="slider-container pt-[19rem] !mt-[8rem] sm:pt-20 md:pt-36 pb-80 sm:pb-0"
   >
     <!-- Background with curve -->
     <div class="slider-background">

@@ -611,5 +611,7 @@
   "loadContact": "Contact",
   "ubicacion": "Location",
   "loadingBanner": "Loading...",
-  "loadingBannerDescripcion": "Please wait while we load the content"
+  "loadingBannerDescripcion": "Please wait while we load the content",
+  "ButtonExplorar": "Explore More",
+  "descuentosCards": "Unpredictable Discounts"
 }

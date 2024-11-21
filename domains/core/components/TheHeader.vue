@@ -84,7 +84,7 @@ onUnmounted(() => {
 <template>
   <header
     :class="[
-      'w-full fixed top-0 left-0 z-50 bg-white transition-all duration-300',
+      'w-full  fixed top-0 left-0 z-50 bg-white transition-all duration-300',
       { 'shadow-md': isCompact },
     ]"
   >

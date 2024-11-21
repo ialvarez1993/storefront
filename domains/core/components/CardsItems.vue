@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from "vue";
-import { useWindowSize } from "@vueuse/core";
+import { ref, onMounted, computed, onBeforeUnmount } from "vue";
 import PromoCard from "./ui/PromoCard.vue";
 
 const props = defineProps({
@@ -9,172 +8,157 @@ const props = defineProps({
   keyForComposable: { type: String, default: "" },
 });
 
-const { width } = useWindowSize();
-const activeIndex = ref(0);
-const touchStart = ref(0);
-const autoPlayInterval = ref(null);
+const currentSlide = ref(0);
+const itemsPerSlide = ref(calculateItemsPerSlide());
 
 const { loadProductTemplateList, loading, productTemplateList } =
   useProductTemplateList(props.keyForComposable);
 const { getRegularPrice, getSpecialPrice } = useProductAttributes();
 
-const getVisibleProducts = computed(() => {
-  if (width.value < 480) return 1; // Móviles pequeños
-  if (width.value < 640) return 2; // Móviles grandes
-  if (width.value < 768) return 3; // Tablets pequeñas
-  if (width.value < 1024) return 4; // Tablets
-  if (width.value < 1280) return 5; // Desktop pequeño
-  return 6; // Desktop grande
+function calculateItemsPerSlide() {
+  if (typeof window === "undefined") return 12;
+  const screenWidth = window.innerWidth;
+  if (screenWidth >= 1536) return 15;
+  if (screenWidth >= 1280) return 12;
+  if (screenWidth >= 1024) return 9;
+  if (screenWidth >= 768) return 6;
+  return 4;
+}
+
+const handleResize = () => {
+  itemsPerSlide.value = calculateItemsPerSlide();
+};
+
+const chunks = computed(() => {
+  if (!productTemplateList.value) return [];
+  const result = [];
+  for (
+    let i = 0;
+    i < productTemplateList.value.length;
+    i += itemsPerSlide.value
+  ) {
+    result.push(productTemplateList.value.slice(i, i + itemsPerSlide.value));
+  }
+  return result;
 });
 
-const totalSlides = computed(() =>
-  Math.ceil(
-    (productTemplateList.value?.length || 0) / getVisibleProducts.value,
-  ),
+const totalSlides = computed(() => chunks.value.length);
+const canSlideLeft = computed(() => currentSlide.value > 0);
+const canSlideRight = computed(
+  () => currentSlide.value < totalSlides.value - 1,
 );
 
-const slideWidth = computed(() => `${100 / getVisibleProducts.value}%`);
-const translateX = computed(() => `-${activeIndex.value * 100}%`);
-
-const handleNavigation = (direction: "prev" | "next") => {
-  if (direction === "next") {
-    activeIndex.value = (activeIndex.value + 1) % totalSlides.value;
-  } else {
-    activeIndex.value =
-      activeIndex.value === 0 ? totalSlides.value - 1 : activeIndex.value - 1;
+const slideLeft = () => {
+  if (canSlideLeft.value) {
+    currentSlide.value--;
   }
 };
 
-const handleTouch = {
-  start: (e: TouchEvent) => {
-    touchStart.value = e.touches[0].clientX;
-  },
-  move: (e: TouchEvent) => {
-    if (width.value < 640) e.preventDefault();
-  },
-  end: (e: TouchEvent) => {
-    const touchEnd = e.changedTouches[0].clientX;
-    const diff = touchStart.value - touchEnd;
-    const minSwipeDistance = 50;
-
-    if (Math.abs(diff) > minSwipeDistance) {
-      handleNavigation(diff > 0 ? "next" : "prev");
-    }
-  },
+const slideRight = () => {
+  if (canSlideRight.value) {
+    currentSlide.value++;
+  }
 };
 
 onMounted(async () => {
-  await loadProductTemplateList({ pageSize: 12 }, true);
-  autoPlayInterval.value = setInterval(() => {
-    if (!document.hidden && productTemplateList.value?.length) {
-      handleNavigation("next");
-    }
-  }, 5000);
+  await loadProductTemplateList({ pageSize: 24 }, true);
+  window.addEventListener("resize", handleResize);
 });
 
 onBeforeUnmount(() => {
-  if (autoPlayInterval.value) clearInterval(autoPlayInterval.value);
+  window.removeEventListener("resize", handleResize);
 });
 </script>
 
 <template>
-  <section
-    class="relative bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden"
-  >
-    <div class="max-w-[1920px] mx-auto px-2 sm:px-4 lg:px-6">
-      <div class="grid lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
-        <!-- Promo Card -->
+  <section class="product-slider-section">
+    <div class="product-slider-container">
+      <div class="product-slider-grid">
         <PromoCard />
 
-        <!-- Products Grid -->
-        <div class="lg:col-span-3">
-          <h1
-            class="text-lg font-header mt-20 sm:text-xl lg:text-2xl font-bold text-black mb-3 sm:mb-4 text-center px-2"
-          >
+        <div class="product-slider-content">
+          <h1 class="product-slider-heading">
             {{ $t("CardSlide") }}
           </h1>
 
-          <div
-            v-if="loading"
-            class="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3"
-          >
-            <div
-              v-for="n in getVisibleProducts"
-              :key="n"
-              class="animate-pulse space-y-3"
-            >
-              <div class="bg-gray-200 rounded-lg aspect-square"></div>
-              <div class="space-y-2">
-                <div class="h-3 bg-gray-200 rounded"></div>
-                <div class="h-3 bg-gray-200 rounded w-2/3"></div>
+          <div v-if="loading" class="product-slider-loading">
+            <div v-for="n in 12" :key="n" class="product-slider-skeleton">
+              <div class="product-slider-skeleton-image"></div>
+              <div class="product-slider-skeleton-text">
+                <div class="skeleton-line"></div>
+                <div class="skeleton-line-short"></div>
               </div>
             </div>
           </div>
 
-          <div
-            v-else
-            class="relative mt-32 overflow-hidden"
-            @touchstart="handleTouch.start"
-            @touchmove="handleTouch.move"
-            @touchend="handleTouch.end"
-          >
-            <div class="slider-container">
+          <div v-else class="product-slider-wrapper">
+            <button
+              class="product-slider-nav-btn product-slider-prev"
+              @click="slideLeft"
+              v-show="canSlideLeft"
+            >
+              <i class="fas fa-chevron-left"></i>
+            </button>
+
+            <div class="product-slider-track-container">
               <div
-                class="slider-track"
-                :style="{ transform: `translateX(${translateX})` }"
+                class="product-slider-track"
+                :style="{
+                  transform: `translateX(-${currentSlide * 100}%)`,
+                }"
               >
                 <div
-                  v-for="product in productTemplateList"
-                  :key="product.id"
-                  class="slider-item"
-                  :style="{ width: slideWidth }"
+                  v-for="(chunk, index) in chunks"
+                  :key="index"
+                  class="product-slider-slide"
                 >
-                  <div class="product-card">
+                  <div class="product-slider-grid-layout">
                     <div
-                      class="relative aspect-square overflow-hidden rounded-t-lg bg-white p-2 sm:p-3"
+                      v-for="product in chunk"
+                      :key="product.id"
+                      class="product-slider-card"
                     >
-                      <img
-                        :src="
-                          $getImage(
-                            String(product.image),
-                            250,
-                            250,
-                            String(product.imageFilename),
-                          )
-                        "
-                        :alt="product.name"
-                        class="w-full h-full object-contain transform transition-transform group-hover:scale-110"
-                        loading="lazy"
-                      />
-                      <div
-                        v-if="getSpecialPrice(product.firstVariant)"
-                        class="absolute top-1 left-1 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full"
-                      >
-                        -{{
-                          calculateDiscount(
-                            getRegularPrice(product.firstVariant),
-                            getSpecialPrice(product.firstVariant),
-                          )
-                        }}%
+                      <div class="product-slider-image-container">
+                        <img
+                          :src="
+                            $getImage(
+                              String(product.image),
+                              250,
+                              250,
+                              String(product.imageFilename),
+                            )
+                          "
+                          :alt="product.name"
+                          class="product-slider-image"
+                          loading="lazy"
+                        />
+                        <div
+                          v-if="getSpecialPrice(product.firstVariant)"
+                          class="product-slider-discount"
+                        >
+                          -{{
+                            calculateDiscount(
+                              getRegularPrice(product.firstVariant),
+                              getSpecialPrice(product.firstVariant),
+                            )
+                          }}%
+                        </div>
                       </div>
-                    </div>
 
-                    <div class="p-2 sm:p-3 bg-white rounded-b-lg">
-                      <h3
-                        class="text-xs sm:text-sm font-medium text-gray-800 line-clamp-2"
-                      >
-                        {{ product.name }}
-                      </h3>
-                      <div class="mt-1 sm:mt-2 space-y-0.5">
-                        <div class="flex items-center justify-between">
-                          <span class="text-gray-500 text-xs line-through">
+                      <div class="product-slider-details">
+                        <h3 class="product-slider-title">
+                          {{ product.name }}
+                        </h3>
+                        <div class="product-slider-price">
+                          <span
+                            v-if="getSpecialPrice(product.firstVariant)"
+                            class="product-slider-regular-price"
+                          >
                             {{
                               $currency(getRegularPrice(product.firstVariant))
                             }}
                           </span>
-                          <span
-                            class="text-sm sm:text-base font-bold text-gray-900"
-                          >
+                          <span class="product-slider-special-price">
                             {{
                               $currency(
                                 getSpecialPrice(product.firstVariant) ||
@@ -190,48 +174,13 @@ onBeforeUnmount(() => {
               </div>
             </div>
 
-            <!-- Navigation Buttons -->
-            <div
-              class="absolute inset-y-0 left-0 right-0 flex items-center justify-between pointer-events-none"
+            <button
+              class="product-slider-nav-btn product-slider-next"
+              @click="slideRight"
+              v-show="canSlideRight"
             >
-              <button
-                v-show="activeIndex > 0"
-                @click="handleNavigation('prev')"
-                class="pointer-events-auto p-1 rounded-full bg-white/80 shadow-lg hover:bg-white transition ml-0.5 sm:ml-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <Icon
-                  name="heroicons:chevron-left"
-                  class="w-3 h-3 sm:w-4 sm:h-4"
-                />
-              </button>
-
-              <button
-                v-show="activeIndex < totalSlides - 1"
-                @click="handleNavigation('next')"
-                class="pointer-events-auto p-1 rounded-full bg-white/80 shadow-lg hover:bg-white transition mr-0.5 sm:mr-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <Icon
-                  name="heroicons:chevron-right"
-                  class="w-3 h-3 sm:w-4 sm:h-4"
-                />
-              </button>
-            </div>
-
-            <!-- Pagination Dots -->
-            <div class="flex justify-center gap-1 mt-2 sm:mt-3">
-              <button
-                v-for="n in totalSlides"
-                :key="n"
-                @click="activeIndex = n - 1"
-                class="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-all duration-300"
-                :class="
-                  activeIndex === n - 1
-                    ? 'bg-blue-500 w-3 sm:w-4'
-                    : 'bg-gray-300'
-                "
-                :aria-label="`Go to slide ${n}`"
-              />
-            </div>
+              <i class="fas fa-chevron-right"></i>
+            </button>
           </div>
         </div>
       </div>
@@ -239,103 +188,133 @@ onBeforeUnmount(() => {
   </section>
 </template>
 
-<style lang="scss">
-.slider-container {
-  overflow: hidden;
-  width: 100%;
-  position: relative;
-  touch-action: pan-y pinch-zoom;
-}
-
-.slider-track {
-  display: flex;
-  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform;
-}
-
-.slider-item {
-  flex: 0 0 auto;
-  padding: 0 0.375rem;
-
-  @media (min-width: 480px) {
-    width: 50%;
+<style lang="scss" scoped>
+.product-slider {
+  &-section {
+    @apply relative  overflow-hidden;
   }
 
-  @media (min-width: 640px) {
-    width: 33.333333%;
-    padding: 0 0.5rem;
+  &-container {
+    @apply max-w-[1920px] mx-auto px-2 sm:px-4 lg:px-6 w-full;
   }
 
-  @media (min-width: 768px) {
-    width: 25%;
+  &-grid {
+    @apply grid lg:grid-cols-[300px_1fr] gap-3 sm:gap-4 lg:gap-6;
   }
 
-  @media (min-width: 1024px) {
-    width: 20%;
+  &-content {
+    @apply w-full;
   }
 
-  @media (min-width: 1280px) {
-    width: 16.666667%;
-  }
-}
-
-.product-card {
-  background-color: white;
-  border-radius: 0.5rem;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s;
-  height: 100%;
-  transform: translateZ(0);
-
-  &:hover {
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    transform: translateY(-1px);
+  &-heading {
+    @apply text-lg font-header sm:text-xl lg:text-2xl font-bold text-black mb-3 sm:mb-4 text-center px-2;
   }
 
-  @media (max-width: 479px) {
-    max-width: calc(100vw - 2rem);
-    margin: 0 auto;
+  &-loading {
+    @apply grid gap-3;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
 
-  @media (min-width: 480px) {
-    max-width: 240px;
+  &-skeleton {
+    @apply animate-pulse space-y-3;
+
+    &-image {
+      @apply bg-gray-200 rounded-lg aspect-square;
+    }
+
+    &-text {
+      @apply space-y-2;
+    }
   }
 
-  @media (min-width: 640px) {
-    max-width: 280px;
+  &-wrapper {
+    @apply relative overflow-hidden;
   }
 
-  @media (min-width: 768px) {
+  &-nav-btn {
+    @apply absolute top-1/2 -translate-y-1/2 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-50 transition-all duration-200 focus:outline-none focus:ring-2 w-10 h-10 flex items-center justify-center;
+
+    &.product-slider-prev {
+      @apply left-2;
+    }
+
+    &.product-slider-next {
+      @apply right-2;
+    }
+  }
+
+  &-track-container {
+    @apply overflow-hidden w-full;
+  }
+
+  &-track {
+    @apply flex transition-transform duration-500 ease-in-out;
+  }
+
+  &-slide {
+    @apply w-full flex-shrink-0;
+  }
+
+  &-grid-layout {
+    @apply grid gap-3 p-2;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+
+  &-card {
+    @apply bg-white rounded-lg shadow-sm transition-all duration-300 h-full transform-gpu flex flex-col;
+    min-width: 200px;
     max-width: 300px;
+    margin: 0 auto;
+    width: 100%;
+
+    &:hover {
+      @apply shadow-lg -translate-y-0.5;
+    }
   }
 
-  @media (min-width: 1024px) {
-    max-width: 320px;
+  &-image-container {
+    @apply relative overflow-hidden rounded-t-lg bg-white p-2;
+    aspect-ratio: 1 / 1;
+  }
+
+  &-image {
+    @apply w-full h-full object-contain transition-transform duration-300;
+
+    .product-slider-card:hover & {
+      @apply scale-110;
+    }
+  }
+
+  &-discount {
+    @apply absolute top-1 left-1 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full;
+  }
+
+  &-details {
+    @apply p-2 bg-white rounded-b-lg flex-grow;
+  }
+
+  &-title {
+    @apply text-xs sm:text-sm font-medium text-gray-800 line-clamp-2;
+  }
+
+  &-price {
+    @apply mt-1 flex items-center gap-2;
+  }
+
+  &-regular-price {
+    @apply text-gray-500 text-xs line-through;
+  }
+
+  &-special-price {
+    @apply text-sm font-bold text-gray-900;
   }
 }
 
-// Optimizaciones de rendimiento
-.slider-track,
-.product-card {
+// Optimizaciones
+.product-slider-track,
+.product-slider-card {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   transform: translateZ(0);
-}
-
-// Estilos para dispositivos táctiles
-@media (hover: none) {
-  .slider-container {
-    cursor: grab;
-    &:active {
-      cursor: grabbing;
-    }
-  }
-}
-
-// Optimización de imágenes para pantallas retina
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-  .product-card img {
-    image-rendering: -webkit-optimize-contrast;
-  }
 }
 </style>

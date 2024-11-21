@@ -8,6 +8,8 @@ import Skeleton from "primevue/skeleton";
 import MainBanner from "../domains/core/components/MainBanner.vue";
 import FeatureBox from "../domains/core/components/FeatureBox.vue";
 import CardSamsung from "../domains/core/components/CardSamsung.vue";
+import ProductSliderCircle from "../domains/core/components/ProductSliderCircle.vue";
+import ProductSlider from "../domains/core/components/ProductSlider.vue";
 import CategoryCard from "../domains/category/components/CategoryCard.vue";
 import CardsItems from "../domains/core/components/CardsItems.vue";
 import Display from "../domains/core/components/Display.vue";
@@ -23,7 +25,7 @@ const API_TOKEN =
 
 const fetchDataTitleDiscount = async (): Promise<TitleData> => {
   try {
-    const response = await fetch(API_URL, {
+    const response = await fetch(API_URL_DISCOUNT, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -45,7 +47,7 @@ const fetchDataTitleDiscount = async (): Promise<TitleData> => {
 
 const fetchDataTitleCategory = async (): Promise<TitleData> => {
   try {
-    const response = await fetch(API_URL, {
+    const response = await fetch(API_URL_CATEGORY, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -65,31 +67,23 @@ const fetchDataTitleCategory = async (): Promise<TitleData> => {
   }
 };
 
-
-const {
-  data: titleTitleDescuento,
-} = useQuery({
+const { data: titleTitleDescuento } = useQuery({
   queryKey: ["titleDescuento"],
   queryFn: fetchDataTitleDiscount,
   retry: 3,
   retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
 });
 
-const {
-  data: titleTitleCategory,
-} = useQuery({
+const { data: titleTitleCategory } = useQuery({
   queryKey: ["titleCategoria"],
   queryFn: fetchDataTitleCategory,
   retry: 3,
   retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
 });
 
-
-
-
 const currentLang = locale.value; // 'es' o 'en'
-const API_URL = `http://localhost:1337/api/title-discount?locale=${currentLang === "es" ? "es-VE" : "en"}`;
-
+const API_URL_DISCOUNT = `http://localhost:1337/api/title-discount?locale=${currentLang === "es" ? "es-VE" : "en"}`;
+const API_URL_CATEGORY = `http://localhost:1337/api/titulo-categoria?locale=${currentLang === "es" ? "es-VE" : "en"}`;
 
 // Interfaces
 interface LoadingStates {
@@ -214,6 +208,14 @@ onMounted(async () => {
 
 // SEO
 useHead(websiteHomepageHead(websiteHomepage.value, ""));
+
+const titleOne = computed(() => {
+  return titleTitleDescuento || "Cargando";
+});
+
+const titleTwo = computed(() => {
+  return titleTitleCategory || "Cargando";
+});
 </script>
 
 <template>
@@ -229,7 +231,7 @@ useHead(websiteHomepageHead(websiteHomepage.value, ""));
     </section>
 
     <!-- FeatureBox Section -->
-    <section class="mb-8">
+    <section>
       <div v-if="loadingStates.featureBox" class="animate-pulse">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
           <Skeleton v-for="n in 4" :key="n" class="h-[100px] rounded-lg" />
@@ -240,57 +242,65 @@ useHead(websiteHomepageHead(websiteHomepage.value, ""));
       </div>
     </section>
 
+    <p
+      class="text-center mt-24 font-bold !font-header uppercase mb-10 typography-headline-3 md:typography-headline-2"
+    >
+      {{ titleOne.value?.data?.TitleDiscount }}
+    </p>
     <!-- ProductSlider1 Section -->
     <section class="mb-8">
       <div v-if="loadingStates.productSlider1" class="animate-pulse">
         <Skeleton class="h-[400px] rounded-lg" />
       </div>
       <div v-else ref="sectionRefs.productSlider1 data TitleDiscount">
-        <p class="text-center font-bold !font-header uppercase mb-10 typography-headline-3 md:typography-headline-2">{{ titleTitleCategory?.data?.TitleDiscount }}</p>
+        <p
+          class="text-center !mt-10 font-bold !font-header uppercase mb-10 typography-headline-3 md:typography-headline-2"
+        >
+          {{ titleTitleCategory?.data?.TitleDiscount }}
+        </p>
         <ProductSlider />
       </div>
     </section>
 
     <!-- CategoryCard Section -->
-    <section class="mb-8">
+    <section class="mb-8 mt-32">
       <div v-if="loadingStates.categoryCard" class="animate-pulse">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
           <Skeleton v-for="n in 8" :key="n" class="h-[200px] rounded-lg" />
         </div>
       </div>
       <div v-else ref="sectionRefs.categoryCard">
-            <h2
-      class="text-center font-bold !font-header uppercase mb-10 typography-headline-3 md:typography-headline-2"
-    >{{ titleTitleCategory?.data?.TitleDiscount }}
-    </h2>
-        <CategoryCard
-          :categories="categories"
-        />
+        <h2
+          class="text-center font-bold !font-header uppercase mb-10 typography-headline-3 md:typography-headline-2"
+        >
+          {{ titleTwo.value?.data.TituloCategoria }}
+        </h2>
+        <CategoryCard :categories="categories" />
       </div>
     </section>
 
     <!-- CardSamsung Section -->
-    <section class="mb-8">
+    <section class="mb-8 mt-12s">
       <div v-if="loadingStates.cardSamsung" class="animate-pulse">
         <Skeleton class="h-[300px] rounded-lg" />
       </div>
-      <div v-else ref="sectionRefs.cardSamsung">
+      <div v-else class="mt-[5rem]" ref="sectionRefs.cardSamsung">
         <CardSamsung />
       </div>
     </section>
 
     <!-- ProductSlider2 Section -->
-    <section class="mb-8">
+    <section class="mb-12">
       <div v-if="loadingStates.productSlider2" class="animate-pulse">
         <Skeleton class="h-[400px] rounded-lg" />
       </div>
       <div v-else ref="sectionRefs.productSlider2">
-        <ProductSlider />
+        <ProductSliderCircle />
       </div>
     </section>
 
     <!-- CardsItems Section -->
-    <section class="mb-8">
+    <section class="mb-8 !mt-12">
       <div v-if="loadingStates.cardsItems" class="animate-pulse">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Skeleton v-for="n in 3" :key="n" class="h-[250px] rounded-lg" />
@@ -302,7 +312,12 @@ useHead(websiteHomepageHead(websiteHomepage.value, ""));
     </section>
 
     <!-- Display Section -->
-    <section class="mb-8">
+    <h3
+      class="text-center font-bold !font-header uppercase mt-12 typography-headline-3 md:typography-headline-2"
+    >
+      {{ $t("descuentosCards") }}
+    </h3>
+    <section class="">
       <div v-if="loadingStates.display" class="animate-pulse">
         <Skeleton class="h-[400px] rounded-lg" />
       </div>
@@ -312,7 +327,7 @@ useHead(websiteHomepageHead(websiteHomepage.value, ""));
     </section>
 
     <!-- Marcas Section -->
-    <section class="mb-8">
+    <section class="-mt-20">
       <div v-if="loadingStates.marcas" class="animate-pulse">
         <div class="grid grid-cols-2 md:grid-cols-6 gap-4">
           <Skeleton v-for="n in 6" :key="n" class="h-[100px] rounded-lg" />
