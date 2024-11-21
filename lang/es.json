@@ -595,5 +595,7 @@
   "loadFounders": "Los fundadores",
   "loadValores": "Valores",
   "loadContact": "Conctato",
-  "ubicacion": "Ubicación"
+  "ubicacion": "Ubicación",
+  "loadingBanner": "Cargando...",
+  "loadingBannerDescripcion": "Por favor, espere esta cargando"
 }

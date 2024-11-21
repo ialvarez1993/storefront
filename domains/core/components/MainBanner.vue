@@ -1,6 +1,42 @@
 <template>
-  <span class="py-52 bg-black" v-if="isLoading">Loading...</span>
-  <div v-else class="slider-container pt-56 sm:pt-20 md:pt-36 pb-80 sm:pb-0">
+  <div
+    v-if="isLoading"
+    class="flex items-center justify-center mt-52 w-full min-h-[200px] bg-black backdrop-blur-sm"
+  >
+    <div class="flex flex-col items-center gap-4">
+      <!-- Spinner Animation -->
+      <div class="relative w-16 h-16">
+        <div
+          class="absolute w-16 h-16 border-4 border-primary-500 rounded-full animate-ping opacity-75"
+        ></div>
+        <div
+          class="absolute w-16 h-16 border-4 border-primary-500 border-t-transparent rounded-full animate-spin"
+        ></div>
+      </div>
+
+      <!-- Loading Text -->
+      <div class="flex flex-col items-center">
+        <span class="text-lg font-medium text-white animate-pulse">
+          {{ $t("loadingBanner") }}
+        </span>
+        <span class="mt-1 text-sm text-gray-300">
+          {{ $t("loadingBannerDescripcion") }}
+        </span>
+      </div>
+
+      <!-- Optional Progress Bar -->
+      <div class="w-48 h-1 mt-2 overflow-hidden bg-gray-700 rounded-full">
+        <div
+          class="h-full bg-primary-500 animate-[loading_1s_ease-in-out_infinite]"
+          style="width: 50%"
+        ></div>
+      </div>
+    </div>
+  </div>
+  <div
+    v-else
+    class="slider-container pt-[19rem] sm:pt-20 md:pt-36 pb-80 sm:pb-0"
+  >
     <!-- Background with curve -->
     <div class="slider-background">
       <div
@@ -30,22 +66,34 @@
           <button class="primary-button">{{ $t("banner.product") }}</button>
         </div>
 
-        <div class="slider-media" :class="{ 'slide-enter': slideAnimation }">
+        <div
+          v-if="slides && slides.length && slides[currentSlide]"
+          class="slider-media"
+          :class="{ 'slide-enter': slideAnimation }"
+        >
           <NuxtImg
-            :src="slides[currentSlide].image?.url"
-            :alt="slides[currentSlide].title"
-            class="product-image"
-            width="600"
-            height="400"
+            v-if="slides[currentSlide].image?.url"
+            :src="slides[currentSlide].image.url"
+            :alt="slides[currentSlide].title || ''"
+            width="500"
+            height="600"
             loading="lazy"
           />
 
-          <div class="price-tag">
+          <div
+            v-if="slides[currentSlide].price && slides[currentSlide].price > 0"
+            class="price-tag"
+          >
             <div class="price-label">{{ $t("banner.priceBaner") }}</div>
             <div class="price-amount">$ {{ slides[currentSlide].price }}</div>
           </div>
 
-          <div class="discount-badge">
+          <div
+            v-if="
+              slides[currentSlide].discount && slides[currentSlide].discount > 0
+            "
+            class="discount-badge"
+          >
             <span class="discount-amount"
               >{{ slides[currentSlide].discount }}%</span
             >
@@ -233,9 +281,8 @@ const API_CONFIG = {
 const fetchBanners = async (): Promise<BannerResponse> => {
   try {
     const { locale } = useI18n();
-    const url = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.BANNERS}?populate[slide][populate]=*`;
-
-    log("Fetching banners from:", url);
+    const currentLang = locale.value; // 'es' o 'en'
+    const url = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.BANNERS}?populate[slide][populate]=*&locale=${currentLang === "es" ? "es-VE" : "en"}`;
 
     const response = await fetch(url, {
       headers: {
@@ -245,14 +292,13 @@ const fetchBanners = async (): Promise<BannerResponse> => {
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(`[MAINBANNER]HTTP error! status: ${response.status}`);
     }
 
     const data = await response.json();
-    log("Received banner data:", data);
     return data;
   } catch (error) {
-    log("Error fetching banners:", error);
+    log("[MAINBANNER]Error fetching banners:", error);
     throw error;
   }
 };
@@ -452,6 +498,18 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="scss">
+@keyframes loading {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
 .slider-container {
   @apply relative my-5 w-full overflow-hidden mt-[12rem] sm:mt-[5rem] md:mt-0 xl:mt-16 lg:mt-[3rem] 2xl:mt-[12rem] 3xl:mt-[12rem] 4xl:mt-[10rem] h-[400px];
 

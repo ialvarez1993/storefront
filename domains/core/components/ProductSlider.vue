@@ -81,9 +81,9 @@ onMounted(() => {
   <section class="px-2 py-6 w-full max-w-[1440px] mx-auto">
     <h2
       v-if="heading"
-      class="text-xl !font-header font-bold text-center mb-6 uppercase tracking-wide"
+      class="text-center font-bold !font-header uppercase mb-10 typography-headline-3 md:typography-headline-2"
     >
-      {{ heading }}
+      {{ heading}}
     </h2>
 
     <div v-if="loading" class="flex justify-center items-center py-4">
@@ -233,6 +233,15 @@ onMounted(() => {
       </div>
     </div>
   </section>
+  <div class="flex justify-center">
+    <Button
+      label="Explorar Mas"
+      severity="warn"
+      class="!bg-yellow-500 !text-black !border-none hover:!bg-black hover:!text-white"
+      icon="pi pi-search"
+      iconPos="left"
+    />
+  </div>
 </template>
 
 <style lang="scss" scoped>

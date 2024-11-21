@@ -29,11 +29,6 @@ const items = ref([
 
 <template>
   <section class="container mx-auto my-14 px-4">
-    <h2
-      class="text-center font-bold !font-header uppercase mb-10 typography-headline-3 md:typography-headline-1"
-    >
-      {{ $t("shopCategory") }}
-    </h2>
     <div
       class="flex flex-wrap justify-center gap-6"
       data-testid="category-card"

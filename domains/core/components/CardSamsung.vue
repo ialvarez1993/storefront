@@ -2,12 +2,17 @@
   <section class="hero-section relative h-screen w-full overflow-hidden">
     <!-- Background Image with Overlay -->
     <div class="absolute inset-0 bg-gradient-overlay">
-      <NuxtImg
-        src="/images/display-2.png"
-        alt="Modern Samsung washing machine in a clean laundry room"
-        class="object-cover w-full h-full transform scale-105 animate-ken-burns"
-        loading="eager"
-      />
+      <template v-if="isLoading">
+        <div class="w-full h-full bg-gray-800 animate-pulse"></div>
+      </template>
+      <template v-else-if="backgroundImage">
+        <NuxtImg
+          :src="backgroundImage"
+          alt="Modern Samsung washing machine in a clean laundry room"
+          class="object-cover w-full h-full transform scale-105 animate-ken-burns"
+          loading="eager"
+        />
+      </template>
     </div>
 
     <!-- Animated Particles Background -->
@@ -24,9 +29,9 @@
             <span
               class="block text-4xl font-header sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-tight animate-text-reveal"
             >
-              {{ $t("promos.washer.title") }} <br />
+              {{ titleOne }} <br />
               <span class="text-gradient">
-                {{ $t("promos.washer.subtitle") }}</span
+                {{ titleTwo }}</span
               >
             </span>
           </h1>
@@ -34,13 +39,12 @@
           <p
             class="text-xl sm:text-2xl text-white/90 font-light animate-fade-in"
           >
-            {{ $t("promos.washer.texto") }}
+            {{ description }}
           </p>
 
-          <Button class="!bg-black !border-none hover:bg-white">{{
-            $t("promos.washer.button")
-          }}</Button>
-          <!-- Features List -->
+          <Button class="!bg-black !border-none hover:bg-white">
+            {{ buttonText }}
+          </Button>
         </div>
       </div>
     </div>
@@ -48,15 +52,78 @@
 </template>
 
 <script setup lang="ts">
-const features = [
-  { icon: "fas fa-tint", text: "Ahorro de agua hasta 40%" },
-  { icon: "fas fa-bolt", text: "Eficiencia energética A+++" },
-  { icon: "fas fa-shield-alt", text: "10 años de garantía" },
-];
+import { computed } from 'vue';
+import { useI18n } from "vue-i18n";
+import { useQuery } from "@tanstack/vue-query";
 
-const handleButtonHover = () => {
-  // Aquí puedes agregar lógica adicional para el hover si lo deseas
+const BASE_IMAGE_URL = "http://localhost:1337";
+
+const { locale } = useI18n();
+
+const API_TOKEN =
+  "17eec83c15384dd6215b8357bbecc348e37308c2a5d098f9aa626d2f73c63ca9c920a35a6038347ca501edc727682984ac7b60eaa476f4a82c78b7f3b8f06f40fdd73e073ae5b67fb857dfbb698231fa16d1f3930778693e8bc9be84b0d4dd9746f2ded7b388c3b4db4fce6c8a96d8c242b43ebd5e474b286c9c531551b4fd86";
+
+const API_URL = computed(() => {
+  const currentLang = locale.value;
+  return `http://localhost:1337/api/home-samsung-card?pagination%5BwithCount%5D=true&populate=imagenFondo&locale=${
+    currentLang === "es" ? "es-VE" : "en"
+  }`;
+});
+
+const fetchDataTitleCategory = async (): Promise<any> => {
+  try {
+    const response = await fetch(API_URL.value, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${API_TOKEN}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error ${response.status}: ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
 };
+
+const {
+  data: DataSamsung,
+  isLoading
+} = useQuery({
+  queryKey: ["CardSamsung", locale],
+  queryFn: fetchDataTitleCategory,
+  retry: 3,
+  retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+});
+
+// Computed properties para todos los datos
+const backgroundImage = computed(() => {
+  if (!DataSamsung.value?.data?.imagenFondo?.formats?.medium?.url) {
+    return null;
+  }
+  return `${BASE_IMAGE_URL}${DataSamsung.value.data.imagenFondo.formats.medium.url}`;
+});
+
+const titleOne = computed(() => {
+  return DataSamsung.value?.data?.titleOneColorWhite || 'Cargando';
+});
+
+const titleTwo = computed(() => {
+  return DataSamsung.value?.data?.titleTwoColorWhite || 'Cargando';
+});
+
+const description = computed(() => {
+  return DataSamsung.value?.data?.descripcion || 'Cargando';
+});
+
+const buttonText = computed(() => {
+  return DataSamsung.value?.data?.bottontext || 'Cargando';
+});
 </script>
 
 <style lang="scss" scoped>

@@ -12,6 +12,84 @@ import CategoryCard from "../domains/category/components/CategoryCard.vue";
 import CardsItems from "../domains/core/components/CardsItems.vue";
 import Display from "../domains/core/components/Display.vue";
 import Marcas from "../domains/core/components/ui/Marcas.vue";
+import { useI18n } from "vue-i18n";
+import { useQuery } from "@tanstack/vue-query";
+import type { TitleData } from "../types/TitleDescuento";
+
+const { locale, setLocale } = useI18n();
+
+const API_TOKEN =
+  "17eec83c15384dd6215b8357bbecc348e37308c2a5d098f9aa626d2f73c63ca9c920a35a6038347ca501edc727682984ac7b60eaa476f4a82c78b7f3b8f06f40fdd73e073ae5b67fb857dfbb698231fa16d1f3930778693e8bc9be84b0d4dd9746f2ded7b388c3b4db4fce6c8a96d8c242b43ebd5e474b286c9c531551b4fd86";
+
+const fetchDataTitleDiscount = async (): Promise<TitleData> => {
+  try {
+    const response = await fetch(API_URL, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${API_TOKEN}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error ${response.status}: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
+
+const fetchDataTitleCategory = async (): Promise<TitleData> => {
+  try {
+    const response = await fetch(API_URL, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${API_TOKEN}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error ${response.status}: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
+
+
+const {
+  data: titleTitleDescuento,
+} = useQuery({
+  queryKey: ["titleDescuento"],
+  queryFn: fetchDataTitleDiscount,
+  retry: 3,
+  retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+});
+
+const {
+  data: titleTitleCategory,
+} = useQuery({
+  queryKey: ["titleCategoria"],
+  queryFn: fetchDataTitleCategory,
+  retry: 3,
+  retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+});
+
+
+
+
+const currentLang = locale.value; // 'es' o 'en'
+const API_URL = `http://localhost:1337/api/title-discount?locale=${currentLang === "es" ? "es-VE" : "en"}`;
+
 
 // Interfaces
 interface LoadingStates {
@@ -141,7 +219,7 @@ useHead(websiteHomepageHead(websiteHomepage.value, ""));
 <template>
   <div class="relative">
     <!-- MainBanner Section -->
-    <section class="mb-8">
+    <section>
       <div v-if="loadingStates.mainBanner" class="animate-pulse">
         <Skeleton class="h-[600px] rounded-lg" />
       </div>
@@ -167,18 +245,9 @@ useHead(websiteHomepageHead(websiteHomepage.value, ""));
       <div v-if="loadingStates.productSlider1" class="animate-pulse">
         <Skeleton class="h-[400px] rounded-lg" />
       </div>
-      <div v-else ref="sectionRefs.productSlider1">
-        <ProductSlider :heading="$t('heading.discount')" />
-      </div>
-    </section>
-
-    <!-- CardSamsung Section -->
-    <section class="mb-8">
-      <div v-if="loadingStates.cardSamsung" class="animate-pulse">
-        <Skeleton class="h-[300px] rounded-lg" />
-      </div>
-      <div v-else ref="sectionRefs.cardSamsung">
-        <CardSamsung />
+      <div v-else ref="sectionRefs.productSlider1 data TitleDiscount">
+        <p class="text-center font-bold !font-header uppercase mb-10 typography-headline-3 md:typography-headline-2">{{ titleTitleCategory?.data?.TitleDiscount }}</p>
+        <ProductSlider />
       </div>
     </section>
 
@@ -190,10 +259,23 @@ useHead(websiteHomepageHead(websiteHomepage.value, ""));
         </div>
       </div>
       <div v-else ref="sectionRefs.categoryCard">
+            <h2
+      class="text-center font-bold !font-header uppercase mb-10 typography-headline-3 md:typography-headline-2"
+    >{{ titleTitleCategory?.data?.TitleDiscount }}
+    </h2>
         <CategoryCard
-          :heading="$t('heading.categories')"
           :categories="categories"
         />
+      </div>
+    </section>
+
+    <!-- CardSamsung Section -->
+    <section class="mb-8">
+      <div v-if="loadingStates.cardSamsung" class="animate-pulse">
+        <Skeleton class="h-[300px] rounded-lg" />
+      </div>
+      <div v-else ref="sectionRefs.cardSamsung">
+        <CardSamsung />
       </div>
     </section>
 

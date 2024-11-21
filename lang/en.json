@@ -609,5 +609,7 @@
   "loadFounders": "Founders",
   "loadValores": "Values",
   "loadContact": "Contact",
-  "ubicacion": "Location"
+  "ubicacion": "Location",
+  "loadingBanner": "Loading...",
+  "loadingBannerDescripcion": "Please wait while we load the content"
 }
