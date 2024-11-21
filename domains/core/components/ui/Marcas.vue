@@ -1,30 +1,31 @@
-<!-- components/BrandsBanner.vue -->
 <template>
   <section class="brands-banner" :class="{ 'dark-mode': isDarkMode }">
     <div class="container">
-      <h2 class="title" v-if="showTitle">{{ title }}</h2>
+
+
+      
+      <h2 class="title" v-if="showTitle">{{ $t("marcasTitulo") }}</h2>
 
       <div class="brands-grid">
         <div
-          v-for="(brand, index) in brandsData"
-          :key="brand.id || index"
+          v-for="brand in brandsData"
+          :key="brand.id"
           class="brand-item"
           :class="{ animated: isAnimated }"
-          :style="{ 'animation-delay': `${index * 0.1}s` }"
         >
           <NuxtImg
-            v-if="brand.image"
-            :src="brand.image"
-            :alt="brand.name"
+            v-if="brand.icono"
+            :src="`http://localhost:1337${brand.icono.url}`"
+            :alt="brand.nombre"
             loading="lazy"
             class="brand-logo"
           />
           <div v-else class="brand-logo-placeholder">
-            {{ brand.name.charAt(0) }}
+            {{ brand.nombre.charAt(0) }}
           </div>
 
           <div class="brand-tooltip">
-            {{ brand.name }}
+            {{ brand.nombre }}
           </div>
         </div>
       </div>
@@ -33,15 +34,50 @@
 </template>
 
 <script setup lang="ts">
-interface Brand {
-  id?: string | number;
-  name: string;
-  image?: string;
-}
+import { useQuery } from "@tanstack/vue-query";
+
+const API_TOKEN =
+  "17eec83c15384dd6215b8357bbecc348e37308c2a5d098f9aa626d2f73c63ca9c920a35a6038347ca501edc727682984ac7b60eaa476f4a82c78b7f3b8f06f40fdd73e073ae5b67fb857dfbb698231fa16d1f3930778693e8bc9be84b0d4dd9746f2ded7b388c3b4db4fce6c8a96d8c242b43ebd5e474b286c9c531551b4fd86";
+
+const API_URL = computed(() => {
+  return `http://localhost:1337/api/marcas?pagination%5BwithCount%5D=true&populate=%2A`;
+});
+
+const fetchDataTitleCategory = async () => {
+  try {
+    const response = await fetch(API_URL.value, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${API_TOKEN}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error ${response.status}: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
+
+const { data: DataCard, isLoading } = useQuery({
+  queryKey: ["MarcasHome"],
+  queryFn: fetchDataTitleCategory,
+  retry: 3,
+  retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+});
+
+const brandsData = computed(() => {
+  return DataCard.value?.data || [];
+});
 
 interface Props {
   title?: string;
-  brands: Brand[];
   showTitle?: boolean;
   isAnimated?: boolean;
   isDarkMode?: boolean;
@@ -53,36 +89,6 @@ const props = withDefaults(defineProps<Props>(), {
   isAnimated: true,
   isDarkMode: false,
 });
-
-// Ejemplo de brands con tipos definidos
-const brandsData = [
-  {
-    id: 1,
-    name: "Samsung",
-    image: "/images/samsung.png",
-  },
-  {
-    id: 2,
-    name: "Xiaomi",
-    image: "/images/xiaomi.png",
-  },
-  {
-    id: 3,
-    name: "whirlpool",
-    image: "/images/whirlpool.png",
-  },
-  {
-    id: 4,
-    name: "HP",
-    image: "/images/hp.png",
-  },
-  {
-    id: 4,
-    name: "Lenovo",
-    image: "/images/lenovo.png",
-  },
-  // ... más marcas
-] as Brand[];
 </script>
 
 <style lang="scss" scoped>

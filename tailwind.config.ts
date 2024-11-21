@@ -3,6 +3,22 @@ import { tailwindConfig } from "@storefront-ui/vue/tailwind-config";
 import sfTypography from "@storefront-ui/typography";
 
 export default <Config>{
+  safelist: [
+    'text-white',
+    'text-black',
+    'bg-amber-500',
+    'bg-neutral-900',
+    'bg-rose-500',
+    // Agrega aquí todas las clases de color que necesites
+    {
+      pattern: /bg-(amber|rose|neutral|white|black)-(50|100|200|300|400|500|600|700|800|900)/,
+      variants: ['hover', 'focus', 'active'],
+    },
+    {
+      pattern: /text-(amber|rose|neutral|white|black)-(50|100|200|300|400|500|600|700|800|900)/,
+      variants: ['hover', 'focus', 'active'],
+    },
+  ],
   presets: [tailwindConfig],
   darkMode: ["class"],
   content: ["./**/*.vue", "node_modules/@storefront-ui/vue/**/*.{js,mjs}"],
