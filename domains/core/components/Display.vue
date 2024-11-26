@@ -6,12 +6,13 @@ import { useQuery } from "@tanstack/vue-query";
 import { useI18n } from "vue-i18n";
 
 const { locale } = useI18n();
+const currentLang = locale.value;
 
 const API_TOKEN =
   "17eec83c15384dd6215b8357bbecc348e37308c2a5d098f9aa626d2f73c63ca9c920a35a6038347ca501edc727682984ac7b60eaa476f4a82c78b7f3b8f06f40fdd73e073ae5b67fb857dfbb698231fa16d1f3930778693e8bc9be84b0d4dd9746f2ded7b388c3b4db4fce6c8a96d8c242b43ebd5e474b286c9c531551b4fd86";
 
 const API_URL = computed(() => {
-  return `http://localhost:1337/api/home-tarjetas-descuentos?populate=%2A&locale=${locale.value}`;
+  return `http://localhost:1337/api/home-tarjetas-descuentos?populate=%2A&locale=${currentLang === "es" ? "es-VE" : "en"}`;
 });
 
 const fetchDataTitleCategory = async () => {
@@ -80,25 +81,19 @@ onMounted(() => {
 
 <template>
   <div class="showcase-container !mb-20" data-testid="display">
-    <div
-      v-for="(item, index) in items"
-      :key="item.title"
-      :class="[
-        'showcase-card',
-        item.bgColor,
-        item.textColor,
-        index === 0 ? 'showcase-card--featured' : '',
-        index === 0 ? 'showcase-card--featured' : '',
-      ]"
-    >
-      <div
-        :class="[
-          'showcase-card__inner',
-          {
-            'showcase-card__inner--reverse': item.reverse,
-          },
-        ]"
-      >
+    <div v-for="(item, index) in items" :key="item.title" :class="[
+      'showcase-card',
+      item.bgColor,
+      item.textColor,
+      index === 0 ? 'showcase-card--featured' : '',
+      index === 0 ? 'showcase-card--featured' : '',
+    ]">
+      <div :class="[
+        'showcase-card__inner',
+        {
+          'showcase-card__inner--reverse': item.reverse,
+        },
+      ]">
         <div class="showcase-card__content">
           <p class="showcase-card__subtitle">{{ $t(item.subtitle) }}</p>
           <h2 class="showcase-card__title">
@@ -115,15 +110,8 @@ onMounted(() => {
           </SfButton>
         </div>
         <div class="showcase-card__image-container">
-          <NuxtImg
-            :src="item.image"
-            :alt="item.title"
-            class="showcase-card__image"
-            width="600"
-            height="600"
-            loading="lazy"
-            format="webp"
-          />
+          <NuxtImg :src="item.image" :alt="item.title" class="showcase-card__image" width="600" height="600"
+            loading="lazy" format="webp" />
         </div>
       </div>
     </div>
@@ -223,12 +211,10 @@ onMounted(() => {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.3),
-      transparent
-    );
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent);
     animation: shine 3s infinite;
   }
 
@@ -264,6 +250,7 @@ onMounted(() => {
   0% {
     left: -100%;
   }
+
   20%,
   100% {
     left: 100%;

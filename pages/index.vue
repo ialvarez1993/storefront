@@ -12,11 +12,28 @@ import ProductSliderCircle from "../domains/core/components/ProductSliderCircle.
 import ProductSlider from "../domains/core/components/ProductSlider.vue";
 import CategoryCard from "../domains/category/components/CategoryCard.vue";
 import CardsItems from "../domains/core/components/CardsItems.vue";
+
+import CardsItemsMobile from "../domains/core/components/CardsItemsMobile.vue";
+
 import Display from "../domains/core/components/Display.vue";
 import Marcas from "../domains/core/components/ui/Marcas.vue";
 import { useI18n } from "vue-i18n";
 import { useQuery } from "@tanstack/vue-query";
 import type { TitleData } from "../types/TitleDescuento";
+import { useScreenSize } from '../../../compasables/useScreenSize.ts';
+
+
+const { isMobile } = useScreenSize();
+
+const MobileViewSliderProduct = defineAsyncComponent(() =>
+  import('../domains/core/components/ProductSliderMobile.vue')
+);
+
+const DesktopViewSliderProduct = defineAsyncComponent(() =>
+  import('../domains/core/components/ProductSlider.vue')
+);
+
+
 
 const { locale, setLocale } = useI18n();
 
@@ -242,9 +259,7 @@ const titleTwo = computed(() => {
       </div>
     </section>
 
-    <p
-      class="text-center mt-24 font-bold !font-header uppercase mb-10 typography-headline-3 md:typography-headline-2"
-    >
+    <p class="text-center mt-24 font-bold !font-header uppercase mb-10 typography-headline-3 md:typography-headline-2">
       {{ titleOne.value?.data?.TitleDiscount }}
     </p>
     <!-- ProductSlider1 Section -->
@@ -254,11 +269,23 @@ const titleTwo = computed(() => {
       </div>
       <div v-else ref="sectionRefs.productSlider1 data TitleDiscount">
         <p
-          class="text-center !mt-10 font-bold !font-header uppercase mb-10 typography-headline-3 md:typography-headline-2"
-        >
+          class="text-center !mt-10 font-bold !font-header uppercase mb-10 typography-headline-3 md:typography-headline-2">
           {{ titleTitleCategory?.data?.TitleDiscount }}
         </p>
-        <ProductSlider />
+
+
+        <Suspense>
+          <template #default>
+            <component :is="isMobile ? MobileViewSliderProduct : DesktopViewSliderProduct" :data="data"
+              :images="images" />
+          </template>
+          <template #fallback>
+            <div>Cargando...</div>
+          </template>
+        </Suspense>
+
+
+
       </div>
     </section>
 
@@ -270,9 +297,7 @@ const titleTwo = computed(() => {
         </div>
       </div>
       <div v-else ref="sectionRefs.categoryCard">
-        <h2
-          class="text-center font-bold !font-header uppercase mb-10 typography-headline-3 md:typography-headline-2"
-        >
+        <h2 class="text-center font-bold !font-header uppercase mb-10 typography-headline-3 md:typography-headline-2">
           {{ titleTwo.value?.data.TituloCategoria }}
         </h2>
         <CategoryCard :categories="categories" />
@@ -307,14 +332,22 @@ const titleTwo = computed(() => {
         </div>
       </div>
       <div v-else ref="sectionRefs.cardsItems">
-        <CardsItems />
+
+        <Suspense>
+          <template #default>
+            <component :is="isMobile ? CardsItemsMobile : CardsItems" :images="images" />
+          </template>
+          <template #fallback>
+            <div>Cargando...</div>
+          </template>
+        </Suspense>
+
+
       </div>
     </section>
 
     <!-- Display Section -->
-    <h3
-      class="text-center font-bold !font-header uppercase mt-12 typography-headline-3 md:typography-headline-2"
-    >
+    <h3 class="text-center font-bold !font-header uppercase mt-12 typography-headline-3 md:typography-headline-2">
       {{ $t("descuentosCards") }}
     </h3>
     <section class="">
@@ -346,10 +379,12 @@ const titleTwo = computed(() => {
 }
 
 @keyframes pulse {
+
   0%,
   100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.5;
   }

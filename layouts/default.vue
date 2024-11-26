@@ -16,6 +16,8 @@ const isDev = process.dev;
     </NuxtLazyHydrate>
 
     <WishlistSidebar />
-    <VueQueryDevTools v-if="isDev" />
+    <ClientOnly>
+      <VueQueryDevTools v-if="isDev" />
+    </ClientOnly>
   </div>
 </template>

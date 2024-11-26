@@ -2,28 +2,99 @@
 import { ref, onMounted, onUnmounted } from "vue";
 import ImageSlider from "./ImageSlider.vue";
 import ProductDataView from "./ProductDataView.vue";
-import { defineAsyncComponent, computed } from "vue";
-import { useScreenSize } from '../../../compasables/useScreenSize.ts';
 
 const { isMobile } = useScreenSize();
 
-
-const MobileViewSlider = defineAsyncComponent(() =>
+const MobileView = defineAsyncComponent(() =>
   import('./ImageSliderMobile.vue')
 );
-const DesktopViewSlider = defineAsyncComponent(() =>
+const DesktopView = defineAsyncComponent(() =>
   import('./ImageSliderDesktop.vue')
 );
 
+// Interfaces
+interface Image {
+  id: number;
+  url: string;
+  thumbnail: string;
+}
 
-const MobileViewData = defineAsyncComponent(() =>
-  import('../components/MobileProductDataView.vue')
-);
-const DesktopViewData = defineAsyncComponent(() =>
-  import('../components/ProductDataView.vue')
-);
+interface Currency {
+  id: number;
+  name: string;
+  symbol: string;
+}
 
+interface CombinationInfo {
+  product_id: number;
+  product_template_id: number;
+  display_name: string;
+  display_image: boolean;
+  is_combination_possible: boolean;
+  parent_exclusions: Record<string, any>;
+  price_extra: number;
+  price: number;
+  list_price: number;
+  has_discounted_price: boolean;
+  compare_list_price: null | number;
+  prevent_zero_price_sale: boolean;
+  base_unit_name: string;
+  base_unit_price: number;
+  currency: Currency;
+  date: string;
+  product_taxes: null | any;
+  taxes: null | any;
+  product_tags: string;
+  product_type: string;
+  allow_out_of_stock_order: boolean;
+  available_threshold: number;
+  free_qty: number;
+  cart_qty: number;
+  uom_name: string;
+  uom_rounding: number;
+  show_availability: boolean;
+  out_of_stock_message: boolean;
+  has_stock_notification: boolean;
+  stock_notification_email: string;
+  discount: number;
+  discount_perc: number;
+}
 
+interface Category {
+  id: number;
+  name: string;
+  slug: string;
+  parent: {
+    parent: null;
+    __typename: string;
+  };
+  __typename: string;
+}
+
+interface Product {
+  id: number;
+  firstVariant: {
+    id: number;
+    combinationInfoVariant: CombinationInfo;
+    slug: string;
+    variantAttributeValues: null;
+    __typename: string;
+  };
+  smallImage: string;
+  price: number;
+  name: string;
+  description: null | string;
+  image: string;
+  imageFilename: string;
+  combinationInfo: CombinationInfo;
+  slug: string;
+  sku: string;
+  jsonLd: string;
+  isInWishlist: boolean;
+  categories: Category[];
+  attributeValues: null;
+  __typename: string;
+}
 
 // Refs y estado
 const isModalOpen = ref(false);
@@ -53,14 +124,6 @@ const closeModal = () => {
   document.body.style.overflow = "auto";
 };
 
-
-const props = defineProps({
-  data: Object,
-});
-
-
-
-
 // Data
 const images: Image[] = [
   {
@@ -83,7 +146,6 @@ const images: Image[] = [
   },
 ];
 
-
 </script>
 
 <template>
@@ -96,32 +158,14 @@ const images: Image[] = [
     <Teleport to="body">
       <Transition name="modal-fade">
         <div v-if="isModalOpen" class="modal" @click.self="closeModal">
-          <div class="modal-content ">
+          <div class="modal-content">
             <button @click="closeModal" class="close-button" aria-label="Cerrar">
               <span aria-hidden="true">&times;</span>
             </button>
 
             <div class="modal-grid">
-              <Suspense>
-                <template #default>
-
-                  <component :is="isMobile ? MobileViewSlider : DesktopViewSlider" :data="data" :images="images" />
-                </template>
-                <template #fallback>
-                  <div>Cargando...</div>
-                </template>
-              </Suspense>
-
-              <Suspense>
-                <template #default>
-                  <component :is="isMobile ? MobileViewData : DesktopViewData" :data="data"
-                    :product-data="productData" />
-                </template>
-                <template #fallback>
-                  <div>Cargando...</div>
-                </template>
-              </Suspense>
-
+              <ImageSlider :images="images" :product-data="productData" />
+              <ProductDataView />
             </div>
           </div>
         </div>
@@ -152,40 +196,13 @@ const images: Image[] = [
   border: none;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow:
-    0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .action-btn:hover {
   transform: translateY(-2px) scale(1.05);
   background: #ffffff;
-  box-shadow:
-    0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
-.btn-tooltip {
-  position: absolute;
-  bottom: -2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.8);
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 0.375rem;
-  font-size: 0.875rem;
-  white-space: nowrap;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.2s ease;
-}
-
-.action-btn:hover .btn-tooltip {
-  opacity: 1;
-  visibility: visible;
-  bottom: -2.5rem;
-}
 
 .modal {
   position: fixed;
@@ -229,7 +246,6 @@ const images: Image[] = [
   background: rgba(0, 0, 0, 0.1);
   border: none;
   width: 2.5rem;
-  z-index: 10;
   height: 2.5rem;
   border-radius: 50%;
   cursor: pointer;
@@ -364,5 +380,27 @@ const images: Image[] = [
     background: rgba(255, 255, 255, 0.1);
     color: #ffffff;
   }
+}
+
+.btn-tooltip {
+  position: absolute;
+  bottom: -2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+}
+
+.action-btn:hover .btn-tooltip {
+  opacity: 1;
+  visibility: visible;
+  bottom: -2.5rem;
 }
 </style>

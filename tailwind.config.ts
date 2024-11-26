@@ -9,7 +9,8 @@ export default <Config>{
     'bg-amber-500',
     'bg-neutral-900',
     'bg-rose-500',
-    // Agrega aquí todas las clases de color que necesites
+    'bg-indigo-500',
+    'bg-blue-900',
     {
       pattern: /bg-(amber|rose|neutral|white|black)-(50|100|200|300|400|500|600|700|800|900)/,
       variants: ['hover', 'focus', 'active'],

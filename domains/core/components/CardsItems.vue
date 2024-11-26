@@ -146,9 +146,11 @@ onBeforeUnmount(() => {
                       </div>
 
                       <div class="product-slider-details">
-                        <h3 class="product-slider-title">
-                          {{ product.name }}
-                        </h3>
+                        <NuxtLink :to="product.slug">
+                          <h3 class="product-slider-title">
+                            {{ product.name }}
+                          </h3>
+                        </NuxtLink>
                         <div class="product-slider-price">
                           <span
                             v-if="getSpecialPrice(product.firstVariant)"

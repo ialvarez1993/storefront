@@ -227,8 +227,8 @@ const titleOne = computed(() => {
 
 <style lang="scss" scoped>
 .product-card {
-  @apply flex-none w-[250px];
-
+  @apply flex-none  w-[250px];
+  box-shadow : none;
   .card-content {
     @apply relative transition-all duration-300;
   }
@@ -299,7 +299,7 @@ transition-all duration-300 hover:scale-105;
 .nav-btn {
   @apply absolute top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full
 
-bg-white/90 shadow-sm flex items-center justify-center
+bg-white/90  flex items-center justify-center
 
 transition-all duration-300 hover:bg-gray-50;
 }
