@@ -1,5 +1,16 @@
-
-
 $primary-50: #f0f9ff;
 $primary-500: #0ea5e9;
 $primary-600: #0284c7;
+
+
+.force-light-mode,
+.force-light-mode * {
+  color-scheme: light !important;
+}
+
+.dark .force-light-mode,
+.force-light-mode .dark {
+  color-scheme: light !important;
+  background-color: white !important;
+  color: rgb(17 24 39) !important;
+}

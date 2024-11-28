@@ -2,7 +2,7 @@ import type { Config } from "tailwindcss";
 import { tailwindConfig } from "@storefront-ui/vue/tailwind-config";
 import sfTypography from "@storefront-ui/typography";
 
-export default <Config>{
+export default <any>{
   safelist: [
     'text-white',
     'text-black',
@@ -10,7 +10,6 @@ export default <Config>{
     'bg-neutral-900',
     'bg-rose-500',
     'bg-indigo-500',
-    'bg-blue-900',
     {
       pattern: /bg-(amber|rose|neutral|white|black)-(50|100|200|300|400|500|600|700|800|900)/,
       variants: ['hover', 'focus', 'active'],
@@ -68,6 +67,9 @@ export default <Config>{
 
     },
     extend: {
+      backgroundColor: ['dark'],
+      borderColor: ['dark'],
+      textColor: ['dark'],
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -125,4 +127,15 @@ export default <Config>{
       },
     },
   },
+  colorMode: {
+    preference: 'light',
+    fallback: 'light',
+    hid: 'theme-script',
+    globalName: '__NUXT_COLOR_MODE__',
+    componentName: 'ColorScheme',
+    classPrefix: '',
+    classSuffix: '',
+    storageKey: 'nuxt-color-mode'
+  },
+
 };

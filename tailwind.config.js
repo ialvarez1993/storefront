@@ -22,6 +22,16 @@ module.exports = {
       variants: ["hover", "focus", "active"],
     },
   ],
+  colorMode: {
+    preference: 'light',
+    fallback: 'light',
+    hid: 'theme-script',
+    globalName: '__NUXT_COLOR_MODE__',
+    componentName: 'ColorScheme',
+    classPrefix: '',
+    classSuffix: '',
+    storageKey: 'nuxt-color-mode'
+  },
   darkMode: ["class"],
   content: [
     "./pages/**/*.{ts,tsx,vue}",
@@ -65,6 +75,9 @@ module.exports = {
       },
     },
     extend: {
+      backgroundColor: ['dark'],
+      borderColor: ['dark'],
+      textColor: ['dark'],
       keyframes: {
         "accordion-down": {
           from: { height: 0 },
@@ -81,5 +94,16 @@ module.exports = {
       },
     },
   },
+  colorMode: {
+    preference: 'light',
+    fallback: 'light',
+    hid: 'theme-script',
+    globalName: '__NUXT_COLOR_MODE__',
+    componentName: 'ColorScheme',
+    classPrefix: '',
+    classSuffix: '',
+    storageKey: 'nuxt-color-mode'
+  },
+
   plugins: [animate, sfTypography],
 };

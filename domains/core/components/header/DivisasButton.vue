@@ -1,13 +1,8 @@
 <template>
   <div class="currency-switcher">
-    <button
-      @click="toggleDropdown"
-      class="currency-btn"
-      :class="{ 'btn-expanded': isExpanded }"
-      @mouseenter="isExpanded = true"
-      @mouseleave="isExpanded = false"
-      :aria-label="'Cambiar divisa actual: ' + currentCurrency.code"
-    >
+    <button @click="toggleDropdown" class="currency-btn" :class="{ 'btn-expanded': isExpanded }"
+      @mouseenter="isExpanded = true" @mouseleave="isExpanded = false"
+      :aria-label="'Cambiar divisa actual: ' + currentCurrency.code">
       <div class="btn-content">
         <div class="currency-flag" :class="currentCurrency.code.toLowerCase()">
           <span class="currency-symbol"> {{ currentCurrency.symbol }}</span>
@@ -20,47 +15,28 @@
             </span>
           </transition>
         </div>
-        <ChevronDownIcon
-          class="chevron-icon"
-          :class="{ 'rotate-180': isOpen }"
-        />
+        <ChevronDownIcon class="chevron-icon" :class="{ 'rotate-180': isOpen }" />
       </div>
     </button>
 
-    <transition
-      enter-active-class="animate-slideDown"
-      leave-active-class="animate-slideUp"
-    >
+    <transition enter-active-class="animate-slideDown" leave-active-class="animate-slideUp">
       <div v-if="isOpen" class="currency-dropdown" role="listbox">
         <div class="search-wrapper">
-          <input
-            v-model="searchQuery"
-            type="text"
-            class="search-input"
-            placeholder="Buscar divisa..."
-            @click.stop
-          />
+          <input v-model="searchQuery" type="text" class="search-input" placeholder="Buscar divisa..." @click.stop />
           <MagnifyingGlassIcon class="search-icon" />
         </div>
 
         <div class="currencies-list">
-          <div
-            v-for="currency in filteredCurrencies"
-            :key="currency.code"
-            class="currency-option"
-            :class="{
-              active: currentCurrency.code === currency.code,
-              'live-rate': currency.hasLiveRate,
-            }"
-            @click="changeCurrency(currency.code)"
-            role="option"
-            :aria-selected="currentCurrency.code === currency.code"
-          >
+          <div v-for="currency in filteredCurrencies" :key="currency.code" class="currency-option" :class="{
+            active: currentCurrency.code === currency.code,
+            'live-rate': currency.hasLiveRate,
+          }" @click="changeCurrency(currency.code)" role="option"
+            :aria-selected="currentCurrency.code === currency.code">
             <div class="option-content">
               <div class="currency-flag" :class="currency.code.toLowerCase()">
                 <span class="currency-symbol !text-black">{{
                   currency.symbol
-                }}</span>
+                  }}</span>
               </div>
               <div class="currency-details">
                 <span class="currency-name">{{ currency.name }}</span>
@@ -188,13 +164,7 @@ onUnmounted(() => {
   @apply relative inline-flex;
 
   .currency-btn {
-    @apply relative overflow-hidden
-           h-8 min-w-[4rem]
-           rounded-full
-           bg-white dark:bg-gray-800
-           border border-gray-200 dark:border-gray-700
-           shadow-sm hover:shadow-md
-           transition-all duration-300 ease-in-out;
+    @apply relative overflow-hidden h-8 min-w-[4rem] rounded-full bg-white border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 ease-in-out;
 
     &:hover {
       @apply transform -translate-y-0.5;
@@ -209,23 +179,20 @@ onUnmounted(() => {
     }
 
     .btn-content {
-      @apply flex items-center gap-1 px-2
-             h-full w-full;
+      @apply flex items-center gap-1 px-2 h-full w-full;
     }
 
     .currency-flag {
-      @apply w-6 h-6 rounded-full
-             flex items-center justify-center
-             shadow-inner
-             transform transition-transform duration-300
-             text-xs font-medium;
+      @apply w-6 h-6 rounded-full flex items-center justify-center shadow-inner transform transition-transform duration-300 text-xs font-medium;
 
       &.bs {
         @apply bg-gradient-to-br from-yellow-400 to-yellow-500;
       }
+
       &.usd {
         @apply bg-gradient-to-br from-green-600 to-green-950 text-white;
       }
+
       &.eur {
         @apply bg-gradient-to-br from-blue-400 to-blue-500 text-white;
       }
@@ -236,56 +203,34 @@ onUnmounted(() => {
     }
 
     .currency-info-compact {
-      @apply flex flex-col items-start
-             ml-1 overflow-hidden
-             transition-all duration-300;
+      @apply flex flex-col items-start ml-1 overflow-hidden transition-all duration-300;
 
       .current-code {
-        @apply text-sm font-medium
-               text-gray-800 dark:text-gray-200;
+        @apply text-sm font-medium text-gray-800;
       }
 
       .current-rate {
-        @apply text-xs text-gray-500 dark:text-gray-400
-               whitespace-nowrap;
+        @apply text-xs text-gray-500 whitespace-nowrap;
       }
     }
 
     .chevron-icon {
-      @apply w-4 h-4 ml-1
-             text-gray-400 dark:text-gray-500
-             transition-transform duration-300;
+      @apply w-4 h-4 ml-1 text-gray-400 transition-transform duration-300;
     }
   }
 
   .currency-dropdown {
-    @apply absolute right-0 mt-2
-           w-[280px] max-h-[400px]
-           bg-white dark:bg-gray-800
-           rounded-2xl
-           border border-gray-200 dark:border-gray-700
-           shadow-xl
-           overflow-hidden
-           z-50;
+    @apply absolute right-0 mt-2 w-[280px] max-h-[400px] bg-white rounded-2xl border border-gray-200 dark:border-gray-700 shadow-xl overflow-hidden z-50;
 
     .search-wrapper {
-      @apply p-3 border-b border-gray-200 dark:border-gray-700
-             relative;
+      @apply p-3 border-b border-gray-200 dark:border-gray-700 relative;
 
       .search-input {
-        @apply w-full px-8 py-2
-               text-sm text-black
-               bg-gray-50 dark:bg-gray-700
-               border border-gray-200 dark:border-gray-600
-               rounded-lg
-               focus:ring-2 focus:ring-blue-500
-               placeholder-gray-400 dark:placeholder-gray-500;
+        @apply w-full px-8 py-2 text-sm text-black bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 placeholder-gray-400 dark:placeholder-gray-500;
       }
 
       .search-icon {
-        @apply absolute left-5 top-1/2 transform -translate-y-1/2
-               w-4 h-4
-               text-gray-400 dark:text-gray-500;
+        @apply absolute left-5 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500;
       }
     }
 
@@ -294,10 +239,7 @@ onUnmounted(() => {
     }
 
     .currency-option {
-      @apply relative px-3 py-2.5
-             hover:bg-gray-50 dark:hover:bg-gray-700
-             cursor-pointer
-             transition-colors duration-200;
+      @apply relative px-3 py-2.5 hover:bg-gray-50 cursor-pointer transition-colors duration-200;
 
       &.active {
         @apply bg-blue-50/50 dark:bg-blue-900/20;
@@ -311,9 +253,7 @@ onUnmounted(() => {
         @apply flex flex-col flex-1 min-w-0;
 
         .currency-name {
-          @apply text-sm font-medium
-                 text-gray-800 dark:text-gray-200
-                 truncate;
+          @apply text-sm font-medium text-gray-800 dark:text-gray-200 truncate;
         }
 
         .rate-container {
@@ -326,9 +266,7 @@ onUnmounted(() => {
       }
 
       .live-badge {
-        @apply flex items-center gap-1
-               text-[0.65rem] font-medium
-               text-green-600 dark:text-green-400;
+        @apply flex items-center gap-1 text-[0.65rem] font-medium text-green-600 dark:text-green-400;
 
         .live-dot {
           @apply w-1.5 h-1.5 rounded-full bg-green-500;
@@ -337,8 +275,7 @@ onUnmounted(() => {
       }
 
       .rate-value {
-        @apply text-sm text-gray-600 dark:text-gray-300
-               font-medium tabular-nums;
+        @apply text-sm text-gray-600 dark:text-gray-300 font-medium tabular-nums;
       }
     }
   }
@@ -349,10 +286,12 @@ onUnmounted(() => {
     transform: scale(0.95);
     box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
   }
+
   70% {
     transform: scale(1);
     box-shadow: 0 0 0 6px rgba(34, 197, 94, 0);
   }
+
   100% {
     transform: scale(0.95);
     box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
@@ -383,6 +322,7 @@ onUnmounted(() => {
     opacity: 0;
     transform: translateY(-8px) scale(0.98);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -394,6 +334,7 @@ onUnmounted(() => {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
+
   to {
     opacity: 0;
     transform: translateY(-8px) scale(0.98);

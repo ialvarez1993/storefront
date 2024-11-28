@@ -2,81 +2,43 @@
 <template>
   <div class="relative" ref="menuRef">
     <!-- Trigger Button -->
-    <button
-      @click="toggleMenu"
+    <button @click="toggleMenu"
       class="expand-trigger-btn group flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-gray-50 transition-all duration-200"
-      :class="{ active: isOpen }"
-    >
+      :class="{ active: isOpen }">
       <Icon name="heroicons:bars-3" class="w-6 h-6" />
       <span class="font-medium">{{ title }}</span>
-      <Icon
-        name="heroicons:chevron-down"
-        class="w-4 h-4 transition-transform duration-200"
-        :class="{ 'rotate-180': isOpen }"
-      />
+      <Icon name="heroicons:chevron-down" class="w-4 h-4 transition-transform duration-200"
+        :class="{ 'rotate-180': isOpen }" />
     </button>
 
     <!-- Expandable Menu -->
-    <Transition
-      enter-active-class="transition duration-200 ease-out"
-      enter-from-class="transform scale-95 opacity-0"
-      enter-to-class="transform scale-100 opacity-100"
-      leave-active-class="transition duration-150 ease-in"
-      leave-from-class="transform scale-100 opacity-100"
-      leave-to-class="transform scale-95 opacity-0"
-    >
+    <Transition enter-active-class="transition duration-200 ease-out" enter-from-class="transform scale-95 opacity-0"
+      enter-to-class="transform scale-100 opacity-100" leave-active-class="transition duration-150 ease-in"
+      leave-from-class="transform scale-100 opacity-100" leave-to-class="transform scale-95 opacity-0">
       <div v-show="isOpen" class="expandable-menu">
         <div class="menu-container">
           <div class="menu-section">
             <ul class="menu-list">
               <li v-for="(item, index) in menuItems" :key="getItemId(item)">
-                <div
-                  @click.stop="toggleItem(item)"
-                  class="menu-item-parent"
-                  :class="{
-                    active: isExpanded(item) || isActiveParent(item),
-                  }"
-                >
+                <div @click.stop="toggleItem(item)" class="menu-item-parent" :class="{
+                  active: isExpanded(item) || isActiveParent(item),
+                }">
                   <div class="item-content">
-                    <Icon
-                      v-if="item.icon"
-                      :name="item.icon"
-                      class="item-icon"
-                    />
+                    <Icon v-if="item.icon" :name="item.icon" class="item-icon" />
                     <span class="item-label">{{ item.label }}</span>
                   </div>
-                  <Icon
-                    v-if="hasChildren(item)"
-                    name="heroicons:chevron-right"
-                    class="item-arrow"
-                    :class="{ 'rotate-90': isExpanded(item) }"
-                  />
+                  <Icon v-if="hasChildren(item)" name="heroicons:chevron-right" class="item-arrow"
+                    :class="{ 'rotate-90': isExpanded(item) }" />
                 </div>
 
-                <Transition
-                  enter-active-class="transition-all duration-300 ease-out"
-                  enter-from-class="max-h-0 opacity-0"
-                  enter-to-class="max-h-[500px] opacity-100"
-                  leave-active-class="transition-all duration-200 ease-in"
-                  leave-from-class="max-h-[500px] opacity-100"
-                  leave-to-class="max-h-0 opacity-0"
-                >
-                  <ul
-                    v-show="isExpanded(item) && hasChildren(item)"
-                    class="menu-children"
-                  >
-                    <li
-                      v-for="child in item.children"
-                      :key="getItemId(child)"
-                      @click.stop="handleItemClick(child)"
-                      class="menu-item-child"
-                      :class="{ active: isActiveItem(child) }"
-                    >
-                      <Icon
-                        v-if="child.icon"
-                        :name="child.icon"
-                        class="child-icon"
-                      />
+                <Transition enter-active-class="transition-all duration-300 ease-out"
+                  enter-from-class="max-h-0 opacity-0" enter-to-class="max-h-[500px] opacity-100"
+                  leave-active-class="transition-all duration-200 ease-in" leave-from-class="max-h-[500px] opacity-100"
+                  leave-to-class="max-h-0 opacity-0">
+                  <ul v-show="isExpanded(item) && hasChildren(item)" class="menu-children">
+                    <li v-for="child in item.children" :key="getItemId(child)" @click.stop="handleItemClick(child)"
+                      class="menu-item-child" :class="{ active: isActiveItem(child) }">
+                      <Icon v-if="child.icon" :name="child.icon" class="child-icon" />
                       <span class="child-label">{{ child.label }}</span>
                     </li>
                   </ul>
@@ -317,8 +279,7 @@ onUnmounted(() => {
 }
 
 .expandable-menu {
-  @apply absolute top-full right-0 mt-2 w-64 bg-white rounded-xl
-         shadow-lg border border-gray-200 overflow-hidden z-50;
+  @apply absolute top-full right-0 mt-2 w-64 bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden z-50;
 }
 
 .menu-container {
@@ -334,8 +295,7 @@ onUnmounted(() => {
 }
 
 .menu-item-parent {
-  @apply flex items-center justify-between px-3 py-2 rounded-lg
-         cursor-pointer transition-all duration-200;
+  @apply flex items-center justify-between px-3 py-2 rounded-lg cursor-pointer transition-all duration-200;
 
   &:hover {
     @apply bg-gray-50;
@@ -371,9 +331,7 @@ onUnmounted(() => {
 }
 
 .menu-item-child {
-  @apply flex items-center gap-2 px-3 py-2 rounded-lg
-         cursor-pointer text-gray-600 hover:bg-gray-50
-         transition-all duration-200;
+  @apply flex items-center gap-2 px-3 py-2 rounded-lg cursor-pointer text-gray-600 hover:bg-gray-50 transition-all duration-200;
 
   &:hover {
     @apply text-yellow-600;
@@ -398,46 +356,5 @@ onUnmounted(() => {
 
 .child-label {
   @apply text-sm;
-}
-
-// Dark mode support
-.dark {
-  .expand-trigger-btn {
-    @apply bg-gray-800 border-gray-700;
-
-    &.active {
-      @apply bg-gray-700 border-gray-600;
-    }
-  }
-
-  .expandable-menu {
-    @apply bg-gray-800 border-gray-700;
-  }
-
-  .menu-item-parent {
-    &:hover {
-      @apply bg-gray-700;
-    }
-
-    &.active {
-      @apply bg-amber-800;
-    }
-  }
-
-  .item-label {
-    @apply text-gray-200;
-  }
-
-  .menu-item-child {
-    @apply text-gray-300 hover:bg-gray-700;
-
-    &.active {
-      @apply bg-amber-900 text-amber-200;
-
-      .child-icon {
-        @apply text-amber-400;
-      }
-    }
-  }
 }
 </style>

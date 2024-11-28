@@ -614,5 +614,7 @@
   "loadingBannerDescripcion": "Please wait while we load the content",
   "ButtonExplorar": "Explore More",
   "descuentosCards": "Unpredictable Discounts",
-  "marcasTitulo": "The best brands"
+  "marcasTitulo": "The best brands",
+  "resultsQuerySearch": "Results for",
+  "addToWishlist": "Add to favorite"
 }

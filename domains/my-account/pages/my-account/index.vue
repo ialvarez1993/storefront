@@ -4,4 +4,5 @@ definePageMeta({
   middleware: ["auth-check"],
 });
 </script>
-<template></template>
+<template>
+</template>

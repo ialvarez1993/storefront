@@ -41,15 +41,15 @@ const categories = {
   ferreteria: [
     { name: "sopport.write", href: "/category/15" },
     { name: "Electricidad", href: "/category/15" },
-    { name: "Jardín", href: "/category/15" },
-    { name: "Baño y fontanería", href: "/category/15" },
+    { name: "JardÃ­n", href: "/category/15" },
+    { name: "BaÃ±o y fontanerÃ­a", href: "/category/15" },
   ],
   digital: [
-    { name: "Computación", href: "/category/15" },
+    { name: "ComputaciÃ³n", href: "/category/15" },
     { name: "Impresoras", href: "/category/15" },
-    { name: "Móviles", href: "/category/15" },
+    { name: "MÃ³viles", href: "/category/15" },
     { name: "Smartwatches", href: "/category/15" },
-    { name: "Fotografía", href: "/category/15" },
+    { name: "FotografÃ­a", href: "/category/15" },
     { name: "Smart home", href: "/category/15" },
     { name: "Videojuegos", href: "/category/15" },
   ],
@@ -84,7 +84,7 @@ onUnmounted(() => {
 <template>
   <header
     :class="[
-      'w-full  fixed top-0 left-0 z-50 bg-white transition-all duration-300',
+      'w-full fixed top-0 left-0 z-50 bg-white transition-all duration-300',
       { 'shadow-md': isCompact },
     ]"
   >
@@ -234,6 +234,7 @@ onUnmounted(() => {
       <div class="container mx-auto px-4">
         <ul class="flex items-center gap-8">
           <Supermenus />
+          <SupermenusDigital />
           <li
             v-for="item in [
               {
@@ -292,7 +293,7 @@ onUnmounted(() => {
           <li
             v-for="item in [
               'Todos los productos',
-              'Los más destacados',
+              'Los mÃ¡s destacados',
               'Ofertas',
             ]"
             :key="item"

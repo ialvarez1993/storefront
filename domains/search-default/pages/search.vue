@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import SearchInputBig from "../components/SearchInputBig.vue"
 import LazyUiProductCard2 from "../../core/components/ui/ProductCard2.vue";
 import {
   SfButton,
@@ -7,31 +8,31 @@ import {
   SfLoaderCircular,
 } from "@storefront-ui/vue";
 import type { Product } from "~/graphql";
-import { useNuxtApp } from '#app'
+import { useNuxtApp } from "#app";
 
 // Nuevo composable para manejar el responsive design
 const useScreen = () => {
-  const width = ref(0)
+  const width = ref(0);
 
   const updateWidth = () => {
-    width.value = window.innerWidth
-  }
+    width.value = window.innerWidth;
+  };
 
   onMounted(() => {
-    updateWidth()
-    window.addEventListener('resize', updateWidth)
-  })
+    updateWidth();
+    window.addEventListener("resize", updateWidth);
+  });
 
   onUnmounted(() => {
-    window.removeEventListener('resize', updateWidth)
-  })
+    window.removeEventListener("resize", updateWidth);
+  });
 
   return {
     isWideScreen: computed(() => width.value >= 1024), // lg breakpoint
     isTabletScreen: computed(() => width.value >= 768 && width.value < 1024), // md breakpoint
-    width
-  }
-}
+    width,
+  };
+};
 
 const route = useRoute();
 const { isOpen, open, close } = useDisclosure();
@@ -91,7 +92,7 @@ const pagination = computed(() => ({
   <div class="pb-20 mt-56 mx-auto max-w-[1536px] px-4 sm:px-6 lg:px-8">
     <UiBreadcrumb :breadcrumbs="breadcrumbs" class="self-start mt-5 mb-5" />
     <h1 class="font-bold typography-headline-3 md:typography-headline-2 mb-10">
-      Results for "{{ route.query.search }}"
+      {{ $t("resultsQuerySearch") }} "{{ route.query.search }}"
     </h1>
     <div class="grid grid-cols-12 lg:gap-x-6">
       <!-- Sidebar -->
@@ -104,9 +105,9 @@ const pagination = computed(() => ({
           </template>
         </LazyCategoryMobileSidebar>
       </div>
-
       <!-- Main Content -->
-      <div class="col-span-12 lg:col-span-8 xl:col-span-9">
+      <div class="col-span-12 top-[23rem] lg:col-span-8 xl:col-span-9">
+        <SearchInputBig />
         <template v-if="!loading">
           <div class="flex justify-between items-center mb-6">
             <span class="font-bold font-headings md:text-lg">
@@ -124,15 +125,17 @@ const pagination = computed(() => ({
             <LazyUiProductCard2 v-for="productTemplate in productTemplateList" :key="productTemplate.id"
               :name="productTemplate?.name || ''" loading="eager" :slug="mountUrlSlugForProductVariant(
                 (productTemplate.firstVariant || productTemplate) as Product,
-              )" :image-url="$getImage(
-                String(productTemplate.image),
-                370,
-                370,
-                String(productTemplate.imageFilename),
-              )" :image-alt="productTemplate?.name || ''"
-              :regular-price="getRegularPrice(productTemplate.firstVariant as Product) || 250"
-              :special-price="getSpecialPrice(productTemplate.firstVariant as Product)" :rating-count="123"
-              :rating="Number(4)" :first-variant="productTemplate.firstVariant as Product" />
+              )
+                " :image-url="$getImage(
+                  String(productTemplate.image),
+                  370,
+                  370,
+                  String(productTemplate.imageFilename),
+                )
+                  " :image-alt="productTemplate?.name || ''" :regular-price="getRegularPrice(productTemplate.firstVariant as Product) || 250
+                    " :special-price="getSpecialPrice(productTemplate.firstVariant as Product)
+                      " :rating-count="123" :rating="Number(4)"
+              :first-variant="productTemplate.firstVariant as Product" />
           </section>
           <CategoryEmptyState v-else />
 

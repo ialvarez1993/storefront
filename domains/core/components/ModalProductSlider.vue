@@ -198,7 +198,7 @@ const images: Image[] = [
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999;
+  z-index: 100;
 }
 
 .modal-content {
@@ -349,20 +349,4 @@ const images: Image[] = [
 }
 
 /* Soporte para modo oscuro */
-@media (prefers-color-scheme: dark) {
-  .modal-content {
-    background: #1a1a1a;
-    color: #ffffff;
-  }
-
-  .action-btn {
-    background: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-  }
-
-  .close-button {
-    background: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-  }
-}
 </style>

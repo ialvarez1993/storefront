@@ -1,120 +1,98 @@
 <!-- pages/destacados.vue -->
 <template>
-  <section class="featured !mt-52">
-    <h2 class="ml-16 font-bold text-3xl">Ofertas</h2>
+  <section class="featured mt-56">
     <div class="featured__container">
-      <TransitionGroup
-        name="featured-fade"
-        tag="div"
-        appear
-        class="featured__grid"
-      >
+      {{ totalItems }}
+      <h1 class="featured__title">Productos Destacados</h1>
+
+      <div class="featured__grid">
         <article
           v-for="product in featuredProducts"
           :key="product.id"
-          class="featured__card product-card"
-          :class="{ 'product-card--hover': product.isHovered }"
-          @mouseenter="product.isHovered = true"
-          @mouseleave="product.isHovered = false"
+          class="product-card"
+          :class="{ 'product-card--sold-out': product.stock === 0 }"
         >
-          <div class="product-card__image-wrapper">
-            <div
-              v-if="product.discount"
-              class="product-card__discount"
-              :class="{ 'product-card__discount--high': product.discount > 25 }"
-            >
-              <span class="product-card__discount-text"
-                >-{{ product.discount }}%</span
-              >
-            </div>
+          <div class="product-card__badge" v-if="product.badge">
+            {{ product.badge }}
+          </div>
 
-            <div v-if="product.isNew" class="product-card__badge">
-              <span class="product-card__badge-text">NUEVO</span>
-            </div>
-
-            <img
-              :src="product.image"
-              :alt="product.name"
-              class="product-card__image"
-            />
-
-            <div
-              class="product-card__overlay"
-              :class="{ 'product-card__overlay--visible': product.isHovered }"
-            >
-              <div class="product-card__actions">
-                <button
-                  class="product-card__action-btn"
-                  aria-label="Añadir al carrito"
-                >
-                  <i class="fas fa-shopping-cart"></i>
-                  <span class="product-card__tooltip">Añadir al carrito</span>
-                </button>
-                <button
-                  class="product-card__action-btn"
-                  aria-label="Añadir a favoritos"
-                >
-                  <i class="fas fa-heart"></i>
-                  <span class="product-card__tooltip">Añadir a favoritos</span>
-                </button>
-                <button
-                  class="product-card__action-btn"
-                  aria-label="Vista rápida"
-                >
+          <div class="product-card__media">
+            <div class="product-card__image-container">
+              <NuxtImg
+                :src="product.image"
+                :alt="product.name"
+                class="product-card__image"
+              />
+              <div class="product-card__overlay">
+                <button class="product-card__quick-view">
                   <i class="fas fa-eye"></i>
-                  <span class="product-card__tooltip">Vista rápida</span>
+                  Vista rápida
                 </button>
               </div>
             </div>
+
+            <button
+              class="product-card__wishlist"
+              :class="{
+                'product-card__wishlist--active': product.isWishlisted,
+              }"
+              @click="toggleWishlist(product.id)"
+            >
+              <i class="fas fa-heart"></i>
+            </button>
           </div>
 
           <div class="product-card__content">
             <div class="product-card__category">{{ product.category }}</div>
-            <h3 class="product-card__title">{{ product.name }}</h3>
+            <h2 class="product-card__name">{{ product.name }}</h2>
 
             <div class="product-card__rating">
-              <div class="rating">
-                <div
-                  class="rating__stars"
-                  :style="{ '--rating': product.rating }"
-                >
-                  <i
-                    v-for="star in 5"
-                    :key="star"
-                    class="rating__star fas fa-star"
-                  ></i>
-                </div>
-                <span class="rating__count">({{ product.reviews }})</span>
+              <div class="stars">
+                <i
+                  v-for="n in 5"
+                  :key="n"
+                  class="fas fa-star"
+                  :class="{ 'stars--filled': n <= product.rating }"
+                ></i>
               </div>
+              <span class="product-card__reviews">({{ product.reviews }})</span>
             </div>
 
-            <div class="product-card__price">
+            <div class="product-card__prices">
               <span
-                v-if="product.discount"
-                class="product-card__price-original"
+                v-if="product.originalPrice"
+                class="product-card__original-price"
               >
-                ${{ product.originalPrice.toLocaleString() }}
+                {{ formatPrice(product.originalPrice) }}
               </span>
-              <span class="product-card__price-final">
-                ${{ calculateFinalPrice(product).toLocaleString() }}
+              <span class="product-card__current-price">
+                {{ formatPrice(product.price) }}
               </span>
             </div>
 
-            <div class="product-card__stock" v-if="product.stock < 10">
-              ¡Solo quedan {{ product.stock }} unidades!
-            </div>
-
-            <div class="product-card__footer">
-              <div class="product-card__shipping" v-if="product.freeShipping">
-                <i class="fas fa-truck"></i> Envío gratis
-              </div>
-              <div class="product-card__timer" v-if="product.limitedOffer">
-                <i class="fas fa-clock"></i> Oferta limitada
-              </div>
+            <div class="product-card__stock">
+              <div
+                class="product-card__stock-bar"
+                :style="{ width: `${product.stockPercentage}%` }"
+              ></div>
+              <span class="product-card__stock-text">
+                {{ product.stock }} unidades disponibles
+              </span>
             </div>
           </div>
+
+          <div class="product-card__actions">
+            <button
+              class="product-card__add-to-cart"
+              :disabled="product.stock === 0"
+              @click="addToCart(product.id)"
+            >
+              <i class="fas fa-shopping-cart"></i>
+              {{ product.stock === 0 ? "Agotado" : "Añadir al carrito" }}
+            </button>
+          </div>
         </article>
-      </TransitionGroup>
+      </div>
     </div>
   </section>
 </template>
@@ -122,67 +100,79 @@
 <script setup>
 import { ref } from "vue";
 
+const { loadProductTemplateList, loading, totalItems } =
+  useProductTemplateList();
+
 const featuredProducts = ref([
   {
     id: 1,
-    name: 'Smart TV OLED 65" 4K',
-    category: "Electrónica",
-    originalPrice: 1999.99,
-    discount: 30,
+    name: "Auriculares Inalámbricos Pro Max",
+    category: "Audio",
+    price: 299.99,
+    originalPrice: 399.99,
     image: "/images/display-1.png",
     rating: 4.8,
-    reviews: 328,
-    isHovered: false,
-    stock: 5,
-    freeShipping: true,
-    limitedOffer: true,
-    isNew: true,
+    reviews: 1234,
+    stock: 45,
+    stockPercentage: 65,
+    badge: "¡Oferta!",
+    isWishlisted: false,
   },
   {
     id: 2,
-    name: "Smartphone Pro Max Ultra",
-    category: "Móviles",
-    originalPrice: 1299.99,
-    discount: 15,
+    name: "Smartwatch Series X",
+    category: "Wearables",
+    price: 449.99,
+    originalPrice: null,
     image: "/images/display-1.png",
-    rating: 5,
-    reviews: 456,
-    isHovered: false,
-    stock: 15,
-    freeShipping: true,
-    limitedOffer: false,
-    isNew: false,
+    rating: 4.9,
+    reviews: 856,
+    stock: 12,
+    stockPercentage: 15,
+    badge: "Nuevo",
+    isWishlisted: true,
   },
   {
     id: 3,
-    name: "Auriculares Noise Cancelling",
-    category: "Audio",
-    originalPrice: 399.99,
-    discount: 25,
+    name: "Cámara Mirrorless 4K",
+    category: "Fotografía",
+    price: 1299.99,
+    originalPrice: 1499.99,
     image: "/images/display-1.png",
     rating: 4.7,
-    reviews: 189,
-    isHovered: false,
-    stock: 8,
-    freeShipping: true,
-    limitedOffer: true,
-    isNew: true,
+    reviews: 543,
+    stock: 0,
+    stockPercentage: 0,
+    badge: null,
+    isWishlisted: false,
   },
   // Añade más productos...
 ]);
 
-const calculateFinalPrice = (product) => {
-  if (product.discount) {
-    return (product.originalPrice * (1 - product.discount / 100)).toFixed(2);
+const formatPrice = (price) => {
+  return new Intl.NumberFormat("es-ES", {
+    style: "currency",
+    currency: "EUR",
+  }).format(price);
+};
+
+const toggleWishlist = (productId) => {
+  const product = featuredProducts.value.find((p) => p.id === productId);
+  if (product) {
+    product.isWishlisted = !product.isWishlisted;
   }
-  return product.originalPrice.toFixed(2);
+};
+
+const addToCart = (productId) => {
+  // Implementar lógica de carrito
+  console.log(`Añadiendo producto ${productId} al carrito`);
 };
 </script>
 
 <style scoped>
 .featured {
+  padding: 4rem 0;
   background: linear-gradient(to bottom, #f8f9fa, #ffffff);
-  padding: 3rem 0;
 }
 
 .featured__container {
@@ -191,37 +181,66 @@ const calculateFinalPrice = (product) => {
   padding: 0 2rem;
 }
 
+.featured__title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-align: center;
+  background: black;
+  -webkit-background-clip: text;
+  color: transparent;
+  margin-bottom: 3rem;
+  animation: fadeInDown 0.8s ease-out;
+}
+
 .featured__grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 2.5rem;
+  gap: 2rem;
 }
 
 .product-card {
-  background: #ffffff;
-  border-radius: 1.5rem;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  background: white;
+  border-radius: 20px;
   overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.product-card--hover {
+.product-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 }
 
-.product-card__image-wrapper {
+.product-card__badge {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 30px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(45deg, #f7b013, #f7b013);
+  z-index: 1;
+  animation: fadeInLeft 0.5s ease-out;
+}
+
+.product-card__media {
   position: relative;
   padding-top: 100%;
-  background: #f8f9fa;
+}
+
+.product-card__image-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
 }
 
 .product-card__image {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -232,99 +251,62 @@ const calculateFinalPrice = (product) => {
   transform: scale(1.08);
 }
 
-.product-card__discount {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: #ff4757;
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 2rem;
-  font-weight: 600;
-  z-index: 2;
-  transform: translateZ(0);
-  transition: transform 0.3s ease;
-}
-
-.product-card__discount--high {
-  background: #ff2442;
-  animation: pulse 2s infinite;
-}
-
-.product-card__badge {
-  position: absolute;
-  top: 1rem;
-  left: 1rem;
-  background: #5f27cd;
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 2rem;
-  font-weight: 600;
-  z-index: 2;
-}
-
 .product-card__overlay {
   position: absolute;
-  bottom: -100%;
+  top: 0;
   left: 0;
-  right: 0;
-  background: rgba(255, 255, 255, 0.95);
-  padding: 1.5rem;
-  transition: bottom 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.product-card__overlay--visible {
-  bottom: 0;
-}
-
-.product-card__actions {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.product-card__action-btn {
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  border: none;
-  background: white;
-  color: #2d3436;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  position: relative;
-}
-
-.product-card__action-btn:hover {
-  background: #ff4757;
-  color: white;
-  transform: translateY(-3px);
-}
-
-.product-card__tooltip {
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #2d3436;
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  font-size: 0.8rem;
-  white-space: nowrap;
   opacity: 0;
-  visibility: hidden;
+  transition: opacity 0.3s ease;
+}
+
+.product-card:hover .product-card__overlay {
+  opacity: 1;
+}
+
+.product-card__quick-view {
+  padding: 0.75rem 1.5rem;
+  border-radius: 30px;
+  background: white;
+  color: black;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transform: translateY(20px);
   transition: all 0.3s ease;
 }
 
-.product-card__action-btn:hover .product-card__tooltip {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) translateY(-10px);
+.product-card:hover .product-card__quick-view {
+  transform: translateY(0);
+}
+
+.product-card__wishlist {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 1;
+}
+
+.product-card__wishlist i {
+  color: #868e96;
+  transition: color 0.3s ease;
+}
+
+.product-card__wishlist--active i {
+  color: #f7b013;
+  animation: heartBeat 0.3s ease-out;
 }
 
 .product-card__content {
@@ -332,167 +314,185 @@ const calculateFinalPrice = (product) => {
 }
 
 .product-card__category {
+  font-size: 0.875rem;
   color: #868e96;
-  font-size: 0.9rem;
   margin-bottom: 0.5rem;
 }
 
-.product-card__title {
-  font-size: 1.2rem;
-  color: #2d3436;
+.product-card__name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: black;
   margin-bottom: 1rem;
-  font-weight: 600;
   line-height: 1.4;
 }
 
-.rating {
+.product-card__rating {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-}
-
-.rating__stars {
-  position: relative;
-  color: #ffd700;
-  --percent: calc(var(--rating) / 5 * 100%);
-}
-
-.rating__star {
-  color: #e9ecef;
-}
-
-.rating__stars::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  width: var(--percent);
-  height: 100%;
-  background: #ffd700;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.rating__count {
-  color: #868e96;
-  font-size: 0.9rem;
-}
-
-.product-card__price {
-  margin: 1rem 0;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.product-card__price-original {
-  color: #adb5bd;
-  text-decoration: line-through;
-  font-size: 0.9rem;
-}
-
-.product-card__price-final {
-  color: #ff4757;
-  font-size: 1.4rem;
-  font-weight: 700;
-}
-
-.product-card__stock {
-  color: #ff4757;
-  font-size: 0.9rem;
-  font-weight: 600;
   margin-bottom: 1rem;
 }
 
-.product-card__footer {
+.stars {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid #f1f3f5;
-  font-size: 0.9rem;
+  gap: 0.25rem;
 }
 
-.product-card__shipping,
-.product-card__timer {
+.stars i {
+  color: #dee2e6;
+}
+
+.stars--filled {
+  color: #fcc419;
+}
+
+.product-card__reviews {
+  font-size: 0.875rem;
+  color: #868e96;
+}
+
+.product-card__prices {
   display: flex;
   align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.product-card__original-price {
+  color: #868e96;
+  text-decoration: line-through;
+  font-size: 0.875rem;
+}
+
+.product-card__current-price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: black;
+}
+
+.product-card__stock {
+  position: relative;
+  height: 4px;
+  background: #e9ecef;
+  border-radius: 2px;
+  margin-bottom: 0.5rem;
+}
+
+.product-card__stock-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(45deg, #4c6ef5, #748ffc);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.product-card__stock-text {
+  font-size: 0.875rem;
+  color: #868e96;
+}
+
+.product-card__actions {
+  padding: 1.5rem;
+  border-top: 1px solid #e9ecef;
+}
+
+.product-card__add-to-cart {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 30px;
+  border: none;
+  background: linear-gradient(45deg, #f7b013, #f7b013);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 0.5rem;
-  color: #495057;
 }
 
-@keyframes pulse {
+.product-card__add-to-cart:hover:not(:disabled) {
+  background: black;
+  transform: translateY(-2px);
+}
+
+.product-card__add-to-cart:disabled {
+  background: #dee2e6;
+  border: 1px;
+  cursor: not-allowed;
+}
+
+.product-card--sold-out {
+  opacity: 0.8;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes heartBeat {
   0% {
     transform: scale(1);
   }
   50% {
-    transform: scale(1.05);
+    transform: scale(1.2);
   }
   100% {
     transform: scale(1);
   }
 }
 
-.featured-fade-enter-active,
-.featured-fade-leave-active {
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.featured-fade-enter-from,
-.featured-fade-leave-to {
-  opacity: 0;
-  transform: translateY(30px);
-}
-
-.featured-fade-move {
-  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Responsive */
-@media (max-width: 1024px) {
-  .featured__grid {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 2rem;
-  }
-}
-
 @media (max-width: 768px) {
-  .featured__container {
-    padding: 0 1.5rem;
+  .featured {
+    padding: 2rem 0;
   }
 
-  .featured__grid {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .product-card__content {
-    padding: 1.25rem;
-  }
-
-  .product-card__title {
-    font-size: 1.1rem;
-  }
-}
-
-@media (max-width: 480px) {
   .featured__container {
     padding: 0 1rem;
   }
 
-  .featured__grid {
-    grid-template-columns: 1fr;
-    gap: 1.25rem;
+  .featured__title {
+    font-size: 2rem;
   }
 
-  .product-card__overlay {
-    display: none;
+  .featured__grid {
+    gap: 1rem;
   }
 }
 
-@media (hover: none) {
-  .product-card__overlay {
-    display: none;
+@media (max-width: 480px) {
+  .product-card__content {
+    padding: 1rem;
+  }
+
+  .product-card__name {
+    font-size: 1.1rem;
+  }
+
+  .product-card__current-price {
+    font-size: 1.25rem;
   }
 }
 </style>

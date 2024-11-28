@@ -23,6 +23,8 @@ const config = {
   ],
   presets: [tailwindConfig],
   darkMode: ["class"],
+
+
   content: [
     "./components/**/*.{vue,js,ts}", // Escanea archivos Vue, JS y TS dentro de la carpeta components
     "./layouts/**/*.vue", // Solo archivos .vue dentro de layouts
@@ -60,8 +62,24 @@ const config = {
       robotolight: ["robotolight"],
       header: ["Designer"],
     },
-    extend: {},
+    extend: {
+      backgroundColor: ['dark'],
+      borderColor: ['dark'],
+      textColor: ['dark'],
+    },
   },
+
+  colorMode: {
+    preference: 'light',
+    fallback: 'light',
+    hid: 'theme-script',
+    globalName: '__NUXT_COLOR_MODE__',
+    componentName: 'ColorScheme',
+    classPrefix: '',
+    classSuffix: '',
+    storageKey: 'nuxt-color-mode'
+  },
+
 };
 
 export default config;

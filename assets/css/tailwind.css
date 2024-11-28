@@ -80,3 +80,134 @@ html {
 *::-webkit-scrollbar-thumb:hover {
   background-color: inherit !important;
 }
+
+
+.force-light-mode,
+.force-light-mode * {
+  color-scheme: light !important;
+}
+
+.dark .force-light-mode,
+.force-light-mode .dark {
+  color-scheme: light !important;
+  background-color: white !important;
+  color: rgb(17 24 39) !important;
+}
+
+:root {
+  color-scheme: light !important;
+}
+
+html,
+body,
+#__nuxt,
+#__layout,
+[data-theme],
+.dark,
+[class*="dark:"] {
+  color-scheme: light !important;
+  background-color: white !important;
+  color: rgb(17 24 39) !important;
+}
+
+[class*="dark:"]:not([class*="hover:"]) {
+  @apply !text-gray-900 !bg-white;
+}
+
+* {
+  transition: none !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: light !important;
+  }
+}
+
+/* Contenedor principal de toasts */
+.Vue-Toastification__container {
+  z-index: 9999 !important;
+}
+
+/* Estilo base para todos los toasts */
+.Vue-Toastification__toast {
+  border-radius: 8px !important;
+  padding: 16px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+  font-family: sans-serif !important;
+  min-height: auto !important;
+}
+
+/* Toast de éxito */
+.Vue-Toastification__toast--success {
+  background-color: #000000 !important;
+  border-left: 4px solid #FFD700 !important;
+  color: white !important;
+}
+
+/* Toast de error */
+.Vue-Toastification__toast--error {
+  background-color: #FFD700 !important;
+  border-left: 4px solid #000000 !important;
+  color: black !important;
+}
+
+/* Toast de advertencia */
+.Vue-Toastification__toast--warning {
+  background-color: #000000 !important;
+  border-left: 4px solid #FFD700 !important;
+  color: white !important;
+}
+
+/* Toast de información */
+.Vue-Toastification__toast--info {
+  background-color: #FFD700 !important;
+  border-left: 4px solid #000000 !important;
+  color: black !important;
+}
+
+/* Barra de progreso */
+.Vue-Toastification__progress-bar {
+  background: rgba(255, 255, 255, 0.7) !important;
+  height: 4px !important;
+  bottom: 0 !important;
+}
+
+/* Icono del toast */
+.Vue-Toastification__icon {
+  margin-right: 12px !important;
+  font-size: 20px !important;
+}
+
+/* Animación de entrada y salida */
+.Vue-Toastification__bounce-enter-active {
+  animation: toast-in-right .3s ease-in-out !important;
+}
+
+.Vue-Toastification__bounce-leave-active {
+  animation: toast-out-right .3s ease-in-out !important;
+}
+
+@keyframes toast-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes toast-out-right {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}

@@ -42,7 +42,6 @@ export default defineNuxtConfig({
     "@vueuse/nuxt",
     "@nuxt/image",
     "@nuxt/scripts",
-    "@nuxtjs/device",
     "nuxt-lazy-hydrate",
     "nuxt-lodash",
     "nuxt-icon",
@@ -55,13 +54,19 @@ export default defineNuxtConfig({
     "@nuxtjs/color-mode",
     "nuxt-lucide-icons",
     "@nuxtjs/storybook",
+    "@nuxtjs/device",
   ],
   primevue: {
     options: {
       theme: {
         preset: Aura,
-      }
-    }
+        options: {
+          darkModeSelector: false || 'none',
+        }
+      },
+      ripple: true,
+    },
+    autoImport: true,
   },
   shadcn: {
     prefix: "",
@@ -194,9 +199,6 @@ export default defineNuxtConfig({
     viewer: false,
   },
 
-  device: {
-    refreshOnResize: true,
-  },
 
   experimental: {
     asyncContext: false,

@@ -2,6 +2,7 @@
 import { SfScrollable } from "@storefront-ui/vue";
 import { ref } from "vue";
 
+
 const props = defineProps({
   images: {
     type: Array,

@@ -120,12 +120,69 @@ export type AttributeValue = {
   search: Maybe<Scalars['String']['output']>;
 };
 
+export type BlogPost = {
+  __typename?: 'BlogPost';
+  authorId: Maybe<Partner>;
+  content: Maybe<Scalars['String']['output']>;
+  id: Maybe<Scalars['Int']['output']>;
+  image: Maybe<Scalars['String']['output']>;
+  imageFilename: Maybe<Scalars['String']['output']>;
+  jsonLd: Maybe<Scalars['GenericScalar']['output']>;
+  name: Maybe<Scalars['String']['output']>;
+  publishedDate: Maybe<Scalars['String']['output']>;
+  slug: Maybe<Scalars['String']['output']>;
+  tagIds: Maybe<Array<BlogTag>>;
+  teaser: Maybe<Scalars['String']['output']>;
+};
+
+export type BlogPostFilterInput = {
+  tagId: InputMaybe<Array<InputMaybe<Scalars['Int']['input']>>>;
+};
+
+export type BlogPostList = BlogPosts & {
+  __typename?: 'BlogPostList';
+  blogPosts: Maybe<Array<Maybe<BlogPost>>>;
+  blogTags: Maybe<Array<Maybe<BlogTag>>>;
+  totalCount: Scalars['Int']['output'];
+};
+
+export type BlogPostSortInput = {
+  id: InputMaybe<SortEnum>;
+  name: InputMaybe<SortEnum>;
+  publishedDate: InputMaybe<SortEnum>;
+};
+
+export type BlogPosts = {
+  blogPosts: Maybe<Array<Maybe<BlogPost>>>;
+  blogTags: Maybe<Array<Maybe<BlogTag>>>;
+  totalCount: Scalars['Int']['output'];
+};
+
+export type BlogTag = {
+  __typename?: 'BlogTag';
+  id: Maybe<Scalars['Int']['output']>;
+  name: Maybe<Scalars['String']['output']>;
+};
+
+export type BlogTagList = BlogTags & {
+  __typename?: 'BlogTagList';
+  blogTags: Maybe<Array<Maybe<BlogTag>>>;
+  totalCount: Scalars['Int']['output'];
+};
+
+export type BlogTags = {
+  blogTags: Maybe<Array<Maybe<BlogTag>>>;
+  totalCount: Scalars['Int']['output'];
+};
+
 export type Cart = {
+  frequentlyBoughtTogether: Maybe<Array<Maybe<Product>>>;
   order: Maybe<Order>;
 };
 
 export type CartData = Cart & {
   __typename?: 'CartData';
+  frequentlyBoughtTogether: Maybe<Array<Maybe<Product>>>;
   order: Maybe<Order>;
 };
 
@@ -849,6 +906,7 @@ export type Product = {
   displayName: Maybe<Scalars['String']['output']>;
   /** Specific to use in Product Template */
   firstVariant: Maybe<Product>;
+  frequentlyBoughtTogether: Maybe<Array<Product>>;
   id: Scalars['Int']['output'];
   image: Maybe<Scalars['String']['output']>;
   imageFilename: Maybe<Scalars['String']['output']>;
@@ -971,6 +1029,9 @@ export type Query = {
   __typename?: 'Query';
   addresses: Maybe<Array<Partner>>;
   attribute: Attribute;
+  blogPost: BlogPost;
+  blogPosts: Maybe<BlogPosts>;
+  blogTags: Maybe<BlogTags>;
   cart: Maybe<Cart>;
   categories: Maybe<Categories>;
   category: Maybe<Category>;
@@ -1007,6 +1068,21 @@ export type QueryAddressesArgs = {
 
 export type QueryAttributeArgs = {
   id?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type QueryBlogPostArgs = {
+  id?: InputMaybe<Scalars['Int']['input']>;
+  slug?: InputMaybe<Scalars['String']['input']>;
+};
+
+
+export type QueryBlogPostsArgs = {
+  currentPage?: InputMaybe<Scalars['Int']['input']>;
+  filter?: InputMaybe<BlogPostFilterInput>;
+  pageSize?: InputMaybe<Scalars['Int']['input']>;
+  search?: InputMaybe<Scalars['String']['input']>;
+  sort?: InputMaybe<BlogPostSortInput>;
 };
 
 
