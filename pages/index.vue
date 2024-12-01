@@ -11,13 +11,11 @@ import CardSamsung from "../domains/core/components/CardSamsung.vue";
 import ProductSliderCircle from "../domains/core/components/ProductSliderCircle.vue";
 import ProductSlider from "../domains/core/components/ProductSlider.vue";
 
+import { defineAsyncComponent } from "vue";
 
-import { defineAsyncComponent } from 'vue'
-
-const CategoryCard = defineAsyncComponent(() =>
-  import('../domains/category/components/CategoryCard.vue')
-)
-
+const CategoryCard = defineAsyncComponent(
+  () => import("../domains/category/components/CategoryCard.vue"),
+);
 
 import CardsItems from "../domains/core/components/CardsItems.vue";
 
@@ -27,26 +25,22 @@ import Marcas from "../domains/core/components/ui/Marcas.vue";
 import { useI18n } from "vue-i18n";
 import { useQuery } from "@tanstack/vue-query";
 import type { TitleData } from "../types/TitleDescuento";
-import { useScreenSize } from '../../../compasables/useScreenSize.ts';
-
+import { useScreenSize } from "../../../compasables/useScreenSize.ts";
 
 const { isMobile } = useScreenSize();
 
-const MobileViewSliderProduct = defineAsyncComponent(() =>
-  import('../domains/core/components/ProductSliderMobile.vue')
+const MobileViewSliderProduct = defineAsyncComponent(
+  () => import("../domains/core/components/ProductSliderMobile.vue"),
 );
 
-const DesktopViewSliderProduct = defineAsyncComponent(() =>
-  import('../domains/core/components/ProductSlider.vue')
+const DesktopViewSliderProduct = defineAsyncComponent(
+  () => import("../domains/core/components/ProductSlider.vue"),
 );
 const { loadCategoryList, categories } = useCategory();
 
 await loadCategoryList({
   filter: { parent: true, id: null },
 });
-
-
-
 
 const { locale, setLocale } = useI18n();
 
@@ -113,7 +107,6 @@ const { data: titleTitleCategory } = useQuery({
   retry: 3,
   retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
 });
-
 
 // Interfaces
 interface LoadingStates {
@@ -252,7 +245,7 @@ const titleTwo = computed(() => {
     <!-- MainBanner Section -->
     <section>
       <div v-if="loadingStates.mainBanner" class="animate-pulse">
-        <Skeleton class="h-[600px] rounded-lg" />
+        <Skeleton width="100%" height="30rem"></Skeleton>
       </div>
       <div v-else ref="sectionRefs.mainBanner">
         <MainBanner />
@@ -260,10 +253,10 @@ const titleTwo = computed(() => {
     </section>
 
     <!-- FeatureBox Section -->
-    <section>
+    <section class="mt-8">
       <div v-if="loadingStates.featureBox" class="animate-pulse">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Skeleton v-for="n in 4" :key="n" class="h-[100px] rounded-lg" />
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 px-4">
+          <Skeleton v-for="n in 4" :key="n" width="100%" height="6.25rem"></Skeleton>
         </div>
       </div>
       <div v-else ref="sectionRefs.featureBox">
@@ -271,22 +264,25 @@ const titleTwo = computed(() => {
       </div>
     </section>
 
-    <p class="text-center mt-24 font-bold !font-header uppercase mb-10 typography-headline-3 md:typography-headline-2">
+    <!-- Título -->
+    <div v-if="loadingStates.productSlider1" class="animate-pulse mt-24 mb-10">
+      <Skeleton width="75%" height="3.75rem" class="mx-auto"></Skeleton>
+    </div>
+    <p v-else
+      class="text-center mt-24 font-bold !font-header uppercase mb-10 typography-headline-3 md:typography-headline-2">
       {{ titleOne.value?.data?.TitleDiscount }}
     </p>
+
     <!-- ProductSlider1 Section -->
     <section class="mb-8">
       <div v-if="loadingStates.productSlider1" class="animate-pulse">
-        <Skeleton class="h-[400px] rounded-lg" />
+        <div class="flex gap-6 overflow-hidden px-4">
+          <Skeleton v-for="n in 4" :key="n" width="18.75rem" height="25rem"></Skeleton>
+        </div>
       </div>
-      <div v-else ref="sectionRefs.productSlider1 data TitleDiscount">
-        <p
-          class="text-center !mt-10 font-bold !font-header uppercase mb-10 typography-headline-3 md:typography-headline-2">
-          {{ titleTitleCategory?.data?.TitleDiscount }}
-        </p>
-
-
+      <div v-else ref="sectionRefs.productSlider1">
         <Suspense>
+          <!-- ... -->
           <template #default>
             <component :is="isMobile ? MobileViewSliderProduct : DesktopViewSliderProduct" :data="data"
               :images="images" />
@@ -295,17 +291,15 @@ const titleTwo = computed(() => {
             <div>Cargando...</div>
           </template>
         </Suspense>
-
-
-
       </div>
     </section>
 
     <!-- CategoryCard Section -->
-    <section class="mb-8 mt-32">
+    <section class="mb-8 mt-32 px-4">
       <div v-if="loadingStates.categoryCard" class="animate-pulse">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <Skeleton v-for="n in 8" :key="n" class="h-[200px] rounded-lg" />
+        <Skeleton width="50%" height="3.75rem" class="mx-auto mb-10"></Skeleton>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <Skeleton v-for="n in 8" :key="n" width="100%" height="18.75rem"></Skeleton>
         </div>
       </div>
       <div v-else ref="sectionRefs.categoryCard">
@@ -317,11 +311,11 @@ const titleTwo = computed(() => {
     </section>
 
     <!-- CardSamsung Section -->
-    <section class="mb-8 mt-12s">
+    <section class="mb-8 mt-12">
       <div v-if="loadingStates.cardSamsung" class="animate-pulse">
-        <Skeleton class="h-[300px] rounded-lg" />
+        <Skeleton width="100%" height="28.125rem"></Skeleton>
       </div>
-      <div v-else class="mt-[5rem]" ref="sectionRefs.cardSamsung">
+      <div v-else ref="sectionRefs.cardSamsung">
         <CardSamsung />
       </div>
     </section>
@@ -329,7 +323,9 @@ const titleTwo = computed(() => {
     <!-- ProductSlider2 Section -->
     <section class="mb-12">
       <div v-if="loadingStates.productSlider2" class="animate-pulse">
-        <Skeleton class="h-[400px] rounded-lg" />
+        <div class="flex gap-6 overflow-hidden px-4">
+          <Skeleton v-for="n in 5" :key="n" width="21.875rem" height="21.875rem" class="rounded-full"></Skeleton>
+        </div>
       </div>
       <div v-else ref="sectionRefs.productSlider2">
         <ProductSliderCircle />
@@ -337,14 +333,13 @@ const titleTwo = computed(() => {
     </section>
 
     <!-- CardsItems Section -->
-    <section class="mb-8 !mt-12">
+    <section class="mb-8 mt-12 px-4">
       <div v-if="loadingStates.cardsItems" class="animate-pulse">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Skeleton v-for="n in 3" :key="n" class="h-[250px] rounded-lg" />
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <Skeleton v-for="n in 3" :key="n" width="100%" height="25rem"></Skeleton>
         </div>
       </div>
       <div v-else ref="sectionRefs.cardsItems">
-
         <Suspense>
           <template #default>
             <component :is="isMobile ? CardsItemsMobile : CardsItems" :images="images" />
@@ -353,18 +348,19 @@ const titleTwo = computed(() => {
             <div>Cargando...</div>
           </template>
         </Suspense>
-
-
       </div>
     </section>
 
     <!-- Display Section -->
+
     <h3 class="text-center font-bold !font-header uppercase mt-12 typography-headline-3 md:typography-headline-2">
       {{ $t("descuentosCards") }}
     </h3>
-    <section class="">
+
+    <section class="mt-12">
       <div v-if="loadingStates.display" class="animate-pulse">
-        <Skeleton class="h-[400px] rounded-lg" />
+        <Skeleton width="50%" height="3.75rem" class="mx-auto mb-8"></Skeleton>
+        <Skeleton width="100%" height="37.5rem"></Skeleton>
       </div>
       <div v-else ref="sectionRefs.display">
         <Display />
@@ -372,10 +368,10 @@ const titleTwo = computed(() => {
     </section>
 
     <!-- Marcas Section -->
-    <section class="-mt-20">
+    <section class="mt-12 px-4">
       <div v-if="loadingStates.marcas" class="animate-pulse">
-        <div class="grid grid-cols-2 md:grid-cols-6 gap-4">
-          <Skeleton v-for="n in 6" :key="n" class="h-[100px] rounded-lg" />
+        <div class="grid grid-cols-2 md:grid-cols-6 gap-6">
+          <Skeleton v-for="n in 6" :key="n" width="100%" height="9.375rem"></Skeleton>
         </div>
       </div>
       <div v-else ref="sectionRefs.marcas">

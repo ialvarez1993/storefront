@@ -161,31 +161,31 @@ onMounted(() => {
 <template>
   <aside class="w-full lg:max-w-[376px] font-sans">
     <!-- Categorías -->
-    <template v-if="categories.length">
-      <div class="bg-gradient-to-r from-yellow-700 to-yellow-500 p-4 rounded-lg shadow-lg mb-6">
-        <h3 class="text-white font-bold text-xl tracking-wider uppercase">
-          {{ $t("category") }}
-        </h3>
-      </div>
+    <!-- <template v-if="categories.length"> -->
+    <!--   <div class="bg-gradient-to-r from-yellow-700 to-yellow-500 p-4 rounded-lg shadow-lg mb-6"> -->
+    <!--     <h3 class="text-white font-bold text-xl tracking-wider uppercase"> -->
+    <!--       {{ $t("category") }} -->
+    <!--     </h3> -->
+    <!--   </div> -->
 
-      <ul class="space-y-2 mb-8" data-testid="categories">
-        <SfListItem v-for="category in categories" :key="category.name" size="lg"
-          class="transition-all group/categoryFilter duration-300 hover:!bg-black scale-100 hover:scale-105" :class="[
-            'rounded-md hover:!bg-black',
-            {
-              'bg-indigo-50 border-l-4 border-indigo-600':
-                category.id === route.query.id,
-            },
-          ]">
-          <span class="flex items-center gap-3 p-2 cursor-pointer" @click="changeCategory(category.id)">
-            <i class="fas fa-folder group-hover/categoryFilter:!text-white"></i>
-            <span class="group-hover/categoryFilter:!text-white font-medium capitalize">
-              {{ category.name }}
-            </span>
-          </span>
-        </SfListItem>
-      </ul>
-    </template>
+    <!--   <ul class="space-y-2 mb-8" data-testid="categories"> -->
+    <!--     <SfListItem v-for="category in categories" :key="category.name" size="lg" -->
+    <!--       class="transition-all group/categoryFilter duration-300 hover:!bg-black scale-100 hover:scale-105" :class="[ -->
+    <!--         'rounded-md hover:!bg-black', -->
+    <!--         { -->
+    <!--           'bg-indigo-50 border-l-4 border-indigo-600': -->
+    <!--             category.id === route.query.id, -->
+    <!--         }, -->
+    <!--       ]"> -->
+    <!--       <span class="flex items-center gap-3 p-2 cursor-pointer" @click="changeCategory(category.id)"> -->
+    <!--         <i class="fas fa-folder group-hover/categoryFilter:!text-white"></i> -->
+    <!--         <span class="group-hover/categoryFilter:!text-white font-medium capitalize"> -->
+    <!--           {{ category.name }} -->
+    <!--         </span> -->
+    <!--       </span> -->
+    <!--     </SfListItem> -->
+    <!--   </ul> -->
+    <!-- </template> -->
 
     <div class="sticky top-[5rem] z-10 bg-white mb-4 p-4 rounded-lg">
       <div class="flex gap-2">

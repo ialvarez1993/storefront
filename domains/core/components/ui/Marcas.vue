@@ -3,23 +3,15 @@
     <div class="container">
 
 
-      
-      <h2 class="title" v-if="showTitle">{{ $t("marcasTitulo") }}</h2>
+
+      <h2
+        class="title text-center font-bold !font-header uppercase mt-12 typography-headline-3 md:typography-headline-2"
+        v-if="showTitle">{{ $t("marcasTitulo") }}</h2>
 
       <div class="brands-grid">
-        <div
-          v-for="brand in brandsData"
-          :key="brand.id"
-          class="brand-item"
-          :class="{ animated: isAnimated }"
-        >
-          <NuxtImg
-            v-if="brand.icono"
-            :src="`http://localhost:1337${brand.icono.url}`"
-            :alt="brand.nombre"
-            loading="lazy"
-            class="brand-logo"
-          />
+        <div v-for="brand in brandsData" :key="brand.id" class="brand-item" :class="{ animated: isAnimated }">
+          <NuxtImg v-if="brand.icono" :src="`http://localhost:1337${brand.icono.url}`" :alt="brand.nombre"
+            loading="lazy" class="brand-logo" />
           <div v-else class="brand-logo-placeholder">
             {{ brand.nombre.charAt(0) }}
           </div>
@@ -113,21 +105,15 @@ const props = withDefaults(defineProps<Props>(), {
 }
 
 .title {
-  @apply text-2xl md:text-3xl font-bold text-center mb-12
-         text-gray-800 tracking-wider uppercase;
+  @apply text-2xl md:text-3xl font-bold text-center mb-12 text-gray-800 tracking-wider uppercase;
 }
 
 .brands-grid {
-  @apply grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5
-         gap-8 md:gap-12 place-items-center;
+  @apply grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8 md:gap-12 place-items-center;
 }
 
 .brand-item {
-  @apply relative w-full max-w-[160px] aspect-[3/2] p-4
-         flex items-center justify-center
-         bg-white rounded-lg shadow-sm
-         transition-all duration-300
-         hover:shadow-md hover:scale-105;
+  @apply relative w-full max-w-[160px] aspect-[3/2] p-4 flex items-center justify-center bg-white rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:scale-105;
 
   &.animated {
     @apply opacity-0 translate-y-4;
@@ -140,28 +126,19 @@ const props = withDefaults(defineProps<Props>(), {
 }
 
 .brand-logo {
-  @apply w-full h-full object-contain
-         transition-all duration-300
-         grayscale hover:grayscale-0;
+  @apply w-full h-full object-contain transition-all duration-300 grayscale hover:grayscale-0;
 }
 
 .brand-logo-placeholder {
-  @apply w-full h-full flex items-center justify-center
-         text-3xl font-bold text-gray-300;
+  @apply w-full h-full flex items-center justify-center text-3xl font-bold text-gray-300;
 }
 
 .brand-tooltip {
-  @apply absolute -bottom-2 left-1/2 -translate-x-1/2 translate-y-4
-         px-3 py-1 text-sm text-white bg-gray-800
-         rounded-md opacity-0 invisible
-         transition-all duration-300
-         whitespace-nowrap;
+  @apply absolute -bottom-2 left-1/2 -translate-x-1/2 translate-y-4 px-3 py-1 text-sm text-white bg-gray-800 rounded-md opacity-0 invisible transition-all duration-300 whitespace-nowrap;
 
   &::before {
     content: "";
-    @apply absolute -top-1 left-1/2 -translate-x-1/2
-           border-4 border-transparent
-           border-b-gray-800;
+    @apply absolute -top-1 left-1/2 -translate-x-1/2 border-4 border-transparent border-b-gray-800;
   }
 }
 

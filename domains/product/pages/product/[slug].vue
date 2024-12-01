@@ -125,45 +125,30 @@ const handleWishlistRemoveItem = async (firstVariant: Product) => {
   await wishlistRemoveItem(firstVariant.id);
 };
 
-addProductToRecentViews(productTemplate.value?.id);
-
 await loadProductTemplate({ slug: route.path });
 await loadProductVariant(params.value);
+
+addProductToRecentViews(productTemplate.value.id);
 </script>
 
 <template>
   <NuxtErrorBoundary>
     <section>
-      <div
-        class="!mx-[4rem] mt-[12rem]"
-        v-if="productTemplate?.id && !loadingProductTemplate"
-      >
-        <UiBreadcrumb
-          :breadcrumbs="breadcrumbs"
-          class="self-start mt-5 mb-10 cursor-pointer"
-        />
+      <div class="!mx-[4rem] mt-[12rem]" v-if="productTemplate?.id && !loadingProductTemplate">
+        <UiBreadcrumb :breadcrumbs="breadcrumbs" class="self-start mt-5 mb-10 cursor-pointer" />
       </div>
       <ProductInfoData />
       <ProductSlider :text="$t('recommendWithThis')" />
     </section>
     <section class="pb-16" v-if="list?.length > 0">
       <ClientOnly>
-        <LazyProductSlider
-          :heading="$t('recentViews')"
-          :ids="list"
-          key="recent-views"
-          key-for-composable="recent-views"
-        />
+        <LazyProductSlider :heading="$t('recentViews')" :ids="list" key="recent-views"
+          key-for-composable="recent-views" />
       </ClientOnly>
     </section>
     <template #error="{ error }">
       <div>
-        <NuxtImg
-          src="/images/hp.png"
-          :alt="$t('emptyStateAltText')"
-          width="300"
-          height="300"
-        />
+        <NuxtImg src="/images/hp.png" :alt="$t('emptyStateAltText')" width="300" height="300" />
         <p class="mt-8 font-medium">{{ $t("emptyStateText") }}</p>
       </div>
     </template>

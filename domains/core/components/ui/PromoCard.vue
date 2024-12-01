@@ -2,23 +2,18 @@
 <template>
   <div class="promo-card">
     <div class="card-container">
-      <NuxtImg
-        :src="cardData.backgroundImage"
-        class="background-image"
-        loading="lazy"
-        format="webp"
-        quality="80"
-        fit="cover"
-        placeholder
-      />
+      <NuxtImg :src="cardData.backgroundImage" class="background-image" loading="lazy" format="webp" quality="80"
+        fit="cover" placeholder />
       <div class="overlay" />
       <div class="content-wrapper">
         <span class="subtitle"> {{ cardData.subtitle }} </span>
         <h2 class="title">{{ cardData.title }}</h2>
-        <button class="cta-button" @click="handleClick">
-          {{ cardData.buttonText }}
-          <Icon name="heroicons:arrow-right" class="icon" />
-        </button>
+        <NuxtLink :to="cardData.link">
+          <button class="cta-button" @click="handleClick">
+            {{ cardData.buttonText }}
+            <Icon name="heroicons:arrow-right" class="icon" />
+          </button>
+        </NuxtLink>
       </div>
     </div>
   </div>
@@ -37,6 +32,7 @@ const staticData = {
     subtitulo: "Descubre",
     titulo: "Tecnología",
     button: "Ver todo",
+    link: "http://localhost:3000/search?search=",
     promoImagenLateral: [
       {
         url: "/default-image.webp", // Imagen por defecto
@@ -52,9 +48,8 @@ const API_TOKEN =
 
 const API_URL = computed(() => {
   const currentLang = locale.value;
-  return `http://localhost:1337/api/home-promo?populate=%2A&locale=${
-    currentLang === "es" ? "es-VE" : "en"
-  }`;
+  return `http://localhost:1337/api/home-promo?populate=%2A&locale=${currentLang === "es" ? "es-VE" : "en"
+    }`;
 });
 
 const fetchDataTitleCategory = async (): Promise<any> => {
@@ -92,6 +87,7 @@ const cardData = computed(() => {
       subtitle: DataCard.value.data.subtitulo,
       title: DataCard.value.data.titulo,
       buttonText: DataCard.value.data.button,
+      link: DataCard.value.data.link,
       backgroundImage: DataCard.value.data.promoImagenLateral?.[0]?.url
         ? `${BASE_IMAGE_URL}${DataCard.value.data.promoImagenLateral[0].url}`
         : staticData.data.promoImagenLateral[0].url,
@@ -99,6 +95,7 @@ const cardData = computed(() => {
   }
 
   return {
+    link: staticData.data.link,
     subtitle: staticData.data.subtitulo,
     title: staticData.data.titulo,
     buttonText: staticData.data.button,
@@ -117,8 +114,7 @@ function handleClick() {
 }
 
 .card-container {
-  @apply relative h-full w-full rounded-xl overflow-hidden
-         transition-all duration-300 hover:scale-[1.02];
+  @apply relative h-full w-full rounded-xl overflow-hidden transition-all duration-300 hover:scale-[1.02];
 }
 
 .background-image {
@@ -130,9 +126,7 @@ function handleClick() {
 }
 
 .content-wrapper {
-  @apply relative h-full w-full p-8
-         flex flex-col items-center justify-center
-         text-center gap-4;
+  @apply relative h-full w-full p-8 flex flex-col items-center justify-center text-center gap-4;
 }
 
 .subtitle {
@@ -140,15 +134,11 @@ function handleClick() {
 }
 
 .title {
-  @apply text-3xl md:text-4xl font-bold text-white
-         mb-4;
+  @apply text-3xl md:text-4xl font-bold text-white mb-4;
 }
 
 .cta-button {
-  @apply flex items-center gap-2 px-6 py-3
-         bg-white text-gray-900 rounded-lg
-         font-medium transition-all duration-300
-         hover:bg-gray-100 hover:scale-105;
+  @apply flex items-center gap-2 px-6 py-3 bg-white text-gray-900 rounded-lg font-medium transition-all duration-300 hover:bg-gray-100 hover:scale-105;
 
   .icon {
     @apply w-5 h-5 transition-transform duration-300;

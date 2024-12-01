@@ -9,8 +9,8 @@
   },
   "benefits": {
     "shipping": {
-      "title": "Envios gratis",
-      "subtitle": "En toda venezuela"
+      "title": "Envíos gratis",
+      "subtitle": "En toda Venezuela"
     },
     "homeDelivery": {
       "title": "Recibe en tu casa",
@@ -508,7 +508,7 @@
   },
   "shopCategory": "Comprar por categoría\t",
   "discountCardProduct": "Descuentos",
-  "tecnologia": "Tecnologia",
+  "tecnologia": "Tecnología",
   "superMenu": {
     "titleMain1": "Construccion",
     "title1Main1": "Techos",
@@ -572,7 +572,7 @@
         "cambios_devoluciones": "Cambios y devoluciones",
         "preguntas_frecuentes": "Preguntas Frecuentes",
         "contacto": "Contactanos",
-        "envios": "Informacion De Envios",
+        "envios": "Informacion De Envíos",
         "pagos": "Información de pago",
         "siguenos": "Siguenos"
       },
@@ -591,16 +591,16 @@
   "ErrorLoad": "Error",
   "loadNosotros": "Sobre nosotros",
   "loadHistoria": "Nuestra Historia",
-  "Mision": "Mision",
-  "LoadVision": "Vision",
-  "loadFounders": "Los fundadores",
+  "Mision": "Misión",
+  "LoadVision": "Visión",
+  "loadFounders": "Los Fundadores",
   "loadValores": "Valores",
-  "loadContact": "Conctato",
+  "loadContact": "Contacto",
   "ubicacion": "Ubicación",
   "loadingBanner": "Cargando...",
   "loadingBannerDescripcion": "Por favor, espere esta cargando",
   "ButtonExplorar": "Exporar Mas",
-  "descuentosCards": "Descuentos Impredibles",
+  "descuentosCards": "Descuentos Increíbles",
   "marcasTitulo": "Las Mejores Marcas",
   "addToWishlist": "Añadir a Favoritos",
   "new": "sa"

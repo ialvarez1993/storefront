@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100">
+  <div class="min-h-screen ">
     <!-- Loading State -->
     <div v-if="isPending" class="flex items-center justify-center min-h-screen">
       <div class="loading-spinner">
@@ -9,21 +9,13 @@
     </div>
 
     <!-- Error State -->
-    <div
-      v-else-if="error"
-      class="flex items-center justify-center min-h-screen"
-      role="alert"
-    >
-      <div
-        class="text-center p-8 bg-red-50 rounded-lg shadow-lg max-w-md mx-4 animate-fade-in"
-      >
+    <div v-else-if="error" class="flex items-center justify-center min-h-screen" role="alert">
+      <div class="text-center p-8 bg-red-50 rounded-lg shadow-lg max-w-md mx-4 animate-fade-in">
         <ExclamationCircleIcon class="h-16 w-16 text-red-500 mx-auto mb-4" />
         <h2 class="text-2xl font-bold text-red-700">{{ $t("ErrorLoad") }}</h2>
         <p class="text-red-600">{{ error.message }}</p>
-        <button
-          @click="retryFetch"
-          class="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-        >
+        <button @click="retryFetch"
+          class="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors">
           Reintentar
         </button>
       </div>
@@ -33,19 +25,14 @@
     <div v-else class="container mx-auto px-4 mt-48 py-8 md:py-12">
       <!-- Hero Section -->
       <div class="text-center mb-12 md:mb-16">
-        <h1
-          class="text-4xl md:text-6xl font-bold text-gray-800 mb-4 animate-fade-in"
-        >
+        <h1 class="text-4xl md:text-6xl font-bold text-gray-800 mb-4 animate-fade-in">
           {{ $t("loadNosotros") }}
         </h1>
         <div class="w-24 h-1 bg-yellow-400 mx-auto"></div>
       </div>
 
       <!-- Historia Section -->
-      <section
-        class="mb-12 md:mb-20 transform transition-all duration-300 hover:translate-y-[-5px]"
-        v-if="data?.data"
-      >
+      <section class="mb-12 md:mb-20 transform transition-all duration-300 hover:translate-y-[-5px]" v-if="data?.data">
         <div class="bg-white rounded-2xl shadow-xl overflow-hidden hover-card">
           <div class="p-6 md:p-12">
             <div class="flex items-center mb-8">
@@ -57,12 +44,8 @@
 
             <div class="grid md:grid-cols-2 gap-6 md:gap-8">
               <!-- Misión -->
-              <div
-                class="bg-blue-50 p-6 rounded-xl transform hover:scale-105 transition-all duration-300"
-              >
-                <h3
-                  class="flex items-center text-xl font-semibold text-black mb-4"
-                >
+              <div class="bg-blue-50 p-6 rounded-xl transform hover:scale-105 transition-all duration-300">
+                <h3 class="flex items-center text-xl font-semibold text-black mb-4">
                   <TagIcon class="h-6 w-6 text-black mr-2" />
                   {{ $t("Mision") }}
                 </h3>
@@ -72,12 +55,8 @@
               </div>
 
               <!-- Visión -->
-              <div
-                class="bg-blue-50 p-6 rounded-xl transform hover:scale-105 transition-all duration-300"
-              >
-                <h3
-                  class="flex items-center text-xl font-semibold text-black mb-4"
-                >
+              <div class="bg-blue-50 p-6 rounded-xl transform hover:scale-105 transition-all duration-300">
+                <h3 class="flex items-center text-xl font-semibold text-black mb-4">
                   <EyeIcon class="h-6 w-6 text-black mr-2" />
                   {{ $t("LoadVision") }}
                 </h3>
@@ -89,25 +68,14 @@
 
             <!-- Fundadores -->
             <div class="mt-8">
-              <h3
-                class="flex items-center text-xl font-semibold text-gray-700 mb-4"
-              >
+              <h3 class="flex items-center text-xl font-semibold text-gray-700 mb-4">
                 <UsersIcon class="h-6 w-6 text-black mr-2" />
                 {{ $t("loadFounders") }}
               </h3>
-              <TransitionGroup
-                name="list"
-                tag="div"
-                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"
-              >
-                <div
-                  v-for="(fundador, index) in data.data.HistoriaFundadores"
-                  :key="index"
-                  class="bg-gray-50 p-4 rounded-lg text-center transform hover:scale-105 transition-all duration-300"
-                >
-                  <UserCircleIcon
-                    class="h-12 w-12 text-blue-500 mx-auto mb-2"
-                  />
+              <TransitionGroup name="list" tag="div" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                <div v-for="(fundador, index) in data.data.HistoriaFundadores" :key="index"
+                  class="bg-gray-50 p-4 rounded-lg text-center transform hover:scale-105 transition-all duration-300">
+                  <UserCircleIcon class="h-12 w-12 text-blue-500 mx-auto mb-2" />
                   <p class="text-gray-700 font-medium">{{ fundador }}</p>
                 </div>
               </TransitionGroup>
@@ -117,10 +85,7 @@
       </section>
 
       <!-- Valores Section -->
-      <section
-        class="mb-12 md:mb-20 transform transition-all duration-300 hover:translate-y-[-5px]"
-        v-if="data?.data"
-      >
+      <section class="mb-12 md:mb-20 transform transition-all duration-300 hover:translate-y-[-5px]" v-if="data?.data">
         <div class="bg-white rounded-2xl shadow-xl p-6 md:p-12 hover-card">
           <div class="flex items-center mb-8">
             <StarIcon class="h-8 w-8 text-yellow-500 mr-4" />
@@ -150,24 +115,16 @@
             </h2>
           </div>
           <div class="space-y-4">
-            <a
-              :href="`mailto:${data.data.ContactoEmail}`"
-              class="flex items-center group hover:bg-green-50 p-2 rounded-lg transition-all duration-300"
-            >
-              <MapIcon
-                class="h-6 w-6 text-green-500 mr-3 group-hover:scale-110 transition-transform"
-              />
+            <a :href="`mailto:${data.data.ContactoEmail}`"
+              class="flex items-center group hover:bg-green-50 p-2 rounded-lg transition-all duration-300">
+              <MapIcon class="h-6 w-6 text-green-500 mr-3 group-hover:scale-110 transition-transform" />
               <span class="text-gray-600 capitalize group-hover:text-green-600">
                 {{ data.data.ContactoEmail }}
               </span>
             </a>
-            <a
-              :href="`tel:${data.data.ContactoTelefono}`"
-              class="flex items-center group hover:bg-green-50 p-2 rounded-lg transition-all duration-300"
-            >
-              <PhoneIcon
-                class="h-6 w-6 text-green-500 mr-3 group-hover:scale-110 transition-transform"
-              />
+            <a :href="`tel:${data.data.ContactoTelefono}`"
+              class="flex items-center group hover:bg-green-50 p-2 rounded-lg transition-all duration-300">
+              <PhoneIcon class="h-6 w-6 text-green-500 mr-3 group-hover:scale-110 transition-transform" />
               <span class="text-gray-600 capitalize group-hover:text-green-600">
                 {{ data.data.ContactoTelefono }}
               </span>
@@ -178,23 +135,19 @@
         <!-- Location Section -->
         <div class="bg-white rounded-2xl shadow-xl p-6 md:p-8 hover-card">
           <div class="flex items-center mb-6">
-            <LocationMarkerIcon class="h-8 w-8 text-red-500 mr-4" />
+            <i class="fa-solid fa-house p-5 m-1"></i>
             <h2 class="text-2xl md:text-3xl font-bold text-gray-800">
               {{ $t("ubicacion") }}
             </h2>
           </div>
           <div class="space-y-4">
-            <div
-              class="flex items-center group hover:bg-red-50 p-2 rounded-lg transition-all duration-300"
-            >
+            <div class="flex items-center group hover:bg-red-50 p-2 rounded-lg transition-all duration-300">
               <LocationMarkerIcon class="h-6 w-6 text-red-500 mr-3" />
               <p class="text-gray-600 capitalize">
                 {{ data.data.UbicacionDireccion }}
               </p>
             </div>
-            <div
-              class="flex items-center group hover:bg-red-50 p-2 rounded-lg transition-all duration-300"
-            >
+            <div class="flex items-center group hover:bg-red-50 p-2 rounded-lg transition-all duration-300">
               <OfficeBuildingIcon class="h-6 w-6 text-red-500 mr-3" />
               <p class="text-gray-600 capitalize">
                 {{ data.data.UbicacionCiudad }},
@@ -280,7 +233,6 @@ const retryFetch = () => {
   border: 3px solid transparent;
   border-top-color: #000000;
   border-radius: 50%;
-  animation: spin 1s linear infinite;
 }
 
 .hover-card {
@@ -296,6 +248,7 @@ const retryFetch = () => {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -306,15 +259,13 @@ const retryFetch = () => {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-.animate-fade-in {
-  animation: fadeIn 0.5s ease-out forwards;
-}
 
 .list-enter-active,
 .list-leave-active {
@@ -332,12 +283,15 @@ const retryFetch = () => {
   h1 {
     font-size: 2.5rem;
   }
+
   h2 {
     font-size: 1.75rem;
   }
+
   h3 {
     font-size: 1.25rem;
   }
+
   p {
     font-size: 0.875rem;
   }

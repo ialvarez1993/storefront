@@ -7,17 +7,12 @@
           {{ $t("footer.navegacion.informacion.siguenos") }}
         </h2>
         <div class="flex gap-4">
-          <NuxtLink
-            to="https://www.instagram.com/tu.puntocom/"
-            class="hover:opacity-80 transition-opacity"
-          >
+          <NuxtLink external to="https://www.instagram.com/tu.puntocom/" class="hover:opacity-80 transition-opacity"
+            target="_blank">
             <Icon name="lucide:instagram" class="w-6 h-6 text-amber-400" />
             <span class="sr-only">Instagram</span>
           </NuxtLink>
-          <NuxtLink
-            to="https://x.com/TupuntoCom"
-            class="hover:opacity-80 transition-opacity"
-          >
+          <NuxtLink external to="https://x.com/TupuntoCom" class="hover:opacity-80 transition-opacity" target="_blank">
             <Icon name="lucide:twitter" class="w-6 h-6 text-amber-400" />
             <span class="sr-only">twitter</span>
           </NuxtLink>
@@ -84,43 +79,28 @@
         </h2>
         <ul class="space-y-2">
           <li>
-            <a
-              href="https://zoom.red/tracking-de-envios-personas/"
-              onclick="window.open(this.href,'_blank');return false;"
-              class="hover:text-gray-300 transition-colors"
-            >
+            <a href="https://zoom.red/tracking-de-envios-personas/"
+              onclick="window.open(this.href,'_blank');return false;" class="hover:text-gray-300 transition-colors">
               {{ $t("footer.navegacion.informacion.rastrear_pedido") }}
             </a>
           </li>
           <li>
-            <NuxtLink
-              to="/cambios_devoluciones"
-              class="hover:text-gray-300 transition-colors"
-            >
+            <NuxtLink to="/exchanges_and_returns" class="hover:text-gray-300 transition-colors">
               {{ $t("footer.navegacion.informacion.cambios_devoluciones") }}
             </NuxtLink>
           </li>
           <li>
-            <NuxtLink
-              to="/preguntas_frecuentes"
-              class="hover:text-gray-300 transition-colors"
-            >
+            <NuxtLink to="/preguntas_frecuentes" class="hover:text-gray-300 transition-colors">
               {{ $t("footer.navegacion.informacion.preguntas_frecuentes") }}
             </NuxtLink>
           </li>
           <li>
-            <NuxtLink
-              to="/contact"
-              class="hover:text-gray-300 transition-colors"
-            >
+            <NuxtLink to="/contact" class="hover:text-gray-300 transition-colors">
               {{ $t("footer.navegacion.informacion.contacto") }}
             </NuxtLink>
           </li>
           <li>
-            <NuxtLink
-              to="/envios"
-              class="hover:text-gray-300 transition-colors"
-            >
+            <NuxtLink to="/envios" class="hover:text-gray-300 transition-colors">
               {{ $t("footer.navegacion.informacion.envios") }}
             </NuxtLink>
           </li>

@@ -44,7 +44,7 @@ module.exports = {
     "./plugins/**/*.{js,ts}", // Archivos JS y TS dentro de plugins
     "./nuxt.config.{js,ts}", // El archivo de configuración de Nuxt
     "./app.vue", // El archivo principal de la app
-    "./node_modules/@storefront-ui/vue/**/*.{js,mjs}", // Módulos específicos de `@storefront-ui`
+    "./node_modules/@storefront-ui/vue/**/*.{js,mjs,vue}", // Módulos específicos de `@storefront-ui`
     "./node_modules/@nuxt/ui/dist/**/*.{vue,js,ts}", // Módulos específicos de `@nuxt/ui`
     "docs/content/**/*.md",
   ],

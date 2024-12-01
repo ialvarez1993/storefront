@@ -12,7 +12,7 @@ onMounted(async () => {
 });
 </script>
 <template>
-  <UiDivider class="w-screen !mt-52 -mx-4 md:col-span-3 md:w-auto md:mx-0" />
+  <UiDivider class="w-screen  -mx-4 md:col-span-3 md:w-auto md:mx-0" />
   <AccountCardAddressDetails :addresses="shippingAddresses" :type="AddressEnum.Shipping"
     :header="$t('shipping.heading')" />
 </template>

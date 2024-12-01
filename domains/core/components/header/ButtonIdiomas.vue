@@ -1,25 +1,14 @@
 <template>
   <div class="relative language-switcher">
-    <button @click="toggleDropdown" class="lang-btn" type="button">
+    <button @click.stop="toggleDropdown" class="lang-btn" type="button">
       <span class="flag" :class="currentLocale"></span>
-      <ChevronDownIcon
-        class="w-4 h-4 transition-transform duration-200"
-        :class="{ 'rotate-180': isOpen }"
-      />
+      <ChevronDownIcon class="w-4 h-4 transition-transform duration-200" :class="{ 'rotate-180': isOpen }" />
     </button>
 
-    <transition
-      enter-active-class="animate-fadeIn"
-      leave-active-class="animate-fadeOut"
-    >
+    <transition enter-active-class="animate-fadeIn" leave-active-class="animate-fadeOut">
       <div v-if="isOpen" class="lang-dropdown">
-        <button
-          v-for="locale in availableLocales"
-          :key="locale.code"
-          @click="changeLanguage(locale.code)"
-          class="lang-option"
-          :class="{ active: currentLocale === locale.code }"
-        >
+        <button v-for="locale in availableLocales" :key="locale.code" @click="changeLanguage(locale.code)"
+          class="lang-option" :class="{ active: currentLocale === locale.code }">
           <span class="flag" :class="locale.code"></span>
           <span class="text-sm">{{ locale.name }}</span>
         </button>
@@ -28,67 +17,82 @@
   </div>
 </template>
 
-<script setup>
-import { ref, computed, onMounted, onUnmounted } from "vue";
-import { ChevronDownIcon } from "@heroicons/vue/24/outline";
-import { useI18n } from "vue-i18n";
+<script lang="ts" setup>
+import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ChevronDownIcon } from '@heroicons/vue/24/outline';
+import { useI18n } from 'vue-i18n';
 
 const { locale, setLocale } = useI18n();
 const isOpen = ref(false);
-const localeCookie = useCookie("i18n_redirected", {
-  maxAge: 365 * 24 * 60 * 60, // 365 días
-  path: "/",
+
+// Cookie con composable de Nuxt
+const localeCookie = useCookie('user-locale', {
+  maxAge: 365 * 24 * 60 * 60,
+  path: '/',
+  watch: true
 });
+
+const availableLocales = [
+  { code: 'es', name: 'Español' },
+  { code: 'en', name: 'English' }
+] as const;
 
 const currentLocale = computed(() => locale.value);
-
-const availableLocales = computed(() => {
-  return [
-    { code: "es", name: "Español" },
-    { code: "en", name: "English" },
-  ];
-});
 
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
 };
 
-const changeLanguage = async (code) => {
+const detectUserLanguage = (): string => {
+  // Prioridad: 1. Cookie, 2. Navegador, 3. Default (es)
+  const cookieLocale = localeCookie.value;
+  if (cookieLocale && availableLocales.some(l => l.code === cookieLocale)) {
+    return cookieLocale;
+  }
+
+  const browserLocale = navigator.language.split('-')[0];
+  if (availableLocales.some(l => l.code === browserLocale)) {
+    return browserLocale;
+  }
+
+  return 'es'; // Idioma por defecto
+};
+
+const changeLanguage = async (newLocale: string) => {
   try {
-    await setLocale(code);
-    // Guardar en cookie con una expiración larga (365 días)
-    localeCookie.value = code;
+    if (newLocale === locale.value) return;
+
+    await setLocale(newLocale);
+    localeCookie.value = newLocale;
     isOpen.value = false;
 
-    // Actualizar localStorage como respaldo
-    localStorage.setItem("user-locale", code);
-
-    // Recargar la página para asegurar que todos los componentes se actualicen
-    window.location.reload();
+    // Emitir evento para componentes que necesiten actualizarse
+    window.dispatchEvent(new CustomEvent('language-changed', {
+      detail: { locale: newLocale }
+    }));
   } catch (error) {
-    console.error("Error al cambiar el idioma:", error);
+    console.error('Error changing language:', error);
+  }
+};
+
+const closeDropdown = (e: MouseEvent) => {
+  if (!e.target || !(e.target as Element).closest('.language-switcher')) {
+    isOpen.value = false;
   }
 };
 
 onMounted(() => {
-  // Recuperar idioma guardado
-  const savedLocale = localStorage.getItem("user-locale") || localeCookie.value;
-  if (savedLocale && savedLocale !== locale.value) {
-    changeLanguage(savedLocale);
+  const userLanguage = detectUserLanguage();
+  if (userLanguage !== locale.value) {
+    changeLanguage(userLanguage);
   }
 
-  document.addEventListener("click", closeDropdown);
+  document.addEventListener('click', closeDropdown);
 });
 
 onUnmounted(() => {
-  document.removeEventListener("click", closeDropdown);
+  document.removeEventListener('click', closeDropdown);
 });
-
-const closeDropdown = (e) => {
-  if (!e.target.closest(".language-switcher")) {
-    isOpen.value = false;
-  }
-};
 </script>
 
 <style lang="scss">
@@ -97,19 +101,14 @@ const closeDropdown = (e) => {
   @apply relative inline-block;
 
   .lang-btn {
-    @apply flex items-center gap-1 px-2  rounded-md
-           bg-opacity-20 hover:bg-opacity-30 transition-all
-           bg-yellow-900 dark:bg-gray-800;
+    @apply flex items-center gap-1 px-2 rounded-md bg-opacity-20 hover:bg-opacity-30 transition-all bg-yellow-900 dark:bg-gray-800;
   }
 
   .lang-dropdown {
-    @apply absolute right-0 mt-1 py-1 min-w-[120px]
-           bg-black dark:bg-gray-800 rounded-md shadow-lg
-           ring-1 ring-black ring-opacity-5 z-50;
+    @apply absolute right-0 mt-1 py-1 min-w-[120px] bg-black dark:bg-gray-800 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50;
 
     .lang-option {
-      @apply flex items-center gap-2 w-full px-3 py-1.5
-             hover:bg-slate-900 dark:hover:bg-gray-700 transition-colors;
+      @apply flex items-center gap-2 w-full px-3 py-1.5 hover:bg-slate-900 dark:hover:bg-gray-700 transition-colors;
 
       &.active {
         @apply bg-gray-800 dark:bg-gray-700;
@@ -135,6 +134,7 @@ const closeDropdown = (e) => {
     opacity: 0;
     transform: translateY(-10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -146,6 +146,7 @@ const closeDropdown = (e) => {
     opacity: 1;
     transform: translateY(0);
   }
+
   to {
     opacity: 0;
     transform: translateY(-10px);

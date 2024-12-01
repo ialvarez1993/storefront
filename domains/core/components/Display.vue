@@ -62,6 +62,7 @@ watch(
         image: `http://localhost:1337${item.imagenCard?.url}`,
         bgColor: item.colorFondo,
         textColor: item.colorTexto,
+        linkSlug: item.linkSlug
       }));
     }
   },
@@ -102,12 +103,17 @@ onMounted(() => {
           <p class="showcase-card__description">
             {{ $t(item.description) }}
           </p>
-          <SfButton class="showcase-card__button" :tag="NuxtLink" to="/">
-            <span class="showcase-card__button-text">{{
-              $t(item.buttonText)
-            }}</span>
-            <div class="showcase-card__button-shine"></div>
-          </SfButton>
+
+          <NuxtLink :to="item.linkSlug">
+            <SfButton class="showcase-card__button" :tag="NuxtLink">
+              <span class="showcase-card__button-text">
+
+                {{
+                  $t(item.buttonText)
+                }}</span>
+              <div class="showcase-card__button-shine"></div>
+            </SfButton>
+          </NuxtLink>
         </div>
         <div class="showcase-card__image-container">
           <NuxtImg :src="item.image" :alt="item.title" class="showcase-card__image" width="600" height="600"

@@ -16,7 +16,7 @@ defineEmits(["on-click"]);
       <h2 class="typography-headline-4 font-bold">
         {{ header }}
       </h2>
-      <SfButton variant="tertiary" size="sm" class="!bg-yellow-400  self-start" @click="$emit('on-click')">{{ buttonText
+      <SfButton variant="tertiary" size="sm" class=" self-start" @click="$emit('on-click')">{{ buttonText
         }}</SfButton>
     </div>
     <div class="my-2">

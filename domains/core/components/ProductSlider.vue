@@ -188,16 +188,17 @@ onMounted(() => {
                   </span>
                 </div>
 
-                <div class="stock-status" :class="{ 'in-stock': productTemplate.inStock }">
-                  <span class="status-dot"></span>
-                  <span class="status-text">
-                    {{
-                      productTemplate.inStock
-                        ? $t("products.StatusAvailable")
-                        : $t("products.statusOff")
-                    }}
-                  </span>
-                </div>
+                <!-- <div class="stock-status" :class="{ 'in-stock': productTemplate.inStock }"> -->
+                <!--   <span class="status-dot"></span> -->
+                <!--   <span class="status-text"> -->
+                <!--     {{ -->
+                <!--       productTemplate.inStock -->
+                <!--         ? $t("products.StatusAvailable") -->
+                <!--         : $t("products.statusOff") -->
+                <!--     }} -->
+                <!--   </span> -->
+                <!-- </div> -->
+
               </div>
             </div>
           </div>
@@ -210,9 +211,11 @@ onMounted(() => {
     </div>
   </section>
   <div class="flex justify-center">
-    <Button :label="$t('ButtonExplorar')" severity="warn"
-      class="!bg-yellow-500 !text-black !border-none hover:!bg-black hover:!text-white" icon="pi pi-search"
-      iconPos="left" />
+    <NuxtLink to="/search?search=">
+      <Button :label="$t('ButtonExplorar')" severity="warn"
+        class="!bg-yellow-500 !text-black !border-none hover:!bg-black hover:!text-white" icon="pi pi-search"
+        iconPos="left" />
+    </NuxtLink>
   </div>
 </template>
 

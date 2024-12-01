@@ -47,7 +47,19 @@ const discount = computed(() => {
 });
 
 const hasDiscount = computed(() => {
-  return product.value.oldPrice && product.value.oldPrice > product.value.price;
+  return props.data?.combinationInfo?.has_discounted_price || false;
+});
+
+const finalPrice = computed(() => {
+  if (!props.data) return 0;
+  return props.data.price - (props.data.combinationInfo?.discount || 0);
+});
+
+const discountPercentage = computed(() => {
+  if (!hasDiscount.value || !props.data) return 0;
+  return Math.round(
+    (props.data.combinationInfo.discount / props.data.price) * 100
+  );
 });
 
 const incrementQuantity = () => {
@@ -76,41 +88,39 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="product-card__container s">
+  <div class="product-card__container">
     <!-- Título y Marca -->
     <div class="product-card__header">
       <h1 class="product-card__title">
         {{ data.name }}
       </h1>
       <div class="product-card__brand-container">
-        <span class="product-card__brand !hidden">por </span>
-        <div v-if="product.rating" class="product-card__rating">
-          <span class="hidden">{{ product.rating.count }} review</span>
+        <div v-if="hasDiscount" class="product-card__discount-badge">
+          -{{ discountPercentage }}%
         </div>
       </div>
     </div>
 
     <!-- Precios y Oferta -->
     <div class="product-card__pricing">
-      <div v-if="hasDiscount" class="product-card__offer-badge">
-        Oferta
-      </div>
-
       <div class="product-card__price-container">
         <div v-if="hasDiscount" class="product-card__original-price">
-          Precio original {{ data.price }}
+          {{ formatPrice(props.data.price) }}
         </div>
         <div class="product-card__current-price">
-          <span class="product-card__price-label">Precio actual</span>
           <span class="product-card__price-value">
-            {{ data.price - data.combinationInfo.discount }}
+            {{ formatPrice(finalPrice) }}
           </span>
         </div>
       </div>
     </div>
 
+    <div class="product-card__description">
+      {{ data.description }}
+    </div>
+
     <!-- Selector de Cantidad -->
-    <div class="product-card__quantity-section">
+    <div class="product-card__quantity-section !mt-[3rem]">
       <label class="product-card__quantity-label">Cantidad</label>
       <div class="product-card__quantity-controls">
         <button @click="decrementQuantity" class="product-card__quantity-btn" :disabled="quantity <= 1">
@@ -127,12 +137,7 @@ const props = defineProps({
       </div>
     </div>
 
-    <div>
-      {{ data.description }}
-    </div>
-
-    <!-- Botón Agregar al Carrito const quantity = ref(1); -->
-    <button @click="cartAdd(data.firstVariant?.id, quantity)" class="product-card__cart-btn">
+    <button @click="cartAdd(data.firstVariant?.id, quantity)" class="product-card__cart-btn !mt-[9rem]">
       <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
           d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -145,79 +150,73 @@ const props = defineProps({
 <style scoped lang="scss">
 .product-card {
   &__container {
-    @apply max-w-md bg-white rounded-xl overflow-hidden p-6 space-y-4;
+    @apply bg-white rounded-2xl overflow-hidden p-8 space-y-6 shadow-lg border border-gray-100;
+    animation: fadeIn 0.3s ease-in-out;
   }
 
   &__header {
-    @apply space-y-2;
+    @apply space-y-4 relative;
   }
 
   &__title {
-    @apply text-2xl font-bold text-gray-900;
+    @apply text-3xl font-bold text-gray-900 leading-tight;
+    font-family: 'Inter', sans-serif;
   }
 
-  &__brand-container {
-    @apply flex items-center space-x-4;
-  }
-
-  &__brand {
-    @apply text-gray-600;
-  }
-
-  &__rating {
-    @apply flex items-center space-x-1 text-sm text-gray-500;
+  &__discount-badge {
+    @apply absolute -top-2 right-0 bg-yellow-500 text-black px-4 py-1 rounded-full text-sm font-bold transform rotate-2 shadow-md;
+    animation: bounce 0.5s ease-in-out;
   }
 
   &__pricing {
-    @apply space-y-2;
-  }
-
-  &__offer-badge {
-    @apply inline-block bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-semibold;
+    @apply mt-6;
   }
 
   &__price-container {
-    @apply space-y-1;
+    @apply flex flex-col items-start;
   }
 
   &__original-price {
-    @apply text-gray-500 line-through text-sm;
+    @apply text-gray-400 line-through text-lg font-medium;
+    transform: scale(0.9);
   }
 
   &__current-price {
-    @apply flex items-baseline space-x-2;
-  }
-
-  &__price-label {
-    @apply text-gray-600 text-sm;
+    @apply flex items-baseline gap-2;
   }
 
   &__price-value {
-    @apply text-2xl font-bold text-gray-900;
+    @apply text-4xl font-bold text-black tracking-tight;
+    text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);
+  }
+
+  &__description {
+    @apply text-gray-600 leading-relaxed mt-4 text-sm;
   }
 
   &__quantity-section {
-    @apply space-y-2;
+    @apply space-y-3 mt-8;
   }
 
   &__quantity-label {
-    @apply block text-sm font-medium text-gray-700;
+    @apply block text-sm font-semibold text-gray-700 uppercase tracking-wide;
   }
 
   &__quantity-controls {
-    @apply flex items-center space-x-2 max-w-[200px];
+    @apply flex items-center space-x-3 bg-gray-50 p-2 rounded-lg w-fit;
   }
 
   &__quantity-btn {
-    @apply p-2 rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200;
+    @apply p-2 rounded-lg bg-white text-black hover:bg-yellow-500 hover:text-black disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-sm hover:shadow-md transform hover:scale-105;
 
     &:focus {
-      @apply outline-none ring-2 ring-blue-500;
+      @apply outline-none ring-2 ring-yellow-300;
     }
   }
 
   &__quantity-input {
-    @apply block w-20 text-center rounded-md border-gray-300 shadow-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500;
+    @apply block w-16 text-center rounded-lg border-2 border-gray-200 text-gray-900 focus:border-yellow-500 focus:ring-yellow-500 text-lg font-medium;
+    transition: all 0.2s ease-in-out;
 
     &::-webkit-inner-spin-button,
     &::-webkit-outer-spin-button {
@@ -227,7 +226,41 @@ const props = defineProps({
   }
 
   &__cart-btn {
-    @apply w-full mt-6 flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-black hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200;
+    @apply w-full mt-8 flex items-center justify-center px-6 py-4 border-2 border-black text-base font-bold rounded-xl text-white bg-black hover:bg-yellow-500 hover:text-black hover:border-yellow-500 transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl;
+
+    &:active {
+      @apply transform scale-95;
+    }
   }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce {
+
+  0%,
+  100% {
+    transform: rotate(2deg);
+  }
+
+  50% {
+    transform: rotate(-1deg) scale(1.05);
+  }
+}
+
+// Añadir hover effects
+.product-card__container:hover {
+  @apply shadow-xl transform transition-all duration-300;
+  transform: translateY(-2px);
 }
 </style>

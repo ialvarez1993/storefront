@@ -1,7 +1,7 @@
 <template>
   <TheHeader />
 
-  <main class="!mt-[12rem] narrow-container">
+  <main class="!mt-[12rem] !mx-[3rem] narrow-container">
     <UiBreadcrumb :breadcrumbs="breadcrumbs" class="mt-5 mb-10" />
     <div ata-testid="account-layout">
       <h1 v-if="isRoot" class="mb-10 md:mb-10 md:mx-0 font-bold typography-headline-3 md:typography-headline-2">

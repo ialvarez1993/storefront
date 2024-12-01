@@ -71,55 +71,37 @@ const handleAddToCart = async () => {
 };
 
 const toggleWishlist = async () => {
+  console.log("INICIO", props)
   if (!props.firstVariant?.id) return;
 
   if (props.isInWishlist) {
+    console.log("REMOVE")
     await wishlistRemoveItem(props.firstVariant.id);
   } else {
+    console.log("AGG")
     await wishlistAddItem(props.firstVariant.id);
   }
 };
 </script>
 
 <template>
-  <div
-    class="relative border border-neutral-200 rounded-md hover:shadow-lg min-h-[330px] flex flex-col justify-around"
-  >
+  <div class="relative border border-neutral-200 rounded-md hover:shadow-lg min-h-[330px] flex flex-col justify-around">
     <div class="relative">
       <NuxtLink :to="slug">
-        <NuxtImg
-          :src="imageUrl"
-          :alt="imageAlt"
-          :width="370"
-          :height="370"
-          class="rounded-md"
-          :loading="loading"
-        />
+        <NuxtImg :src="imageUrl" :alt="imageAlt" :width="370" :height="370" class="rounded-md" :loading="loading" />
       </NuxtLink>
 
-      <SfButton
-        type="button"
-        variant="tertiary"
-        size="sm"
-        square
+      <SfButton type="button" variant="tertiary" size="sm" square
         class="absolute bottom-0 right-0 mr-2 mb-2 bg-white border border-neutral-200 !rounded-full"
-        :class="{ '!bg-green-200': isInWishlist }"
-        aria-label="Add to wishlist"
-        @click="toggleWishlist"
-      >
+        :class="{ '!bg-green-200': isInWishlist }" aria-label="Add to wishlist" @click="toggleWishlist">
         <SfIconFavoriteFilled v-if="isInWishlist" size="sm" />
         <SfIconFavorite v-else size="sm" />
       </SfButton>
     </div>
 
-    <div
-      class="p-2 border-t border-neutral-200 typography-text-sm flex flex-col justify-between gap-1 h-full"
-    >
-      <NuxtLink
-        :to="slug"
-        variant="secondary"
-        class="no-underline self-start text-left"
-      >
+    <div class="p-2 border-t border-neutral-200 typography-text-sm flex flex-col justify-between gap-1 h-full">
+      <NuxtLink :to="slug" variant="secondary" class="no-underline self-start text-left">
+        {{ props.isInWishlist }}
         {{ name }}
       </NuxtLink>
 
@@ -128,10 +110,7 @@ const toggleWishlist = async () => {
         <SfCounter size="xs">{{ ratingCount }}</SfCounter>
       </div>
 
-      <p
-        v-if="description"
-        class="block font-normal leading-5 typography-text-sm text-neutral-700"
-      >
+      <p v-if="description" class="block font-normal leading-5 typography-text-sm text-neutral-700">
         {{ description }}
       </p>
 
@@ -140,15 +119,12 @@ const toggleWishlist = async () => {
           <span class="font-bold typography-text-sm">
             {{ $currency(regularPrice) }}
           </span>
-          <span
-            v-if="specialPrice"
-            class="ml-1.5 font-normal typography-text-xs line-through"
-          >
+          <span v-if="specialPrice" class="ml-1.5 font-normal typography-text-xs line-through">
             {{ $currency(specialPrice) }}
           </span>
         </div>
 
-        <SfButton type="button" size="sm" @click="handleAddToCart">
+        <SfButton type="button" class="bg-yellow-400" size="sm" @click="handleAddToCart">
           <template #prefix>
             <SfIconShoppingCart size="sm" />
           </template>

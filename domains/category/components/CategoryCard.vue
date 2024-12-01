@@ -11,8 +11,7 @@ const props = defineProps({
 const topCategories = computed(() => props.categories as any);
 const filteredCategories = computed(() =>
   topCategories.value.filter(
-    (category) =>
-      category.name === "WOMEN"
+    (category) => category.name === "Desks" || category.name === "Furnitures",
   ),
 );
 
@@ -52,9 +51,8 @@ const fetchCategoryImages = async () => {
           `http://localhost:1337${apiData.ImageCategoriesHome[0].url}`;
       }
     });
-
   } catch (error) {
-    console.error('Error fetching images:', error);
+    console.error("Error fetching images:", error);
   } finally {
     loading.value = false;
   }
@@ -62,9 +60,9 @@ const fetchCategoryImages = async () => {
 
 // Fallback images en caso de error
 const fallbackImages = {
-  "Construccion": "/images/women-card.png",
-  "Electricidad": "/images/men-card.png",
-  "DIGITAL": "/images/digital-card.png"
+  Construccion: "/images/women-card.png",
+  Electricidad: "/images/men-card.png",
+  DIGITAL: "/images/digital-card.png",
 };
 
 onMounted(() => {
@@ -74,24 +72,39 @@ onMounted(() => {
 
 <template>
   <section class="container mx-auto my-14 px-4">
-    <div class="flex flex-wrap justify-center gap-6" data-testid="category-card">
-      <div v-for="category in filteredCategories" :key="category.name"
-        class="group relative w-60 h-60 rounded-full overflow-hidden shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl">
-        <NuxtLink :to="category.slug"
+    <div
+      class="flex flex-wrap justify-center gap-6"
+      data-testid="category-card"
+    >
+      <div
+        v-for="category in filteredCategories"
+        :key="category.name"
+        class="group relative w-60 h-60 rounded-full overflow-hidden shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+      >
+        <NuxtLink
+          :to="category.slug"
           class="block w-full h-full focus:outline-none focus-visible:outline focus-visible:outline-offset focus-visible:rounded-md"
-          :aria-label="category.name">
+          :aria-label="category.name"
+        >
           <div class="relative w-full h-full bg-neutral-100">
             <template v-if="!loading">
-              <NuxtImg :src="categoryImages[category.name] || fallbackImages[category.name]"
+              <NuxtImg
+                :src="
+                  categoryImages[category.name] || fallbackImages[category.name]
+                "
                 :alt="`${category.name} category`"
-                class="w-full h-full object-cover rounded-full transition-transform duration-300 ease-in-out group-hover:scale-105" />
+                class="w-full h-full object-cover rounded-full transition-transform duration-300 ease-in-out group-hover:scale-105"
+              />
             </template>
             <div v-else class="w-full h-full flex items-center justify-center">
-              <span class="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></span>
+              <span
+                class="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"
+              ></span>
             </div>
           </div>
           <p
-            class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white bg-opacity-75 px-4 py-2 rounded-full font-semibold text-lg text-neutral-900 shadow-md transition duration-300 ease-in-out group-hover:bg-black group-hover:text-[#FFC107]">
+            class="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white bg-opacity-75 px-4 py-2 rounded-full font-semibold text-lg text-neutral-900 shadow-md transition duration-300 ease-in-out group-hover:bg-black group-hover:text-[#FFC107]"
+          >
             {{ $t(category.name) }}
           </p>
         </NuxtLink>

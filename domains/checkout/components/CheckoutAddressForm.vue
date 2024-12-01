@@ -30,7 +30,7 @@ const props = defineProps({
   },
   savedAddress: {
     type: Object as PropType<Partner>,
-    default: () => {},
+    default: () => { },
   },
 });
 
@@ -136,7 +136,7 @@ const handleCloseModal = () => {
         {{ props.heading }}
       </h2>
 
-      <SfButton size="sm" variant="tertiary" @click="handleOpenModal">
+      <SfButton size="sm" class="bg-black text-white" variant="tertiary" @click="handleOpenModal">
         {{ savedAddress.id ? $t("contactInfo.edit") : $t("contactInfo.add") }}
       </SfButton>
     </div>
@@ -151,107 +151,56 @@ const handleCloseModal = () => {
 
     <div v-if="!savedAddress" class="w-full md:max-w-[520px]">
       <p>{{ props.description }}</p>
-      <SfButton class="mt-4 w-full md:w-auto" variant="secondary" @click="open">
+      <SfButton class="mt-4 w-full md:w-auto !bg-yellow-400" variant="secondary" @click="open">
         {{ props.buttonText }}
       </SfButton>
     </div>
 
-    <transition
-      enter-active-class="transition duration-200 ease-out"
-      leave-active-class="transition duration-200 ease-out"
-      enter-from-class="opacity-0 translate-y-10"
-      enter-to-class="opacity-100 translate-y-0"
-      leave-from-class="opacity-100 translate-y-0"
-      leave-to-class="opacity-0 translate-y-10"
-    >
-      <SfModal
-        v-model="isOpen"
-        tag="section"
-        role="dialog"
-        class="h-full w-full overflow-auto md:w-[600px] md:h-fit z-50"
-        aria-labelledby="address-modal-title"
-      >
+    <transition enter-active-class="transition duration-200 ease-out"
+      leave-active-class="transition duration-200 ease-out" enter-from-class="opacity-0 translate-y-10"
+      enter-to-class="opacity-100 translate-y-0" leave-from-class="opacity-100 translate-y-0"
+      leave-to-class="opacity-0 translate-y-10">
+      <SfModal v-model="isOpen" tag="section" role="dialog"
+        class="h-full w-full overflow-auto md:w-[600px] md:h-fit z-50" aria-labelledby="address-modal-title">
         <header>
-          <SfButton
-            square
-            variant="tertiary"
-            class="absolute right-2 top-2"
-            @click="handleCloseModal"
-          >
+          <SfButton square variant="tertiary" class="absolute right-2 top-2" @click="handleCloseModal">
             <icon name="ion:close" size="20px" />
           </SfButton>
-          <h3
-            id="address-modal-title"
-            class="text-neutral-900 text-lg md:text-2xl font-bold mb-4"
-          >
+          <h3 id="address-modal-title" class="text-neutral-900 text-lg md:text-2xl font-bold mb-4">
             {{ heading }}
           </h3>
         </header>
-        <form
-          class="grid grid-cols-1 md:grid-cols-[50%_1fr_120px] gap-4"
-          data-testid="address-form"
-          @submit.prevent="handleSaveAddress"
-        >
+        <form class="grid grid-cols-1 md:grid-cols-[50%_1fr_120px] gap-4" data-testid="address-form"
+          @submit.prevent="handleSaveAddress">
           <label>
             <UiFormLabel>{{ $t("form.NameLabel") }}</UiFormLabel>
-            <SfInput
-              v-model="name"
-              name="name"
-              autocomplete="given-name"
-              required
-              :placeholder="$t('form.NameLabel')"
-            />
+            <SfInput v-model="name" name="name" autocomplete="given-name" required
+              :placeholder="$t('form.NameLabel')" />
           </label>
           <label class="md:col-span-2">
             <UiFormLabel>{{ $t("form.streetNameLabel") }}</UiFormLabel>
-            <SfInput
-              v-model="street"
-              name="streetName"
-              autocomplete="family-name"
-              required
-              :placeholder="$t('form.streetNameLabel')"
-            />
+            <SfInput v-model="street" name="streetName" autocomplete="family-name" required
+              :placeholder="$t('form.streetNameLabel')" />
           </label>
           <label class="md:col-span-3">
             <UiFormLabel>{{ $t("form.phoneLabel") }}</UiFormLabel>
-            <SfInput
-              v-model="phone"
-              name="phone"
-              type="tel"
-              autocomplete="tel"
-              required
-              :placeholder="$t('form.phoneLabel')"
-            />
+            <SfInput v-model="phone" name="phone" type="tel" autocomplete="tel" required
+              :placeholder="$t('form.phoneLabel')" />
           </label>
           <label class="md:col-span-3">
             <UiFormLabel>{{ $t("form.countryLabel") }}</UiFormLabel>
-            <SfSelect
-              v-model="countryId"
-              name="country"
-              autocomplete="country-name"
-              required
-            >
+            <SfSelect v-model="countryId" name="country" autocomplete="country-name" required>
               <option key="placeholder" :value="null">
                 {{ $t("form.selectPlaceholder") }}
               </option>
-              <option
-                v-for="country in countries.countries"
-                :key="country?.id"
-                :value="country?.id"
-              >
+              <option v-for="country in countries.countries" :key="country?.id" :value="country?.id">
                 {{ country?.name }}
               </option>
             </SfSelect>
           </label>
           <label class="md:col-span-3">
             <UiFormLabel>{{ $t("form.stateLabel") }}</UiFormLabel>
-            <SfSelect
-              v-model="stateId"
-              name="state"
-              autocomplete="state-name"
-              :disabled="!states.length"
-              required
-            >
+            <SfSelect v-model="stateId" name="state" autocomplete="state-name" :disabled="!states.length" required>
               <option key="placeholder" :value="null">
                 {{ $t("form.selectPlaceholder") }}
               </option>
@@ -263,54 +212,27 @@ const handleCloseModal = () => {
 
           <label class="md:col-span-2">
             <UiFormLabel>{{ $t("form.cityLabel") }}</UiFormLabel>
-            <SfInput
-              v-model="city"
-              name="city"
-              autocomplete="address-level2"
-              required
-              :placeholder="$t('form.cityLabel')"
-            />
+            <SfInput v-model="city" name="city" autocomplete="address-level2" required
+              :placeholder="$t('form.cityLabel')" />
           </label>
           <label>
             <UiFormLabel>{{ $t("form.postalCodeLabel") }}</UiFormLabel>
-            <SfInput
-              v-model="zip"
-              name="postalCode"
-              autocomplete="postal-code"
-              required
-              :placeholder="$t('form.postalCodeLabel')"
-            />
+            <SfInput v-model="zip" name="postalCode" autocomplete="postal-code" required
+              :placeholder="$t('form.postalCodeLabel')" />
           </label>
 
-          <label
-            v-if="props.type === 'billingAddress'"
-            class="md:col-span-3 flex items-center gap-2"
-          >
-            <SfCheckbox name="useAsShipping" />
+          <label v-if="props.type === 'billingAddress'"
+            class="checked:bg-yellow-500 md:col-span-3 flex items-center gap-2">
+            <SfCheckbox name="useAsShipping" class="checked:bg-yellow-500" />
             {{ $t("form.useAsShippingLabel") }}
           </label>
 
-          <div
-            class="md:col-span-3 flex flex-col-reverse md:flex-row justify-end mt-6 gap-4"
-          >
-            <SfButton
-              type="reset"
-              class=""
-              variant="secondary"
-              @click="handleCloseModal"
-            >
+          <div class="md:col-span-3 flex flex-col-reverse md:flex-row justify-end mt-6 gap-4">
+            <SfButton type="reset" class="" variant="secondary" @click="handleCloseModal">
               {{ $t("contactInfo.cancel") }}
             </SfButton>
-            <SfButton
-              type="submit"
-              class="min-w-[120px]"
-              :disabled="isCartUpdateLoading"
-            >
-              <SfLoaderCircular
-                v-if="isCartUpdateLoading"
-                class="flex justify-center items-center"
-                size="sm"
-              />
+            <SfButton type="submit" class="!bg-yellow-400 min-w-[120px]" :disabled="isCartUpdateLoading">
+              <SfLoaderCircular v-if="isCartUpdateLoading" class="flex justify-center items-center" size="sm" />
               <span v-else>
                 {{ $t("contactInfo.save") }}
               </span>
@@ -319,9 +241,7 @@ const handleCloseModal = () => {
         </form>
       </SfModal>
     </transition>
-    <div
-      v-if="isOpen"
-      class="fixed !w-screen !h-screen inset-0 bg-neutral-500 bg-opacity-50 transition-opacity duration-1000 top-index"
-    />
+    <div v-if="isOpen"
+      class="fixed !w-screen !h-screen inset-0 bg-neutral-500 bg-opacity-50 transition-opacity duration-1000 top-index" />
   </div>
 </template>

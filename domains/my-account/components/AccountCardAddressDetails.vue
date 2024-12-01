@@ -60,7 +60,8 @@ const handleCloseAfterSaveAddress = async () => {
       <p>{{ `${address?.state?.name || ""}` }}</p>
       <p>{{ `${address.city} ${address.zip}` }}</p>
       <template v-slot:footer>
-        <SfButton variant="secondary" size="sm" class="self-start !bg-black" @click="handleRemoveAddress(address.id)">
+        <SfButton variant="secondary" size="sm" class="self-start !bg-black text-white"
+          @click="handleRemoveAddress(address.id)">
           Remove
         </SfButton>
       </template>
