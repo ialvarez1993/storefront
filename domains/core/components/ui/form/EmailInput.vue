@@ -31,7 +31,7 @@ watch(model, () => {
         placeholder="Please type your email"
         class="w-full text-base outline-none appearance-none text-neutral-900 disabled:cursor-not-allowed disabled:bg-transparent read-only:bg-transparent"
         @input="clearError"
-      />
+      >
     </span>
   </div>
 </template>

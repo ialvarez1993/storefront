@@ -126,8 +126,8 @@ const handleSubmit = async () => {
 
     <UiFormSelectCountries v-model="addressFormFieldsInput.countryId" />
     <UiFormSelectStates
-      v-model="addressFormFieldsInput.stateId"
       :key="addressFormFieldsInput?.countryId"
+      v-model="addressFormFieldsInput.stateId"
       :country-id="addressFormFieldsInput?.countryId"
     />
     <label class="md:col-span-2">

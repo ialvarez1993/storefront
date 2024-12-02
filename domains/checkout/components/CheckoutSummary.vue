@@ -77,12 +77,12 @@ const handleGiftCardPayment = async () => {
       </i18n-t>
     </p>
     <component
+      :is="getPaymentProviderComponentName(selectedProvider?.code)"
       v-if="
         showPaymentModal &&
         !!selectedProvider?.code &&
         !hasFullPaymentWithGiftCard
       "
-      :is="getPaymentProviderComponentName(selectedProvider?.code)"
       :key="selectedProvider?.id"
       :provider="selectedProvider"
       :cart="cart"

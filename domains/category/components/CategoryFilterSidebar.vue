@@ -323,7 +323,7 @@ watch(priceModel, (newValue) => {
             </SfListItem>
           </template>
         </SfAccordionItem>
-        <hr class="my-4" />
+        <hr class="my-4" >
       </li>
     </ul>
     <div

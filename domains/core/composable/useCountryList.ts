@@ -1,6 +1,6 @@
 import { QueryName } from "~/server/queries";
 
-import { type Countries, type CountriesResponse } from "~/graphql";
+import type { Countries, CountriesResponse } from "~/graphql";
 
 export const useCountryList = () => {
   const { $sdk } = useNuxtApp();

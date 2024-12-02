@@ -12,7 +12,7 @@
         />
         <h1 class="text-3xl font-bold">Your request has ben sent!</h1>
         <p>You just received a reply in your registered email.</p>
-        <SfButton @click="navigateTo('/')" size="lg" variant="secondary">
+        <SfButton size="lg" variant="secondary" @click="navigateTo('/')">
           Continue shopping
         </SfButton>
       </div>

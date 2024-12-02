@@ -108,7 +108,7 @@ const bannerDetails = {
                     >
                       {{ name }}
                     </h2>
-                    <hr class="mb-3.5" />
+                    <hr class="mb-3.5" >
                     <ul>
                       <li
                         v-for="{ name, slug, childs: subcategory } in childs"

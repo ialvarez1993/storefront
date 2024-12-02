@@ -111,7 +111,7 @@ onClickOutside(menuRef, () => {
                       >
                         {{ name }}
                       </h2>
-                      <hr class="mb-3.5" />
+                      <hr class="mb-3.5" >
                       <ul>
                         <li v-for="child in childs" :key="child.id">
                           <SfListItem

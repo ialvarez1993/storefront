@@ -20,10 +20,10 @@ const handleApplyPromo = async () => {
     </div>
 
     <SfButton
-      @click="handleApplyPromo"
       :disabled="!promo || loading"
       size="lg"
       variant="secondary"
+      @click="handleApplyPromo"
     >
       {{ $t("apply") }}
     </SfButton>

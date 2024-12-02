@@ -453,12 +453,12 @@ addProductToRecentViews(productTemplate.value?.id);
       <section class="lg:mx-4 mt-28 mb-20">
         <ProductSlider :text="$t('recommendWithThis')" />
       </section>
-      <section class="pb-16" v-if="list?.length > 0">
+      <section v-if="list?.length > 0" class="pb-16">
         <ClientOnly>
           <LazyProductSlider
+            key="recent-views"
             :heading="$t('recentViews')"
             :ids="list"
-            key="recent-views"
             key-for-composable="recent-views"
           />
         </ClientOnly>

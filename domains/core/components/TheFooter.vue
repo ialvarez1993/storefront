@@ -28,7 +28,7 @@
         </SfListItem>
       </div>
     </div>
-    <hr />
+    <hr >
     <div class="py-10 md:flex md:mx-auto max-w-[1336px]">
       <div
         v-for="{ label, icon, link, details } in contactOptions"

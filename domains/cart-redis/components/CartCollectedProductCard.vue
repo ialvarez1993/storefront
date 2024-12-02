@@ -4,7 +4,7 @@ import {
   SfIconSell,
   SfLink,
 } from "@storefront-ui/vue";
-import { type OrderLine, type Product } from "~/graphql";
+import type { OrderLine, Product } from "~/graphql";
 const NuxtLink = resolveComponent("NuxtLink");
 
 defineProps({
@@ -34,7 +34,7 @@ const { updateItemQuantity, removeItemFromCart } = useCart();
               String(orderLine.product?.image),
               370,
               370,
-              String(orderLine.product?.imageFilename),
+              String(orderLine.product?.imageFilename)
             )
           "
           :alt="orderLine.product?.imageFilename ?? ''"
@@ -88,11 +88,11 @@ const { updateItemQuantity, removeItemFromCart } = useCart();
         >
           {{ $currency(orderLine.priceSubtotal) }}
           <span
-            class="text-neutral-500 ml-2 line-through typography-text-xs sm:typography-text-sm font-normal"
             v-if="
               orderLine.product?.combinationInfo?.list_price !==
               orderLine.product?.combinationInfo?.price
             "
+            class="text-neutral-500 ml-2 line-through typography-text-xs sm:typography-text-sm font-normal"
           >
             ${{
               orderLine.product?.combinationInfo?.list_price *

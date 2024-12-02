@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client/core";
-import partnerFragament from "../fragments/partnerFragment";
+import partnerFragment from "../fragments/partnerFragment";
 
 export default gql`
   mutation CreateUpdatePartner(

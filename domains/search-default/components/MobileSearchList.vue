@@ -33,8 +33,7 @@ const makeSearchBold = (text: string) => {
       <span
         class="text-black text-sm font-medium capitalize"
         v-html="makeSearchBold(hit.name)"
-      >
-      </span>
+      />
     </li>
   </ul>
 </template>

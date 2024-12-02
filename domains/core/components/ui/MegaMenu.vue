@@ -44,7 +44,7 @@
         >
           {{ heading }}
         </h2>
-        <hr class="mb-3.5" />
+        <hr class="mb-3.5" >
         <ul>
           <li v-for="item in items" :key="item.title">
             <SfListItem

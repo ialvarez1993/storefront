@@ -6,7 +6,7 @@ const props = defineProps({
   heading: String,
   text: String,
   ids: {
-    type: Array<Number>,
+    type: Array<number>,
     default: () => [],
   },
   keyForComposable: {

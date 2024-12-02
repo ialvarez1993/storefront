@@ -1,9 +1,9 @@
 import { QueryName } from "~/server/queries";
 
-import {
-  type State,
-  type CountryFilterInput,
-  type StatesResponse,
+import type {
+  State,
+  CountryFilterInput,
+  StatesResponse,
 } from "~/graphql";
 
 export const useStateList = (countryId: number) => {

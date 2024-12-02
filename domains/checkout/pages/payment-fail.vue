@@ -15,7 +15,7 @@ await loadCart(false);
     />
     <h1 class="text-3xl font-bold">Oh no, your payment failed</h1>
     <p>Unfortunately, the payment for this order has failed.</p>
-    <SfButton @click="navigateTo('/cart')" size="lg" variant="secondary">
+    <SfButton size="lg" variant="secondary" @click="navigateTo('/cart')">
       Try again
     </SfButton>
   </div>

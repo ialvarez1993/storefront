@@ -57,8 +57,8 @@ const handleSubmit = async () => {
                 name="password"
                 :type="firstNewPasswordVisible ? 'text' : 'password'"
                 :class="{ 'text-red-600': passwordsDoesntMatch }"
-                @change="passwordsDoesntMatch = false"
                 required
+                @change="passwordsDoesntMatch = false"
               >
                 <template #suffix>
                   <button
@@ -84,8 +84,8 @@ const handleSubmit = async () => {
                 name="password"
                 :type="secondNewPasswordVisible ? 'text' : 'password'"
                 :class="{ 'text-red-600': passwordsDoesntMatch }"
-                @change="passwordsDoesntMatch = false"
                 required
+                @change="passwordsDoesntMatch = false"
               >
                 <template #suffix>
                   <button

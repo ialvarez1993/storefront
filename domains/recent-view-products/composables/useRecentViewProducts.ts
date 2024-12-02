@@ -1,5 +1,5 @@
 export const useRecentViewProducts = () => {
-  const list = useCookie<Number[]>("recent-view-products");
+  const list = useCookie<number[]>("recent-view-products");
 
   const addProductToRecentViews = (id: number) => {
     if (list.value?.includes(id)) {

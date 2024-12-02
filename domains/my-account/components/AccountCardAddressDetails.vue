@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { SfButton, SfIconClose, useDisclosure } from "@storefront-ui/vue";
-import {
+import type {
   AddressEnum,
-  type AddressFormFieldsInputExtendedFields,
-  type Partner,
+  AddressFormFieldsInputExtendedFields,
+  Partner,
 } from "~/graphql";
 
 const { isOpen, open, close } = useDisclosure();
@@ -28,7 +28,7 @@ const edit = ref(false);
 const addressForEdit = ref<AddressFormFieldsInputExtendedFields>();
 
 const handleOpenFormForEditAddress = (
-  address: AddressFormFieldsInputExtendedFields,
+  address: AddressFormFieldsInputExtendedFields
 ) => {
   edit.value = true;
   addressForEdit.value = address;
@@ -52,21 +52,21 @@ const handleCloseAfterSaveAddress = async () => {
 </script>
 <template>
   <div
-    class="md:col-span-1 col-span-3"
     v-for="address in addresses"
     :key="address.id"
+    class="md:col-span-1 col-span-3"
   >
     <AccountAddressData
-      @on-click="handleOpenFormForEditAddress(address)"
       :header="address.name || ''"
       :button-text="$t('account.accountSettings.personalData.edit')"
+      @on-click="handleOpenFormForEditAddress(address)"
     >
       <p>{{ `${address.name}, ${address.street}` }}</p>
       <p>{{ address.phone }}</p>
       <p>{{ `${address.country?.name}` }}</p>
       <p>{{ `${address?.state?.name || ""}` }}</p>
       <p>{{ `${address.city} ${address.zip}` }}</p>
-      <template v-slot:footer>
+      <template #footer>
         <SfButton
           variant="secondary"
           size="sm"
@@ -78,7 +78,7 @@ const handleCloseAfterSaveAddress = async () => {
     </AccountAddressData>
   </div>
   <div class="col-span-3">
-    <SfButton size="lg" @click="handleOpenFormToAddAddress()" class="self-start"
+    <SfButton size="lg" class="self-start" @click="handleOpenFormToAddAddress()"
       >Add new address</SfButton
     >
   </div>

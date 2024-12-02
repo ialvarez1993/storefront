@@ -17,8 +17,8 @@ useHead(websiteHomepageHead(websiteHomepage.value, ""));
   <section class="pb-16">
     <NuxtLazyHydrate when-visible>
       <LazyProductSlider
-        :heading="$t('heading.discount')"
         key="inspired-by-picks"
+        :heading="$t('heading.discount')"
         key-for-composable="inspired-by-picks"
       />
     </NuxtLazyHydrate>

@@ -111,7 +111,7 @@ export type ApplyDiscountsResponse = AsyncData<
 >;
 export type MakeGiftCardPaymentResponse = AsyncData<
   {
-    makeGiftCardPayment: { done: Boolean };
+    makeGiftCardPayment: { done: boolean };
   },
   H3Error
 >;
@@ -276,12 +276,12 @@ export type DeliveryMethodResponse = AsyncData<
 
 export type WebsiteHomepageResponse = AsyncData<
   {
-    metaTitle: String;
-    metaImage: String;
-    metaImageFilename: String;
-    metaKeyword: String;
-    metaDescription: String;
-    jsonLd: String;
+    metaTitle: string;
+    metaImage: string;
+    metaImageFilename: string;
+    metaKeyword: string;
+    metaDescription: string;
+    jsonLd: string;
   },
   H3Error
 >;
