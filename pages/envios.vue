@@ -70,11 +70,12 @@
 
 <script setup>
 const aboutData = ref(null);
+const { $fetchApi } = useNuxtApp();
 
 onMounted(async () => {
   try {
-    const response = await fetch("http://localhost:4000/acerca_de_nosotros");
-    aboutData.value = await response.json();
+    const response = await $fetchApi("http://localhost:4000/acerca_de_nosotros");
+    aboutData.value = response
   } catch (error) {
     console.error("Error fetching data:", error);
   }

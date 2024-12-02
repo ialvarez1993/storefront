@@ -1,11 +1,17 @@
 <template>
-  <div v-if="isLoading" class="flex items-center justify-center mt-52 w-full min-h-[200px] bg-black backdrop-blur-sm">
+  <div
+    v-if="isLoading"
+    class="flex items-center justify-center mt-52 w-full min-h-[200px] bg-black backdrop-blur-sm"
+  >
     <div class="flex flex-col items-center gap-4">
       <!-- Spinner Animation -->
       <div class="relative w-16 h-16">
-        <div class="absolute w-16 h-16 border-4 border-primary-500 rounded-full animate-ping opacity-75"></div>
-        <div class="absolute w-16 h-16 border-4 border-primary-500 border-t-transparent rounded-full animate-spin">
-        </div>
+        <div
+          class="absolute w-16 h-16 border-4 border-primary-500 rounded-full animate-ping opacity-75"
+        ></div>
+        <div
+          class="absolute w-16 h-16 border-4 border-primary-500 border-t-transparent rounded-full animate-spin"
+        ></div>
       </div>
 
       <!-- Loading Text -->
@@ -20,20 +26,36 @@
 
       <!-- Optional Progress Bar -->
       <div class="w-48 h-1 mt-2 overflow-hidden bg-gray-700 rounded-full">
-        <div class="h-full bg-primary-500 animate-[loading_1s_ease-in-out_infinite]" style="width: 50%"></div>
+        <div
+          class="h-full bg-primary-500 animate-[loading_1s_ease-in-out_infinite]"
+          style="width: 50%"
+        ></div>
       </div>
     </div>
   </div>
-  <div v-else class="slider-container pt-[19rem] !mt-[13rem] lg:!mt-[8rem] sm:pt-20 md:pt-36 pb-80 sm:pb-0">
+  <div
+    v-else
+    class="slider-container pt-[19rem] !mt-[13rem] lg:!mt-[8rem] sm:pt-20 md:pt-36 pb-80 sm:pb-0"
+  >
     <!-- Background with curve -->
     <div class="slider-background">
-      <div class="slider-gradient" :style="{ clipPath: 'polygon(0 0, 100% 0, 85% 100%, 0% 100%)' }" />
+      <div
+        class="slider-gradient"
+        :style="{ clipPath: 'polygon(0 0, 100% 0, 85% 100%, 0% 100%)' }"
+      />
     </div>
     <div class="slider-content">
-      <div class="slider-grid" @touchstart="handleTouchStart" @touchmove="handleTouchMove" @touchend="handleTouchEnd">
+      <div
+        class="slider-grid"
+        @touchstart="handleTouchStart"
+        @touchmove="handleTouchMove"
+        @touchend="handleTouchEnd"
+      >
         <div class="slider-info" :class="{ 'slide-enter': slideAnimation }">
           <div class="info-content">
-            <h2 class="info-title !text-black sm:!text-white pt-10 sm:pt-0 !font-header">
+            <h2
+              class="info-title !text-black sm:!text-white pt-10 sm:pt-0 !font-header"
+            >
               {{ slides[currentSlide].title }}
             </h2>
             <p class="info-subtitle">
@@ -41,24 +63,41 @@
             </p>
           </div>
           <NuxtLink :to="slides[currentSlide].url">
-            <button class="primary-button"> {{ $t("banner.product") }}</button>
+            <button class="primary-button">{{ $t("banner.product") }}</button>
           </NuxtLink>
         </div>
 
-        <div v-if="slides && slides.length && slides[currentSlide]" class="slider-media"
-          :class="{ 'slide-enter': slideAnimation }">
-          <NuxtImg v-if="slides[currentSlide].image?.url" :src="slides[currentSlide].image.url"
-            :alt="slides[currentSlide].title || ''" width="500" height="600" loading="lazy" />
+        <div
+          v-if="slides && slides.length && slides[currentSlide]"
+          class="slider-media"
+          :class="{ 'slide-enter': slideAnimation }"
+        >
+          <NuxtImg
+            v-if="slides[currentSlide].image?.url"
+            :src="slides[currentSlide].image.url"
+            :alt="slides[currentSlide].title || ''"
+            width="500"
+            height="600"
+            loading="lazy"
+          />
 
-          <div v-if="slides[currentSlide].price && slides[currentSlide].price > 0" class="price-tag">
+          <div
+            v-if="slides[currentSlide].price && slides[currentSlide].price > 0"
+            class="price-tag"
+          >
             <div class="price-label">{{ $t("banner.priceBaner") }}</div>
             <div class="price-amount">$ {{ slides[currentSlide].price }}</div>
           </div>
 
-          <div v-if="
-            slides[currentSlide].discount && slides[currentSlide].discount > 0
-          " class="discount-badge">
-            <span class="discount-amount">{{ slides[currentSlide].discount }}%</span>
+          <div
+            v-if="
+              slides[currentSlide].discount && slides[currentSlide].discount > 0
+            "
+            class="discount-badge"
+          >
+            <span class="discount-amount"
+              >{{ slides[currentSlide].discount }}%</span
+            >
             <span class="discount-label">{{ $t("banner.discount") }}</span>
           </div>
         </div>
@@ -67,30 +106,61 @@
 
     <!-- Navigation -->
     <nav class="slider-navigation">
-      <button @click="prevSlide" class="nav-button nav-prev" aria-label="Anterior">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="rotate-180">
-          <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round" />
+      <button
+        @click="prevSlide"
+        class="nav-button nav-prev"
+        aria-label="Anterior"
+      >
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          class="rotate-180"
+        >
+          <path
+            d="M9 5l7 7-7 7"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
       </button>
 
-      <button @click="nextSlide" class="nav-button nav-next" aria-label="Siguiente">
+      <button
+        @click="nextSlide"
+        class="nav-button nav-next"
+        aria-label="Siguiente"
+      >
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-            stroke-linejoin="round" />
+          <path
+            d="M9 5l7 7-7 7"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
       </button>
     </nav>
 
     <!-- Pagination -->
     <div class="slider-pagination">
-      <button v-for="(slide, index) in slides" :key="index" @click="setCurrentSlide(index)"
-        :class="['pagination-dot', { active: currentSlide === index }]" :aria-label="`Ir a diapositiva ${index + 1}`" />
+      <button
+        v-for="(slide, index) in slides"
+        :key="index"
+        @click="setCurrentSlide(index)"
+        :class="['pagination-dot', { active: currentSlide === index }]"
+        :aria-label="`Ir a diapositiva ${index + 1}`"
+      />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+const { $fetchApi } = useNuxtApp();
+
 import { ref, onMounted, onBeforeUnmount, computed, watch } from "vue";
 import { useQuery } from "@tanstack/vue-query";
 import { useI18n } from "vue-i18n";
@@ -199,12 +269,12 @@ const defaultSlides: Slide[] = [
     url: "SIN DATA",
   },
 ];
-
 // API Configuration
+const runtimeConfig = useRuntimeConfig();
 const API_CONFIG = {
   TOKEN:
     "17eec83c15384dd6215b8357bbecc348e37308c2a5d098f9aa626d2f73c63ca9c920a35a6038347ca501edc727682984ac7b60eaa476f4a82c78b7f3b8f06f40fdd73e073ae5b67fb857dfbb698231fa16d1f3930778693e8bc9be84b0d4dd9746f2ded7b388c3b4db4fce6c8a96d8c242b43ebd5e474b286c9c531551b4fd86",
-  BASE_URL: "http://localhost:1337/api",
+  BASE_URL: `${runtimeConfig.public.apiUrlStrapi}/api`,
   ENDPOINTS: {
     BANNERS: "/banners",
   },
@@ -215,20 +285,10 @@ const fetchBanners = async (): Promise<BannerResponse> => {
   try {
     const { locale } = useI18n();
     const currentLang = locale.value; // 'es' o 'en'
-    const url = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.BANNERS}?populate[slide][populate]=*&locale=${currentLang === "es" ? "es-VE" : "en"}`;
+    const url = `/api/banners?populate[slide][populate]=*&locale=${currentLang === "es" ? "es-VE" : "en"}`;
+    
+    const data = await $fetchApi(url);
 
-    const response = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${API_CONFIG.TOKEN}`,
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`[MAINBANNER]HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
     return data;
   } catch (error) {
     log("[MAINBANNER]Error fetching banners:", error);
@@ -248,7 +308,7 @@ const {
   retry: 5,
 });
 
-const BASE_IMAGE_URL = "http://localhost:1337";
+const BASE_IMAGE_URL = `${runtimeConfig.public.apiUrlStrapi}`;
 
 const slides = computed(() => {
   if (isLoading.value || !bannersData.value?.data?.[0]?.slide) {
@@ -260,46 +320,46 @@ const slides = computed(() => {
     ...slide,
     image: slide.image
       ? {
-        ...slide.image,
-        url: slide.image.url.startsWith("http")
-          ? slide.image.url
-          : `${BASE_IMAGE_URL}${slide.image.url}`,
-      }
+          ...slide.image,
+          url: slide.image.url.startsWith("http")
+            ? slide.image.url
+            : `${BASE_IMAGE_URL}${slide.image.url}`,
+        }
       : undefined,
     brand: slide.brand
       ? {
-        ...slide.brand,
-        url: slide.brand.url.startsWith("http")
-          ? slide.brand.url
-          : `${BASE_IMAGE_URL}${slide.brand.url}`,
-        formats: {
-          ...slide.brand.formats,
-          thumbnail: {
-            ...slide.brand.formats.thumbnail,
-            url: slide.brand.formats.thumbnail.url.startsWith("http")
-              ? slide.brand.formats.thumbnail.url
-              : `${BASE_IMAGE_URL}${slide.brand.formats.thumbnail.url}`,
+          ...slide.brand,
+          url: slide.brand.url.startsWith("http")
+            ? slide.brand.url
+            : `${BASE_IMAGE_URL}${slide.brand.url}`,
+          formats: {
+            ...slide.brand.formats,
+            thumbnail: {
+              ...slide.brand.formats.thumbnail,
+              url: slide.brand.formats.thumbnail.url.startsWith("http")
+                ? slide.brand.formats.thumbnail.url
+                : `${BASE_IMAGE_URL}${slide.brand.formats.thumbnail.url}`,
+            },
+            small: {
+              ...slide.brand.formats.small,
+              url: slide.brand.formats.small.url.startsWith("http")
+                ? slide.brand.formats.small.url
+                : `${BASE_IMAGE_URL}${slide.brand.formats.small.url}`,
+            },
+            medium: {
+              ...slide.brand.formats.medium,
+              url: slide.brand.formats.medium.url.startsWith("http")
+                ? slide.brand.formats.medium.url
+                : `${BASE_IMAGE_URL}${slide.brand.formats.medium.url}`,
+            },
+            large: {
+              ...slide.brand.formats.large,
+              url: slide.brand.formats.large.url.startsWith("http")
+                ? slide.brand.formats.large.url
+                : `${BASE_IMAGE_URL}${slide.brand.formats.large.url}`,
+            },
           },
-          small: {
-            ...slide.brand.formats.small,
-            url: slide.brand.formats.small.url.startsWith("http")
-              ? slide.brand.formats.small.url
-              : `${BASE_IMAGE_URL}${slide.brand.formats.small.url}`,
-          },
-          medium: {
-            ...slide.brand.formats.medium,
-            url: slide.brand.formats.medium.url.startsWith("http")
-              ? slide.brand.formats.medium.url
-              : `${BASE_IMAGE_URL}${slide.brand.formats.medium.url}`,
-          },
-          large: {
-            ...slide.brand.formats.large,
-            url: slide.brand.formats.large.url.startsWith("http")
-              ? slide.brand.formats.large.url
-              : `${BASE_IMAGE_URL}${slide.brand.formats.large.url}`,
-          },
-        },
-      }
+        }
       : undefined,
   }));
 });

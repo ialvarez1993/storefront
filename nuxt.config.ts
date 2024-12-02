@@ -1,6 +1,6 @@
 import Aura from '@primevue/themes/aura';
 
-// https://nuxt.com/docs/api/configuration/nuxt-config
+// htts://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
 
@@ -20,7 +20,7 @@ export default defineNuxtConfig({
       meta: [{ name: "robots", content: "index, follow" }],
     },
   },
-
+  plugins: ['./plugins/apiStrapi.ts'],
   extends: [
     "./domains/auth",
     "./domains/recent-view-products",
@@ -87,6 +87,9 @@ export default defineNuxtConfig({
       currencySeparator: "",
       currencyDecimal: "",
       currencyPrecision: "",
+      apiUrlStrapi: "",
+      apiStrapiToken: "",
+      NUXT_PUBLIC_API_STRAPI_TOKEN: process.env.NUXT_PUBLIC_API_STRAPI_TOKEN,
     },
   },
 

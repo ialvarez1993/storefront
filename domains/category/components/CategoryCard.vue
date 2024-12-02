@@ -1,5 +1,8 @@
 <script lang="ts" setup>
 import { computed, ref, onMounted } from "vue";
+const { $fetchApi } = useNuxtApp();
+const runtimeConfig = useRuntimeConfig();
+
 
 const props = defineProps({
   categories: {
@@ -22,17 +25,9 @@ const fetchCategoryImages = async () => {
   try {
     loading.value = true;
 
-    const response = await fetch(
-      "http://localhost:1337/api/home-categorias?populate=*&locale=en",
-      {
-        headers: {
-          Authorization:
-            "Bearer 17eec83c15384dd6215b8357bbecc348e37308c2a5d098f9aa626d2f73c63ca9c920a35a6038347ca501edc727682984ac7b60eaa476f4a82c78b7f3b8f06f40fdd73e073ae5b67fb857dfbb698231fa16d1f3930778693e8bc9be84b0d4dd9746f2ded7b388c3b4db4fce6c8a96d8c242b43ebd5e474b286c9c531551b4fd86",
-        },
-      },
+    const data = await $fetchApi(
+      "/api/home-categorias?populate=*&locale=en",
     );
-
-    const data = await response.json();
 
     // Ordenar los datos por el campo 'orden'
     const sortedData = data.data.sort(
@@ -44,11 +39,11 @@ const fetchCategoryImages = async () => {
       const apiData = sortedData[index];
       if (apiData?.ImageCategoriesHome?.[0]?.formats?.medium?.url) {
         categoryImages.value[category.name] =
-          `http://localhost:1337${apiData.ImageCategoriesHome[0].formats.medium.url}`;
+          `${runtimeConfig.public.apiUrlStrapi}${apiData.ImageCategoriesHome[0].formats.medium.url}`;
       } else if (apiData?.ImageCategoriesHome?.[0]?.url) {
         // Fallback para imágenes sin formatos
         categoryImages.value[category.name] =
-          `http://localhost:1337${apiData.ImageCategoriesHome[0].url}`;
+          `${runtimeConfig.public.apiUrlStrapi}${apiData.ImageCategoriesHome[0].url}`;
       }
     });
   } catch (error) {

@@ -1,17 +1,27 @@
 <template>
   <section class="brands-banner" :class="{ 'dark-mode': isDarkMode }">
     <div class="container">
-
-
-
       <h2
         class="title text-center font-bold !font-header uppercase mt-12 typography-headline-3 md:typography-headline-2"
-        v-if="showTitle">{{ $t("marcasTitulo") }}</h2>
+        v-if="showTitle"
+      >
+        {{ $t("marcasTitulo") }}
+      </h2>
 
       <div class="brands-grid">
-        <div v-for="brand in brandsData" :key="brand.id" class="brand-item" :class="{ animated: isAnimated }">
-          <NuxtImg v-if="brand.icono" :src="`http://localhost:1337${brand.icono.url}`" :alt="brand.nombre"
-            loading="lazy" class="brand-logo" />
+        <div
+          v-for="brand in brandsData"
+          :key="brand.id"
+          class="brand-item"
+          :class="{ animated: isAnimated }"
+        >
+          <NuxtImg
+            v-if="brand.icono"
+            :src="`${runtimeConfig.public.apiUrlStrapi}${brand.icono.url}`"
+            :alt="brand.nombre"
+            loading="lazy"
+            class="brand-logo"
+          />
           <div v-else class="brand-logo-placeholder">
             {{ brand.nombre.charAt(0) }}
           </div>
@@ -26,30 +36,18 @@
 </template>
 
 <script setup lang="ts">
+const { $fetchApi } = useNuxtApp();
 import { useQuery } from "@tanstack/vue-query";
-
-const API_TOKEN =
-  "17eec83c15384dd6215b8357bbecc348e37308c2a5d098f9aa626d2f73c63ca9c920a35a6038347ca501edc727682984ac7b60eaa476f4a82c78b7f3b8f06f40fdd73e073ae5b67fb857dfbb698231fa16d1f3930778693e8bc9be84b0d4dd9746f2ded7b388c3b4db4fce6c8a96d8c242b43ebd5e474b286c9c531551b4fd86";
+const runtimeConfig = useRuntimeConfig();
 
 const API_URL = computed(() => {
-  return `http://localhost:1337/api/marcas?pagination%5BwithCount%5D=true&populate=%2A`;
+  return `/api/marcas?pagination%5BwithCount%5D=true&populate=%2A`;
 });
 
 const fetchDataTitleCategory = async () => {
   try {
-    const response = await fetch(API_URL.value, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${API_TOKEN}`,
-      },
-    });
+    const data = await $fetchApi(API_URL.value);
 
-    if (!response.ok) {
-      throw new Error(`Error ${response.status}: ${response.statusText}`);
-    }
-
-    const data = await response.json();
     return data;
   } catch (error) {
     console.error("Error fetching data:", error);

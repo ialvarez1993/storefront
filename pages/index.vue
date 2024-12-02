@@ -1,4 +1,5 @@
 <script setup lang="ts">
+
 import { useWebsiteHomePage } from "~/domains/core/composable/useWebsiteHomePage";
 import websiteHomepageHead from "../domains/core/utils/websiteHomepageHead";
 import { useCategory } from "../domains/category/composables/useCategory";
@@ -9,8 +10,8 @@ import MainBanner from "../domains/core/components/MainBanner.vue";
 import FeatureBox from "../domains/core/components/FeatureBox.vue";
 import CardSamsung from "../domains/core/components/CardSamsung.vue";
 import ProductSliderCircle from "../domains/core/components/ProductSliderCircle.vue";
-import ProductSlider from "../domains/core/components/ProductSlider.vue";
 
+const { $fetchApi } = useNuxtApp();
 import { defineAsyncComponent } from "vue";
 
 const CategoryCard = defineAsyncComponent(
@@ -25,7 +26,8 @@ import Marcas from "../domains/core/components/ui/Marcas.vue";
 import { useI18n } from "vue-i18n";
 import { useQuery } from "@tanstack/vue-query";
 import type { TitleData } from "../types/TitleDescuento";
-import { useScreenSize } from "../../../compasables/useScreenSize.ts";
+import { useScreenSize } from "../compasables/useScreenSize";
+const { locale, setLocale } = useI18n();
 
 const { isMobile } = useScreenSize();
 
@@ -42,29 +44,16 @@ await loadCategoryList({
   filter: { parent: true, id: null },
 });
 
-const { locale, setLocale } = useI18n();
 
 const currentLang = locale.value; // 'es' o 'en'
-const API_TOKEN =
-  "17eec83c15384dd6215b8357bbecc348e37308c2a5d098f9aa626d2f73c63ca9c920a35a6038347ca501edc727682984ac7b60eaa476f4a82c78b7f3b8f06f40fdd73e073ae5b67fb857dfbb698231fa16d1f3930778693e8bc9be84b0d4dd9746f2ded7b388c3b4db4fce6c8a96d8c242b43ebd5e474b286c9c531551b4fd86";
-const API_URL_DISCOUNT = `http://localhost:1337/api/title-discount?locale=${currentLang === "es" ? "es-VE" : "en"}`;
-const API_URL_CATEGORY = `http://localhost:1337/api/titulo-categoria?locale=${currentLang === "es" ? "es-VE" : "en"}`;
+
+const API_URL_DISCOUNT = `/api/title-discount?locale=${currentLang === "es" ? "es-VE" : "en"}`;
+const API_URL_CATEGORY = `/api/titulo-categoria?locale=${currentLang === "es" ? "es-VE" : "en"}`;
 
 const fetchDataTitleDiscount = async (): Promise<TitleData> => {
   try {
-    const response = await fetch(API_URL_DISCOUNT, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${API_TOKEN}`,
-      },
-    });
+    const data = await $fetchApi(API_URL_DISCOUNT);
 
-    if (!response.ok) {
-      throw new Error(`Error ${response.status}: ${response.statusText}`);
-    }
-
-    const data = await response.json();
     return data;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -74,19 +63,8 @@ const fetchDataTitleDiscount = async (): Promise<TitleData> => {
 
 const fetchDataTitleCategory = async (): Promise<TitleData> => {
   try {
-    const response = await fetch(API_URL_CATEGORY, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${API_TOKEN}`,
-      },
-    });
+    const data = await $fetchApi(API_URL_CATEGORY);
 
-    if (!response.ok) {
-      throw new Error(`Error ${response.status}: ${response.statusText}`);
-    }
-
-    const data = await response.json();
     return data;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -256,7 +234,12 @@ const titleTwo = computed(() => {
     <section class="mt-8">
       <div v-if="loadingStates.featureBox" class="animate-pulse">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6 px-4">
-          <Skeleton v-for="n in 4" :key="n" width="100%" height="6.25rem"></Skeleton>
+          <Skeleton
+            v-for="n in 4"
+            :key="n"
+            width="100%"
+            height="6.25rem"
+          ></Skeleton>
         </div>
       </div>
       <div v-else ref="sectionRefs.featureBox">
@@ -268,8 +251,10 @@ const titleTwo = computed(() => {
     <div v-if="loadingStates.productSlider1" class="animate-pulse mt-24 mb-10">
       <Skeleton width="75%" height="3.75rem" class="mx-auto"></Skeleton>
     </div>
-    <p v-else
-      class="text-center mt-24 font-bold !font-header uppercase mb-10 typography-headline-3 md:typography-headline-2">
+    <p
+      v-else
+      class="text-center mt-24 font-bold !font-header uppercase mb-10 typography-headline-3 md:typography-headline-2"
+    >
       {{ titleOne.value?.data?.TitleDiscount }}
     </p>
 
@@ -277,15 +262,25 @@ const titleTwo = computed(() => {
     <section class="mb-8">
       <div v-if="loadingStates.productSlider1" class="animate-pulse">
         <div class="flex gap-6 overflow-hidden px-4">
-          <Skeleton v-for="n in 4" :key="n" width="18.75rem" height="25rem"></Skeleton>
+          <Skeleton
+            v-for="n in 4"
+            :key="n"
+            width="18.75rem"
+            height="25rem"
+          ></Skeleton>
         </div>
       </div>
       <div v-else ref="sectionRefs.productSlider1">
         <Suspense>
           <!-- ... -->
           <template #default>
-            <component :is="isMobile ? MobileViewSliderProduct : DesktopViewSliderProduct" :data="data"
-              :images="images" />
+            <component
+              :is="
+                isMobile ? MobileViewSliderProduct : DesktopViewSliderProduct
+              "
+              :data="data"
+              :images="images"
+            />
           </template>
           <template #fallback>
             <div>Cargando...</div>
@@ -299,11 +294,18 @@ const titleTwo = computed(() => {
       <div v-if="loadingStates.categoryCard" class="animate-pulse">
         <Skeleton width="50%" height="3.75rem" class="mx-auto mb-10"></Skeleton>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-          <Skeleton v-for="n in 8" :key="n" width="100%" height="18.75rem"></Skeleton>
+          <Skeleton
+            v-for="n in 8"
+            :key="n"
+            width="100%"
+            height="18.75rem"
+          ></Skeleton>
         </div>
       </div>
       <div v-else ref="sectionRefs.categoryCard">
-        <h2 class="text-center font-bold !font-header uppercase mb-10 typography-headline-3 md:typography-headline-2">
+        <h2
+          class="text-center font-bold !font-header uppercase mb-10 typography-headline-3 md:typography-headline-2"
+        >
           {{ titleTwo.value?.data.TituloCategoria }}
         </h2>
         <CategoryCard :categories="categories" />
@@ -324,7 +326,13 @@ const titleTwo = computed(() => {
     <section class="mb-12">
       <div v-if="loadingStates.productSlider2" class="animate-pulse">
         <div class="flex gap-6 overflow-hidden px-4">
-          <Skeleton v-for="n in 5" :key="n" width="21.875rem" height="21.875rem" class="rounded-full"></Skeleton>
+          <Skeleton
+            v-for="n in 5"
+            :key="n"
+            width="21.875rem"
+            height="21.875rem"
+            class="rounded-full"
+          ></Skeleton>
         </div>
       </div>
       <div v-else ref="sectionRefs.productSlider2">
@@ -336,13 +344,21 @@ const titleTwo = computed(() => {
     <section class="mb-8 mt-12 px-4">
       <div v-if="loadingStates.cardsItems" class="animate-pulse">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Skeleton v-for="n in 3" :key="n" width="100%" height="25rem"></Skeleton>
+          <Skeleton
+            v-for="n in 3"
+            :key="n"
+            width="100%"
+            height="25rem"
+          ></Skeleton>
         </div>
       </div>
       <div v-else ref="sectionRefs.cardsItems">
         <Suspense>
           <template #default>
-            <component :is="isMobile ? CardsItemsMobile : CardsItems" :images="images" />
+            <component
+              :is="isMobile ? CardsItemsMobile : CardsItems"
+              :images="images"
+            />
           </template>
           <template #fallback>
             <div>Cargando...</div>
@@ -353,7 +369,9 @@ const titleTwo = computed(() => {
 
     <!-- Display Section -->
 
-    <h3 class="text-center font-bold !font-header uppercase mt-12 typography-headline-3 md:typography-headline-2">
+    <h3
+      class="text-center font-bold !font-header uppercase mt-12 typography-headline-3 md:typography-headline-2"
+    >
       {{ $t("descuentosCards") }}
     </h3>
 
@@ -371,7 +389,12 @@ const titleTwo = computed(() => {
     <section class="mt-12 px-4">
       <div v-if="loadingStates.marcas" class="animate-pulse">
         <div class="grid grid-cols-2 md:grid-cols-6 gap-6">
-          <Skeleton v-for="n in 6" :key="n" width="100%" height="9.375rem"></Skeleton>
+          <Skeleton
+            v-for="n in 6"
+            :key="n"
+            width="100%"
+            height="9.375rem"
+          ></Skeleton>
         </div>
       </div>
       <div v-else ref="sectionRefs.marcas">
@@ -387,7 +410,6 @@ const titleTwo = computed(() => {
 }
 
 @keyframes pulse {
-
   0%,
   100% {
     opacity: 1;

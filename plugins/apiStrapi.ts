@@ -1,0 +1,39 @@
+export default defineNuxtPlugin(() => {
+  const config = useRuntimeConfig()
+
+  const baseURL = config.public.apiUrlStrapi || 'http://localhost:1337'
+
+  const fetchApi = async (endpoint: string, options = {}) => {
+    // Asegurarse de que baseURL no termine en '/' y endpoint no empiece con '/'
+    const cleanBaseURL = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL
+    const cleanEndpoint = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint
+
+    // Construir URL completa
+    const url = `${cleanBaseURL}/${cleanEndpoint}`
+
+    try {
+      const response = await fetch(url, {
+        ...options,
+        headers: {
+          'Authorization': `Bearer ${config.public.NUXT_PUBLIC_API_STRAPI_TOKEN}`,
+          'Content-Type': 'application/json',
+        }
+      })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      return response.json()
+    } catch (error) {
+      console.error('Fetch error:', error)
+      throw error
+    }
+  }
+
+  return {
+    provide: {
+      fetchApi
+    }
+  }
+})

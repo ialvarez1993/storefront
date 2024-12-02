@@ -70,10 +70,11 @@
 
 <script setup>
 const aboutData = ref(null);
+const runtimeConfig = useRuntimeConfig();
 
 onMounted(async () => {
   try {
-    const response = await fetch("http://localhost:4000/acerca_de_nosotros");
+    const response = await fetch(`${runtimeConfig.public.apiUrlStrapi}/acerca_de_nosotros`);
     aboutData.value = await response.json();
   } catch (error) {
     console.error("Error fetching data:", error);

@@ -3,7 +3,7 @@
     <h1
       class="text-2xl  md:text-3xl font-bold font-header text-center mb-8 uppercase tracking-wider"
     >
-      Los Mejores Descuentos de la Semanas
+      Los Mejores Descuentos de la Semana
     </h1>
 
     <div class="relative">

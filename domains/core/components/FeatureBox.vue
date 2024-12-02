@@ -93,24 +93,19 @@ const baseCardConfig = [
   },
 ];
 
+const { $fetchApi } = useNuxtApp();
+
 const fetchIconos = async (): Promise<featureIconos> => {
   try {
+    const runtimeConfig = useRuntimeConfig();
+
     const { locale } = useI18n();
     const currentLang = locale.value;
-    const url = `http://localhost:1337/api/iconos-homes?locale=${currentLang === "es" ? "es-VE" : "en"}`;
+    const url = `/api/iconos-homes?locale=${currentLang === "es" ? "es-VE" : "en"}`;
 
-    const response = await fetch(url, {
-      headers: {
-        Authorization: `Bearer 17eec83c15384dd6215b8357bbecc348e37308c2a5d098f9aa626d2f73c63ca9c920a35a6038347ca501edc727682984ac7b60eaa476f4a82c78b7f3b8f06f40fdd73e073ae5b67fb857dfbb698231fa16d1f3930778693e8bc9be84b0d4dd9746f2ded7b388c3b4db4fce6c8a96d8c242b43ebd5e474b286c9c531551b4fd86`,
-        "Content-Type": "application/json",
-      },
-    });
+    const data = await $fetchApi(url);
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    return await response.json();
+    return data;
   } catch (error) {
     log("Error fetching icons:", error);
     throw error;

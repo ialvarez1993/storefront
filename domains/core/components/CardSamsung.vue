@@ -6,9 +6,12 @@
         <div class="w-full h-full bg-gray-800 animate-pulse"></div>
       </template>
       <template v-else-if="backgroundImage">
-
-        <NuxtImg :src="backgroundImage" alt="Modern Samsung washing machine in a clean laundry room"
-          class="object-cover w-full h-full transform scale-105 animate-ken-burns" loading="eager" />
+        <NuxtImg
+          :src="backgroundImage"
+          alt="Modern Samsung washing machine in a clean laundry room"
+          class="object-cover w-full h-full transform scale-105 animate-ken-burns"
+          loading="eager"
+        />
       </template>
     </div>
 
@@ -16,25 +19,28 @@
     <div class="particles-container absolute inset-0"></div>
 
     <!-- Main Content -->
-    <div class="absolute inset-0 flex items-center container mx-auto px-4 sm:px-6 lg:px-8">
+    <div
+      class="absolute inset-0 flex items-center container mx-auto px-4 sm:px-6 lg:px-8"
+    >
       <div class="content-wrapper max-w-4xl animate-slide-up">
         <!-- Title Group -->
         <div class="space-y-6">
           <h1 class="title-group relative">
             <span
-              class="block text-4xl font-header sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-tight animate-text-reveal">
+              class="block text-4xl font-header sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-tight animate-text-reveal"
+            >
               {{ titleOne }} <br />
-              <span class="text-gradient">
-                {{ titleTwo }}</span>
+              <span class="text-gradient"> {{ titleTwo }}</span>
             </span>
           </h1>
 
-          <p class="text-xl sm:text-2xl text-white/90 font-light animate-fade-in">
+          <p
+            class="text-xl sm:text-2xl text-white/90 font-light animate-fade-in"
+          >
             {{ description }}
           </p>
 
           <div class="mt-[rem1]">
-
             <NuxtLink :to="linkSlug">
               <Button class="!bg-black !border-none hover:bg-white">
                 {{ buttonText }}
@@ -48,48 +54,34 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { useQuery } from "@tanstack/vue-query";
+const { $fetchApi } = useNuxtApp();
+const runtimeConfig = useRuntimeConfig();
 
-const BASE_IMAGE_URL = "http://localhost:1337";
+const BASE_IMAGE_URL = `${runtimeConfig.public.apiUrlStrapi}`;
 
 const { locale } = useI18n();
 
-const API_TOKEN =
-  "17eec83c15384dd6215b8357bbecc348e37308c2a5d098f9aa626d2f73c63ca9c920a35a6038347ca501edc727682984ac7b60eaa476f4a82c78b7f3b8f06f40fdd73e073ae5b67fb857dfbb698231fa16d1f3930778693e8bc9be84b0d4dd9746f2ded7b388c3b4db4fce6c8a96d8c242b43ebd5e474b286c9c531551b4fd86";
-
 const API_URL = computed(() => {
   const currentLang = locale.value;
-  return `http://localhost:1337/api/home-samsung-card?pagination%5BwithCount%5D=true&populate=imagenFondo&locale=${currentLang === "es" ? "es-VE" : "en"
-    }`;
+  return `/api/home-samsung-card?pagination%5BwithCount%5D=true&populate=imagenFondo&locale=${
+    currentLang === "es" ? "es-VE" : "en"
+  }`;
 });
 
 const fetchDataTitleCategory = async (): Promise<any> => {
   try {
-    const response = await fetch(API_URL.value, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${API_TOKEN}`,
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error ${response.status}: ${response.statusText}`);
-    }
-
-    return await response.json();
+    const data = await $fetchApi(API_URL.value);
+    return data;
   } catch (error) {
     console.error("Error fetching data:", error);
     throw error;
   }
 };
 
-const {
-  data: DataSamsung,
-  isLoading
-} = useQuery({
+const { data: DataSamsung, isLoading } = useQuery({
   queryKey: ["CardSamsung", locale],
   queryFn: fetchDataTitleCategory,
   retry: 3,
@@ -105,27 +97,24 @@ const backgroundImage = computed(() => {
 });
 
 const titleOne = computed(() => {
-  return DataSamsung.value?.data?.titleOneColorWhite || 'Cargando';
+  return DataSamsung.value?.data?.titleOneColorWhite || "Cargando";
 });
 
 const titleTwo = computed(() => {
-  return DataSamsung.value?.data?.titleTwoColorWhite || 'Cargando';
+  return DataSamsung.value?.data?.titleTwoColorWhite || "Cargando";
 });
 
 const description = computed(() => {
-  return DataSamsung.value?.data?.descripcion || 'Cargando';
+  return DataSamsung.value?.data?.descripcion || "Cargando";
 });
 
 const buttonText = computed(() => {
-  return DataSamsung.value?.data?.bottontext || 'Cargando';
+  return DataSamsung.value?.data?.bottontext || "Cargando";
 });
 
 const linkSlug = computed(() => {
-  return DataSamsung.value?.data?.linkCardButton || 'Cargando';
+  return DataSamsung.value?.data?.linkCardButton || "Cargando";
 });
-
-
-
 </script>
 
 <style lang="scss" scoped>
@@ -138,9 +127,11 @@ const linkSlug = computed(() => {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(45deg,
-        rgba(0, 0, 0, 0.7) 0%,
-        rgba(0, 0, 0, 0.4) 100%);
+    background: linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.7) 0%,
+      rgba(0, 0, 0, 0.4) 100%
+    );
     z-index: 1;
   }
 }

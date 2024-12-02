@@ -2,8 +2,15 @@
 <template>
   <div class="promo-card">
     <div class="card-container">
-      <NuxtImg :src="cardData.backgroundImage" class="background-image" loading="lazy" format="webp" quality="80"
-        fit="cover" placeholder />
+      <NuxtImg
+        :src="cardData.backgroundImage"
+        class="background-image"
+        loading="lazy"
+        format="webp"
+        quality="80"
+        fit="cover"
+        placeholder
+      />
       <div class="overlay" />
       <div class="content-wrapper">
         <span class="subtitle"> {{ cardData.subtitle }} </span>
@@ -23,8 +30,9 @@
 import { computed } from "vue";
 import { useI18n } from "vue-i18n";
 import { useQuery } from "@tanstack/vue-query";
-
-const BASE_IMAGE_URL = "http://localhost:1337";
+const runtimeConfig = useRuntimeConfig();
+const { $fetchApi } = useNuxtApp();
+const BASE_IMAGE_URL = `${runtimeConfig.public.apiUrlStrapi}`;
 
 // Datos estáticos de respaldo
 const staticData = {
@@ -32,7 +40,7 @@ const staticData = {
     subtitulo: "Descubre",
     titulo: "Tecnología",
     button: "Ver todo",
-    link: "http://localhost:3000/search?search=",
+    link: `${runtimeConfig.public.apiUrlStrapi}/search?search=`,
     promoImagenLateral: [
       {
         url: "/default-image.webp", // Imagen por defecto
@@ -43,33 +51,33 @@ const staticData = {
 
 const { locale } = useI18n();
 
-const API_TOKEN =
-  "17eec83c15384dd6215b8357bbecc348e37308c2a5d098f9aa626d2f73c63ca9c920a35a6038347ca501edc727682984ac7b60eaa476f4a82c78b7f3b8f06f40fdd73e073ae5b67fb857dfbb698231fa16d1f3930778693e8bc9be84b0d4dd9746f2ded7b388c3b4db4fce6c8a96d8c242b43ebd5e474b286c9c531551b4fd86";
-
 const API_URL = computed(() => {
   const currentLang = locale.value;
-  return `http://localhost:1337/api/home-promo?populate=%2A&locale=${currentLang === "es" ? "es-VE" : "en"
-    }`;
+  return `api/home-promo?populate=%2A&locale=${
+    currentLang === "es" ? "es-VE" : "en"
+  }`;
 });
+// Types
+interface PromoCardData {
+  data: {
+    subtitulo: string;
+    titulo: string;
+    button: string;
+    link: string;
+    promoImagenLateral: Array<{ url: string }>;
+  };
+}
 
-const fetchDataTitleCategory = async (): Promise<any> => {
+const fetchDataTitleCategory = async (): Promise<PromoCardData> => {
   try {
-    const response = await fetch(API_URL.value, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${API_TOKEN}`,
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error ${response.status}: ${response.statusText}`);
+    const data = await $fetchApi(API_URL.value);
+    if (!data || !data.data) {
+      throw new Error("PROMO Invalid data structure received from API");
     }
-
-    return await response.json();
+    return data;
   } catch (error) {
-    console.error("Error fetching data:", error);
-    throw error;
+    console.error("Error fetching promo card data:", error);
+    return staticData;
   }
 };
 

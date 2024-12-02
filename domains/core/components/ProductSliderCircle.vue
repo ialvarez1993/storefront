@@ -7,12 +7,14 @@ import { useCart } from "../../cart-odoo/composables/useCart";
 import { useProductAttributes } from "../../product/composables/useProductAttributes";
 import { useWishlist } from "../../wishlist/composables/useWishlist";
 import { useQuery } from "@tanstack/vue-query";
+const runtimeConfig = useRuntimeConfig()
+
 
 const { locale } = useI18n();
 const { cartAdd } = useCart();
 const currentLang = locale.value;
 
-const API_URL_CATEGORY = `http://localhost:1337/api/home-titulo-popular?locale=${currentLang === "es" ? "es-VE" : "en"}`;
+const API_URL_CATEGORY = `${runtimeConfig.public.apiUrlStrapi}/api/home-titulo-popular?locale=${currentLang === "es" ? "es-VE" : "en"}`;
 const API_TOKEN =
   "17eec83c15384dd6215b8357bbecc348e37308c2a5d098f9aa626d2f73c63ca9c920a35a6038347ca501edc727682984ac7b60eaa476f4a82c78b7f3b8f06f40fdd73e073ae5b67fb857dfbb698231fa16d1f3930778693e8bc9be84b0d4dd9746f2ded7b388c3b4db4fce6c8a96d8c242b43ebd5e474b286c9c531551b4fd86";
 
@@ -228,7 +230,7 @@ const titleOne = computed(() => {
 <style lang="scss" scoped>
 .product-card {
   @apply flex-none  w-[250px];
-  box-shadow : none;
+  box-shadow: none;
   .card-content {
     @apply relative transition-all duration-300;
   }
