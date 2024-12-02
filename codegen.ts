@@ -4,7 +4,7 @@ const config: CodegenConfig = {
   overwrite: true,
   schema: [
     {
-      "http://localhost:8017/graphql/vsf": {},
+      "http://localhost:8069/graphql/vsf": {},
     },
   ],
   config: {
