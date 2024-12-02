@@ -1,4 +1,3 @@
- 
 import type {
   MutationWishlistAddItemArgs,
   MutationWishlistRemoveItemArgs,
@@ -16,7 +15,7 @@ export const useWishlist = () => {
   const loading = ref(false);
   const wishlist = useState<WishlistData>(
     "wishlist",
-    () => ({} as WishlistData)
+    () => ({}) as WishlistData,
   );
 
   const loadWishlist = async () => {
@@ -31,7 +30,7 @@ export const useWishlist = () => {
 
     wishlist.value = data?.value?.wishlistItems || [];
     wishlistCounter.value = Number(
-      data?.value?.wishlistItems?.wishlistItems?.length || 0
+      data?.value?.wishlistItems?.wishlistItems?.length || 0,
     );
   };
 
@@ -45,13 +44,13 @@ export const useWishlist = () => {
 
     wishlist.value = data?.value.wishlistAddItem;
     wishlistCounter.value = Number(
-      data?.value?.wishlistAddItem?.wishlistItems?.length || 0
+      data?.value?.wishlistAddItem?.wishlistItems?.length || 0,
     );
   };
 
   const getProductFromProductId = (productId: number) => {
     return wishlist.value?.wishlistItems?.find(
-      (item) => item?.product?.id === productId
+      (item) => item?.product?.id === productId,
     );
   };
 
@@ -68,13 +67,13 @@ export const useWishlist = () => {
       WishlistRemoveItemResponse
     >(
       { mutationName: MutationName.WishlistRemoveItem },
-      { wishId: wishlistItem.id }
+      { wishId: wishlistItem.id },
     );
     loading.value = false;
 
     wishlist.value = data?.value.wishlistRemoveItem;
     wishlistCounter.value = Number(
-      data?.value?.wishlistRemoveItem?.wishlistItems?.length || 0
+      data?.value?.wishlistRemoveItem?.wishlistItems?.length || 0,
     );
   };
 
@@ -85,7 +84,7 @@ export const useWishlist = () => {
   const isInWishlist = (productId: number) => {
     return (
       wishlist.value?.wishlistItems?.some(
-        (item) => item?.product?.id === productId
+        (item) => item?.product?.id === productId,
       ) || false
     );
   };

@@ -79,7 +79,7 @@ export const useAuth = () => {
       {
         mutationName: MutationName.RegisterUserMutation,
       },
-      { ...params }
+      { ...params },
     );
     loading.value = false;
 
@@ -146,7 +146,7 @@ export const useAuth = () => {
   };
 
   const changeForgottenPassword = async (
-    params: MutationChangePasswordArgs
+    params: MutationChangePasswordArgs,
   ) => {
     loading.value = true;
     const { data, error } = await $sdk().odoo.mutation<

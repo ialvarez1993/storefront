@@ -19,7 +19,7 @@ onMounted(async () => {
 });
 
 const isTransactionCancelled = (
-  transaction?: PaymentTransaction | null
+  transaction?: PaymentTransaction | null,
 ): boolean => {
   return transaction?.state === PaymentTransactionState.Canceled;
 };
@@ -83,7 +83,7 @@ const NuxtLink = resolveComponent("NuxtLink");
               'p-4',
               {
                 'text-negative-700': isTransactionCancelled(
-                  getLastOrderTransaction(order)
+                  getLastOrderTransaction(order),
                 ),
               },
               ,

@@ -11,7 +11,7 @@ export const useProductVariant = (slugWithCombinationIds: string) => {
   const loadingProductVariant = ref(false);
   const productVariant = useState<Product>(
     `product-${slugWithCombinationIds}`,
-    () => ({}) as Product
+    () => ({}) as Product,
   );
 
   const loadProductVariant = async (params: QueryProductVariantArgs) => {
@@ -70,10 +70,10 @@ export const useProductVariant = (slugWithCombinationIds: string) => {
     () =>
       productVariant.value?.combinationInfoVariant?.list_price ||
       productVariant.value?.combinationInfo?.list_price ||
-      0
+      0,
   );
   const getSpecialPrice = computed(
-    () => productVariant.value?.combinationInfoVariant?.price || 0
+    () => productVariant.value?.combinationInfoVariant?.price || 0,
   );
 
   return {

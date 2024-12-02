@@ -5,27 +5,27 @@ const validateSEO = (homepage: Homepage, fullPath: string) => {
 
   if (!homepage?.metaTitle) {
     warnings.push(
-      `[WARNING] - The homepage from slug ${fullPath} does not have the metaTitle.`
+      `[WARNING] - The homepage from slug ${fullPath} does not have the metaTitle.`,
     );
   }
   if (!homepage?.metaDescription) {
     warnings.push(
-      `[WARNING] - The homepage from slug ${fullPath} does not have the metaDescription.`
+      `[WARNING] - The homepage from slug ${fullPath} does not have the metaDescription.`,
     );
   }
   if (!homepage?.jsonLd) {
     warnings.push(
-      `[WARNING] - The homepage from slug ${fullPath} does not have the jsonLd.`
+      `[WARNING] - The homepage from slug ${fullPath} does not have the jsonLd.`,
     );
   }
   if (!homepage?.metaKeyword) {
     warnings.push(
-      `[WARNING] - The homepage from slug ${fullPath} does not have the metaKeyword.`
+      `[WARNING] - The homepage from slug ${fullPath} does not have the metaKeyword.`,
     );
   }
   if (!homepage?.metaImage) {
     warnings.push(
-      `[WARNING] - The homepage from slug ${fullPath} does not have the metaImage.`
+      `[WARNING] - The homepage from slug ${fullPath} does not have the metaImage.`,
     );
   }
 
@@ -69,7 +69,7 @@ export default (homepage: Homepage, fullPath: string) => {
         content: homepage.metaDescription,
       },
     ].filter(
-      (meta): meta is { hid: string; name: string; content: string } => !!meta
+      (meta): meta is { hid: string; name: string; content: string } => !!meta,
     ), // Filtro para objetos validos válidos
     script: [
       homepage?.jsonLd && {

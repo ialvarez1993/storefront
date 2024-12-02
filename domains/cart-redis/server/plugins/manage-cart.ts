@@ -35,7 +35,7 @@ async function cartAddItem(event: any, body: any) {
 
     const keyName = `cache:cart:${session?.id}`;
     const currentCart = (await useStorage().getItem<{ cart: Cart }>(
-      keyName
+      keyName,
     )) || { cart: {} };
 
     const cart = Object.assign({}, currentCart.cart, body.cartAddMultipleItems);
@@ -53,7 +53,7 @@ async function applyCoupon(event: any, body: any) {
 
     const keyName = `cache:cart:${session?.id}`;
     const currentCart = (await useStorage().getItem<{ cart: Cart }>(
-      keyName
+      keyName,
     )) || { cart: {} };
 
     const cart = Object.assign({}, currentCart.cart, body.applyCoupon);
@@ -71,7 +71,7 @@ async function applyGiftCard(event: any, body: any) {
 
     const keyName = `cache:cart:${session?.id}`;
     const currentCart = (await useStorage().getItem<{ cart: Cart }>(
-      keyName
+      keyName,
     )) || { cart: {} };
 
     const cart = Object.assign({}, currentCart.cart, body.applyGiftCard);
@@ -88,13 +88,13 @@ async function cartRemoveItem(event: any, body: any) {
 
     const keyName = `cache:cart:${session?.id}`;
     const currentCart = (await useStorage().getItem<{ cart: Cart }>(
-      keyName
+      keyName,
     )) || { cart: {} };
 
     const cart = Object.assign(
       {},
       currentCart.cart,
-      body.cartRemoveMultipleItems
+      body.cartRemoveMultipleItems,
     );
     await useStorage().setItem(keyName, { cart });
   }
@@ -109,13 +109,13 @@ async function cartUpdateItem(event: any, body: any) {
 
     const keyName = `cache:cart:${session?.id}`;
     const currentCart = (await useStorage().getItem<{ cart: Cart }>(
-      keyName
+      keyName,
     )) || { cart: {} };
 
     const cart = Object.assign(
       {},
       currentCart.cart,
-      body.cartUpdateMultipleItems
+      body.cartUpdateMultipleItems,
     );
     await useStorage().setItem(keyName, { cart });
   }
@@ -178,7 +178,7 @@ async function createUpdatePartner(event: any, body: any) {
 
 async function clearCartAfterCreditCardPaymentConfirmation(
   event: any,
-  body: any
+  body: any,
 ) {
   const requestBody = await readBody(event);
 
@@ -200,7 +200,7 @@ async function clearCartAfterCreditCardPaymentConfirmation(
 
 async function clearCartAfterGiftCardPaymentConfirmation(
   event: any,
-  body: any
+  body: any,
 ) {
   const requestBody = await readBody(event);
 

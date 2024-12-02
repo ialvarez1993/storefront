@@ -48,25 +48,25 @@ useHead(productHead(productVariant.value, String(route.fullPath)));
 
 const params = computed(() => ({
   combinationId: Object.values(route.query)?.map((value) =>
-    parseInt(value as string)
+    parseInt(value as string),
   ),
   productTemplateId: productTemplate?.value?.id,
 }));
 
 const selectedSize = computed(() =>
-  route.query.Size ? Number(route.query.Size) : getAllSizes?.value?.[0]?.value
+  route.query.Size ? Number(route.query.Size) : getAllSizes?.value?.[0]?.value,
 );
 
 const selectedColor = computed(() =>
   route.query.Color
     ? Number(route.query.Color)
-    : getAllColors?.value?.[0]?.value
+    : getAllColors?.value?.[0]?.value,
 );
 
 const selectedMaterial = computed(() =>
   route.query.Material
     ? Number(route.query.Material)
-    : getAllMaterials?.value?.[0]?.value
+    : getAllMaterials?.value?.[0]?.value,
 );
 
 const productDetailsOpen = ref(true);
@@ -101,7 +101,7 @@ const productsInCart = computed(() => {
   return (
     cart.value?.order?.orderLines?.find(
       (orderLine: OrderLine) =>
-        orderLine.product?.id === productVariant?.value.id
+        orderLine.product?.id === productVariant?.value.id,
     )?.quantity || 0
   );
 });
@@ -338,7 +338,7 @@ addProductToRecentViews(productTemplate.value?.id);
                   :model-value="value == selectedSize"
                   @update:model-value="
                     value != selectedSize &&
-                      updateFilter({ ['Size']: value.toString() })
+                    updateFilter({ ['Size']: value.toString() })
                   "
                 >
                   {{ label }}
@@ -370,7 +370,7 @@ addProductToRecentViews(productTemplate.value?.id);
                   :model-value="value == selectedMaterial"
                   @update:model-value="
                     value != selectedMaterial &&
-                      updateFilter({ ['Material']: value.toString() })
+                    updateFilter({ ['Material']: value.toString() })
                   "
                 >
                   {{ label }}
@@ -402,7 +402,7 @@ addProductToRecentViews(productTemplate.value?.id);
                   :model-value="value == selectedColor"
                   @update:model-value="
                     value != selectedColor &&
-                      updateFilter({ ['Color']: value.toString() })
+                    updateFilter({ ['Color']: value.toString() })
                   "
                 >
                   <template #prefix>

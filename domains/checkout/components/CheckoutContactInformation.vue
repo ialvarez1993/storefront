@@ -35,7 +35,7 @@ watch(
       name.value = "";
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
 
 const subscribeNewsletter = ref(true);

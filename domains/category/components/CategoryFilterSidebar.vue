@@ -27,7 +27,7 @@ const router = useRouter();
 const { changeFilters, facetsFromUrlToFilter } = useUiHelpers();
 
 const sort = useState("sort", () =>
-  route.query?.sort ? route.query?.sort : ""
+  route.query?.sort ? route.query?.sort : "",
 );
 
 const sortBy = computed(() => getSortOptions({ input: { sort: sort.value } }));
@@ -42,7 +42,7 @@ const getSortOptions = (searchData: { input: any }) => ({
 const selectedFilters = useState("category-selected-filters", () => []);
 const isFilterSelected = (option: any) => {
   return selectedFilters.value.some(
-    (filter: { id: any }) => String(filter.id) === String(option.id)
+    (filter: { id: any }) => String(filter.id) === String(option.id),
   );
 };
 
@@ -69,10 +69,10 @@ const priceModel = useState("price-model", () => "");
 
 const selectFilter = (
   facet: { label: string },
-  option: { id: string; value: string; label: string }
+  option: { id: string; value: string; label: string },
 ) => {
   const alreadySelectedIndex = selectedFilters.value.findIndex(
-    (filter: { label: string }) => String(filter.label) === String(option.id)
+    (filter: { label: string }) => String(filter.label) === String(option.id),
   );
 
   if (alreadySelectedIndex !== -1) {
@@ -115,12 +115,12 @@ watch(
   () => {
     facets.value.forEach((facet: any) => {
       opened.value[facet.label] = selectedFilters.value.some(
-        (item: any) => item.filterName === facet.label
+        (item: any) => item.filterName === facet.label,
       );
     });
     opened.value.Price = true;
   },
-  { deep: true }
+  { deep: true },
 );
 
 const priceFilter = selectedFilters.value?.find((item: any) => {
@@ -133,7 +133,7 @@ if (priceFilter) {
 
 watch(priceModel, (newValue) => {
   selectedFilters.value = selectedFilters.value.filter(
-    (item: any) => item.filterName !== "price"
+    (item: any) => item.filterName !== "price",
   );
   if (newValue) {
     selectedFilters.value.push({

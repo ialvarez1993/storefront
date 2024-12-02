@@ -19,7 +19,7 @@ export const useUiHelpers = () => {
 
   const getFacetsFromURL = (
     query: any,
-    ids: number[] = []
+    ids: number[] = [],
   ): QueryProductsArgs => {
     const filters: string[] = [];
     const newQuery = { ...query };
@@ -94,9 +94,8 @@ export const useUiHelpers = () => {
     filters.forEach((element) => {
       if (element.filterName === "Size") {
         if (formattedFilters[element.filterName]) {
-          formattedFilters[
-            element.filterName
-          ] += `,${element.id}-${element.label}`;
+          formattedFilters[element.filterName] +=
+            `,${element.id}-${element.label}`;
           return;
         }
         formattedFilters[element.filterName] = `${element.id}-${element.label}`;

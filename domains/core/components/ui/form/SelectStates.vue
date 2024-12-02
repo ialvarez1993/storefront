@@ -20,7 +20,7 @@ watch(
       loadStates();
     }
   },
-  { immediate: true }
+  { immediate: true },
 );
 </script>
 <template>

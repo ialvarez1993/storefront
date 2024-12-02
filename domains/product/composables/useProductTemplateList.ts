@@ -9,31 +9,31 @@ import { QueryName } from "~/server/queries";
 
 export const useProductTemplateList = (
   categorySlugIndex?: string,
-  fullSearchIndex?: string
+  fullSearchIndex?: string,
 ) => {
   const { $sdk } = useNuxtApp();
 
   const loading = useState(
     `loading-product-template-list-${fullSearchIndex}`,
-    () => false
+    () => false,
   );
   const totalItems = useState<number>(`total-items${fullSearchIndex}`, () => 0);
   const productTemplateList = useState<Product[]>(
     `products-category${fullSearchIndex}`,
-    () => []
+    () => [],
   );
   const attributes = useState<AttributeValue[]>(
     `attributes${categorySlugIndex}`,
-    () => []
+    () => [],
   );
   const categories = useState<Category[]>(
     `categories-from-product-${categorySlugIndex}`,
-    () => []
+    () => [],
   );
 
   const loadProductTemplateList = async (
     params: QueryProductsArgs,
-    force: boolean = false
+    force: boolean = false,
   ) => {
     if (productTemplateList.value.length > 0 && !force) return;
 
@@ -51,7 +51,7 @@ export const useProductTemplateList = (
       data.value?.products?.products
         ?.map((product) => product?.categories || [])
         .flat(),
-      "id"
+      "id",
     );
   };
 
@@ -63,7 +63,7 @@ export const useProductTemplateList = (
     attributes.value?.forEach((item: any) => {
       const current = data.find(
         (itemData: { attributeName: any }) =>
-          itemData.attributeName === item.attribute?.name
+          itemData.attributeName === item.attribute?.name,
       );
 
       if (!current) {
@@ -80,7 +80,7 @@ export const useProductTemplateList = (
       data
         .find(
           (itemData: { attributeName: any }) =>
-            itemData.attributeName === item.attribute?.name
+            itemData.attributeName === item.attribute?.name,
         )
         .options.push({
           id: String(item.search),

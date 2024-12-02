@@ -11,7 +11,7 @@ const customCache = cachedFunction(
       appendResponseHeader(
         event,
         "Set-cookie",
-        (response.data as unknown)?.cookie
+        (response.data as unknown)?.cookie,
       );
     }
     delete (response.data as unknown).cookie;
@@ -36,7 +36,7 @@ const customCache = cachedFunction(
 
       return false;
     },
-  }
+  },
 );
 
 export default defineEventHandler(async (event: any) => {
@@ -47,7 +47,7 @@ export default defineEventHandler(async (event: any) => {
       appendResponseHeader(
         event,
         "Set-cookie",
-        (response.data as unknown)?.cookie
+        (response.data as unknown)?.cookie,
       );
     }
 

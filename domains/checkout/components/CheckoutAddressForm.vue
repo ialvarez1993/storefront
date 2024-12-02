@@ -39,7 +39,7 @@ const props = defineProps({
  */
 
 const { city, country, name, state, street, phone, zip } = toRefs(
-  props.savedAddress
+  props.savedAddress,
 );
 name.value = name.value === "Public user" ? "" : name.value;
 
@@ -89,15 +89,15 @@ const handleSaveAddress = async () => {
 const selectedCountry = computed<Country>(
   () =>
     countries.value.countries?.find(
-      (item: any) => item.id === countryId.value
-    ) || ({} as Country)
+      (item: any) => item.id === countryId.value,
+    ) || ({} as Country),
 );
 
 const selectedState = computed<State>(
   () =>
     selectedCountry.value?.states?.find(
-      (item: any) => item.id === stateId.value
-    ) || ({} as State)
+      (item: any) => item.id === stateId.value,
+    ) || ({} as State),
 );
 
 const states = computed(() => selectedCountry.value?.states || []);

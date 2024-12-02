@@ -13,7 +13,7 @@ const makeSearchBold = (text: string) => {
     .toLocaleLowerCase()
     .replace(
       props.searchText,
-      `<b class='font-extrabold text-[16px] capitalize'>${props.searchText}</b>`
+      `<b class='font-extrabold text-[16px] capitalize'>${props.searchText}</b>`,
     );
 };
 </script>

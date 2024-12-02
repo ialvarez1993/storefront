@@ -1,5 +1,5 @@
-import type { ProviderGetImage } from '@nuxt/image';
-import objectHash from 'object-hash';
+import type { ProviderGetImage } from "@nuxt/image";
+import objectHash from "object-hash";
 
 export const getImage: ProviderGetImage = (src, { modifiers }, ctx) => {
   const baseURL = useRuntimeConfig().public.odooBaseImageUrl;
@@ -8,5 +8,5 @@ export const getImage: ProviderGetImage = (src, { modifiers }, ctx) => {
 
   const hash = objectHash({ text: src + resolution });
 
-  return { url: `${baseURL}${src?.replace('/', '')}/${resolution}/${hash}` };
+  return { url: `${baseURL}${src?.replace("/", "")}/${resolution}/${hash}` };
 };

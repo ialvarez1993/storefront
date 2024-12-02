@@ -1,11 +1,11 @@
-import type { Homepage, WebsiteHomepageResponse } from '~/graphql';
-import { QueryName } from '~/server/queries';
+import type { Homepage, WebsiteHomepageResponse } from "~/graphql";
+import { QueryName } from "~/server/queries";
 
 export const useWebsiteHomePage = () => {
   const { $sdk } = useNuxtApp();
   const websiteHomepage = useState<Homepage>(
-    'websiteHomepage',
-    () => ({}) as Homepage
+    "websiteHomepage",
+    () => ({}) as Homepage,
   );
   const loading = ref(false);
 

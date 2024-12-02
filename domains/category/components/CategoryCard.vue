@@ -9,8 +9,8 @@ const props = defineProps({
 const topCategories = computed(() => props.categories);
 const filteredCategories: any = computed(() =>
   topCategories.value?.filter(
-    (category: any) => category.name === "WOMEN" || category.name === "MEN"
-  )
+    (category: any) => category.name === "WOMEN" || category.name === "MEN",
+  ),
 );
 
 const items = ref([

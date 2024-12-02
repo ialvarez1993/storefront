@@ -14,7 +14,7 @@ export const useProductTemplate = (slug: string) => {
   const loadingProductTemplate = ref(false);
   const productTemplate = useState<Product>(
     `product-${slug}`,
-    () => ({}) as Product
+    () => ({}) as Product,
   );
 
   const images = computed(() => {
@@ -24,13 +24,13 @@ export const useProductTemplate = (slug: string) => {
           String(productTemplate.value.image),
           300,
           400,
-          String(productTemplate.value.name)
+          String(productTemplate.value.name),
         ),
         imageThumbSrc: $getImage(
           String(productTemplate.value.image),
           300,
           400,
-          String(productTemplate.value.name)
+          String(productTemplate.value.name),
         ),
         alt: productTemplate?.value?.name,
       },

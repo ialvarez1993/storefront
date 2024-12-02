@@ -11,9 +11,10 @@
     "postinstall": "nuxt prepare",
     "codegen": "graphql-codegen",
     "predev": "yarn codegen",
-    "lint:js": "eslint --ext \".ts,.vue\" --ignore-path .gitignore .",
-    "lint": "eslint . && yarn lint:js",
-    "lint:fix": "eslint . --fix",
+    "lint": "yarn lint:eslint && yarn lint:prettier",
+    "lint:eslint": "eslint .",
+    "lint:prettier": "prettier . --check",
+    "lintfix": "eslint . --fix && prettier --write --list-different .",
     "prepare": "husky install",
     "commit": "git-cz"
   },
@@ -59,8 +60,14 @@
     "@graphql-codegen/typescript": "4.1.1",
     "@graphql-codegen/typescript-generic-sdk": "4.0.1",
     "@graphql-typed-document-node/core": "^3.2.0",
+    "@nuxt/eslint": "^0.7.2",
+    "eslint": "^9.16.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
     "git-cz": "^4.9.0",
-    "husky": "^9.0.11"
+    "husky": "^9.0.11",
+    "prettier": "^3.4.1",
+    "typescript": "^5.7.2"
   },
   "engines": {
     "node": ">=20.0.0"

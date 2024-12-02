@@ -46,6 +46,7 @@ export default defineNuxtConfig({
     "nuxt-icon",
     "nuxt-delay-hydration",
     "nuxt-typed-router",
+    "@nuxt/eslint",
   ],
 
   runtimeConfig: {

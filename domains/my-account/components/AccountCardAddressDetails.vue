@@ -28,7 +28,7 @@ const edit = ref(false);
 const addressForEdit = ref<AddressFormFieldsInputExtendedFields>();
 
 const handleOpenFormForEditAddress = (
-  address: AddressFormFieldsInputExtendedFields
+  address: AddressFormFieldsInputExtendedFields,
 ) => {
   edit.value = true;
   addressForEdit.value = address;

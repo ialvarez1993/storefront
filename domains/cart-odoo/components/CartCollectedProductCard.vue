@@ -34,7 +34,7 @@ const { updateItemQuantity, removeItemFromCart } = useCart();
               String(orderLine.product?.image),
               370,
               370,
-              String(orderLine.product?.imageFilename)
+              String(orderLine.product?.imageFilename),
             )
           "
           :alt="orderLine.product?.imageFilename ?? ''"
@@ -99,6 +99,7 @@ const { updateItemQuantity, removeItemFromCart } = useCart();
               orderLine?.quantity
             }}
           </span>
+        </span>
         <span
           v-else
           class="font-bold sm:ml-auto sm:order-1 typography-text-sm sm:typography-text-lg"

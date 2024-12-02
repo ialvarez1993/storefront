@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { SfButton, SfInput, SfIconVisibility } from '@storefront-ui/vue';
+import { SfButton, SfInput, SfIconVisibility } from "@storefront-ui/vue";
 
 type AccountFormPasswordProps = {
   oldPassword?: string;
@@ -9,11 +9,11 @@ type AccountFormPasswordProps = {
 
 const props = defineProps<AccountFormPasswordProps>();
 const { oldPassword, firstNewPassword, secondNewPassword } = toRefs(props);
-defineEmits(['on-save', 'on-cancel']);
+defineEmits(["on-save", "on-cancel"]);
 const userPasswords = ref({
-  oldPassword: oldPassword?.value ?? '',
-  firstNewPassword: firstNewPassword?.value ?? '',
-  secondNewPassword: secondNewPassword?.value ?? '',
+  oldPassword: oldPassword?.value ?? "",
+  firstNewPassword: firstNewPassword?.value ?? "",
+  secondNewPassword: secondNewPassword?.value ?? "",
 });
 
 const passwordVisible = ref(false);
@@ -27,7 +27,7 @@ const secondNewPasswordVisible = ref(false);
   >
     <label class="block">
       <UiFormLabel>{{
-        $t('account.accountSettings.personalData.currentPassword')
+        $t("account.accountSettings.personalData.currentPassword")
       }}</UiFormLabel>
       <SfInput
         v-model="userPasswords.oldPassword"
@@ -44,7 +44,7 @@ const secondNewPasswordVisible = ref(false);
     </label>
     <label class="block my-4">
       <UiFormLabel>{{
-        $t('account.accountSettings.personalData.newPassword')
+        $t("account.accountSettings.personalData.newPassword")
       }}</UiFormLabel>
       <SfInput
         v-model="userPasswords.firstNewPassword"
@@ -63,13 +63,13 @@ const secondNewPasswordVisible = ref(false);
       </SfInput>
       <UiFormHelperText class="block">
         {{
-          $t('account.accountSettings.personalData.passwordHelp')
+          $t("account.accountSettings.personalData.passwordHelp")
         }}</UiFormHelperText
       >
     </label>
     <label class="block">
       <UiFormLabel>{{
-        $t('account.accountSettings.personalData.newPasswordAgain')
+        $t("account.accountSettings.personalData.newPasswordAgain")
       }}</UiFormLabel>
       <SfInput
         v-model="userPasswords.secondNewPassword"
@@ -89,10 +89,10 @@ const secondNewPasswordVisible = ref(false);
     </label>
     <div class="mt-6 flex flex-col-reverse md:flex-row md:justify-end gap-4">
       <SfButton type="reset" variant="secondary" @click="$emit('on-cancel')">
-        {{ $t('contactInfo.cancel') }}
+        {{ $t("contactInfo.cancel") }}
       </SfButton>
       <SfButton type="submit" class="min-w-[120px]">
-        {{ $t('account.accountSettings.personalData.changePassword') }}
+        {{ $t("account.accountSettings.personalData.changePassword") }}
       </SfButton>
     </div>
   </form>

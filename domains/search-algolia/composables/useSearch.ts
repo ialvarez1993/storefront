@@ -34,7 +34,7 @@ export const useSearch = (formSearchTemplateRef?: any) => {
     () => route.query,
     () => {
       searchInputValue.value = "";
-    }
+    },
   );
 
   const search = async () => {

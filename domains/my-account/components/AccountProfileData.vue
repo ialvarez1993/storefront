@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { SfButton } from '@storefront-ui/vue';
+import { SfButton } from "@storefront-ui/vue";
 
 type AccountDataProps = {
   header: string;
@@ -7,7 +7,7 @@ type AccountDataProps = {
 };
 
 defineProps<AccountDataProps>();
-defineEmits(['on-click']);
+defineEmits(["on-click"]);
 </script>
 
 <template>
