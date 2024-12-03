@@ -17,6 +17,7 @@ export default defineNuxtPlugin(() => {
         headers: {
           'Authorization': `Bearer ${config.public.NUXT_PUBLIC_API_STRAPI_TOKEN}`,
           'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
         }
       })
 
