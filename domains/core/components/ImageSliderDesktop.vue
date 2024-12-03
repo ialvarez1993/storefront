@@ -200,13 +200,8 @@ watch(() => props.images, () => {
             <div v-if="isLoading" class="slider__loader">
               <div class="loader"></div>
             </div>
-            <NuxtImg v-else ref="mainImageRef" :key="currentImage.url" :src="$getImage(
-              String(data.image),
-              370,
-              370,
-              String(data.imageFilename),
-            )
-              " :alt="currentImage.alt || `Image ${currentIndex + 1}`" class="slider__image" :class="{
+            <NuxtImg v-else ref="mainImageRef" :key="currentImage.url" src="images/returns.png"
+              :alt="currentImage.alt || `Image ${currentIndex + 1}`" class="slider__image" :class="{
                 'slider__image--zoomed': isZoomed,
                 'slider__image--dragging': isDragging
               }" :style="{

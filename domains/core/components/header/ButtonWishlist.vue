@@ -1,6 +1,13 @@
 <script lang="ts" setup>
 import { SfButton, SfBadge } from "@storefront-ui/vue";
 
+import {
+  Heart,
+  X as XIcon,
+  Trash2Icon,
+  HeartOff as HeartOffIcon,
+} from "lucide-vue-next";
+
 const { toggleWishlistSideBar } = useWishlistUiState();
 const { loadWishlist, wishlistTotalItems } = useWishlist();
 
@@ -15,22 +22,18 @@ onMounted(async () => {
 </script>
 <template>
   <SfButton
-    class="group relative text-white hover:text-white active:text-white hover:bg-primary-800 active:bg-primary-900 mr-1 -ml-0.5 rounded-md"
-    type="button"
-    variant="tertiary"
-    square
-    @click="handleOpenWishListSidebar"
-  >
+    class="group relative text-white hover:text-white active:text-white hover:bg-black-800 active:bg-black-900 mr-1 -ml-0.5 rounded-md"
+    type="button" variant="tertiary" square @click="handleOpenWishListSidebar">
     <template #prefix>
-      <Icon
-        :name="wishlistTotalItems > 0 ? 'mdi:heart' : 'mdi:heart-outline'"
-        size="22px"
-      />
-      <SfBadge
-        :content="wishlistTotalItems"
+      <Heart :class="[
+        'h-6 w-6 transition-all duration-300',
+        isOpen
+          ? 'text-rose-500 fill-rose-500'
+          : 'text-gray-700 dark:text-gray-300',
+      ]" />
+      <SfBadge :content="wishlistTotalItems"
         class="outline outline-primary-700 bg-white !text-neutral-900 group-hover:outline-primary-800 group-active:outline-primary-900 flex justify-center"
-        data-testid="wishlist-badge"
-      />
+        data-testid="wishlist-badge" />
     </template>
   </SfButton>
 </template>

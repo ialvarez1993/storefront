@@ -1,131 +1,21 @@
 <template>
   <div>
     <!-- Favorite Button with Counter -->
-    <button
-      aria-label="Open Favorites"
+    <button aria-label="Open Favorites"
       class="relative rounded-full p-3 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300"
-      @click="toggleFavorites"
-    >
-      <Heart
-        :class="[
-          'h-6 w-6 transition-all duration-300',
-          isOpen
-            ? 'text-rose-500 fill-rose-500'
-            : 'text-gray-700 dark:text-gray-300',
-        ]"
-      />
-      <span
-        v-if="mockFavorites.length"
-        class="absolute -top-1 -right-1 bg-rose-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center"
-      >
+      @click="handleOpenWishListSidebar">
+      <Heart :class="[
+        'h-6 w-6 transition-all duration-300',
+        isOpen
+          ? 'text-rose-500 fill-rose-500'
+          : 'text-gray-700 dark:text-gray-300',
+      ]" />
+      <span v-if="mockFavorites.length"
+        class="absolute -top-1 -right-1 bg-rose-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
         {{ mockFavorites.length }}
       </span>
     </button>
 
-    <!-- Modal -->
-    <transition
-      enter-active-class="transition duration-300 ease-out"
-      enter-from-class="transform opacity-0"
-      enter-to-class="opacity-100"
-      leave-active-class="transition duration-200 ease-in"
-      leave-from-class="opacity-100"
-      leave-to-class="transform opacity-0"
-    >
-      <div
-        v-if="isOpen"
-        class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
-        @click.self="closeModal"
-      >
-        <div
-          class="bg-white dark:bg-gray-900 sm:max-w-[900px] max-h-[90vh] w-full rounded-2xl shadow-2xl overflow-hidden"
-          :class="{ 'animate-shake': isShaking }"
-        >
-          <!-- Header -->
-          <header class="relative p-6 border-b dark:border-gray-800">
-            <div class="flex items-center justify-between">
-              <div>
-                <h2 class="text-2xl font-bold dark:text-white">
-                  Your Favorites
-                  <span class="text-rose-500"
-                    >({{ mockFavorites.length }})</span
-                  >
-                </h2>
-                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                  Manage your favorite items
-                </p>
-              </div>
-              <button
-                class="rounded-full p-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                @click="closeModal"
-              >
-                <XIcon class="h-6 w-6 text-gray-500 dark:text-gray-400" />
-              </button>
-            </div>
-          </header>
-
-          <!-- Content -->
-          <div class="p-6 overflow-y-auto max-h-[calc(90vh-140px)]">
-            <TransitionGroup
-              name="list"
-              tag="div"
-              class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-            >
-              <div
-                v-for="item in mockFavorites"
-                :key="item.id"
-                class="group relative bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden"
-              >
-                <!-- Image Container -->
-                <div class="relative aspect-square overflow-hidden">
-                  <NuxtImg
-                    :src="item.image"
-                    :alt="item.name"
-                    class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-300"
-                  />
-                  <div
-                    class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  />
-                </div>
-
-                <!-- Content -->
-                <div class="p-4">
-                  <h3 class="font-semibold text-lg mb-1 dark:text-white">
-                    {{ item.name }}
-                  </h3>
-                  <p
-                    class="text-sm text-gray-600 dark:text-gray-400 mb-2 line-clamp-2"
-                  >
-                    {{ item.description }}
-                  </p>
-                  <div class="flex items-center justify-between">
-                    <p class="font-bold text-rose-500">{{ item.price }}</p>
-                    <button
-                      class="text-gray-500 hover:text-rose-500 dark:text-gray-400 dark:hover:text-rose-500 transition-colors"
-                      @click="removeFavorite(item.id)"
-                    >
-                      <Trash2Icon class="h-5 w-5" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </TransitionGroup>
-
-            <!-- Empty State -->
-            <div v-if="!mockFavorites.length" class="text-center py-12">
-              <HeartOffIcon class="h-16 w-16 mx-auto text-gray-400 mb-4" />
-              <h3
-                class="text-lg font-semibold text-gray-900 dark:text-white mb-2"
-              >
-                No favorites yet
-              </h3>
-              <p class="text-gray-500 dark:text-gray-400">
-                Start adding items to your favorites!
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </transition>
   </div>
 </template>
 
@@ -214,13 +104,16 @@ const removeFavorite = (id: string) => {
 }
 
 @keyframes shake {
+
   0%,
   100% {
     transform: translateX(0);
   }
+
   25% {
     transform: translateX(-5px);
   }
+
   75% {
     transform: translateX(5px);
   }
@@ -242,16 +135,10 @@ const removeFavorite = (id: string) => {
 
   &::-webkit-scrollbar-thumb {
     @apply bg-gray-300 dark:bg-gray-700 rounded-full;
+
     &:hover {
       @apply bg-gray-400 dark:bg-gray-600;
     }
-  }
-}
-
-/* Improved Dark Mode Support */
-@media (prefers-color-scheme: dark) {
-  ::selection {
-    @apply bg-rose-500/30 text-white;
   }
 }
 </style>

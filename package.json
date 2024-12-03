@@ -152,7 +152,7 @@
   },
   "config": {
     "commitizen": {
-      "path": "cz-cz"
+      "path": "./node_modules/cz-conventional-changelog"
     }
   }
 }

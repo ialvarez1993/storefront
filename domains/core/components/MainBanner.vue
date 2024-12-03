@@ -286,7 +286,7 @@ const fetchBanners = async (): Promise<BannerResponse> => {
     const { locale } = useI18n();
     const currentLang = locale.value; // 'es' o 'en'
     const url = `/api/banners?populate[slide][populate]=*&locale=${currentLang === "es" ? "es-VE" : "en"}`;
-    
+
     const data = await $fetchApi(url);
 
     return data;
