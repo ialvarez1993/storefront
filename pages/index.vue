@@ -27,7 +27,6 @@ import { useI18n } from "vue-i18n";
 import { useQuery } from "@tanstack/vue-query";
 import type { TitleData } from "../types/TitleDescuento";
 import { useScreenSize } from "../compasables/useScreenSize";
-const { locale, setLocale } = useI18n();
 
 const { isMobile } = useScreenSize();
 
@@ -45,6 +44,7 @@ await loadCategoryList({
 });
 
 
+const { locale, setLocale } = useI18n();
 const currentLang = locale.value; // 'es' o 'en'
 
 const API_URL_DISCOUNT = `/api/title-discount?locale=${currentLang === "es" ? "es-VE" : "en"}`;

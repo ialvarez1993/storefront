@@ -2,7 +2,6 @@
 import { SfScrollable } from "@storefront-ui/vue";
 import { ref } from "vue";
 
-
 const props = defineProps({
   images: {
     type: Array,
@@ -33,12 +32,11 @@ const images = computed<any[]>(() => props.images);
         class="md:w-[78px] md:h-auto relative shrink-0 pb-1 mx-4 border-b-4 snap-start cursor-pointer focus-visible:outline focus-visible:outline-offset transition-colors flex-grow md:flex-grow-0 border-primary-700"
       >
         <NuxtImg
-          provider="odooProvider"
           :alt="alt"
           class="object-cover"
           width="78"
           height="78"
-          :src="imageThumbSrc"
+          src="/images/returns.png"
         />
       </button>
     </SfScrollable>
@@ -57,14 +55,13 @@ const images = computed<any[]>(() => props.images);
         class="flex justify-center h-full basis-full shrink-0 grow snap-center"
       >
         <NuxtImg
-          provider="odooProvider"
           :width="380"
           :height="505"
           :aria-label="alt"
           :aria-hidden="activeIndex !== index"
           class="object-cover w-auto h-full"
           :alt="alt"
-          :src="imageSrc"
+          src="/images/returns.png"
         />
       </div>
     </SfScrollable>

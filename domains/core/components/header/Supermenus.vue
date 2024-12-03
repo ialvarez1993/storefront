@@ -4,6 +4,18 @@ import "primeicons/primeicons.css";
 import type { Category } from "~/graphql";
 
 const filteredCategories = inject<Category[]>("filteredTopCategories");
+const menuData = ref(null);
+const { $fetchApi } = useNuxtApp();
+
+const fetchMenuData = async () => {
+  try {
+    const data = await $fetchApi('/api/inicio-menu-categorias-de-busquedas?locale=es-VE');
+    return data.data;
+  } catch (error) {
+    console.error('[SUPERMENU] Error fetching menu data:', error);
+    return [];
+  }
+};
 
 const items = ref([
   {
@@ -15,19 +27,19 @@ const items = ref([
         {
           items: [
             {
-              label: "superMenu.titleMain1",
+              label: "",
               icon: "pi pi-star",
-              subtext: "kjikj",
-              link1: "/category/20",
-              link2: "/category/21",
-              link3: "/category/22",
-              link4: "/category/23",
-              link5: "/category/24",
-              title1: "superMenu.title1Main1",
-              title2: "superMenu.title2Main1",
-              title3: "superMenu.title3Main1",
-              title4: "superMenu.title4Main1",
-              title5: "superMenu.title5Main1",
+              subtext: "",
+              link1: "",
+              link2: "",
+              link3: "",
+              link4: "",
+              link5: "",
+              title1: "",
+              title2: "",
+              title3: "",
+              title4: "",
+              title5: "",
             },
           ],
         },
@@ -36,20 +48,19 @@ const items = ref([
         {
           items: [
             {
-              label: "superMenu.titleMain3",
+              label: "",
               icon: "pi pi-compass",
-              subtext: "Industry-specific solutions",
-              link1: "/category/45",
-              link2: "/category/41",
-              link3: "/category/43",
-              link4: "/category/44",
-              link5: "/category/45",
-              title1: "superMenu.title1Main3",
-              title2: "superMenu.title2Main3",
-              title3: "superMenu.title3Main3",
-              title4: "superMenu.title4Main3",
-              title5: "superMenu.title5Main3",
-              link: "/clutches",
+              subtext: "",
+              link1: "",
+              link2: "",
+              link3: "",
+              link4: "",
+              link5: "",
+              title1: "",
+              title2: "",
+              title3: "",
+              title4: "",
+              title5: "",
             },
           ],
         },
@@ -58,20 +69,19 @@ const items = ref([
         {
           items: [
             {
-              label: "superMenu.titleMain2",
+              label: "",
               icon: "pi pi-users",
-              title1: "superMenu.title1Main2",
-              title2: "superMenu.title2Main2",
-              title3: "superMenu.title3Main2",
-              title4: "superMenu.title4Main2",
-              title5: "superMenu.title5Main2",
-              link1: "/category/31",
-              link2: "/category/32",
-              link3: "/category/33",
-              link4: "/category/34",
-              link5: "/category/35",
-              subtext: "Success stories & testimonials",
-              link: "/sneakers",
+              title1: "",
+              title2: "",
+              title3: "",
+              title4: "",
+              title5: "",
+              link1: "",
+              link2: "",
+              link3: "",
+              link4: "",
+              link5: "",
+              subtext: "",
             },
           ],
         },
@@ -90,61 +100,60 @@ const items = ref([
     ],
   },
 ]);
+
+onMounted(async () => {
+  const menuDataResponse = await fetchMenuData();
+
+  // Actualizar los items del menú con los datos del fetch
+  if (menuDataResponse && menuDataResponse.length >= 3) {
+    items.value[0].items[0][0].items[0] = {
+      ...items.value[0].items[0][0].items[0],
+      label: menuDataResponse[0].titleCategory,
+      link1: menuDataResponse[0].listaCategorias[0].enlace,
+      link2: menuDataResponse[0].listaCategorias[1].enlace,
+      link3: menuDataResponse[0].listaCategorias[2].enlace,
+      link4: menuDataResponse[0].listaCategorias[3].enlace,
+      link5: menuDataResponse[0].listaCategorias[4].enlace,
+      title1: menuDataResponse[0].listaCategorias[0].nombre,
+      title2: menuDataResponse[0].listaCategorias[1].nombre,
+      title3: menuDataResponse[0].listaCategorias[2].nombre,
+      title4: menuDataResponse[0].listaCategorias[3].nombre,
+      title5: menuDataResponse[0].listaCategorias[4].nombre,
+    };
+
+    items.value[0].items[1][0].items[0] = {
+      ...items.value[0].items[1][0].items[0],
+      label: menuDataResponse[1].titleCategory,
+      link1: menuDataResponse[1].listaCategorias[0].enlace,
+      link2: menuDataResponse[1].listaCategorias[1].enlace,
+      link3: menuDataResponse[1].listaCategorias[2].enlace,
+      link4: menuDataResponse[1].listaCategorias[3].enlace,
+      link5: menuDataResponse[1].listaCategorias[4].enlace,
+      title1: menuDataResponse[1].listaCategorias[0].nombre,
+      title2: menuDataResponse[1].listaCategorias[1].nombre,
+      title3: menuDataResponse[1].listaCategorias[2].nombre,
+      title4: menuDataResponse[1].listaCategorias[3].nombre,
+      title5: menuDataResponse[1].listaCategorias[4].nombre,
+    };
+
+    items.value[0].items[2][0].items[0] = {
+      ...items.value[0].items[2][0].items[0],
+      label: menuDataResponse[2].titleCategory,
+      link1: menuDataResponse[2].listaCategorias[0].enlace,
+      link2: menuDataResponse[2].listaCategorias[1].enlace,
+      link3: menuDataResponse[2].listaCategorias[2].enlace,
+      link4: menuDataResponse[2].listaCategorias[3].enlace,
+      link5: menuDataResponse[2].listaCategorias[4].enlace,
+      title1: menuDataResponse[2].listaCategorias[0].nombre,
+      title2: menuDataResponse[2].listaCategorias[1].nombre,
+      title3: menuDataResponse[2].listaCategorias[2].nombre,
+      title4: menuDataResponse[2].listaCategorias[3].nombre,
+      title5: menuDataResponse[2].listaCategorias[4].nombre,
+    };
+  }
+});
+
 </script>
-
-<style scoped>
-.mega-menu-wrapper {
-  --primary-color: #ffc107;
-  --primary-light: #ffc107;
-}
-
-.custom-megamenu {
-  box-shadow:
-    0 4px 6px -1px rgb(0 0 0 / 0.1),
-    0 2px 4px -2px rgb(0 0 0 / 0.1);
-}
-
-.root-item {
-  border-radius: 0.5rem;
-  transition: all 0.2s ease;
-}
-
-.root-item:hover {
-  background-color: #f3f4f6;
-  color: #000000;
-}
-
-.menu-item:hover {
-  background-color: #d7d9db;
-  transform: translateX(4px);
-  border-radius: 1rem;
-}
-
-.menu-item:hover .icon-wrapper {
-  background-color: var(--primary-color);
-  color: white;
-}
-
-.custom-button {
-  border: none;
-  background: linear-gradient(45deg,
-      var(--primary-color),
-      var(--primary-light));
-  transition: all 0.3s ease;
-}
-
-.custom-button:hover {
-  transform: translateY(-2px);
-}
-
-.promo-item {
-  transition: all 0.3s ease;
-}
-
-.promo-item:hover {
-  transform: translateY(-4px);
-}
-</style>
 
 <template>
   <div class="mega-menu-wrapper">
@@ -223,3 +232,57 @@ const items = ref([
     </MegaMenu>
   </div>
 </template>
+
+<style scoped>
+.mega-menu-wrapper {
+  --primary-color: #ffc107;
+  --primary-light: #ffc107;
+}
+
+.custom-megamenu {
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 0.1),
+    0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+.root-item {
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.root-item:hover {
+  background-color: #f3f4f6;
+  color: #000000;
+}
+
+.menu-item:hover {
+  background-color: #d7d9db;
+  transform: translateX(4px);
+  border-radius: 1rem;
+}
+
+.menu-item:hover .icon-wrapper {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.custom-button {
+  border: none;
+  background: linear-gradient(45deg,
+      var(--primary-color),
+      var(--primary-light));
+  transition: all 0.3s ease;
+}
+
+.custom-button:hover {
+  transform: translateY(-2px);
+}
+
+.promo-item {
+  transition: all 0.3s ease;
+}
+
+.promo-item:hover {
+  transform: translateY(-4px);
+}
+</style>

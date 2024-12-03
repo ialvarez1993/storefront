@@ -37,6 +37,7 @@
     "@heroicons/react": "^2.1.5",
     "@heroicons/vue": "^2.2.0",
     "@nuxt/eslint": "^0.7.0",
+    "@nuxt/icon": "^1.9.0",
     "@nuxt/image": "^1.8.1",
     "@nuxt/scripts": "^0.4.8",
     "@nuxtjs/algolia": "^1.10.2",

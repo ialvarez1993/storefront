@@ -16,7 +16,8 @@ import Supermenus2 from "./header/Supermenus2.vue";
 import SupermenusDigital from "./header/SupermenusDigial.vue";
 import SideBar from "./ui/SideBar.vue";
 import TreeViewItem from "./header/TreeViewItem.vue";
-import LinkWhasapp from "./LinkWhasapp";
+import ButtonWishlist from "./header/ButtonWishlist.vue"
+
 
 const { loadCategoryList, categories: categoriesData } = useCategory();
 const { loadWishlist } = useWishlist();
@@ -38,6 +39,8 @@ const isCompact = ref(false);
 const isMenuOpen = ref(false);
 const activeDropdown = ref(null);
 const currency = ref("VES");
+
+
 
 const categories = {
   ferreteria: [
@@ -118,7 +121,6 @@ onUnmounted(() => {
           <!-- Icon Menu Resposive - Esta en modo default -->
           <div v-if="!isCompact" class="grid grid-cols-2 lg:hidden">
             <SideBar />
-            <ModalFavorites />
           </div>
         </div>
 
@@ -133,7 +135,7 @@ onUnmounted(() => {
 
         <!-- Favorites -->
         <div v-if="!isCompact" class="hidden lg:block">
-          <ModalFavorites />
+          <ButtonWishlist />
         </div>
 
         <!-- Right section -->

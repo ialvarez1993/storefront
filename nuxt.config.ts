@@ -45,7 +45,6 @@ export default defineNuxtConfig({
     "@nuxt/scripts",
     "nuxt-lazy-hydrate",
     "nuxt-lodash",
-    "nuxt-icon",
     "nuxt-delay-hydration",
     "nuxt-typed-router",
     "@vueuse/motion/nuxt",
@@ -56,6 +55,7 @@ export default defineNuxtConfig({
     "nuxt-lucide-icons",
     "@nuxtjs/storybook",
     "@nuxtjs/device",
+    "@nuxt/icon",
   ],
   primevue: {
     options: {

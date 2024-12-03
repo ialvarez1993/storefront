@@ -27,6 +27,9 @@ const {
   getRegularPrice,
   getSpecialPrice,
 } = useProductVariant(route.fullPath);
+
+import { useCart } from "@/domains/cart-odoo/composables/useCart";
+
 const { addProductToRecentViews } = useRecentViewProducts();
 const { wishlistAddItem, isInWishlist, wishlistRemoveItem } = useWishlist();
 const { cart, cartAdd } = useCart();
@@ -59,20 +62,13 @@ const discountPercentage = computed(() => {
 
 // Métodos
 const handleCartAdd = async () => {
-  isLoading.value = true;
+  console.log("FAVORITO DENTRO")
   let id = productVariant?.value.id;
   if (!productVariant.value.combinationInfoVariant) {
     id = Number(productVariant?.value.firstVariant?.id);
   }
-
+  console.log("FAVOTIRTO")
   await cartAdd(id, quantitySelectorValue.value);
-
-  gsap.to(addToCartButton.value, {
-    scale: 1.05,
-    duration: 0.2,
-    yoyo: true,
-    repeat: 1,
-  });
 };
 
 const updateFilter = (filter) => {
@@ -115,11 +111,7 @@ const { stop } = useIntersectionObserver(
 
 <template>
   <NuxtErrorBoundary>
-    <div
-      v-if="productTemplate?.id"
-      ref="productSection"
-      class="product-container"
-    >
+    <div v-if="productTemplate?.id" ref="productSection" class="product-container">
       <div class="product-grid">
         <!-- Galería de imágenes -->
         <section ref="imageGallery" class="gallery-section">
@@ -134,12 +126,9 @@ const { stop } = useIntersectionObserver(
             <!-- Badges y título -->
             <div class="header-section">
               <div class="badges-container">
-                <div
-                  v-if="
-                    productVariant?.combinationInfoVariant?.has_discounted_price
-                  "
-                  class="discount-badge"
-                >
+                <div v-if="
+                  productVariant?.combinationInfoVariant?.has_discounted_price
+                " class="discount-badge">
                   <i class="fas fa-tag"></i>
                   -{{ discountPercentage }}%
                 </div>
@@ -166,40 +155,23 @@ const { stop } = useIntersectionObserver(
 
             <div class="mt-2">
               <span>Disponible:</span>
-              <span class="mx-3 text-green-700"
-                >En stock, listo para ser enviado</span
-              >
+              <span class="mx-3 text-green-700">En stock, listo para ser enviado</span>
             </div>
 
             <!-- Variantes -->
             <div class="variants-section">
-              <div
-                v-for="(options, type) in {
-                  size: getAllSizes,
-                  color: getAllColors,
-                  material: getAllMaterials,
-                }"
-                :key="type"
-                v-if="options?.length"
-                class="variant-group"
-              >
+              <div v-for="(options, type) in {
+                size: getAllSizes,
+                color: getAllColors,
+                material: getAllMaterials,
+              }" :key="type" v-if="options?.length" class="variant-group">
                 <label class="variant-label">{{ type }}</label>
                 <div class="variants-grid">
-                  <button
-                    v-for="{ label, value } in options"
-                    :key="value"
-                    class="variant-button"
-                    :class="{
-                      'variant-button--selected':
-                        value === selectedFilters[type],
-                    }"
-                    @click="updateFilter({ [type]: value })"
-                  >
-                    <span
-                      v-if="type === 'color'"
-                      class="color-preview"
-                      :style="{ backgroundColor: label }"
-                    ></span>
+                  <button v-for="{ label, value } in options" :key="value" class="variant-button" :class="{
+                    'variant-button--selected':
+                      value === selectedFilters[type],
+                  }" @click="updateFilter({ [type]: value })">
+                    <span v-if="type === 'color'" class="color-preview" :style="{ backgroundColor: label }"></span>
                     <span>{{ label }}</span>
                   </button>
                 </div>
@@ -213,34 +185,19 @@ const { stop } = useIntersectionObserver(
                   <button class="quantity-btn" @click="quantitySelectorValue--">
                     <i class="fas fa-minus"></i>
                   </button>
-                  <input
-                    type="number"
-                    v-model="quantitySelectorValue"
-                    class="quantity-input"
-                    min="1"
-                  />
+                  <input type="number" v-model="quantitySelectorValue" class="quantity-input" min="1" />
                   <button class="quantity-btn" @click="quantitySelectorValue++">
                     <i class="fas fa-plus"></i>
                   </button>
                 </div>
-                <button
-                  ref="addToCartButton"
-                  class="add-cart-btn"
-                  :disabled="isLoading"
-                  @click="handleCartAdd"
-                >
+                <button ref="addToCartButton" class="add-cart-btn" :disabled="isLoading" @click="handleCartAdd">
                   <i class="fas fa-shopping-cart"></i>
-                  {{ t("addToCart") }}
+                  {{ t("addToCart") }} sasa
                 </button>
               </div>
 
-              <button
-                class="wishlist-btn"
-                @click="isInWishlist ? wishlistRemoveItem : wishlistAddItem"
-              >
-                <i
-                  :class="['fas', isInWishlist ? 'fa-heart' : 'fa-heart-o']"
-                ></i>
+              <button class="wishlist-btn" @click="isInWishlist ? wishlistRemoveItem : wishlistAddItem">
+                <i :class="['fas', isInWishlist ? 'fa-heart' : 'fa-heart-o']"></i>
                 {{ t("addToWishlist") }}
               </button>
             </div>

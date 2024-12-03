@@ -4,6 +4,23 @@ import "primeicons/primeicons.css";
 import type { Category } from "~/graphql";
 
 const filteredCategories = inject<Category[]>("filteredTopCategories");
+
+const menuData = ref(null);
+const { $fetchApi } = useNuxtApp();
+
+// Función para obtener los datos
+const fetchMenuData = async () => {
+  try {
+    const data = await $fetchApi(
+      "/api/cabecera-menu-interior-categoria-dos",
+    );
+    return data.data;
+  } catch (error) {
+    console.error("[SUPERMENU] Error fetching menu data:", error);
+    return [];
+  }
+};
+
 const items = ref([
   {
     label: "Digital",
@@ -14,19 +31,19 @@ const items = ref([
         {
           items: [
             {
-              label: "Computadoras",
-              icon: "fa-solid fa-laptop",
-              subtext: "Equipos para trabajo y gaming",
-              link1: "/productos/laptops",
-              link2: "/productos/pc-escritorio",
-              link3: "/productos/all-in-one",
-              link4: "/productos/gaming",
-              link5: "/productos/accesorios-pc",
-              title1: "Laptops",
-              title2: "PC de Escritorio",
-              title3: "All in One",
-              title4: "PC Gaming",
-              title5: "Accesorios para PC",
+              label: "",
+              icon: "pi pi-star",
+              subtext: "",
+              link1: "",
+              link2: "",
+              link3: "",
+              link4: "",
+              link5: "",
+              title1: "",
+              title2: "",
+              title3: "",
+              title4: "",
+              title5: "",
             },
           ],
         },
@@ -35,20 +52,19 @@ const items = ref([
         {
           items: [
             {
-              label: "Periféricos",
-              icon: "pi pi-tablet",
-              subtext: "Complementos esenciales",
-              link1: "/productos/monitores",
-              link2: "/productos/teclados",
-              link3: "/productos/mouse",
-              link4: "/productos/audifonos",
-              link5: "/productos/webcams",
-              title1: "Monitores",
-              title2: "Teclados",
-              title3: "Mouse y Ratones",
-              title4: "Audífonos",
-              title5: "Webcams",
-              link: "/perifericos",
+              label: "",
+              icon: "pi pi-compass",
+              subtext: "",
+              link1: "",
+              link2: "",
+              link3: "",
+              link4: "",
+              link5: "",
+              title1: "",
+              title2: "",
+              title3: "",
+              title4: "",
+              title5: "",
             },
           ],
         },
@@ -57,20 +73,19 @@ const items = ref([
         {
           items: [
             {
-              label: "Componentes",
-              icon: "pi pi-microchip",
-              title1: "Procesadores",
-              title2: "Tarjetas Gráficas",
-              title3: "Memoria RAM",
-              title4: "Discos Duros",
-              title5: "Fuentes de Poder",
-              link1: "/componentes/procesadores",
-              link2: "/componentes/graficas",
-              link3: "/componentes/ram",
-              link4: "/componentes/almacenamiento",
-              link5: "/componentes/fuentes",
-              subtext: "Piezas de alta calidad",
-              link: "/componentes",
+              label: "",
+              icon: "pi pi-users",
+              title1: "",
+              title2: "",
+              title3: "",
+              title4: "",
+              title5: "",
+              link1: "",
+              link2: "",
+              link3: "",
+              link4: "",
+              link5: "",
+              subtext: "",
             },
           ],
         },
@@ -79,9 +94,9 @@ const items = ref([
         {
           items: [
             {
-              image: "/images/hp.png",
-              label: "Ofertas Especiales",
-              subtext: "Descubre nuestras promociones en tecnología",
+              image: "/images/lavadora.png",
+              label: "superMenu.detailsSuperMenuButton",
+              subtext: "superMenu.detailsSuperMenu",
             },
           ],
         },
@@ -89,6 +104,58 @@ const items = ref([
     ],
   },
 ]);
+
+onMounted(async () => {
+  const menuDataResponse = await fetchMenuData();
+
+  // Actualizar los items del menú con los datos del fetch
+  if (menuDataResponse && menuDataResponse.length >= 3) {
+    items.value[0].items[0][0].items[0] = {
+      ...items.value[0].items[0][0].items[0],
+      label: menuDataResponse[0].titleCategory,
+      link1: menuDataResponse[0].listaCategorias[0].enlace,
+      link2: menuDataResponse[0].listaCategorias[1].enlace,
+      link3: menuDataResponse[0].listaCategorias[2].enlace,
+      link4: menuDataResponse[0].listaCategorias[3].enlace,
+      link5: menuDataResponse[0].listaCategorias[4].enlace,
+      title1: menuDataResponse[0].listaCategorias[0].nombre,
+      title2: menuDataResponse[0].listaCategorias[1].nombre,
+      title3: menuDataResponse[0].listaCategorias[2].nombre,
+      title4: menuDataResponse[0].listaCategorias[3].nombre,
+      title5: menuDataResponse[0].listaCategorias[4].nombre,
+    };
+
+    items.value[0].items[1][0].items[0] = {
+      ...items.value[0].items[1][0].items[0],
+      label: menuDataResponse[1].titleCategory,
+      link1: menuDataResponse[1].listaCategorias[0].enlace,
+      link2: menuDataResponse[1].listaCategorias[1].enlace,
+      link3: menuDataResponse[1].listaCategorias[2].enlace,
+      link4: menuDataResponse[1].listaCategorias[3].enlace,
+      link5: menuDataResponse[1].listaCategorias[4].enlace,
+      title1: menuDataResponse[1].listaCategorias[0].nombre,
+      title2: menuDataResponse[1].listaCategorias[1].nombre,
+      title3: menuDataResponse[1].listaCategorias[2].nombre,
+      title4: menuDataResponse[1].listaCategorias[3].nombre,
+      title5: menuDataResponse[1].listaCategorias[4].nombre,
+    };
+
+    items.value[0].items[2][0].items[0] = {
+      ...items.value[0].items[2][0].items[0],
+      label: menuDataResponse[2].titleCategory,
+      link1: menuDataResponse[2].listaCategorias[0].enlace,
+      link2: menuDataResponse[2].listaCategorias[1].enlace,
+      link3: menuDataResponse[2].listaCategorias[2].enlace,
+      link4: menuDataResponse[2].listaCategorias[3].enlace,
+      link5: menuDataResponse[2].listaCategorias[4].enlace,
+      title1: menuDataResponse[2].listaCategorias[0].nombre,
+      title2: menuDataResponse[2].listaCategorias[1].nombre,
+      title3: menuDataResponse[2].listaCategorias[2].nombre,
+      title4: menuDataResponse[2].listaCategorias[3].nombre,
+      title5: menuDataResponse[2].listaCategorias[4].nombre,
+    };
+  }
+});
 </script>
 
 <style scoped>
