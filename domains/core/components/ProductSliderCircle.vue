@@ -13,17 +13,13 @@ const runtimeConfig = useRuntimeConfig()
 const { locale } = useI18n();
 const { cartAdd } = useCart();
 const currentLang = locale.value;
+const { $fetchApi } = useNuxtApp();
 
-const API_URL_CATEGORY = `${runtimeConfig.public.apiUrlStrapi}/api/home-titulo-popular?locale=${currentLang === "es" ? "es-VE" : "en"}`;
+const API_URL_CATEGORY = `/api/home-titulo-popular?locale=${currentLang === "es" ? "es-VE" : "en"}`;
 
 const fetchDataTitlePopulate = async (): Promise<any> => {
   try {
-    const response = await fetch(API_URL_CATEGORY, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const response = await $fetchApi(API_URL_CATEGORY);
 
     if (!response.ok) {
       throw new Error(`Error ${response.status}: ${response.statusText}`);
@@ -119,9 +115,7 @@ const titleOne = computed(() => {
 
 <template>
   <section class="px-2 py-6 w-full max-w-[1440px] mx-auto">
-    <h2
-      class="text-center font-bold !font-header uppercase mb-10 typography-headline-3 md:typography-headline-2"
-    >
+    <h2 class="text-center font-bold !font-header uppercase mb-10 typography-headline-3 md:typography-headline-2">
       {{ titleOne.Title }}
     </h2>
     <div v-if="loading" class="flex justify-center items-center py-4">
@@ -134,23 +128,13 @@ const titleOne = computed(() => {
           <i class="fas fa-chevron-left"></i>
         </button>
 
-        <div
-          ref="sliderContainer"
-          class="flex overflow-x-hidden scroll-smooth gap-6 px-12"
-        >
-          <div
-            v-for="productTemplate in productTemplateList"
-            :key="productTemplate.id"
-            class="product-card"
-          >
+        <div ref="sliderContainer" class="flex overflow-x-hidden scroll-smooth gap-6 px-12">
+          <div v-for="productTemplate in productTemplateList" :key="productTemplate.id" class="product-card">
             <div class="card-content">
               <div class="badges-container">
-                <span
-                  v-if="
-                    getSpecialPrice(productTemplate.firstVariant as Product)
-                  "
-                  class="badge"
-                >
+                <span v-if="
+                  getSpecialPrice(productTemplate.firstVariant as Product)
+                " class="badge">
                   -{{
                     calculateDiscount(
                       getRegularPrice(productTemplate.firstVariant as Product),
@@ -161,17 +145,13 @@ const titleOne = computed(() => {
               </div>
 
               <div class="img-container">
-                <NuxtImg
-                  :src="
-                    $getImage(
-                      String(productTemplate.image),
-                      250,
-                      250,
-                      String(productTemplate.imageFilename),
-                    )
-                  "
-                  class="product-img"
-                />
+                <NuxtImg :src="$getImage(
+                  String(productTemplate.image),
+                  250,
+                  250,
+                  String(productTemplate.imageFilename),
+                )
+                  " class="product-img" />
                 <div class="hover-overlay">
                   <div class="action-buttons">
                     <NuxtLink :to="productTemplate?.slug">
@@ -184,12 +164,9 @@ const titleOne = computed(() => {
               <div class="product-info">
                 <h3 class="title">{{ productTemplate?.name }}</h3>
                 <div class="price-container">
-                  <span
-                    v-if="
-                      getSpecialPrice(productTemplate.firstVariant as Product)
-                    "
-                    class="original-price"
-                  >
+                  <span v-if="
+                    getSpecialPrice(productTemplate.firstVariant as Product)
+                  " class="original-price">
                     {{
                       $currency(
                         getRegularPrice(
@@ -204,9 +181,9 @@ const titleOne = computed(() => {
                         getSpecialPrice(
                           productTemplate.firstVariant as Product,
                         ) ||
-                          getRegularPrice(
-                            productTemplate.firstVariant as Product,
-                          ),
+                        getRegularPrice(
+                          productTemplate.firstVariant as Product,
+                        ),
                       )
                     }}
                   </span>
@@ -226,8 +203,9 @@ const titleOne = computed(() => {
 
 <style lang="scss" scoped>
 .product-card {
-  @apply flex-none  w-[250px];
+  @apply flex-none w-[250px];
   box-shadow: none;
+
   .card-content {
     @apply relative transition-all duration-300;
   }
@@ -249,9 +227,7 @@ const titleOne = computed(() => {
   }
 
   .hover-overlay {
-    @apply absolute inset-0 bg-black/20 opacity-0 transition-opacity duration-300
-
-flex items-center justify-center backdrop-blur-sm;
+    @apply absolute inset-0 bg-black/20 opacity-0 transition-opacity duration-300 flex items-center justify-center backdrop-blur-sm;
   }
 
   .action-buttons {
@@ -259,9 +235,7 @@ flex items-center justify-center backdrop-blur-sm;
   }
 
   .action-btn {
-    @apply px-6 py-2 rounded-full bg-white text-sm font-medium
-
-transition-all duration-300 hover:scale-105;
+    @apply px-6 py-2 rounded-full bg-white text-sm font-medium transition-all duration-300 hover:scale-105;
   }
 
   &:hover {
@@ -296,11 +270,7 @@ transition-all duration-300 hover:scale-105;
 }
 
 .nav-btn {
-  @apply absolute top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full
-
-bg-white/90  flex items-center justify-center
-
-transition-all duration-300 hover:bg-gray-50;
+  @apply absolute top-1/2 -translate-y-1/2 z-10 w-8 h-8 rounded-full bg-white/90 flex items-center justify-center transition-all duration-300 hover:bg-gray-50;
 }
 
 .loading-spinner {
