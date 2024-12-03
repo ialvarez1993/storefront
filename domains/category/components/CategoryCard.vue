@@ -3,20 +3,32 @@ import { computed, ref, onMounted } from "vue";
 const { $fetchApi } = useNuxtApp();
 const runtimeConfig = useRuntimeConfig();
 
+interface Category {
+  name: string;
+  slug: string;
+}
 
 const props = defineProps({
   categories: {
-    type: Array,
+    type: Array as PropType<Category[]>,
     required: true,
+    validator: (value: Category[]) => {
+      return value.every(
+        (category) =>
+          typeof category.name === "string" &&
+          typeof category.slug === "string",
+      );
+    },
   },
 });
 
-const topCategories = computed(() => props.categories as any);
-const filteredCategories = computed(() =>
-  topCategories.value.filter(
-    (category) => category.name === "Desks" || category.name === "Furnitures",
-  ),
-);
+const topCategories = computed(() => props.categories || []);
+const filteredCategories = computed(() => {
+  const validCategories = ["Desks", "Furnitures"];
+  return (topCategories.value || []).filter(
+    (category) => category?.name && validCategories.includes(category.name),
+  );
+});
 
 const categoryImages = ref<Record<string, string>>({});
 const loading = ref(true);
@@ -25,9 +37,11 @@ const fetchCategoryImages = async () => {
   try {
     loading.value = true;
 
-    const data = await $fetchApi(
-      "/api/home-categorias?populate=*&locale=en",
-    );
+    const data = await $fetchApi("/api/home-categorias?populate=*&locale=en");
+
+    if (!data) {
+      throw new Error('No data received from API');
+    }
 
     // Ordenar los datos por el campo 'orden'
     const sortedData = data.data.sort(

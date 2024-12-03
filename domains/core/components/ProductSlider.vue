@@ -8,9 +8,6 @@ import { useCart } from "../../cart-odoo/composables/useCart";
 import { useProductAttributes } from "../../product/composables/useProductAttributes";
 import { useWishlist } from "../../wishlist/composables/useWishlist";
 
-
-
-
 const { cartAdd } = useCart();
 const sliderContainer = ref<HTMLElement | null>(null);
 const currentIndex = ref(0);
@@ -92,12 +89,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <section :class="[
-    'px-2 py-6 w-full mx-auto',
-    isModal ? 'max-w-full' : 'max-w-[1440px]',
-  ]">
-    <h2 v-if="heading"
-      class="text-center font-bold !font-header uppercase mb-10 typography-headline-3 md:typography-headline-2">
+  <section
+    :class="[
+      'px-2 py-6 w-full mx-auto',
+      isModal ? 'max-w-full' : 'max-w-[1440px]',
+    ]"
+  >
+    <h2
+      v-if="heading"
+      class="text-center font-bold !font-header uppercase mb-10 typography-headline-3 md:typography-headline-2"
+    >
       {{ heading }}
     </h2>
 
@@ -111,13 +112,23 @@ onMounted(() => {
           <i class="fas fa-chevron-left"></i>
         </button>
 
-        <div ref="sliderContainer" class="flex overflow-x-hidden scroll-smooth gap-2 md:gap-3 px-2 md:px-8">
-          <div v-for="productTemplate in productTemplateList" :key="productTemplate.id" class="product-card">
+        <div
+          ref="sliderContainer"
+          class="flex overflow-x-hidden scroll-smooth gap-2 md:gap-3 px-2 md:px-8"
+        >
+          <div
+            v-for="productTemplate in productTemplateList"
+            :key="productTemplate.id"
+            class="product-card"
+          >
             <div class="card-content">
               <div class="badges-container">
-                <span v-if="
-                  getSpecialPrice(productTemplate.firstVariant as Product)
-                " class="badge discount">
+                <span
+                  v-if="
+                    getSpecialPrice(productTemplate.firstVariant as Product)
+                  "
+                  class="badge discount"
+                >
                   -{{
                     calculateDiscount(
                       getRegularPrice(productTemplate.firstVariant as Product),
@@ -129,18 +140,25 @@ onMounted(() => {
               </div>
 
               <div class="img-container">
-                <NuxtImg :src="$getImage(
-                  String(productTemplate.image),
-                  250,
-                  250,
-                  String(productTemplate.imageFilename),
-                )
-                  " class="product-img" />
+                <NuxtImg
+                  :src="
+                    $getImage(
+                      String(productTemplate.image),
+                      250,
+                      250,
+                      String(productTemplate.imageFilename),
+                    )
+                  "
+                  class="product-img"
+                />
 
                 <div class="hover-overlay">
                   <div class="action-buttons">
-                    <ModalProductSlider :data=productTemplate />
-                    <button class="action-btn cart" @click="cartAdd(productTemplate.firstVariant?.id, 1)">
+                    <ModalProductSlider :data="productTemplate" />
+                    <button
+                      class="action-btn cart"
+                      @click="cartAdd(productTemplate.firstVariant?.id, 1)"
+                    >
                       <i class="fas fa-shopping-cart"></i>
                       <span class="btn-tooltip">Comprar Ahora</span>
                     </button>
@@ -156,16 +174,25 @@ onMounted(() => {
 
                 <div v-if="productTemplate.rating" class="rating">
                   <div class="stars">
-                    <i v-for="n in 5" :key="n" class="fas fa-star"
-                      :class="n <= productTemplate.rating ? 'active' : ''"></i>
+                    <i
+                      v-for="n in 5"
+                      :key="n"
+                      class="fas fa-star"
+                      :class="n <= productTemplate.rating ? 'active' : ''"
+                    ></i>
                   </div>
-                  <span class="reviews">({{ productTemplate.ratingCount }})</span>
+                  <span class="reviews"
+                    >({{ productTemplate.ratingCount }})</span
+                  >
                 </div>
 
                 <div class="price-container">
-                  <span v-if="
-                    getSpecialPrice(productTemplate.firstVariant as Product)
-                  " class="original-price">
+                  <span
+                    v-if="
+                      getSpecialPrice(productTemplate.firstVariant as Product)
+                    "
+                    class="original-price"
+                  >
                     {{
                       $currency(
                         getRegularPrice(
@@ -180,9 +207,9 @@ onMounted(() => {
                         getSpecialPrice(
                           productTemplate.firstVariant as Product,
                         ) ||
-                        getRegularPrice(
-                          productTemplate.firstVariant as Product,
-                        ),
+                          getRegularPrice(
+                            productTemplate.firstVariant as Product,
+                          ),
                       )
                     }}
                   </span>
@@ -198,7 +225,6 @@ onMounted(() => {
                 <!--     }} -->
                 <!--   </span> -->
                 <!-- </div> -->
-
               </div>
             </div>
           </div>
@@ -212,9 +238,13 @@ onMounted(() => {
   </section>
   <div class="flex justify-center">
     <NuxtLink to="/search?search=">
-      <Button :label="$t('ButtonExplorar')" severity="warn"
-        class="!bg-yellow-500 !text-black !border-none hover:!bg-black hover:!text-white" icon="pi pi-search"
-        iconPos="left" />
+      <Button
+        :label="$t('ButtonExplorar')"
+        severity="warn"
+        class="!bg-yellow-500 !text-black !border-none hover:!bg-black hover:!text-white"
+        icon="pi pi-search"
+        iconPos="left"
+      />
     </NuxtLink>
   </div>
 </template>
@@ -275,7 +305,6 @@ onMounted(() => {
     @apply transform-none md:translate-y-4;
   }
 
-
   .action-btn {
     position: relative;
     width: 3rem;
@@ -295,7 +324,6 @@ onMounted(() => {
       box-shadow:
         0 10px 15px -3px rgba(0, 0, 0, 0.1),
         0 4px 6px -2px rgba(0, 0, 0, 0.05);
-
     }
 
     &.preview {

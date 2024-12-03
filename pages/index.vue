@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import { useWebsiteHomePage } from "~/domains/core/composable/useWebsiteHomePage";
 import websiteHomepageHead from "../domains/core/utils/websiteHomepageHead";
 import { useCategory } from "../domains/category/composables/useCategory";
@@ -42,7 +41,6 @@ const { loadCategoryList, categories } = useCategory();
 await loadCategoryList({
   filter: { parent: true, id: null },
 });
-
 
 const { locale, setLocale } = useI18n();
 const currentLang = locale.value; // 'es' o 'en'

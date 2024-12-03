@@ -134,7 +134,7 @@
   },
   "size": "Tamaño",
   "color": "Color",
-  "addToCart": "Añadir al carrito",
+  "addToCart": "Add to cart",
   "addToCartShort": "Agregar",
   "search": "Search for products, brands and more...",
   "searchButton": "Search",
@@ -618,5 +618,9 @@
   "resultsQuerySearch": "Results for",
   "addToWishlist": "Add to favorite",
   "freeReturns": "Free shipping",
-  "deliveryEstimate": "Extimated Time"
+  "deliveryEstimate": "Estimated Time",
+  "addCart": "Add to cart",
+  "addtoFavorite": "Add to favorites",
+  "stockProduct": "In stock, ready to be shipped",
+  "stockProductTypes": "Available:"
 }

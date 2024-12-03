@@ -53,7 +53,6 @@ export default defineNuxtConfig({
     "shadcn-nuxt",
     "@nuxtjs/color-mode",
     "nuxt-lucide-icons",
-    "@nuxtjs/storybook",
     "@nuxtjs/device",
     "@nuxt/icon",
   ],

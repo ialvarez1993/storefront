@@ -94,8 +94,6 @@ const changeLanguage = async (newLocale: string) => {
     if (process.client) {
       if (route.name) {
         // Si estamos usando vue-router, intentamos primero una navegación suave
-        await router.replace({ path: currentPath });
-      } else {
         // Fallback a recarga completa
         window.location.reload();
       }
@@ -139,38 +137,22 @@ onUnmounted(() => {
 
 <template>
   <div class="language-switcher relative" :class="{ 'is-changing': isChangingLanguage }">
-    <button
-      @click="toggleDropdown"
+    <button @click="toggleDropdown"
       class="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-      :disabled="isChangingLanguage"
-      :aria-expanded="isOpen"
-      aria-haspopup="true"
-    >
+      :disabled="isChangingLanguage" :aria-expanded="isOpen" aria-haspopup="true">
       <span>{{ currentLocale.flag }} {{ currentLocale.name }}</span>
       <ChevronDownIcon class="w-4 h-4 transition-transform" :class="{ 'rotate-180': isOpen }" />
     </button>
 
-    <transition
-      enter-active-class="transition duration-100 ease-out"
-      enter-from-class="transform scale-95 opacity-0"
-      enter-to-class="transform scale-100 opacity-100"
-      leave-active-class="transition duration-75 ease-in"
-      leave-from-class="transform scale-100 opacity-100"
-      leave-to-class="transform scale-95 opacity-0"
-    >
-      <div
-        v-if="isOpen"
-        class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5"
-      >
+    <transition enter-active-class="transition duration-100 ease-out" enter-from-class="transform scale-95 opacity-0"
+      enter-to-class="transform scale-100 opacity-100" leave-active-class="transition duration-75 ease-in"
+      leave-from-class="transform scale-100 opacity-100" leave-to-class="transform scale-95 opacity-0">
+      <div v-if="isOpen"
+        class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5">
         <div class="py-1" role="menu" aria-orientation="vertical">
-          <button
-            v-for="locale in availableLocales"
-            :key="locale.code"
-            @click="changeLanguage(locale.code)"
-            class="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700"
-            role="menuitem"
-            :disabled="isChangingLanguage"
-          >
+          <button v-for="locale in availableLocales" :key="locale.code" @click="changeLanguage(locale.code)"
+            class="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700" role="menuitem"
+            :disabled="isChangingLanguage">
             {{ locale.flag }} {{ locale.name }}
           </button>
         </div>

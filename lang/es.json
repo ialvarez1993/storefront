@@ -605,5 +605,9 @@
   "addToWishlist": "Añadir a Favoritos",
   "new": "sa",
   "freeReturns": "Envio Grauito",
-  "deliveryEstimate": "Tiempo Estimado"
+  "deliveryEstimate": "Tiempo Estimado",
+  "addCart": "Añadir al carrito",
+  "addtoFavorite": "Añadir a favoritos",
+  "stockProduct": "En stock, listo para ser enviado",
+  "stockProductTypes": "Disponible:"
 }

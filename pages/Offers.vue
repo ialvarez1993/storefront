@@ -48,14 +48,14 @@
                   aria-label="Añadir al carrito"
                 >
                   <i class="fas fa-shopping-cart"></i>
-                  <span class="product-card__tooltip">Añadir al carrito</span>
+                  <span class="product-card__tooltip">{{ $t("addCart") }}</span>
                 </button>
                 <button
                   class="product-card__action-btn"
                   aria-label="Añadir a favoritos"
                 >
                   <i class="fas fa-heart"></i>
-                  <span class="product-card__tooltip">Añadir a favoritos</span>
+                  <span class="product-card__tooltip">{{ $t("addtoFavorite") }}</span>
                 </button>
                 <button
                   class="product-card__action-btn"
