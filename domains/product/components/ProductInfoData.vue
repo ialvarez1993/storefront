@@ -62,12 +62,10 @@ const discountPercentage = computed(() => {
 
 // Métodos
 const handleCartAdd = async () => {
-  console.log("FAVORITO DENTRO");
   let id = productVariant?.value.id;
   if (!productVariant.value.combinationInfoVariant) {
     id = Number(productVariant?.value.firstVariant?.id);
   }
-  console.log("FAVOTIRTO");
   await cartAdd(id, quantitySelectorValue.value);
 };
 
@@ -150,8 +148,8 @@ const { stop } = useIntersectionObserver(
             </div>
 
             <div class="price-rating-container mt-3">
-              <div class="price-wrapper mx-2">
-                <span class="current-price !text-xs">
+              <div class="price-wrapper">
+                <span class="current-price">
                   {{ $currency(getSpecialPrice || getRegularPrice) }}
                 </span>
                 <span v-if="getSpecialPrice" class="original-price !text-xs">
@@ -204,7 +202,12 @@ const { stop } = useIntersectionObserver(
             <div class="actions-section">
               <div class="primary-actions">
                 <div class="quantity-wrapper">
-                  <button class="quantity-btn" @click="quantitySelectorValue--">
+                  <button
+                    class="quantity-btn"
+                    @click="
+                      quantitySelectorValue > 1 && quantitySelectorValue--
+                    "
+                  >
                     <i class="fas fa-minus"></i>
                   </button>
                   <input
@@ -212,6 +215,13 @@ const { stop } = useIntersectionObserver(
                     v-model="quantitySelectorValue"
                     class="quantity-input"
                     min="1"
+                    @input="
+                      (e) =>
+                        (quantitySelectorValue = Math.max(
+                          1,
+                          parseInt(e.target.value) || 1,
+                        ))
+                    "
                   />
                   <button class="quantity-btn" @click="quantitySelectorValue++">
                     <i class="fas fa-plus"></i>

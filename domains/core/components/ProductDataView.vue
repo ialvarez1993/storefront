@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { ref, computed } from 'vue';
+import { ref, computed } from "vue";
 import { useCart } from "../../cart-odoo/composables/useCart";
 const { cartAdd } = useCart();
 
@@ -26,23 +26,24 @@ const product = ref<Product>({
   stock: 10,
   rating: {
     count: 1,
-    value: 4
-  }
+    value: 4,
+  },
 });
 
 const formatPrice = (price: number): string => {
-  return new Intl.NumberFormat('es-VE', {
-    style: 'currency',
-    currency: 'VES',
+  return new Intl.NumberFormat("es-VE", {
+    style: "currency",
+    currency: "VES",
     minimumFractionDigits: 2,
-    maximumFractionDigits: 2
+    maximumFractionDigits: 2,
   }).format(price);
 };
 
 const discount = computed(() => {
   if (!product.value.oldPrice) return 0;
   return Math.round(
-    ((product.value.oldPrice - product.value.price) / product.value.oldPrice) * 100
+    ((product.value.oldPrice - product.value.price) / product.value.oldPrice) *
+      100,
   );
 });
 
@@ -58,7 +59,7 @@ const finalPrice = computed(() => {
 const discountPercentage = computed(() => {
   if (!hasDiscount.value || !props.data) return 0;
   return Math.round(
-    (props.data.combinationInfo.discount / props.data.price) * 100
+    (props.data.combinationInfo.discount / props.data.price) * 100,
   );
 });
 
@@ -82,9 +83,6 @@ const addToCart = () => {
 const props = defineProps({
   data: Object,
 });
-
-
-
 </script>
 
 <template>
@@ -105,11 +103,11 @@ const props = defineProps({
     <div class="product-card__pricing">
       <div class="product-card__price-container">
         <div v-if="hasDiscount" class="product-card__original-price">
-          {{ formatPrice(props.data.price) }}
+          {{ props.data.price }}
         </div>
         <div class="product-card__current-price">
           <span class="product-card__price-value">
-            {{ formatPrice(finalPrice) }}
+            ${{ finalPrice }}
           </span>
         </div>
       </div>
@@ -123,24 +121,70 @@ const props = defineProps({
     <div class="product-card__quantity-section !mt-[3rem]">
       <label class="product-card__quantity-label">Cantidad</label>
       <div class="product-card__quantity-controls">
-        <button @click="decrementQuantity" class="product-card__quantity-btn" :disabled="quantity <= 1">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+        <button
+          @click="decrementQuantity"
+          class="product-card__quantity-btn"
+          :disabled="quantity <= 1"
+        >
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M20 12H4"
+            />
           </svg>
         </button>
-        <input type="number" v-model="quantity" class="product-card__quantity-input" min="1" :max="product.stock">
-        <button @click="incrementQuantity" class="product-card__quantity-btn" :disabled="quantity >= product.stock">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        <input
+          type="number"
+          v-model="quantity"
+          class="product-card__quantity-input"
+          min="1"
+          :max="product.stock"
+        />
+        <button
+          @click="incrementQuantity"
+          class="product-card__quantity-btn"
+          :disabled="quantity >= product.stock"
+        >
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 4v16m8-8H4"
+            />
           </svg>
         </button>
       </div>
     </div>
 
-    <button @click="cartAdd(data.firstVariant?.id, quantity)" class="product-card__cart-btn !mt-[9rem]">
-      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-          d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+    <button
+      @click="cartAdd(data.firstVariant?.id, quantity)"
+      class="product-card__cart-btn !mt-[9rem]"
+    >
+      <svg
+        class="w-5 h-5 mr-2"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+        />
       </svg>
       Agregar al carrito
     </button>
@@ -160,7 +204,7 @@ const props = defineProps({
 
   &__title {
     @apply text-3xl font-bold text-gray-900 leading-tight;
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
   }
 
   &__discount-badge {
@@ -247,7 +291,6 @@ const props = defineProps({
 }
 
 @keyframes bounce {
-
   0%,
   100% {
     transform: rotate(2deg);
