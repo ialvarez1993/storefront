@@ -572,7 +572,7 @@
         "cambios_devoluciones": "Cambios y devoluciones",
         "preguntas_frecuentes": "Preguntas Frecuentes",
         "contacto": "Contáctanos",
-        "envios": "Informacion De Envíos",
+        "envios": "Información De Envíos",
         "pagos": "Información de pago",
         "siguenos": "Síguenos"
       },
@@ -581,7 +581,7 @@
         "digital": "Digital",
         "todos_productos": "Todos los productos",
         "ofertas": "Ofertas",
-        "Highlights": "Lo mas destacados"
+        "Highlights": "Lo más destacados"
       },
       "acciones": {
         "comprar": "comprar"
@@ -613,5 +613,6 @@
   "stockProductTypes": "Disponible:",
   "catalog": {
     "title": "Ofertas Especiales"
-  }
+  },
+  "productPopulate": "Productos más populares"
 }

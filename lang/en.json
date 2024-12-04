@@ -626,5 +626,6 @@
   "stockProductTypes": "Available:",
   "catalog": {
     "title": "Special Offers"
-  }
+  },
+  "productPopulate": "most popular products"
 }

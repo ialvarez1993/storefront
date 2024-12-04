@@ -335,6 +335,11 @@ const titleTwo = computed(() => {
         </div>
       </div>
       <div v-else ref="sectionRefs.productSlider2">
+        <p
+          class="text-center font-bold !font-header mt-10 uppercase typography-headline-3 md:typography-headline-2"
+        >
+          {{ $t("productPopulate") }}
+        </p>
         <ProductSliderCircle />
       </div>
     </section>
