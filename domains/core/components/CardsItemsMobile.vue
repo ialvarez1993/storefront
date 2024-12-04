@@ -83,7 +83,9 @@ onMounted(async () => {
   <section class="mobile-catalog">
     <!-- Header Section -->
     <div class="catalog-header">
-      <h2 class="catalog-title">{{ heading || "Ofertas Especiales" }}</h2>
+      <h2 class="catalog-title">
+        {{ $t("catalog.title") }}
+      </h2>
       <div class="catalog-filters !hidden">
         <button class="filter-pill active">Todos</button>
         <button class="filter-pill">Populares</button>

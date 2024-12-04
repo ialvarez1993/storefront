@@ -610,5 +610,8 @@
   "addCart": "Añadir al carrito",
   "addtoFavorite": "Añadir a favoritos",
   "stockProduct": "En stock, listo para ser enviado",
-  "stockProductTypes": "Disponible:"
+  "stockProductTypes": "Disponible:",
+  "catalog": {
+    "title": "Ofertas Especiales"
+  }
 }
