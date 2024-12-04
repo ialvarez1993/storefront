@@ -7,55 +7,78 @@
             <span class="inline-flex items-center gap-2">
               <VsfLogo />
             </span>
-            <Button type="button" @click="closeCallback" icon="pi pi-times"
-              class="!text-yellow-600 !border-yellow-600 hover:!bg-black" rounded outlined />
+            <Button
+              type="button"
+              @click="closeCallback"
+              icon="pi pi-times"
+              class="!text-yellow-600 !border-yellow-600 hover:!bg-black"
+              rounded
+              outlined
+            />
           </div>
 
           <div class="overflow-y-auto">
-            <!-- Usuario y cuenta -->
             <div class="p-4">
               <div class="flex flex-col gap-2">
-                <a href="/login" class="menu-item">Mi cuenta</a>
-                <a href="#" class="menu-item">Cerrar</a>
+                <NuxtLink to="/login" class="menu-item">Mi cuenta</NuxtLink>
+                <NuxtLink to="#" class="menu-item">Cerrar</NuxtLink>
               </div>
             </div>
 
-            <!-- Menú principal -->
             <div class="menu-section">
               <div class="shipping-banner p-4">
                 Envíos gratis a todo Venezuela
               </div>
 
-              <!-- Categorías principales -->
               <ul class="list-none p-0 m-0">
                 <li v-for="(category, index) in categories" :key="index">
-                  <div v-ripple @click="toggleCategory(index)"
-                    class="category-header p-4 flex items-center justify-between cursor-pointer">
-                    <span class="font-medium">{{ category.name }} </span>
-                    <i :class="[
-                      'pi',
-                      category.expanded ? 'pi-chevron-up' : 'pi-chevron-down',
-                    ]"></i>
+                  <div
+                    v-ripple
+                    @click="toggleCategory(index)"
+                    class="category-header p-4 flex items-center justify-between cursor-pointer"
+                  >
+                    <span class="font-medium">{{ category.name }}</span>
+                    <i
+                      :class="[
+                        'pi',
+                        category.expanded ? 'pi-chevron-up' : 'pi-chevron-down',
+                      ]"
+                    ></i>
                   </div>
 
                   <ul v-show="category.expanded" class="subcategory-list">
-                    <li v-for="(subcategory, subIndex) in category.subcategories" :key="subIndex">
-                      <a v-ripple @click="toggleSubcategory(index, subIndex)"
-                        class="subcategory-item p-3 flex items-center justify-between">
+                    <li
+                      v-for="(subcategory, subIndex) in category.subcategories"
+                      :key="subIndex"
+                    >
+                      <NuxtLink
+                        v-ripple
+                        @click="toggleSubcategory(index, subIndex)"
+                        class="subcategory-item p-3 flex items-center justify-between"
+                      >
                         <span>{{ subcategory.name }}</span>
-                        <i v-if="subcategory.items" :class="[
-                          'pi',
-                          subcategory.expanded
-                            ? 'pi-chevron-up'
-                            : 'pi-chevron-down',
-                        ]"></i>
-                      </a>
+                        <i
+                          v-if="subcategory.items"
+                          :class="[
+                            'pi',
+                            subcategory.expanded
+                              ? 'pi-chevron-up'
+                              : 'pi-chevron-down',
+                          ]"
+                        ></i>
+                      </NuxtLink>
 
-                      <ul v-if="subcategory.items && subcategory.expanded" class="item-list pl-6">
-                        <li v-for="(item, itemIndex) in subcategory.items" :key="itemIndex">
-                          <a v-ripple class="menu-item p-2">
-                            {{ item }}
-                          </a>
+                      <ul
+                        v-if="subcategory.items && subcategory.expanded"
+                        class="item-list pl-6"
+                      >
+                        <li
+                          v-for="(item, itemIndex) in subcategory.items"
+                          :key="itemIndex"
+                        >
+                          <NuxtLink :to="`/category/${item.toLowerCase().replace(/ /g, '-')}`" v-ripple class="menu-item p-2">{{
+                            item
+                          }}</NuxtLink>
                         </li>
                       </ul>
                     </li>
@@ -64,13 +87,18 @@
               </ul>
             </div>
 
-            <!-- Footer links -->
             <div class="menu-footer p-4">
-              <a href="/category/52" class="menu-item">Todos los productos</a>
-              <a href="/highlights" class="menu-item">Los más destacados</a>
-              <a href="/offers" class="menu-item">Ofertas</a>
-              <a href="/about" class="menu-item">Acerca de nosotros</a>
-              <a href="/contact" class="menu-item">Contacto</a>
+              <NuxtLink to="/category/52" class="menu-item"
+                >Todos los productos</NuxtLink
+              >
+              <NuxtLink to="/highlights" class="menu-item"
+                >Los más destacados</NuxtLink
+              >
+              <NuxtLink to="/offers" class="menu-item">Ofertas</NuxtLink>
+              <NuxtLink to="/about" class="menu-item"
+                >Acerca de nosotros</NuxtLink
+              >
+              <NuxtLink to="/contact" class="menu-item">Contacto</NuxtLink>
               <div class="customer-service mt-4">
                 <LinkWhasapp />
               </div>
@@ -80,7 +108,11 @@
       </template>
     </Drawer>
 
-    <Button class="!bg-transparent !text-black !border-0" icon="pi pi-bars" @click="visible = true" />
+    <Button
+      class="!bg-transparent !text-black !border-0"
+      icon="pi pi-bars"
+      @click="visible = true"
+    />
   </div>
 </template>
 
@@ -122,7 +154,10 @@ const categories = reactive([
         name: "Baño y fontanería",
         items: ["Lavamanos", "Pocetas", "Grifería", "Accesorios"],
       },
-      { name: "Jardín", items: ["Maquinas", "Riego", "Piscina", "Muebles"] },
+      {
+        name: "Jardín",
+        items: ["Maquinas", "Riego", "Piscina", "Muebles"],
+      },
       {
         name: "Pintura",
         items: [
@@ -150,14 +185,26 @@ const categories = reactive([
           "Routers y conectividad",
         ],
       },
-      { name: "Impresoras", items: ["Impresoras", "Accesorios de impresoras"] },
-      { name: "Móviles", items: ["Celulares", "Accesorios de celulares"] },
-      { name: "Smartwatches", items: ["Smartwatches"] },
+      {
+        name: "Impresoras",
+        items: ["Impresoras", "Accesorios de impresoras"],
+      },
+      {
+        name: "Móviles",
+        items: ["Celulares", "Accesorios de celulares"],
+      },
+      {
+        name: "Smartwatches",
+        items: ["Smartwatches"],
+      },
       {
         name: "Fotografía",
         items: ["Cámaras fotográficas", "Accesorios de cámaras"],
       },
-      { name: "Smart home", items: ["Asistente de voz"] },
+      {
+        name: "Smart home",
+        items: ["Asistente de voz"],
+      },
       {
         name: "Videojuegos",
         items: ["Consolas", "Accesorios de consolas", "Controles"],

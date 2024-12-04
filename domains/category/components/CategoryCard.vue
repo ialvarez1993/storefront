@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, ref, onMounted } from "vue";
+import { computed, ref, onMounted, watch } from "vue";
 const { $fetchApi } = useNuxtApp();
 const runtimeConfig = useRuntimeConfig();
 
@@ -8,26 +8,61 @@ interface Category {
   slug: string;
 }
 
+const hasError = ref(false);
+const errorMessage = ref("");
+
 const props = defineProps({
   categories: {
     type: Array as PropType<Category[]>,
     required: true,
     validator: (value: Category[]) => {
+      if (!Array.isArray(value) || value.length === 0) {
+        return false;
+      }
       return value.every(
         (category) =>
-          typeof category.name === "string" &&
-          typeof category.slug === "string",
+          typeof category?.name === "string" &&
+          typeof category?.slug === "string",
       );
     },
   },
 });
 
-const topCategories = computed(() => props.categories || []);
+// Observar cambios en categories
+watch(
+  () => props.categories,
+  (newCategories) => {
+    if (!Array.isArray(newCategories) || newCategories.length === 0) {
+      hasError.value = true;
+      errorMessage.value = "No se encontraron categorías disponibles";
+    } else {
+      hasError.value = false;
+      errorMessage.value = "";
+    }
+  },
+  { immediate: true },
+);
+
+const topCategories = computed(() => {
+  const categories = props.categories || [];
+  if (categories.length === 0) {
+    hasError.value = true;
+    errorMessage.value = "No se encontraron categorías disponibles";
+  }
+  return categories;
+});
+
 const filteredCategories = computed(() => {
   const validCategories = ["Desks", "Furnitures"];
-  return (topCategories.value || []).filter(
+  const filtered = (topCategories.value || []).filter(
     (category) => category?.name && validCategories.includes(category.name),
   );
+
+  if (filtered.length === 0) {
+    hasError.value = true;
+    errorMessage.value = "No se encontraron categorías válidas";
+  }
+  return filtered;
 });
 
 const categoryImages = ref<Record<string, string>>({});
@@ -39,35 +74,33 @@ const fetchCategoryImages = async () => {
 
     const data = await $fetchApi("/api/home-categorias?populate=*&locale=en");
 
-    if (!data) {
-      throw new Error('No data received from API');
+    if (!data?.data) {
+      throw new Error("No se recibieron datos de la API");
     }
 
-    // Ordenar los datos por el campo 'orden'
     const sortedData = data.data.sort(
       (a: any, b: any) => parseInt(a.orden) - parseInt(b.orden),
     );
 
-    // Asignar las imágenes a las categorías en orden
     filteredCategories.value.forEach((category, index) => {
       const apiData = sortedData[index];
       if (apiData?.ImageCategoriesHome?.[0]?.formats?.medium?.url) {
         categoryImages.value[category.name] =
           `${runtimeConfig.public.apiUrlStrapi}${apiData.ImageCategoriesHome[0].formats.medium.url}`;
       } else if (apiData?.ImageCategoriesHome?.[0]?.url) {
-        // Fallback para imágenes sin formatos
         categoryImages.value[category.name] =
           `${runtimeConfig.public.apiUrlStrapi}${apiData.ImageCategoriesHome[0].url}`;
       }
     });
   } catch (error) {
     console.error("Error fetching images:", error);
+    hasError.value = true;
+    errorMessage.value = "Error al cargar las imágenes de las categorías";
   } finally {
     loading.value = false;
   }
 };
 
-// Fallback images en caso de error
 const fallbackImages = {
   Construccion: "/images/women-card.png",
   Electricidad: "/images/men-card.png",
@@ -81,7 +114,23 @@ onMounted(() => {
 
 <template>
   <section class="container mx-auto my-14 px-4">
+    <!-- Mensaje de Error -->
+    <div v-if="hasError" class="text-center p-8 bg-red-50 rounded-lg shadow-md">
+      <div class="text-red-600 text-xl font-semibold mb-2">
+        ¡Ups! Algo salió mal
+      </div>
+      <p class="text-gray-700">
+        {{ errorMessage || "Ha ocurrido un error inesperado" }}
+      </p>
+      <p class="text-gray-600 mt-2">
+        Por favor, intenta recargar la página o contacta con soporte si el
+        problema persiste.
+      </p>
+    </div>
+
+    <!-- Contenido Principal -->
     <div
+      v-else
       class="flex flex-wrap justify-center gap-6"
       data-testid="category-card"
     >
@@ -99,10 +148,16 @@ onMounted(() => {
             <template v-if="!loading">
               <NuxtImg
                 :src="
-                  categoryImages[category.name] || fallbackImages[category.name]
+                  categoryImages[category.name] ||
+                  fallbackImages[category.name] ||
+                  '/default-category-image.png'
                 "
                 :alt="`${category.name} category`"
                 class="w-full h-full object-cover rounded-full transition-transform duration-300 ease-in-out group-hover:scale-105"
+                @error="
+                  hasError = true;
+                  errorMessage = 'Error al cargar la imagen';
+                "
               />
             </template>
             <div v-else class="w-full h-full flex items-center justify-center">
