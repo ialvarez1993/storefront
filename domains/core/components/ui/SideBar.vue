@@ -76,7 +76,7 @@
                           v-for="(item, itemIndex) in subcategory.items"
                           :key="itemIndex"
                         >
-                          <NuxtLink :to="`/category/${item.toLowerCase().replace(/ /g, '-')}`" v-ripple class="menu-item p-2">{{
+                          <NuxtLink :to="`/search?search=${item.toLowerCase().replace(/ /g, '-')}`" v-ripple class="menu-item p-2">{{
                             item
                           }}</NuxtLink>
                         </li>

@@ -1,5 +1,5 @@
 <template>
-  <footer class="bg-black text-white  px-6 py-12 md:py-16">
+  <footer class="bg-black text-white px-6 py-12 md:py-16">
     <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
       <!-- Social Media Column -->
       <div>
@@ -59,22 +59,26 @@
         </h2>
         <ul class="space-y-2">
           <li>
-            <NuxtLink to="#" class="hover:text-gray-300 transition-colors">
-              {{ $t("footer.navegacion.categorias.ferreteria") }}
-            </NuxtLink>
-          </li>
-          <li>
-            <NuxtLink to="#" class="hover:text-gray-300 transition-colors">
-              {{ $t("footer.navegacion.categorias.digital") }}
-            </NuxtLink>
-          </li>
-          <li>
-            <NuxtLink to="#" class="hover:text-gray-300 transition-colors">
+            <NuxtLink
+              to="/category/52"
+              class="hover:text-gray-300 transition-colors"
+            >
               {{ $t("footer.navegacion.categorias.todos_productos") }}
             </NuxtLink>
           </li>
           <li>
-            <NuxtLink to="#" class="hover:text-gray-300 transition-colors">
+            <NuxtLink
+              to="/Highlights"
+              class="hover:text-gray-300 transition-colors"
+            >
+              {{ $t("footer.navegacion.categorias.Highlights") }}
+            </NuxtLink>
+          </li>
+          <li>
+            <NuxtLink
+              to="/Offers"
+              class="hover:text-gray-300 transition-colors"
+            >
               {{ $t("footer.navegacion.categorias.ofertas") }}
             </NuxtLink>
           </li>
