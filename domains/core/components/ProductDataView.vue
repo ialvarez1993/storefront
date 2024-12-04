@@ -106,14 +106,12 @@ const props = defineProps({
           {{ props.data.price }}
         </div>
         <div class="product-card__current-price">
-          <span class="product-card__price-value">
-            ${{ finalPrice }}
-          </span>
+          <span class="product-card__price-value"> ${{ finalPrice }} </span>
         </div>
       </div>
     </div>
 
-    <div class="product-card__description">
+    <div class="!text-xl product-card__description">
       {{ data.description }}
     </div>
 
@@ -171,7 +169,7 @@ const props = defineProps({
 
     <button
       @click="cartAdd(data.firstVariant?.id, quantity)"
-      class="product-card__cart-btn !mt-[9rem]"
+      class="product-card__cart-btn !mt-[6rem]"
     >
       <svg
         class="w-5 h-5 mr-2"

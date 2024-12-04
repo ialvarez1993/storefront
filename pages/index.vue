@@ -300,12 +300,13 @@ const titleTwo = computed(() => {
           ></Skeleton>
         </div>
       </div>
-      <div v-else ref="sectionRefs.categoryCard">
+      <div v-else class="hidden" ref="sectionRefs.categoryCard">
         <h2
           class="text-center font-bold !font-header uppercase mb-10 typography-headline-3 md:typography-headline-2"
         >
           {{ titleTwo.value?.data.TituloCategoria }}
         </h2>
+        {{ categories }}
         <CategoryCard :categories="categories" />
       </div>
     </section>
