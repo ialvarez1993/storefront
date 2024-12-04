@@ -94,17 +94,16 @@ const baseCardConfig = [
 ];
 
 const { $fetchApi } = useNuxtApp();
+import { useI18n } from "vue-i18n";
 
 const fetchIconos = async (): Promise<featureIconos> => {
   try {
-    const runtimeConfig = useRuntimeConfig();
-
     const { locale } = useI18n();
     const currentLang = locale.value;
     const url = `/api/iconos-homes?locale=${currentLang === "es" ? "es-VE" : "en"}`;
 
     const data = await $fetchApi(url);
-
+    console.log("ICONOS =", data);
     return data;
   } catch (error) {
     log("Error fetching icons:", error);
