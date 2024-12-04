@@ -106,7 +106,7 @@ const pagination = computed(() => ({
         </LazyCategoryMobileSidebar>
       </div>
       <!-- Main Content -->
-      <div class="col-span-12 top-[23rem] lg:col-span-8 xl:col-span-9">
+      <div class="col-span-12 mt-[2rem] lg:mt-[0rem] top-[0rem]  lg:top-[23rem] lg:col-span-8 xl:col-span-9">
         <SearchInputBig />
         <template v-if="!loading">
           <div class="flex justify-between items-center mb-6">

@@ -93,7 +93,7 @@ onUnmounted(() => {
   ]">
     <!-- Top banner -->
     <div v-if="!isCompact" class="bg-black text-white px-4 py-2 flex items-center justify-between text-sm w-full">
-      <span class="items-center font-robotolight sm:inline whitespace-nowrap">
+      <span class="hidden lg:block items-center font-robotolight sm:inline whitespace-nowrap">
         {{ $t("HeaderUp.Shipping") }}
       </span>
       <div class="flex items-center justify-end gap-8 w-full">
@@ -121,6 +121,7 @@ onUnmounted(() => {
           <!-- Icon Menu Resposive - Esta en modo default -->
           <div v-if="!isCompact" class="grid grid-cols-2 lg:hidden">
             <SideBar />
+            <ButtonWishlist />
           </div>
         </div>
 
