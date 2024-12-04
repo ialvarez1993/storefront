@@ -1,5 +1,5 @@
 <template>
-  <footer class="bg-black text-white px-6  py-12 md:py-16">
+  <footer class="bg-black text-white  px-6 py-12 md:py-16">
     <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
       <!-- Social Media Column -->
       <div>
@@ -122,7 +122,7 @@
           </li>
           <li>
             <NuxtLink
-              to="/Infomacionenvios"
+              to="/Informacionenvios"
               class="hover:text-gray-300 transition-colors"
             >
               {{ $t("footer.navegacion.informacion.envios") }}
