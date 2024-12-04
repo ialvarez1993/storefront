@@ -223,7 +223,7 @@
   "backToCart": "Volver a mi carrito",
   "headerCatalog": {
     "Digital": "Digital",
-    "homeImprovementStore": "Ferreteria",
+    "homeImprovementStore": "Ferretería",
     "allProducts": "Todos los productos",
     "Highlights": "Lo más destacado",
     "Offers": "Ofertas",
@@ -571,13 +571,13 @@
         "rastrear_pedido": "Rastrear tu pedido",
         "cambios_devoluciones": "Cambios y devoluciones",
         "preguntas_frecuentes": "Preguntas Frecuentes",
-        "contacto": "Contactanos",
+        "contacto": "Contáctanos",
         "envios": "Informacion De Envíos",
         "pagos": "Información de pago",
-        "siguenos": "Siguenos"
+        "siguenos": "Síguenos"
       },
       "categorias": {
-        "ferreteria": "Ferreteria",
+        "ferreteria": "Ferretería",
         "digital": "Digital",
         "todos_productos": "Todos los productos",
         "ofertas": "Ofertas",
