@@ -2,9 +2,7 @@ import Aura from '@primevue/themes/aura';
 
 // htts://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true },
-
-
+  devtools: { enabled: false },
 
   robots: {
     allow: "/category/*",
@@ -80,18 +78,17 @@ export default defineNuxtConfig({
     ],
     public: {
       NUXT_CLARITY_ID: process.env.NUXT_CLARITY_ID,
-      odooBaseImageUrl: "",
-      odooBaseUrl: "",
-      currencySymbol: "",
-      currencySeparator: "",
-      currencyDecimal: "",
-      currencyPrecision: "",
-      apiUrlStrapi: "",
-      apiStrapiToken: "",
-      NUXT_PUBLIC_API_STRAPI_TOKEN: process.env.NUXT_PUBLIC_API_STRAPI_TOKEN,
+      odooBaseImageUrl: "http://localhost:8069/",
+      odooBaseUrl: "http://localhost:8069/",
+      odooSchemaPath: 'http://localhost:8069/graphql/vsf',
+      currencySymbol: "$",
+      currencySeparator: ".",
+      currencyDecimal: ".",
+      currencyPrecision: "2",
+      apiUrlStrapi: "http://localhost:1337",
+      proxyStrapi: "http://localhost:3000/cms/"
     },
   },
-
 
   i18n: {
     strategy: 'no_prefix',  // Cambiado para mejor SEO
@@ -120,7 +117,6 @@ export default defineNuxtConfig({
     },
     vueI18n: "./i18n.config.ts",
   },
-
 
   delayHydration: {
     mode: "init",
@@ -175,11 +171,14 @@ export default defineNuxtConfig({
   routeRules: {
     "/": { swr: Number(process.env?.NUXT_SWR_CACHE_TIME) },
     "/category/*": {
-      swr: Number(process.env?.NUXT_SWR_CACHE_TIME),
+      swr: Number(process.env?.NUXT_SWR_CACHE_TIME)
     },
     "/product/*": {
-      swr: Number(process.env?.NUXT_SWR_CACHE_TIME),
+      swr: Number(process.env?.NUXT_SWR_CACHE_TIME)
     },
+    '/cms/**': {
+      proxy: { to: `${process.env?.NUXT_PUBLIC_STRAPI}/**` },
+    }
   },
 
   nitro: {

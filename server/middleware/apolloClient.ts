@@ -5,9 +5,11 @@ import { createApiClient } from "@erpgap/odoo-sdk-api-client/server";
 import { Mutations } from "~/server/mutations";
 import { Queries } from "~/server/queries";
 
+const baseURL = useRuntimeConfig().public.odooSchemaPath
+
 export default defineEventHandler((event) => {
   const config: MiddlewareConfig = {
-    odooGraphqlUrl: `http://localhost:8069/graphql/vsf`,
+    odooGraphqlUrl: `${baseURL}`,
     queries: { ...Queries, ...Mutations },
     headers: {
       "REAL-IP": getRequestIP(event) || "",
@@ -15,10 +17,8 @@ export default defineEventHandler((event) => {
     },
   };
   if (parseCookies(event).session_id) {
-    (config.headers as Record<string, string>).Cookie = `session_id=${
-      parseCookies(event).session_id
-    }`;
+    (config.headers as Record<string, string>).Cookie = `session_id=${parseCookies(event).session_id
+      }`;
   }
-
   event.context.apolloClient = createApiClient(config);
 });

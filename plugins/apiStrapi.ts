@@ -1,7 +1,7 @@
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig()
 
-  const baseURL = config.public.apiUrlStrapi || 'http://localhost:1337'
+  const baseURL = config.public.proxyStrapi
 
   const fetchApi = async (endpoint: string, options = {}) => {
     // Asegurarse de que baseURL no termine en '/' y endpoint no empiece con '/'

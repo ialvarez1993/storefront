@@ -2,11 +2,8 @@ import type { CodegenConfig } from "@graphql-codegen/cli";
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: [
-    {
-      "http://localhost:8069/graphql/vsf": {},
-    },
-  ],
+  // schema: process.env.NUXT_PUBLIC_ODOO_SCHEMA_PATH,
+  schema: 'http://localhost:8069/graphql/vsf',
   config: {
     preResolveTypes: true,
     avoidOptionals: true,

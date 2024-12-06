@@ -1,6 +1,7 @@
 import productFragment from "../fragments/productFragment";
 
-const odooBaseUrl = `http://localhost:8069/graphql/vsf`;
+const baseURL = useRuntimeConfig().public.odooSchemaPath;
+
 
 const headers = {
   "Content-Type": "application/json",
@@ -11,7 +12,7 @@ const headers = {
 export default defineCachedEventHandler(
   async (event) => {
     const results = await $fetch({
-      url: odooBaseUrl,
+      url: baseURL,
       method: "post",
       data: {
         query: `
