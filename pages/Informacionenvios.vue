@@ -1,5 +1,5 @@
 <template>
-  <div class="shipping-info !mx-[3rem] mt-[12rem]">
+  <div class="shipping-info  mt-[12rem]">
     <!-- Banner Principal -->
     <div class="bg-gradient-to-r  from-indigo-600 to-blue-500 py-16">
       <div class="container mx-auto px-4">

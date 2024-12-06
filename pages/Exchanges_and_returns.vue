@@ -1,6 +1,6 @@
 <!-- pages/cambios-devoluciones.vue -->
 <template>
-  <div class="cambios-devoluciones">
+  <div class="cambios-devoluciones !mt-[13rem]">
     <div class="banner">
       <h1>Cambios y Devoluciones</h1>
     </div>

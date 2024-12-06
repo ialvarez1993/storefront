@@ -1,5 +1,5 @@
 <template>
-  <div class="payment-info !mx-[3rem] !mt-[12rem] ">
+  <div class="payment-info  !mt-[12rem] ">
     <!-- Banner Principal -->
     <div class="bg-gradient-to-r from-emerald-600 to-teal-500 py-16">
       <div class="container mx-auto px-4">
