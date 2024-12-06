@@ -3,16 +3,23 @@ import { ref } from "vue";
 import "primeicons/primeicons.css";
 import type { Category } from "~/graphql";
 
+const props = defineProps({
+  title: String,
+  keyForComposable: { type: String, default: "" },
+});
+
 const filteredCategories = inject<Category[]>("filteredTopCategories");
 const menuData = ref(null);
 const { $fetchApi } = useNuxtApp();
 
 const fetchMenuData = async () => {
   try {
-    const data = await $fetchApi('/api/inicio-menu-categorias-de-busquedas?locale=es-VE');
+    const data = await $fetchApi(
+      "/api/inicio-menu-categorias-de-busquedas?locale=es-VE",
+    );
     return data.data;
   } catch (error) {
-    console.error('[SUPERMENU] Error fetching menu data:', error);
+    console.error("[SUPERMENU] Error fetching menu data:", error);
     return [];
   }
 };
@@ -152,62 +159,97 @@ onMounted(async () => {
     };
   }
 });
-
 </script>
 
 <template>
   <div class="mega-menu-wrapper">
-    <MegaMenu :model="items" class="!border-none !text-black !border-transparent !static">
+    <MegaMenu
+      :model="items"
+      class="!border-none !text-black !border-transparent !static"
+    >
       <template #item="{ item }">
         <!-- Root Menu Items -->
-        <a v-if="item.root"
-          class="root-item group/hovero flex items-center cursor-pointer px-6 py-[0.5rem] overflow-hidden relative">
-          <i v-if="item.icon" :class="[
-            item.icon,
-            'mr-2 !text-black group-hover/hovero:!text-[#FFC107] text-xl ',
-          ]"></i>
-          <span class="font-medium !text-black group-hover/hovero:!text-[#FFC107] hover:text-teal-50">
-            {{ $t(item.label) }}
+        <a
+          v-if="item.root"
+          class="root-item group/hovero flex items-center cursor-pointer px-6 py-[0.5rem] overflow-hidden relative"
+        >
+          <i
+            v-if="item.icon"
+            :class="[
+              item.icon,
+              'mr-2 !text-black group-hover/hovero:!text-[#FFC107] text-xl ',
+            ]"
+          ></i>
+          <span
+            class="font-medium !text-black group-hover/hovero:!text-[#FFC107] hover:text-teal-50"
+          >
+            {{ props.title }}
           </span>
-          <i class="pi !text-black pi-chevron-down ml-2 group-hover/hovero:!text-[#FFC107] text-sm"></i>
+          <i
+            class="pi !text-black pi-chevron-down ml-2 group-hover/hovero:!text-[#FFC107] text-sm"
+          ></i>
         </a>
 
         <!-- Regular Menu Items -->
-        <a v-else-if="!item.image"
-          class="menu-item !bg-black/5 flex items-center p-4 cursor-pointer mb-2 gap-3 transition-all duration-200">
+        <a
+          v-else-if="!item.image"
+          class="menu-item !bg-black/5 flex items-center p-4 cursor-pointer mb-2 gap-3 transition-all duration-200"
+        >
           <span
-            class="icon-wrapper inline-flex items-center justify-center rounded-xl bg-primary/10 text-primary w-12 h-12 transition-all duration-200">
+            class="icon-wrapper inline-flex items-center justify-center rounded-xl bg-primary/10 text-primary w-12 h-12 transition-all duration-200"
+          >
             <i :class="[item.icon, 'text-xl']"></i>
           </span>
           <span class="inline-flex flex-col gap-1">
-            <span class="font-bold text-lg text-black hover:text-primary transition-colors duration-200">
+            <span
+              class="font-bold text-lg text-black hover:text-primary transition-colors duration-200"
+            >
               {{ $t(item.label) }}
             </span>
             <!-- Lista de Links -->
             <ul>
               <NuxtLink :to="item.link1">
-                <li v-if="item.title1" class="text-gray-600 py-1 hover:text-yellow-500 text-sm">
+                <li
+                  v-if="item.title1"
+                  class="text-gray-600 py-1 hover:text-yellow-500 text-sm"
+                >
                   {{ $t(item.title1) }}
                 </li>
               </NuxtLink>
               <NuxtLink :to="item.link2">
-                <li :to="item.link2" v-if="item.title2" class="text-gray-600 py-1 hover:text-yellow-500 text-sm">
+                <li
+                  :to="item.link2"
+                  v-if="item.title2"
+                  class="text-gray-600 py-1 hover:text-yellow-500 text-sm"
+                >
                   {{ $t(item.title2) }}
                 </li>
               </NuxtLink>
               <NuxtLink :to="item.link3">
-                <li :to="item.link3" v-if="item.title3" class="text-gray-600 py-1 text-sm hover:text-yellow-500">
+                <li
+                  :to="item.link3"
+                  v-if="item.title3"
+                  class="text-gray-600 py-1 text-sm hover:text-yellow-500"
+                >
                   {{ $t(item.title3) }}
                 </li>
               </NuxtLink>
               <NuxtLink :to="item.link4">
-                <li :to="item.link4" v-if="item.title4" class="text-gray-600 py-1 text-sm hover:text-yellow-500">
+                <li
+                  :to="item.link4"
+                  v-if="item.title4"
+                  class="text-gray-600 py-1 text-sm hover:text-yellow-500"
+                >
                   {{ $t(item.title4) }}
                 </li>
               </NuxtLink>
 
               <NuxtLink class="py-14" :to="item.link5">
-                <li :to="item.link5" v-if="item.title5" class="text-gray-600 py-1 text-sm hover:text-yellow-500">
+                <li
+                  :to="item.link5"
+                  v-if="item.title5"
+                  class="text-gray-600 py-1 text-sm hover:text-yellow-500"
+                >
                   {{ $t(item.title5) }}
                 </li>
               </NuxtLink>
@@ -216,13 +258,23 @@ onMounted(async () => {
         </a>
 
         <!-- Image Items -->
-        <div v-else class="promo-item flex flex-col items-start gap-4 p-4 rounded-xl bg-gray-50">
+        <div
+          v-else
+          class="promo-item flex flex-col items-start gap-4 p-4 rounded-xl bg-gray-50"
+        >
           <div class="relative w-full overflow-hidden rounded-lg">
-            <NuxtImg :src="item.image"
-              class="w-full h-48 object-cover transform hover:scale-105 transition-transform duration-300" />
+            <NuxtImg
+              :src="item.image"
+              class="w-full h-48 object-cover transform hover:scale-105 transition-transform duration-300"
+            />
           </div>
           <span class="text-gray-700">{{ $t(item.subtext) }}</span>
-          <Button :label="$t(item.label)" class="custom-button w-full justify-center" severity="primary" raised>
+          <Button
+            :label="$t(item.label)"
+            class="custom-button w-full justify-center"
+            severity="primary"
+            raised
+          >
             <template #icon>
               <i class="pi pi-arrow-right ml-2"></i>
             </template>
@@ -268,9 +320,11 @@ onMounted(async () => {
 
 .custom-button {
   border: none;
-  background: linear-gradient(45deg,
-      var(--primary-color),
-      var(--primary-light));
+  background: linear-gradient(
+    45deg,
+    var(--primary-color),
+    var(--primary-light)
+  );
   transition: all 0.3s ease;
 }
 
