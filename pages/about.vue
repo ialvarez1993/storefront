@@ -228,6 +228,9 @@ import { useI18n } from "vue-i18n";
 const { locale, setLocale } = useI18n();
 const { $fetchApi } = useNuxtApp();
 
+const currentLang = locale.value; // 'es' o 'en'
+const API_URL = `/api/acerca-de?pagination%5BwithCount%5D=true&locale=${currentLang === "es" ? "es-VE" : "en"}`;
+console.log("CAMBIOS =",API_URL)
 
 const fetchData = async () => {
   try {
@@ -246,9 +249,7 @@ const { data, isPending, error, refetch } = useQuery({
   retry: 3,
   retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
 });
-const currentLang = locale.value; // 'es' o 'en'
 console.log(currentLang);
-const API_URL = `/api/acerca-de?pagination%5BwithCount%5D=true&locale=${currentLang === "es" ? "es-VE" : "en"}`;
 
 const retryFetch = () => {
   refetch();
