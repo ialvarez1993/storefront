@@ -1,5 +1,9 @@
 <script lang="ts" setup>
 import { ref, onMounted, onUnmounted } from "vue";
+
+import type { Feature } from "@/types/content-header";
+const runtimeConfig = useRuntimeConfig();
+
 import {
   MagnifyingGlassIcon,
   UserIcon,
@@ -16,8 +20,7 @@ import Supermenus2 from "./header/Supermenus2.vue";
 import SupermenusDigital from "./header/SupermenusDigial.vue";
 import SideBar from "./ui/SideBar.vue";
 import TreeViewItem from "./header/TreeViewItem.vue";
-import ButtonWishlist from "./header/ButtonWishlist.vue"
-
+import ButtonWishlist from "./header/ButtonWishlist.vue";
 
 const { loadCategoryList, categories: categoriesData } = useCategory();
 const { loadWishlist } = useWishlist();
@@ -40,7 +43,29 @@ const isMenuOpen = ref(false);
 const activeDropdown = ref(null);
 const currency = ref("VES");
 
+const menuItems = computed(() => {
+  const categories = menuContent.value?.data?.data?.categories || [];
+  return [
+    {
+      name: categories[2] || "",
+      url: "/category/52",
+    },
+    { name: categories[3] || "", url: "/Highlights" },
+    { name: categories[4] || "", url: "/Offers" },
+    {
+      name: menuContent.value?.data?.data?.information?.aboutUs || "",
+      url: "/about",
+    },
+    {
+      name: menuContent.value?.data?.data?.information?.contact || "",
+      url: "/contact",
+    },
+  ];
+});
 
+const baseUrl = runtimeConfig.public.apiUrlStrapi.endsWith("/")
+  ? runtimeConfig.public.apiUrlStrapi.slice(0, -1)
+  : runtimeConfig.public.apiUrlStrapi;
 
 const categories = {
   ferreteria: [
@@ -84,17 +109,44 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
 });
+import { useI18n } from "vue-i18n";
+const { locale, setLocale } = useI18n();
+const currentLang = locale.value; // 'es' o 'en'
+const { $fetchApi } = useNuxtApp();
+const menuContent = ref<Feature | null>(null);
+
+const fetchDataMenuContent = async (): Promise<any> => {
+  try {
+    const API_URL = `/api/cabecera-texto-y-link?populate=logocabecera&locale=${currentLang === "es" ? "es-VE" : "en"}`;
+    const data = await $fetchApi(API_URL);
+    menuContent.value = data as Feature;
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+onMounted(() => {
+  fetchDataMenuContent();
+});
 </script>
 
 <template>
-  <header :class="[
-    'w-full fixed top-0 left-0 z-50 bg-white transition-all duration-300',
-    { 'shadow-md': isCompact },
-  ]">
+  <header
+    :class="[
+      'w-full fixed top-0 left-0 z-50 bg-white transition-all duration-300',
+      { 'shadow-md': isCompact },
+    ]"
+  >
     <!-- Top banner -->
-    <div v-if="!isCompact" class="bg-black text-white px-4 py-2 flex items-center justify-between text-sm w-full">
-      <span class="hidden lg:block items-center font-robotolight sm:inline whitespace-nowrap">
-        {{ $t("HeaderUp.Shipping") }}
+    <div
+      v-if="!isCompact"
+      class="bg-black text-white px-4 py-2 flex items-center justify-between text-sm w-full"
+    >
+      <span
+        class="hidden lg:block items-center font-robotolight sm:inline whitespace-nowrap"
+      >
+        {{ menuContent?.data?.data?.title }}
       </span>
       <div class="flex items-center justify-end gap-8 w-full">
         <div class="flex items-center justify-end w-full my-auto">
@@ -105,10 +157,12 @@ onUnmounted(() => {
     </div>
 
     <!-- Main header -->
-    <div :class="[
-      'container mx-auto px-4 transition-all duration-300',
-      isCompact ? 'py-2' : 'py-4',
-    ]">
+    <div
+      :class="[
+        'container mx-auto px-4 transition-all duration-300',
+        isCompact ? 'py-2' : 'py-4',
+      ]"
+    >
       <div class="flex items-center justify-between gap-4">
         <!-- Left section - Esta en modo mobile -->
         <div class="flex items-center gap-4">
@@ -116,7 +170,11 @@ onUnmounted(() => {
             <SideBar />
           </div>
           <NuxtLink to="/" class="flex-shrink-0">
-            <VsfLogo />
+            <img
+              width="205"
+              height="50"
+              :src="`${baseUrl}${menuContent?.data?.logocabecera?.url}`"
+            />
           </NuxtLink>
           <!-- Icon Menu Resposive - Esta en modo default -->
           <div v-if="!isCompact" class="grid grid-cols-2 lg:hidden">
@@ -126,11 +184,13 @@ onUnmounted(() => {
         </div>
 
         <!-- Search bar -->
-        <div :class="[
-          'flex-1 max-w-2xl transition-all duration-300',
-          isCompact ? 'px-4' : '',
-          'hidden md:block',
-        ]">
+        <div
+          :class="[
+            'flex-1 max-w-2xl transition-all duration-300',
+            isCompact ? 'px-4' : '',
+            'hidden md:block',
+          ]"
+        >
           <SearchInput />
         </div>
 
@@ -144,22 +204,32 @@ onUnmounted(() => {
           <!-- WhatsApp -->
           <LinkWhasapp />
           <!-- User account -->
-          <NuxtLink to="/login" class="hidden font-Gotham lg:flex items-center gap-2">
+          <NuxtLink
+            to="/login"
+            class="hidden font-Gotham lg:flex items-center gap-2"
+          >
             <UserIcon class="h-5 w-5" />
-            <span v-if="!isCompact" class="text-sm">{{ $t("cuenta") }}</span>
+            <span v-if="!isCompact" class="text-sm">
+              {{ menuContent?.data?.data?.user?.myAccount }}</span
+            >
           </NuxtLink>
 
           <!-- Shopping cart -->
           <NuxtLink to="/cart" class="relative">
             <ShoppingCartIcon class="h-6 w-6" />
             <span
-              class="absolute -top-2 -right-2 bg-[#FFC107] text-black text-xs rounded-full h-5 w-5 flex items-center justify-center">
+              class="absolute -top-2 -right-2 bg-[#FFC107] text-black text-xs rounded-full h-5 w-5 flex items-center justify-center"
+            >
               {{ totalItemsInCart }}
             </span>
           </NuxtLink>
 
           <!-- Scroll to top -->
-          <button v-if="isCompact" class="p-2 hover:bg-gray-100" @click="scrollToTop">
+          <button
+            v-if="isCompact"
+            class="p-2 hover:bg-gray-100"
+            @click="scrollToTop"
+          >
             <ArrowUpIcon class="h-5 w-5" />
           </button>
         </div>
@@ -175,20 +245,13 @@ onUnmounted(() => {
     <nav v-if="!isCompact" class="border-t border-b hidden lg:block">
       <div class="container mx-auto px-4">
         <ul class="flex items-center gap-8">
-          <Supermenus />
-          <Supermenus2 />
-          <li v-for="item in [
-            {
-              name: 'headerCatalog.allProducts',
-              url: '/category/52',
-            },
-            { name: 'headerCatalog.Highlights', url: '/Highlights' },
-            { name: 'headerCatalog.Offers', url: '/Offers' },
-            { name: 'headerCatalog.About', url: '/about' },
-            { name: 'headerCatalog.Contact', url: '/contact' },
-          ]" :key="item.name">
-            <NuxtLink :to="item.url"
-              class="h-12 px-3 rounded-lg text-base py-3 hover:bg-gray-200/50 hover:text-[#FFC107]">
+          <Supermenus :title="menuContent?.data?.data?.categories[0]" />
+          <Supermenus2 :title="menuContent?.data?.data?.categories[1]" />
+          <li v-for="item in menuItems" :key="item.name">
+            <NuxtLink
+              :to="item.url"
+              class="h-12 px-3 rounded-lg text-base py-3 hover:bg-gray-200/50 hover:text-[#FFC107]"
+            >
               {{ $t(item.name) }}
             </NuxtLink>
           </li>
@@ -197,32 +260,48 @@ onUnmounted(() => {
     </nav>
 
     <!-- Mobile menu -->
-    <div v-if="isMenuOpen && isCompact" class="absolute top-full left-0 w-full bg-white shadow-lg lg:hidden">
+    <div
+      v-if="isMenuOpen && isCompact"
+      class="absolute top-full left-0 w-full bg-white shadow-lg lg:hidden"
+    >
       <div class="container mx-auto py-4">
         <ul class="space-y-2">
           <li v-for="(items, key) in categories" :key="key">
-            <button class="w-full text-left px-4 py-2 flex items-center justify-between"
-              @click="handleDropdownToggle(key)">
+            <button
+              class="w-full text-left px-4 py-2 flex items-center justify-between"
+              @click="handleDropdownToggle(key)"
+            >
               {{ key.charAt(0).toUpperCase() + key.slice(1) }}
-              <ChevronDownIcon :class="[
-                'h-4 w-4 transition-transform',
-                { 'rotate-180': activeDropdown === key },
-              ]" />
+              <ChevronDownIcon
+                :class="[
+                  'h-4 w-4 transition-transform',
+                  { 'rotate-180': activeDropdown === key },
+                ]"
+              />
             </button>
             <ul v-if="activeDropdown === key" class="pl-8 space-y-2 mt-2">
               <li v-for="item in items" :key="item.name">
-                <NuxtLink :to="item.href" class="block px-4 py-2 hover:bg-gray-100">
+                <NuxtLink
+                  :to="item.href"
+                  class="block px-4 py-2 hover:bg-gray-100"
+                >
                   {{ item.name }}
                 </NuxtLink>
               </li>
             </ul>
           </li>
-          <li v-for="item in [
-            'Todos los productos',
-            'Los mÃ¡s destacados',
-            'Ofertas',
-          ]" :key="item">
-            <NuxtLink to="/category/15" class="block px-4 py-2 hover:bg-gray-100">
+          <li
+            v-for="item in [
+              'Todos los productos',
+              'Los mÃ¡s destacados',
+              'Ofertas',
+            ]"
+            :key="item"
+          >
+            <NuxtLink
+              to="/category/15"
+              class="block px-4 py-2 hover:bg-gray-100"
+            >
               {{ item }}
             </NuxtLink>
           </li>
