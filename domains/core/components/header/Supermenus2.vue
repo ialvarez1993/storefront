@@ -9,6 +9,11 @@ const menuData = ref(null);
 const { $fetchApi } = useNuxtApp();
 import { useI18n } from "vue-i18n";
 
+const props = defineProps({
+  title: String,
+  keyForComposable: { type: String, default: "" },
+});
+
 // Función para obtener los datos
 const fetchMenuData = async () => {
   try {
