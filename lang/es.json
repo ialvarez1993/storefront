@@ -614,5 +614,8 @@
   "catalog": {
     "title": "Ofertas Especiales"
   },
-  "productPopulate": "Productos más populares"
+  "productPopulate": "Productos más populares",
+  "searchResult": "Buscando resultados...",
+  "searchTextElseResult": "No se encontraron resultados para",
+  "SearchTendencias": "Tendencias"
 }
