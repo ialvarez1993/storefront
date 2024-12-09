@@ -137,11 +137,20 @@ watch(searchHits, animateResults);
 <template>
   <div class="search-container relative" ref="formSearchTemplateRef">
     <!-- Input principal -->
-    <SfInput v-model="searchInputValue" type="text"
+    <SfInput
+      v-model="searchInputValue"
+      type="text"
       class="search-input font-robotolight [&::-webkit-search-cancel-button]:appearance-none"
-      :class="{ 'is-focused': isInputFocused }" :placeholder="$t('search')" wrapper-class="flex-1 h-12 pr-0" size="base"
-      @input="handleSearch" @focus="handleFocus" @blur="handleBlur" @keydown="handleKeydown"
-      @keydown.enter.prevent="enterPress">
+      :class="{ 'is-focused': isInputFocused }"
+      :placeholder="$t('search')"
+      wrapper-class="flex-1 h-12 pr-0"
+      size="base"
+      @input="handleSearch"
+      @focus="handleFocus"
+      @blur="handleBlur"
+      @keydown="handleKeydown"
+      @keydown.enter.prevent="enterPress"
+    >
       <template #prefix>
         <Icon name="ion:search" size="20px" class="text-gray-500 ml-3" />
       </template>
@@ -149,14 +158,25 @@ watch(searchHits, animateResults);
       <template #suffix>
         <div class="flex items-center gap-2 pr-2">
           <transition name="fade">
-            <SfButton v-if="searchInputValue" variant="tertiary" square size="sm" class="text-gray-500"
-              @click="searchInputValue = ''">
+            <SfButton
+              v-if="searchInputValue"
+              variant="tertiary"
+              square
+              size="sm"
+              class="text-gray-500"
+              @click="searchInputValue = ''"
+            >
               <Icon name="ion:close" size="18px" />
             </SfButton>
           </transition>
 
-          <SfButton variant="primary" size="sm" class="search-button" :disabled="loading || !searchInputValue"
-            @click="search">
+          <SfButton
+            variant="primary"
+            size="sm"
+            class="search-button"
+            :disabled="loading || !searchInputValue"
+            @click="search"
+          >
             <template v-if="!loading"> {{ $t("searchButton") }} </template>
             <SfLoaderCircular v-else size="sm" />
           </SfButton>
@@ -165,30 +185,50 @@ watch(searchHits, animateResults);
     </SfInput>
 
     <!-- Panel de resultados y sugerencias -->
-    <transition enter-active-class="transition ease-out duration-200" enter-from-class="opacity-0 translate-y-1"
-      enter-to-class="opacity-100 translate-y-0" leave-active-class="transition ease-in duration-150"
-      leave-from-class="opacity-100 translate-y-0" leave-to-class="opacity-0 translate-y-1">
-      <div v-if="showResultSearch || shouldShowSuggestions" class="search-results-panel" ref="searchResultsRef">
+    <transition
+      enter-active-class="transition ease-out duration-200"
+      enter-from-class="opacity-0 translate-y-1"
+      enter-to-class="opacity-100 translate-y-0"
+      leave-active-class="transition ease-in duration-150"
+      leave-from-class="opacity-100 translate-y-0"
+      leave-to-class="opacity-0 translate-y-1"
+    >
+      <div
+        v-if="showResultSearch || shouldShowSuggestions"
+        class="search-results-panel"
+        ref="searchResultsRef"
+      >
         <!-- Resultados de búsqueda -->
         <div v-if="showResultSearch" class="search-results">
           <div v-if="loading" class="search-loading">
             <SfLoaderCircular size="lg" />
-            <p class="text-gray-600">Buscando resultados...</p>
+            <p class="text-gray-600">{{ $t("searchResult") }}</p>
           </div>
 
           <div v-else-if="hasResults" class="search-hits">
             <ul class="divide-y">
-              <li v-for="(hit, index) in searchHits" :key="hit.id" class="search-result-item"
-                :class="{ 'is-highlighted': index === highlightedIndex }" @click="handleSelectResult(hit)">
+              <li
+                v-for="(hit, index) in searchHits"
+                :key="hit.id"
+                class="search-result-item"
+                :class="{ 'is-highlighted': index === highlightedIndex }"
+                @click="handleSelectResult(hit)"
+              >
                 <div class="flex items-center gap-4 p-3 hover:bg-gray-50">
                   <div class="search-result-image">
-                    <NuxtImg v-if="hit.combinationInfo.display_name" :src="$getImage(
-                      String(hit.image),
-                      250,
-                      250,
-                      String(hit.imageFilename),
-                    )
-                      " :alt="hit.name" class="rounded-lg object-cover" />
+                    <NuxtImg
+                      v-if="hit.combinationInfo.display_name"
+                      :src="
+                        $getImage(
+                          String(hit.image),
+                          250,
+                          250,
+                          String(hit.imageFilename),
+                        )
+                      "
+                      :alt="hit.name"
+                      class="rounded-lg object-cover"
+                    />
                     <div v-else class="placeholder-image">
                       <Icon name="ion:image-outline" size="24px" />
                     </div>
@@ -202,9 +242,9 @@ watch(searchHits, animateResults);
                     <div class="search-result-meta">
                       <span v-if="hit.price" class="search-result-price">
                         {{
-                          new Intl.NumberFormat("es-ES", {
+                          new Intl.NumberFormat("en-US", {
                             style: "currency",
-                            currency: "EUR",
+                            currency: "USD",
                           }).format(hit.price)
                         }}
                       </span>
@@ -221,7 +261,7 @@ watch(searchHits, animateResults);
           <div v-else class="search-no-results">
             <Icon name="ion:search-outline" size="48px" class="text-gray-400" />
             <p class="text-gray-600">
-              No se encontraron resultados para "{{ searchInputValue }}"
+              {{ $t("searchTextElseResult") }} "{{ searchInputValue }}"
             </p>
           </div>
         </div>
@@ -235,10 +275,15 @@ watch(searchHits, animateResults);
               Búsquedas recientes
             </h3>
             <ul class="suggestion-list">
-              <li v-for="term in recentSearches" :key="term" class="suggestion-item" @click="
-                searchInputValue = term;
-              search();
-              ">
+              <li
+                v-for="term in recentSearches"
+                :key="term"
+                class="suggestion-item"
+                @click="
+                  searchInputValue = term;
+                  search();
+                "
+              >
                 <Icon name="ion:refresh-outline" />
                 {{ term }}
               </li>
@@ -249,13 +294,18 @@ watch(searchHits, animateResults);
           <div class="suggestion-section">
             <h3 class="suggestion-title">
               <Icon name="ion:trending-up-outline" />
-              Tendencias
+              {{ $t("SearchTendencias") }}
             </h3>
             <ul class="suggestion-list">
-              <li v-for="trend in trendingSearches" :key="trend.id" class="suggestion-item" @click="
-                searchInputValue = trend.term;
-              search();
-              ">
+              <li
+                v-for="trend in trendingSearches"
+                :key="trend.id"
+                class="suggestion-item"
+                @click="
+                  searchInputValue = trend.term;
+                  search();
+                "
+              >
                 <span class="trend-icon">{{ trend.icon }}</span>
                 {{ trend.term }}
               </li>
