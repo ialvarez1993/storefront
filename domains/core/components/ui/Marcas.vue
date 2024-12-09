@@ -107,11 +107,11 @@ const props = withDefaults(defineProps<Props>(), {
 }
 
 .brands-grid {
-  @apply grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8 md:gap-12 place-items-center;
+  @apply grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8  md:gap-11 place-items-center;
 }
 
 .brand-item {
-  @apply relative w-full max-w-[160px] aspect-[3/2] p-4 flex items-center justify-center bg-white rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:scale-105;
+  @apply relative w-full max-w-[160px] my-[1rem] aspect-[3/2] p-4 flex items-center justify-center bg-white rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:scale-105;
 
   &.animated {
     @apply opacity-0 translate-y-4;
