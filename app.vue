@@ -52,7 +52,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="h-screen justify-center align-middle">
+  <div class="font-sass h-screen justify-center align-middle">
     <NuxtLoadingIndicator color="yellow" :height="4" />
     <NuxtLayout>
       <NuxtPage :page-key="(route) => route.fullPath" />
