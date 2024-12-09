@@ -40,7 +40,10 @@
             </NuxtLink>
           </li>
           <li>
-            <NuxtLink to="/auth" class="hover:text-gray-300 transition-colors">
+            <NuxtLink
+              to="/signup"
+              class="hover:text-gray-300 transition-colors"
+            >
               {{ $t("footer.navegacion.informacion.registro") }}
             </NuxtLink>
           </li>
@@ -60,7 +63,7 @@
         <ul class="space-y-2">
           <li>
             <NuxtLink
-              to="/category/52"
+              to="/category/3"
               class="hover:text-gray-300 transition-colors"
             >
               {{ $t("footer.navegacion.categorias.todos_productos") }}
@@ -110,7 +113,7 @@
           </li>
           <li>
             <NuxtLink
-              to="/preguntas_frecuentes"
+              to="/frequently_asked_questions"
               class="hover:text-gray-300 transition-colors"
             >
               {{ $t("footer.navegacion.informacion.preguntas_frecuentes") }}
@@ -126,7 +129,7 @@
           </li>
           <li>
             <NuxtLink
-              to="/Informacionenvios"
+              to="/shippinginformation"
               class="hover:text-gray-300 transition-colors"
             >
               {{ $t("footer.navegacion.informacion.envios") }}
@@ -134,7 +137,7 @@
           </li>
           <li>
             <NuxtLink
-              to="/Informacionpago"
+              to="/paymentinformation"
               class="hover:text-gray-300 transition-colors"
             >
               {{ $t("footer.navegacion.informacion.pagos") }}
