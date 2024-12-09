@@ -4,6 +4,7 @@ import Aura from '@primevue/themes/aura';
 export default defineNuxtConfig({
   devtools: { enabled: false },
 
+  devtools: { enabled: true },
   robots: {
     allow: "/category/*",
   },
@@ -78,20 +79,24 @@ export default defineNuxtConfig({
     ],
     public: {
       NUXT_CLARITY_ID: process.env.NUXT_CLARITY_ID,
-      odooBaseImageUrl: "http://localhost:8069/",
-      odooBaseUrl: "http://localhost:8069/",
-      odooSchemaPath: 'http://localhost:8069/graphql/vsf',
-      currencySymbol: "$",
-      currencySeparator: ".",
-      currencyDecimal: ".",
-      currencyPrecision: "2",
-      apiUrlStrapi: "http://localhost:1337",
-      proxyStrapi: "http://localhost:3000/cms/"
+      odooBaseImageUrl: "",
+      odooBaseUrl: "",
+      currencySymbol: "",
+      currencySeparator: "",
+      currencyDecimal: "",
+      currencyPrecision: "",
+      apiUrlStrapi: "",
+      apiStrapiToken: "",
+      NUXT_PUBLIC_API_STRAPI_TOKEN: process.env.NUXT_PUBLIC_API_STRAPI_TOKEN,
+      strapiMirror: "http://localhost:3000/cms/"
     },
   },
 
   i18n: {
-    strategy: 'no_prefix',  // Cambiado para mejor SEO
+    useNuxtI18nConfig: false,
+    autoRedirectByLocale: false,
+    skipSettingLocaleOnNavigate: true,
+    strategy: 'no_prefix',
     locales: [
       {
         code: "es",
@@ -112,7 +117,7 @@ export default defineNuxtConfig({
       cookieKey: "i18n_redirected",
       cookieSecure: process.env.NODE_ENV === 'production',
       redirectOn: 'root',
-      alwaysRedirect: true,
+      alwaysRedirect: false,
       fallbackLocale: 'es'
     },
     vueI18n: "./i18n.config.ts",
@@ -176,6 +181,9 @@ export default defineNuxtConfig({
     "/product/*": {
       swr: Number(process.env?.NUXT_SWR_CACHE_TIME)
     },
+    '/cms/**': {
+      proxy: { to: `${process.env?.NUXT_PUBLIC_STRAPI}/**` },
+    }
     '/cms/**': {
       proxy: { to: `${process.env?.NUXT_PUBLIC_STRAPI}/**` },
     }
