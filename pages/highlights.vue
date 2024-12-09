@@ -5,15 +5,23 @@
       <h1 class="featured__title">Productos Destacados</h1>
 
       <div class="featured__grid">
-        <article v-for="product in featuredProducts" :key="product.id" class="product-card"
-          :class="{ 'product-card--sold-out': product.stock === 0 }">
+        <article
+          v-for="product in featuredProducts"
+          :key="product.id"
+          class="product-card"
+          :class="{ 'product-card--sold-out': product.stock === 0 }"
+        >
           <div class="product-card__badge" v-if="product.badge">
             {{ product.badge }}
           </div>
 
           <div class="product-card__media">
             <div class="product-card__image-container">
-              <NuxtImg :src="product.image" :alt="product.name" class="product-card__image" />
+              <NuxtImg
+                :src="product.image"
+                :alt="product.name"
+                class="product-card__image"
+              />
               <div class="product-card__overlay">
                 <button class="product-card__quick-view">
                   <i class="fas fa-eye"></i>
@@ -22,9 +30,13 @@
               </div>
             </div>
 
-            <button class="product-card__wishlist" :class="{
-              'product-card__wishlist--active': product.isWishlisted,
-            }" @click="toggleWishlist(product.id)">
+            <button
+              class="product-card__wishlist"
+              :class="{
+                'product-card__wishlist--active': product.isWishlisted,
+              }"
+              @click="toggleWishlist(product.id)"
+            >
               <i class="fas fa-heart"></i>
             </button>
           </div>
@@ -35,13 +47,21 @@
 
             <div class="product-card__rating">
               <div class="stars">
-                <i v-for="n in 5" :key="n" class="fas fa-star" :class="{ 'stars--filled': n <= product.rating }"></i>
+                <i
+                  v-for="n in 5"
+                  :key="n"
+                  class="fas fa-star"
+                  :class="{ 'stars--filled': n <= product.rating }"
+                ></i>
               </div>
               <span class="product-card__reviews">({{ product.reviews }})</span>
             </div>
 
             <div class="product-card__prices">
-              <span v-if="product.originalPrice" class="product-card__original-price">
+              <span
+                v-if="product.originalPrice"
+                class="product-card__original-price"
+              >
                 {{ formatPrice(product.originalPrice) }}
               </span>
               <span class="product-card__current-price">
@@ -50,7 +70,10 @@
             </div>
 
             <div class="product-card__stock">
-              <div class="product-card__stock-bar" :style="{ width: `${product.stockPercentage}%` }"></div>
+              <div
+                class="product-card__stock-bar"
+                :style="{ width: `${product.stockPercentage}%` }"
+              ></div>
               <span class="product-card__stock-text">
                 {{ product.stock }} unidades disponibles
               </span>
@@ -58,10 +81,22 @@
           </div>
 
           <div class="product-card__footer">
-            <button @click="cartAdd(data.firstVariant?.id, quantity)" class="product-card__cart-btn">
-              <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            <button
+              @click="cartAdd(data.firstVariant?.id, quantity)"
+              class="product-card__cart-btn"
+            >
+              <svg
+                class="w-5 h-5 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                />
               </svg>
               Agregar al carrito
             </button>
@@ -121,13 +156,12 @@ const featuredProducts = ref([
     badge: null,
     isWishlisted: false,
   },
-  // Añade más productos...
 ]);
 
 const formatPrice = (price) => {
-  return new Intl.NumberFormat("es-ES", {
+  return new Intl.NumberFormat("en-US", {
     style: "currency",
-    currency: "EUR",
+    currency: "USD",
   }).format(price);
 };
 

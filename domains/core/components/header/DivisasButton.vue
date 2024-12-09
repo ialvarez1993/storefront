@@ -133,6 +133,8 @@ const formatCompactRate = (rate: number | null): string => {
   }).format(rate);
 };
 
+
+
 // Función para formatear tasas de cambio completas
 const formatRate = (rate: number): string => {
   return new Intl.NumberFormat("es-VE", {
