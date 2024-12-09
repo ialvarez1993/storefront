@@ -2,6 +2,11 @@
 import { ref, onMounted, computed } from "vue";
 import { useWindowSize } from "@vueuse/core";
 
+const capitalize = (str: string): string => {
+  if (typeof str !== "string") return str;
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+};
+
 const props = defineProps({
   heading: String,
   text: String,
@@ -147,14 +152,13 @@ onMounted(async () => {
               </span>
               <span v-if="product.isNew" class="new-badge">Nuevo</span>
             </div>
-            <button class="quick-view-btn">
-              <span class="icon">👁</span>
-            </button>
           </div>
 
           <!-- Product Info -->
           <div class="product-info">
-            <h3 class="product-name">{{ product.name }}</h3>
+            <NuxtLink :to="product.slug">
+              <h3 class="product-name">{{ product.name }}</h3>
+            </NuxtLink>
             <div class="product-price">
               <span
                 class="original-price"
@@ -171,12 +175,29 @@ onMounted(async () => {
                 }}
               </span>
             </div>
+            <div>
+              <NuxtLink
+                v-for="categories in product.categories"
+                :key="categories.id"
+                :to="categories.slug"
+                class="inline-block mb-1"
+              >
+                <span
+                  class="inline-block px-3 mr-4 text-xs py-1 font-semibold text-black bg-yellow-400 rounded-full capitalize"
+                >
+                  {{ capitalize(categories.name) }}
+                </span>
+              </NuxtLink>
+            </div>
+
             <div class="product-meta">
-              <div class="rating">
-                <span class="stars">★★★★☆</span>
-                <span class="rating-count">(45)</span>
-              </div>
-              <span class="stock-status in-stock">En stock</span>
+              <span class="stock-status in-stock">
+                {{
+                  product.inStock
+                    ? $t("products.StatusAvailable")
+                    : $t("products.statusOff")
+                }}</span
+              >
             </div>
           </div>
         </div>

@@ -3,27 +3,23 @@ import { ref, onMounted, onUnmounted } from "vue";
 import ImageSlider from "./ImageSlider.vue";
 import ProductDataView from "./ProductDataView.vue";
 import { defineAsyncComponent, computed } from "vue";
-import { useScreenSize } from '../../../compasables/useScreenSize.ts';
+import { useScreenSize } from "../../../compasables/useScreenSize.ts";
 
 const { isMobile } = useScreenSize();
 
-
-const MobileViewSlider = defineAsyncComponent(() =>
-  import('./ImageSliderMobile.vue')
+const MobileViewSlider = defineAsyncComponent(
+  () => import("./ImageSliderMobile.vue"),
 );
-const DesktopViewSlider = defineAsyncComponent(() =>
-  import('./ImageSliderDesktop.vue')
-);
-
-
-const MobileViewData = defineAsyncComponent(() =>
-  import('../components/MobileProductDataView.vue')
-);
-const DesktopViewData = defineAsyncComponent(() =>
-  import('../components/ProductDataView.vue')
+const DesktopViewSlider = defineAsyncComponent(
+  () => import("./ImageSliderDesktop.vue"),
 );
 
-
+const MobileViewData = defineAsyncComponent(
+  () => import("../components/MobileProductDataView.vue"),
+);
+const DesktopViewData = defineAsyncComponent(
+  () => import("../components/ProductDataView.vue"),
+);
 
 // Refs y estado
 const isModalOpen = ref(false);
@@ -53,13 +49,9 @@ const closeModal = () => {
   document.body.style.overflow = "auto";
 };
 
-
 const props = defineProps({
   data: Object,
 });
-
-
-
 
 // Data
 const images: Image[] = [
@@ -82,30 +74,35 @@ const images: Image[] = [
       "https://static.nike.com/a/images/w_1280,q_auto,f_auto/ejedulmng5d8wwcekzvn/nike-af-1-low-nba-amarillo-black-white-release-date.jpg",
   },
 ];
-
-
 </script>
 
 <template>
   <div class="gallery-container">
     <button @click="openModal" class="action-btn preview">
       <i class="fas fa-eye"></i>
-      <span class="btn-tooltip">Vista previa</span>
+      <span class="btn-tooltip">Vista previas</span>
     </button>
 
     <Teleport to="body">
       <Transition name="modal-fade">
         <div v-if="isModalOpen" class="modal" @click.self="closeModal">
-          <div class="modal-content ">
-            <button @click="closeModal" class="close-button" aria-label="Cerrar">
+          <div class="modal-content">
+            <button
+              @click="closeModal"
+              class="close-button"
+              aria-label="Cerrar"
+            >
               <span aria-hidden="true">&times;</span>
             </button>
 
             <div class="modal-grid">
               <Suspense>
                 <template #default>
-
-                  <component :is="isMobile ? MobileViewSlider : DesktopViewSlider" :data="data" :images="images" />
+                  <component
+                    :is="isMobile ? MobileViewSlider : DesktopViewSlider"
+                    :data="data"
+                    :images="images"
+                  />
                 </template>
                 <template #fallback>
                   <div>Cargando...</div>
@@ -114,14 +111,16 @@ const images: Image[] = [
 
               <Suspense>
                 <template #default>
-                  <component :is="isMobile ? MobileViewData : DesktopViewData" :data="data"
-                    :product-data="productData" />
+                  <component
+                    :is="isMobile ? MobileViewData : DesktopViewData"
+                    :data="data"
+                    :product-data="productData"
+                  />
                 </template>
                 <template #fallback>
                   <div>Cargando...</div>
                 </template>
               </Suspense>
-
             </div>
           </div>
         </div>

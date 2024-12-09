@@ -1,16 +1,17 @@
 <script setup>
-import { ref, computed, onMounted, watch } from 'vue';
-
+import { ref, computed, onMounted, watch } from "vue";
+const { $sdk, $getImage } = useNuxtApp();
 const props = defineProps({
+  data: Object,
   images: {
     type: Array,
     required: true,
-    validator: (images) => images.every(img => img.url && img.thumbnail)
+    validator: (images) => images.every((img) => img.url && img.thumbnail),
   },
   aspectRatio: {
     type: String,
-    default: '1/1'
-  }
+    default: "1/1",
+  },
 });
 
 // Referencias y estado
@@ -23,7 +24,9 @@ const touchEnd = ref(null);
 // Computed properties
 const currentImage = computed(() => props.images[currentIndex.value]);
 const canShowPrevious = computed(() => currentIndex.value > 0);
-const canShowNext = computed(() => currentIndex.value < props.images.length - 1);
+const canShowNext = computed(
+  () => currentIndex.value < props.images.length - 1,
+);
 
 // Métodos de navegación
 const navigate = async (index) => {
@@ -40,7 +43,7 @@ const navigate = async (index) => {
   };
 
   img.onerror = () => {
-    console.error('Error loading image');
+    console.error("Error loading image");
     isLoading.value = false;
   };
 };
@@ -95,38 +98,63 @@ onMounted(() => {
     };
 
     preloadImage.onerror = () => {
-      console.error('Error loading initial image');
+      console.error("Error loading initial image");
       isLoading.value = false;
     };
   }
 });
 
-watch(() => props.images, () => {
-  currentIndex.value = 0;
-  isLoading.value = true;
-}, { deep: true });
+watch(
+  () => props.images,
+  () => {
+    currentIndex.value = 0;
+    isLoading.value = true;
+  },
+  { deep: true },
+);
 </script>
 
 <template>
   <div class="mobile-slider" ref="sliderRef">
     <div class="mobile-slider__container">
       <div class="mobile-slider__main" :style="{ aspectRatio }">
-        <div class="mobile-slider__viewport" @touchstart="handleTouchStart" @touchmove="handleTouchMove"
-          @touchend="handleTouchEnd">
+        <div
+          class="mobile-slider__viewport"
+          @touchstart="handleTouchStart"
+          @touchmove="handleTouchMove"
+          @touchend="handleTouchEnd"
+        >
           <Transition name="fade" mode="out-in">
             <div v-if="isLoading" class="mobile-slider__loader">
               <div class="loader"></div>
             </div>
-            <NuxtImg v-else :key="currentImage.url" :src="currentImage.url"
-              :alt="currentImage.alt || `Image ${currentIndex + 1}`" class="mobile-slider__image" />
+            <NuxtImg
+              v-else
+              :key="currentImage.url"
+              :src="
+                $getImage(
+                  String(data.image),
+                  370,
+                  370,
+                  String(data.imageFilename),
+                )
+              "
+              :alt="currentImage.alt || `Image ${currentIndex + 1}`"
+              class="mobile-slider__image"
+            />
           </Transition>
         </div>
       </div>
 
       <div class="mobile-slider__dots">
-        <button v-for="(image, index) in images" :key="image.id" class="mobile-slider__dot"
-          :class="{ 'mobile-slider__dot--active': index === currentIndex }" @click="navigate(index)"
-          :aria-label="`Go to image ${index + 1}`"></button>
+        <button
+          v-for="(image, index) in images"
+          :key="image.id"
+          class="mobile-slider__dot"
+          :class="{ 'mobile-slider__dot--active': index === currentIndex }"
+          @click="navigate(index)"
+          :aria-label="`Go to image ${index + 1}`"
+        ></button>
       </div>
     </div>
   </div>
