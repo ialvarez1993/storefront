@@ -8,6 +8,11 @@ import { useCart } from "../../cart-odoo/composables/useCart";
 import { useProductAttributes } from "../../product/composables/useProductAttributes";
 import { useWishlist } from "../../wishlist/composables/useWishlist";
 
+const capitalize = (str: string): string => {
+  if (typeof str !== "string") return str;
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+};
+
 const { cartAdd } = useCart();
 const sliderContainer = ref<HTMLElement | null>(null);
 const currentIndex = ref(0);
@@ -172,6 +177,21 @@ onMounted(() => {
                   <h3 class="title">{{ productTemplate?.name }}</h3>
                 </NuxtLink>
 
+                <div>
+                  <NuxtLink
+                    v-for="categories in productTemplate.categories"
+                    :key="categories.id"
+                    :to="categories.slug"
+                    class="inline-block"
+                  >
+                    <span
+                      class="inline-block px-3 mr-4 py-1 text-sm font-semibold text-black bg-yellow-400 rounded-full capitalize"
+                    >
+                      {{ capitalize(categories.name) }}
+                    </span>
+                  </NuxtLink>
+                </div>
+
                 <div v-if="productTemplate.rating" class="rating">
                   <div class="stars">
                     <i
@@ -215,16 +235,19 @@ onMounted(() => {
                   </span>
                 </div>
 
-                <!-- <div class="stock-status" :class="{ 'in-stock': productTemplate.inStock }"> -->
-                <!--   <span class="status-dot"></span> -->
-                <!--   <span class="status-text"> -->
-                <!--     {{ -->
-                <!--       productTemplate.inStock -->
-                <!--         ? $t("products.StatusAvailable") -->
-                <!--         : $t("products.statusOff") -->
-                <!--     }} -->
-                <!--   </span> -->
-                <!-- </div> -->
+                <div
+                  class="stock-status"
+                  :class="{ 'in-stock': productTemplate.inStock }"
+                >
+                  <span class="status-dot"></span>
+                  <span class="status-text">
+                    {{
+                      productTemplate.inStock
+                        ? $t("products.StatusAvailable")
+                        : $t("products.statusOff")
+                    }}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -358,7 +381,7 @@ onMounted(() => {
   }
 
   .title {
-    @apply text-xs md:text-sm font-medium text-gray-800 line-clamp-2 min-h-[2.5rem];
+    @apply text-xs md:text-sm font-medium text-gray-800 line-clamp-2;
   }
 
   .rating {
