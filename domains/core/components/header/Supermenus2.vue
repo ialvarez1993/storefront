@@ -31,7 +31,7 @@ const fetchMenuData = async () => {
 
 const items = ref([
   {
-    label: "Digital",
+    label: "",
     icon: "pi pi-desktop",
     root: true,
     items: [
@@ -244,7 +244,7 @@ onMounted(async () => {
           <span
             class="font-medium !text-black group-hover/hovero:!text-[#FFC107] hover:text-teal-50"
           >
-            {{ $t(item.label) }}
+            {{ props.title }}
           </span>
           <i
             class="pi !text-black pi-chevron-down ml-2 group-hover/hovero:!text-[#FFC107] text-sm"

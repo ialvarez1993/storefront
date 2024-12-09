@@ -26,7 +26,7 @@ const fetchMenuData = async () => {
 
 const items = ref([
   {
-    label: "headerCatalog.homeImprovementStore",
+    label: "",
     icon: "pi pi-building",
     root: true,
     items: [
@@ -201,11 +201,12 @@ onMounted(async () => {
             <i :class="[item.icon, 'text-xl']"></i>
           </span>
           <span class="inline-flex flex-col gap-1">
-            <span
-              class="font-bold text-lg text-black hover:text-primary transition-colors duration-200"
+            <NuxtLink
+              to="/"
+              class="font-bold text-lg text-black hover:text-yellow-500 hover:text-primary transition-colors duration-200"
             >
               {{ $t(item.label) }}
-            </span>
+            </NuxtLink>
             <!-- Lista de Links -->
             <ul>
               <NuxtLink :to="item.link1">
