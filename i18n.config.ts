@@ -1,10 +1,6 @@
 export default defineI18nConfig(() => ({
   legacy: false,
-  locale: "es",
-  fallbackLocale: "es",
-  sync: true,
-  silentTranslationWarn: true,
-  silentFallbackWarn: true,
+  locale: 'en',
   messages: {
     es: {
       welcome: "Bienvenido",
