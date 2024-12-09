@@ -31,11 +31,11 @@ const product = ref<Product>({
 });
 
 const formatPrice = (price: number): string => {
-  return new Intl.NumberFormat("es-VE", {
-    style: "currency",
-    currency: "VES",
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
     minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
+    maximumFractionDigits: 2
   }).format(price);
 };
 
