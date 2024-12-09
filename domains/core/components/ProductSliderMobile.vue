@@ -2,6 +2,7 @@
 import { ref, onMounted } from "vue";
 import type { PropType } from "vue";
 import type { Product, QueryProductsArgs } from "~/graphql";
+import ModalProductSlider from "./ModalProductSlider.vue";
 
 const sliderContainer = ref<HTMLElement | null>(null);
 const currentIndex = ref(0);
@@ -23,7 +24,8 @@ const props = defineProps({
   },
 });
 
-const { loadProductTemplateList, loading, productTemplateList } = useProductTemplateList(props.keyForComposable);
+const { loadProductTemplateList, loading, productTemplateList } =
+  useProductTemplateList(props.keyForComposable);
 const { getRegularPrice, getSpecialPrice } = useProductAttributes();
 const { cartAdd } = useCart();
 
@@ -35,7 +37,11 @@ const scrollToIndex = (index: number) => {
   currentIndex.value = index;
   const element = sliderContainer.value?.children[index] as HTMLElement;
   if (element) {
-    element.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+    element.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "start",
+    });
   }
 };
 
@@ -57,7 +63,7 @@ const loadProducts = async () => {
 
 onMounted(() => {
   loadProducts();
-  sliderContainer.value?.addEventListener('scroll', handleScroll);
+  sliderContainer.value?.addEventListener("scroll", handleScroll);
 });
 </script>
 
@@ -71,18 +77,33 @@ onMounted(() => {
       <div class="loading-spinner"></div>
     </div>
 
-    <div v-else-if="productTemplateList.length > 0" class="product-slider-container">
-      <div ref="sliderContainer" class="mobile-product-slider" @scroll.passive="handleScroll">
-        <div v-for="(productTemplate, index) in productTemplateList" :key="productTemplate.id"
-          class="mobile-product-card">
+    <div
+      v-else-if="productTemplateList.length > 0"
+      class="product-slider-container"
+    >
+      <div
+        ref="sliderContainer"
+        class="mobile-product-slider"
+        @scroll.passive="handleScroll"
+      >
+        <div
+          v-for="(productTemplate, index) in productTemplateList"
+          :key="productTemplate.id"
+          class="mobile-product-card"
+        >
           <div class="card-inner">
             <!-- Badges -->
             <div class="badge-wrapper" v-if="productTemplate.firstVariant">
-              <span v-if="getSpecialPrice(productTemplate.firstVariant)" class="discount-badge">
-                -{{ calculateDiscount(
-                  getRegularPrice(productTemplate.firstVariant),
-                  getSpecialPrice(productTemplate.firstVariant)
-                ) }}%
+              <span
+                v-if="getSpecialPrice(productTemplate.firstVariant)"
+                class="discount-badge"
+              >
+                -{{
+                  calculateDiscount(
+                    getRegularPrice(productTemplate.firstVariant),
+                    getSpecialPrice(productTemplate.firstVariant),
+                  )
+                }}%
               </span>
               <span v-if="productTemplate.isNew" class="new-badge">
                 Nuevo
@@ -91,15 +112,29 @@ onMounted(() => {
 
             <!-- Image -->
             <div class="image-wrapper">
-              <NuxtImg :src="$getImage(productTemplate.image, 250, 250, productTemplate.imageFilename)"
-                class="product-image" loading="lazy" alt="Product Image" />
+              <NuxtImg
+                :src="
+                  $getImage(
+                    productTemplate.image,
+                    250,
+                    250,
+                    productTemplate.imageFilename,
+                  )
+                "
+                class="product-image"
+                loading="lazy"
+                alt="Product Image"
+              />
 
               <!-- Actions -->
               <div class="action-buttons">
                 <button class="action-btn view">
-                  <ModalProductSlider />
+                  <ModalProductSlider :data="productTemplate" />
                 </button>
-                <button @click="cartAdd(productTemplate.firstVariant?.id, 1)" class="action-btn cart">
+                <button
+                  @click="cartAdd(productTemplate.firstVariant?.id, 1)"
+                  class="action-btn cart"
+                >
                   <i class="fas fa-shopping-cart"></i>
                 </button>
               </div>
@@ -111,12 +146,19 @@ onMounted(() => {
               <h3 class="product-name">{{ productTemplate.name }}</h3>
 
               <div v-if="productTemplate.firstVariant" class="price-wrapper">
-                <span v-if="getSpecialPrice(productTemplate.firstVariant)" class="original-price">
+                <span
+                  v-if="getSpecialPrice(productTemplate.firstVariant)"
+                  class="original-price"
+                >
                   {{ $currency(getRegularPrice(productTemplate.firstVariant)) }}
                 </span>
                 <span class="final-price">
-                  {{ $currency(getSpecialPrice(productTemplate.firstVariant) ||
-                    getRegularPrice(productTemplate.firstVariant)) }}
+                  {{
+                    $currency(
+                      getSpecialPrice(productTemplate.firstVariant) ||
+                        getRegularPrice(productTemplate.firstVariant),
+                    )
+                  }}
                 </span>
               </div>
             </div>
@@ -126,10 +168,14 @@ onMounted(() => {
 
       <!-- Dots -->
       <div class="slider-dots">
-        <button v-for="(_, index) in productTemplateList" :key="index"
-          :class="['dot', { active: currentIndex === index }]" @click="scrollToIndex(index)" type="button"
-          :aria-label="`Go to slide ${index + 1}`">
-        </button>
+        <button
+          v-for="(_, index) in productTemplateList"
+          :key="index"
+          :class="['dot', { active: currentIndex === index }]"
+          @click="scrollToIndex(index)"
+          type="button"
+          :aria-label="`Go to slide ${index + 1}`"
+        ></button>
       </div>
     </div>
   </section>
@@ -151,7 +197,7 @@ onMounted(() => {
 
 .loading-spinner {
   @apply w-8 h-8 border-4 border-gray-200 rounded-full animate-spin;
-  border-top-color: #3B82F6;
+  border-top-color: #3b82f6;
 }
 
 .product-slider-container {
