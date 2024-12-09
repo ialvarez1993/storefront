@@ -1,188 +1,176 @@
-<script lang="ts" setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue';
-import { ChevronDownIcon } from '@heroicons/vue/24/outline';
-import { useI18n } from 'vue-i18n';
-import { useRouter, useRoute } from 'vue-router';
-
-const router = useRouter();
-const route = useRoute();
-const { locale, setLocale, t } = useI18n();
-const isOpen = ref(false);
-const isChangingLanguage = ref(false);
-const loadingError = ref<string | null>(null);
-
-// Tipado fuerte para las configuraciones de idiomas
-type LocaleConfig = {
-  code: 'es' | 'en';
-  name: string;
-  flag?: string;
-};
-
-// Cookie con configuración mejorada
-const localeCookie = useCookie('user-locale', {
-  maxAge: 365 * 24 * 60 * 60,
-  path: '/',
-  watch: true,
-  secure: process.env.NODE_ENV === 'production',
-  sameSite: 'strict'
-});
-
-const availableLocales: LocaleConfig[] = [
-  { code: 'es', name: 'Español', flag: '🇪🇸' },
-  { code: 'en', name: 'English', flag: '🇺🇸' }
-];
-
-const currentLocale = computed(() => {
-  const current = availableLocales.find(l => l.code === locale.value);
-  return current || availableLocales[0];
-});
-
-const toggleDropdown = () => {
-  if (!isChangingLanguage.value) {
-    isOpen.value = !isOpen.value;
-  }
-};
-
-const detectUserLanguage = (): string => {
-  try {
-    // Sistema de fallback en cascada
-    const sources = [
-      localeCookie.value,
-      navigator.language.split('-')[0],
-      window.localStorage.getItem('preferred-locale'),
-      'es'
-    ];
-
-    for (const source of sources) {
-      if (source && availableLocales.some(l => l.code === source)) {
-        return source;
-      }
-    }
-
-    return 'es';
-  } catch (error) {
-    console.warn('Error detecting user language:', error);
-    return 'es';
-  }
-};
-
-const changeLanguage = async (newLocale: string) => {
-  try {
-    if (newLocale === locale.value || isChangingLanguage.value) return;
-
-    isChangingLanguage.value = true;
-    loadingError.value = null;
-    isOpen.value = false;
-
-    // Guardar estado actual
-    const currentPath = route.fullPath;
-
-    await setLocale(newLocale);
-    localeCookie.value = newLocale;
-    window.localStorage.setItem('preferred-locale', newLocale);
-
-    // Emitir evento personalizado
-    window.dispatchEvent(new CustomEvent('language-changed', {
-      detail: {
-        locale: newLocale,
-        previousLocale: locale.value,
-        timestamp: new Date().toISOString()
-      }
-    }));
-
-    // Recargar solo si es necesario
-    if (process.client) {
-      if (route.name) {
-        // Si estamos usando vue-router, intentamos primero una navegación suave
-        // Fallback a recarga completa
-        window.location.reload();
-      }
-    }
-  } catch (error) {
-    console.error('Error changing language:', error);
-    loadingError.value = t('errors.languageChange');
-  } finally {
-    isChangingLanguage.value = false;
-  }
-};
-
-const closeDropdown = (e: MouseEvent) => {
-  if (!e.target || !(e.target as Element).closest('.language-switcher')) {
-    isOpen.value = false;
-  }
-};
-
-// Gestión de eventos del ciclo de vida
-onMounted(() => {
-  const userLanguage = detectUserLanguage();
-  if (userLanguage !== locale.value) {
-    changeLanguage(userLanguage);
-  }
-
-  document.addEventListener('click', closeDropdown);
-
-  // Listener para cambios de idioma desde otras partes de la aplicación
-  window.addEventListener('storage', (event) => {
-    if (event.key === 'preferred-locale' && event.newValue) {
-      changeLanguage(event.newValue);
-    }
-  });
-});
-
-onUnmounted(() => {
-  document.removeEventListener('click', closeDropdown);
-  window.removeEventListener('storage', changeLanguage);
-});
-</script>
-
 <template>
-  <div class="language-switcher relative" :class="{ 'is-changing': isChangingLanguage }">
-    <button @click="toggleDropdown"
-      class="flex items-center space-x-2 px-4 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-      :disabled="isChangingLanguage" :aria-expanded="isOpen" aria-haspopup="true">
-      <span>{{ currentLocale.flag }} {{ currentLocale.name }}</span>
-      <ChevronDownIcon class="w-4 h-4 transition-transform" :class="{ 'rotate-180': isOpen }" />
+  <div class="relative language-switcher">
+    <button @click="toggleDropdown" class="lang-btn" type="button">
+      <span>{{ flagClass }}</span>
+      <ChevronDownIcon
+        class="w-4 h-4 transition-transform duration-200"
+        :class="{ 'rotate-180': isOpen }"
+      />
     </button>
 
-    <transition enter-active-class="transition duration-100 ease-out" enter-from-class="transform scale-95 opacity-0"
-      enter-to-class="transform scale-100 opacity-100" leave-active-class="transition duration-75 ease-in"
-      leave-from-class="transform scale-100 opacity-100" leave-to-class="transform scale-95 opacity-0">
-      <div v-if="isOpen"
-        class="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5">
-        <div class="py-1" role="menu" aria-orientation="vertical">
-          <button v-for="locale in availableLocales" :key="locale.code" @click="changeLanguage(locale.code)"
-            class="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700" role="menuitem"
-            :disabled="isChangingLanguage">
-            {{ locale.flag }} {{ locale.name }}
-          </button>
-        </div>
+    <transition
+      enter-active-class="animate-fadeIn"
+      leave-active-class="animate-fadeOut"
+    >
+      <div v-if="isOpen" class="lang-dropdown">
+        <button
+          v-for="locale in availableLocales"
+          :key="locale.code"
+          @click="changeLanguage(locale.code)"
+          class="lang-option"
+          :class="{ active: currentLocale === locale.code }"
+        >
+          <span class="flag" :class="locale.code"></span>
+          <span class="text-sm">{{ locale.name }}</span>
+        </button>
       </div>
-    </transition>
-
-    <transition name="fade">
-      <p v-if="loadingError" class="text-red-500 text-sm mt-2">{{ loadingError }}</p>
     </transition>
   </div>
 </template>
 
-<style scoped>
+<script setup>
+import { ref, computed, onMounted, onUnmounted } from "vue";
+import { ChevronDownIcon } from "@heroicons/vue/24/outline";
+import { useI18n } from "vue-i18n";
+
+const { locale, setLocale } = useI18n();
+const isOpen = ref(false);
+const localeCookie = useCookie("i18n_redirected", {
+  maxAge: 365 * 24 * 60 * 60, // 365 días
+  path: "/",
+});
+
+const currentFlag = ref(locale.value);
+
+const currentLocale = computed(() => {
+  console.log("[BUTTONIDIOMAS] locale changed:", locale.value);
+  return locale.value;
+});
+
+const flagClass = computed(() => {
+  return `${currentLocale.value}`;
+});
+
+const availableLocales = computed(() => {
+  return [
+    { code: "es", name: "Español" },
+    { code: "en", name: "English" },
+  ];
+});
+
+const toggleDropdown = () => {
+  isOpen.value = !isOpen.value;
+};
+
+const isChangingLocale = ref(false);
+
+const changeLanguage = async (code) => {
+  try {
+    isChangingLocale.value = true;
+    await setLocale(code);
+    await nextTick();
+
+    currentFlag.value = code; // Actualizar la bandera inmediatamente
+    localeCookie.value = code;
+    localStorage.setItem("user-locale", code);
+    isOpen.value = false;
+  } catch (error) {
+    console.error("[BUTTONIDIOMAS] Error al cambiar el idioma:", error);
+  } finally {
+    isChangingLocale.value = false;
+    if (process.client) {
+      window.location.reload();
+    }
+  }
+};
+
+onMounted(() => {
+  // Recuperar idioma guardado
+  const savedLocale = localStorage.getItem("user-locale") || localeCookie.value;
+  if (savedLocale && savedLocale !== locale.value) {
+    changeLanguage(savedLocale);
+  }
+
+  document.addEventListener("click", closeDropdown);
+});
+
+watch(
+  () => locale.value,
+  (newLocale) => {
+    localStorage.setItem("user-locale", newLocale);
+  },
+  { immediate: true }, // Esto hace que se ejecute inmediatamente
+);
+
+onUnmounted(() => {
+  document.removeEventListener("click", closeDropdown);
+});
+
+const closeDropdown = (e) => {
+  if (!e.target.closest(".language-switcher")) {
+    isOpen.value = false;
+  }
+};
+</script>
+
+<style lang="scss">
+// El estilo se mantiene igual que en tu código original
 .language-switcher {
-  position: relative;
-  user-select: none;
+  @apply relative inline-block;
+
+  .lang-btn {
+    @apply flex items-center gap-1 px-2  rounded-md
+           bg-opacity-20 hover:bg-opacity-30 transition-all
+           bg-yellow-900 dark:bg-gray-800;
+  }
+
+  .lang-dropdown {
+    @apply absolute right-0 mt-1 py-1
+           bg-black dark:bg-gray-800 rounded-md shadow-lg
+           ring-1 ring-black ring-opacity-5 z-50;
+
+    .lang-option {
+      @apply flex items-center gap-2 w-full px-3 py-1.5
+             hover:bg-slate-900 dark:hover:bg-gray-700 transition-colors;
+
+      &.active {
+        @apply bg-gray-800 dark:bg-gray-700;
+      }
+    }
+  }
+
+  .flag {
+    @apply mx-auto rounded-sm bg-cover bg-center inline-block;
+  }
 }
 
-.language-switcher.is-changing {
-  opacity: 0.7;
-  cursor: wait;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
 }
 
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+.animate-fadeOut {
+  animation: fadeOut 0.2s ease-in forwards;
 }
 </style>
