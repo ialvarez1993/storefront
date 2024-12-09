@@ -48,7 +48,7 @@ const menuItems = computed(() => {
   return [
     {
       name: categories[2] || "",
-      url: "/category/52",
+      url: "/category/3",
     },
     { name: categories[3] || "", url: "/Highlights" },
     { name: categories[4] || "", url: "/Offers" },
@@ -134,8 +134,11 @@ onMounted(() => {
 <template>
   <header
     :class="[
-      'w-full fixed top-0 left-0 z-50 bg-white transition-all duration-300',
-      { 'shadow-md': isCompact },
+      'w-full fixed top-0 left-0 z-50 bg-white transition-all duration-300 ',
+      {
+        'shadow-md border-black	 border-solid border-b-2 lg:border-none':
+          isCompact,
+      },
     ]"
   >
     <!-- Top banner -->
@@ -143,9 +146,7 @@ onMounted(() => {
       v-if="!isCompact"
       class="bg-black text-white px-4 py-2 flex items-center justify-between text-sm w-full"
     >
-      <span
-        class="hidden lg:block items-center font-robotolight sm:inline whitespace-nowrap"
-      >
+      <span class="items-center font-robotolight sm:inline whitespace-nowrap">
         {{ menuContent?.data?.data?.title }}
       </span>
       <div class="flex items-center justify-end gap-8 w-full">
@@ -177,7 +178,7 @@ onMounted(() => {
             />
           </NuxtLink>
           <!-- Icon Menu Resposive - Esta en modo default -->
-          <div v-if="!isCompact" class="grid grid-cols-2 lg:hidden">
+          <div v-if="!isCompact" class="grid grid-cols-2 gap-2 lg:hidden">
             <SideBar />
             <ButtonWishlist />
           </div>
@@ -250,7 +251,7 @@ onMounted(() => {
           <li v-for="item in menuItems" :key="item.name">
             <NuxtLink
               :to="item.url"
-              class="h-12 px-3 rounded-lg text-base py-3 hover:bg-gray-200/50 hover:text-[#FFC107]"
+              class="h-12 px-3 rounded-lg text-base font-bold py-3 hover:bg-gray-200/50 hover:text-[#FFC107]"
             >
               {{ $t(item.name) }}
             </NuxtLink>
