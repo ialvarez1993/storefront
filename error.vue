@@ -7,7 +7,7 @@ const error = useError();
   <NuxtLayout>
     <div
       v-if="error?.message === 'Product not found' || error?.statusCode === 404"
-      class="flex flex-col justify-center items-center"
+      class="flex mt-[13rem] flex-col justify-center items-center"
     >
       <div>
         <NuxtImg
@@ -16,7 +16,7 @@ const error = useError();
           width="300"
           height="300"
         />
-        <p class="mt-8 font-medium">Pagina no encontrada</p>
+        <p class="mt-8 flex justify-center font-medium">Pagina no encontrada</p>
         <div class="my-10">
           <SfButton
             to="/category/53"
