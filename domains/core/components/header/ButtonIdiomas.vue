@@ -1,6 +1,11 @@
 <template>
   <div class="relative language-switcher">
-    <button @click="toggleDropdown" class="lang-btn" type="button">
+    <button
+      @click="toggleDropdown"
+      class="lang-btn"
+      type="button"
+      :disabled="isChangingLocale"
+    >
       <span>{{ flagClass }}</span>
       <ChevronDownIcon
         class="w-4 h-4 transition-transform duration-200"
@@ -19,6 +24,7 @@
           @click="changeLanguage(locale.code)"
           class="lang-option"
           :class="{ active: currentLocale === locale.code }"
+          :disabled="isChangingLocale"
         >
           <span class="flag" :class="locale.code"></span>
           <span class="text-sm">{{ locale.name }}</span>
@@ -35,44 +41,67 @@ import { useI18n } from "vue-i18n";
 
 const { locale, setLocale } = useI18n();
 const isOpen = ref(false);
-const localeCookie = useCookie("i18n_redirected", {
-  maxAge: 365 * 24 * 60 * 60, // 365 días
-  path: "/",
-});
-
+const isChangingLocale = ref(false);
 const currentFlag = ref(locale.value);
 
-const currentLocale = computed(() => {
-  console.log("[BUTTONIDIOMAS] locale changed:", locale.value);
-  return locale.value;
+// Configuración mejorada de la cookie
+const localeCookie = useCookie("i18n_redirected", {
+  maxAge: 365 * 24 * 60 * 60,
+  path: "/",
+  secure: true,
+  sameSite: "strict",
 });
 
-const flagClass = computed(() => {
-  return `${currentLocale.value}`;
-});
+const currentLocale = computed(() => locale.value);
 
-const availableLocales = computed(() => {
-  return [
-    { code: "es", name: "Español" },
-    { code: "en", name: "English" },
-  ];
-});
+const flagClass = computed(() => currentLocale.value);
+
+const availableLocales = computed(() => [
+  { code: "es", name: "Español" },
+  { code: "en", name: "English" },
+]);
 
 const toggleDropdown = () => {
-  isOpen.value = !isOpen.value;
+  if (!isChangingLocale.value) {
+    isOpen.value = !isOpen.value;
+  }
 };
 
-const isChangingLocale = ref(false);
+// Función segura para localStorage
+const saveToLocalStorage = (key, value) => {
+  if (process.client) {
+    try {
+      localStorage.setItem(key, value);
+    } catch (error) {
+      console.warn("Error al guardar en localStorage:", error);
+    }
+  }
+};
+
+// Función segura para obtener de localStorage
+const getFromLocalStorage = (key) => {
+  if (process.client) {
+    try {
+      return localStorage.getItem(key);
+    } catch (error) {
+      console.warn("Error al leer de localStorage:", error);
+      return null;
+    }
+  }
+  return null;
+};
 
 const changeLanguage = async (code) => {
+  if (code === locale.value || isChangingLocale.value) return;
+
   try {
     isChangingLocale.value = true;
     await setLocale(code);
     await nextTick();
 
-    currentFlag.value = code; // Actualizar la bandera inmediatamente
+    currentFlag.value = code;
     localeCookie.value = code;
-    localStorage.setItem("user-locale", code);
+    saveToLocalStorage("user-locale", code);
     isOpen.value = false;
   } catch (error) {
     console.error("[BUTTONIDIOMAS] Error al cambiar el idioma:", error);
@@ -85,25 +114,38 @@ const changeLanguage = async (code) => {
 };
 
 onMounted(() => {
-  // Recuperar idioma guardado
-  const savedLocale = localStorage.getItem("user-locale") || localeCookie.value;
-  if (savedLocale && savedLocale !== locale.value) {
-    changeLanguage(savedLocale);
-  }
+  if (process.client) {
+    const savedLocale =
+      getFromLocalStorage("user-locale") || localeCookie.value;
+    if (savedLocale && savedLocale !== locale.value) {
+      changeLanguage(savedLocale);
+    }
 
-  document.addEventListener("click", closeDropdown);
+    document.addEventListener("click", closeDropdown);
+    // Añadir soporte para cerrar con Escape
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        isOpen.value = false;
+      }
+    });
+  }
 });
 
 watch(
   () => locale.value,
   (newLocale) => {
-    localStorage.setItem("user-locale", newLocale);
+    if (newLocale) {
+      saveToLocalStorage("user-locale", newLocale);
+    }
   },
-  { immediate: true }, // Esto hace que se ejecute inmediatamente
+  { immediate: true },
 );
 
 onUnmounted(() => {
-  document.removeEventListener("click", closeDropdown);
+  if (process.client) {
+    document.removeEventListener("click", closeDropdown);
+    document.removeEventListener("keydown", handleEscape);
+  }
 });
 
 const closeDropdown = (e) => {
@@ -111,66 +153,52 @@ const closeDropdown = (e) => {
     isOpen.value = false;
   }
 };
+
+const handleEscape = (e) => {
+  if (e.key === "Escape") {
+    isOpen.value = false;
+  }
+};
 </script>
 
-<style lang="scss">
-// El estilo se mantiene igual que en tu código original
-.language-switcher {
-  @apply relative inline-block;
-
-  .lang-btn {
-    @apply flex items-center gap-1 px-2  rounded-md
-           bg-opacity-20 hover:bg-opacity-30 transition-all
-           bg-yellow-900 dark:bg-gray-800;
-  }
-
-  .lang-dropdown {
-    @apply absolute right-0 mt-1 py-1
-           bg-black dark:bg-gray-800 rounded-md shadow-lg
-           ring-1 ring-black ring-opacity-5 z-50;
-
-    .lang-option {
-      @apply flex items-center gap-2 w-full px-3 py-1.5
-             hover:bg-slate-900 dark:hover:bg-gray-700 transition-colors;
-
-      &.active {
-        @apply bg-gray-800 dark:bg-gray-700;
-      }
-    }
-  }
-
-  .flag {
-    @apply mx-auto rounded-sm bg-cover bg-center inline-block;
-  }
+<style scoped>
+.lang-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  transition: opacity 0.2s ease;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.lang-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
+.lang-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.5rem;
+  background-color: black;
+  border-radius: 0.375rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 50;
 }
 
-.animate-fadeIn {
-  animation: fadeIn 0.2s ease-out forwards;
+.lang-option {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.2s ease;
 }
 
-.animate-fadeOut {
-  animation: fadeOut 0.2s ease-in forwards;
+.lang-option:hover:not(:disabled) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.lang-option.active {
+  background-color: rgba(0, 0, 0, 0.1);
 }
 </style>
