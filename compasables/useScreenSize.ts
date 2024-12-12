@@ -2,7 +2,7 @@
 import { useMediaQuery } from "@vueuse/core";
 
 const mediaQueries = {
-  tablet: "(min-width: 768px)",
+  tablet: "(min-width: 900px)",
   desktop: "(min-width: 1024px)",
 } as const;
 
