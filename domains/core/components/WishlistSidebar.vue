@@ -20,6 +20,7 @@ const handleWishlistRemoveItem = async (firstVariant: Product) => {
 };
 </script>
 
+
 <template>
   <div class="w-full">
     <div
@@ -40,60 +41,77 @@ const handleWishlistRemoveItem = async (firstVariant: Product) => {
           v-model="wishlistSidebarIsOpen"
           :disable-esc="true"
           placement="right"
-          class="shadow-none z-[100] w-full lg:w-[420px] bg-white"
+          class="shadow-none z-[100] w-full lg:w-[420px] bg-white h-screen"
           data-testid="category-sidebar"
         >
           <div class="flex flex-col h-full">
-            <div class="p-4 flex justify-between items-center">
-              <span class="font-bold text-lg text-black">Wishlist</span>
+            <!-- Header -->
+            <div class="p-4 flex justify-between items-center border-b border-neutral-200">
+              <span class="font-bold text-lg text-black">
+                Wishlist
+                <span v-if="wishlistTotalItems > 0" class="ml-2 text-sm text-neutral-500">
+                  ({{ wishlistTotalItems }})
+                </span>
+              </span>
               <SfButton
                 variant="tertiary"
                 :aria-label="$t('closeListSettings')"
                 @click.prevent="toggleWishlistSideBar()"
+                class="hover:bg-neutral-100 transition-colors"
               >
                 <template #prefix>
                   <SfIconClose class="text-neutral-500" />
                 </template>
               </SfButton>
             </div>
-            <div v-if="!loading">
-              <div
-                v-if="wishlistTotalItems > 0"
-                class="overflow-y-scroll h-[800px] p-4 text-black"
-              >
-                <div class="flex items-center font-medium pb-6">
-                  <p class="text-gray-600 mr-1">Number of products :</p>
-                  {{ wishlistTotalItems }}
+
+            <!-- Content -->
+            <div class="flex-1 overflow-hidden">
+              <div v-if="!loading" class="h-full">
+                <div
+                  v-if="wishlistTotalItems > 0"
+                  class="h-full overflow-y-auto px-4"
+                >
+                  <div class="flex items-center font-medium py-4">
+                    <p class="text-gray-600 mr-1">Number of products:</p>
+                    {{ wishlistTotalItems }}
+                  </div>
+                  <div class="space-y-4 pb-4">
+                    <div
+                      v-for="item in wishlist?.wishlistItems || []"
+                      :key="item?.id"
+                    >
+                      <WishlistCollectedProductCard
+                        :product="item?.product as Product"
+                        @remove-from-wishlist="handleWishlistRemoveItem(item?.product as Product)"
+                      />
+                    </div>
+                  </div>
                 </div>
                 <div
-                  v-for="item in wishlist?.wishlistItems || []"
-                  :key="item?.id"
+                  v-else
+                  class="flex items-center justify-center flex-col text-black h-full p-4"
+                  data-testid="cart-page-content"
                 >
-                  <WishlistCollectedProductCard
-                    :product="item?.product as Product"
-                    @remove-from-wishlist="
-                      handleWishlistRemoveItem(item?.product as Product)
-                    "
+                  <NuxtImg
+                    src="/images/empty-cart.svg"
+                    :alt="$t('emptyCartImgAlt')"
+                    width="192"
+                    height="192"
+                    loading="lazy"
+                    class="mb-6"
                   />
+                  <h2 class="font-medium">Your Wishlist is empty</h2>
                 </div>
               </div>
+
+              <!-- Loading State -->
               <div
                 v-else
-                class="flex items-center justify-center flex-col text-black"
-                data-testid="cart-page-content"
+                class="flex-1 flex items-center justify-center h-full"
               >
-                <NuxtImg
-                  src="/images/empty-cart.svg"
-                  :alt="$t('emptyCartImgAlt')"
-                  width="192"
-                  height="192"
-                  loading="lazy"
-                />
-                <h2 class="mt-8 font-medium">Your Wishlist is empty</h2>
+                <SfLoaderCircular size="lg" />
               </div>
-            </div>
-            <div v-else class="w-full text-center">
-              <SfLoaderCircular size="lg" class="mt-[160px]" />
             </div>
           </div>
         </SfDrawer>
