@@ -37,6 +37,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  isButton: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const { loadProductTemplateList, loading, productTemplateList } =
@@ -185,7 +189,7 @@ onMounted(() => {
                     class="inline-block"
                   >
                     <span
-                      class="inline-block px-3 mr-4 py-1 text-sm font-semibold text-black bg-yellow-400 rounded-full capitalize"
+                      class="inline-block px-3 mr-4 mb-1 py-1 text-sm font-semibold text-black bg-yellow-400 rounded-full capitalize"
                     >
                       {{ capitalize(categories.name) }}
                     </span>
@@ -259,7 +263,7 @@ onMounted(() => {
       </div>
     </div>
   </section>
-  <div class="flex justify-center">
+  <div v-if="isButton" class="flex justify-center">
     <NuxtLink to="/search?search=">
       <Button
         :label="$t('ButtonExplorar')"

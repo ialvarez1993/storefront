@@ -31,11 +31,11 @@ const product = ref<Product>({
 });
 
 const formatPrice = (price: number): string => {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
     minimumFractionDigits: 2,
-    maximumFractionDigits: 2
+    maximumFractionDigits: 2,
   }).format(price);
 };
 
@@ -85,38 +85,52 @@ const props = defineProps({
 });
 </script>
 
+
 <template>
   <div class="product-card__container">
-    <!-- Título y Marca -->
-    <div class="product-card__header">
-      <h1 class="product-card__title">
-        {{ data.name }}
-      </h1>
-      <div class="product-card__brand-container">
-        <div v-if="hasDiscount" class="product-card__discount-badge">
-          -{{ discountPercentage }}%
-        </div>
-      </div>
+    <!-- Disponible/Agotado -->
+    <div class="stock-status" :class="{ 'in-stock': data.inStock }">
+      <span class="status-dot"></span>
+      <span class="status-text">
+        {{ data.inStock ? $t("products.StatusAvailable") : $t("products.statusOff") }}
+      </span>
     </div>
 
-    <!-- Precios y Oferta -->
+    <!-- Título -->
+    <div class="product-card__header">
+      <h1 class="product-card__title">{{ data.name }}</h1>
+    </div>
+
+    <!-- Categorías -->
+    <div class="product-card__categories">
+      <NuxtLink
+        v-for="categories in data.categories"
+        :key="categories.id"
+        :to="categories.slug"
+      >
+        <span class="category-tag">
+          {{ categories.name }}
+        </span>
+      </NuxtLink>
+    </div>
+
+    <!-- Precio -->
     <div class="product-card__pricing">
       <div class="product-card__price-container">
-        <div v-if="hasDiscount" class="product-card__original-price">
-          {{ props.data.price }}
-        </div>
-        <div class="product-card__current-price">
-          <span class="product-card__price-value"> ${{ finalPrice }} </span>
-        </div>
+        <span class="price-label">Price:</span>
+        <span class="product-card__price-value">
+          ${{ finalPrice }}
+        </span>
       </div>
     </div>
 
-    <div class="!text-xl product-card__description">
+    <!-- Descripción -->
+    <div class="product-card__description">
       {{ data.description }}
     </div>
 
     <!-- Selector de Cantidad -->
-    <div class="product-card__quantity-section !mt-[3rem]">
+    <div class="product-card__quantity-section">
       <label class="product-card__quantity-label">Cantidad</label>
       <div class="product-card__quantity-controls">
         <button
@@ -167,9 +181,10 @@ const props = defineProps({
       </div>
     </div>
 
+    <!-- Botón de Agregar al Carrito -->
     <button
       @click="cartAdd(data.firstVariant?.id, quantity)"
-      class="product-card__cart-btn !mt-[6rem]"
+      class="product-card__cart-btn"
     >
       <svg
         class="w-5 h-5 mr-2"
@@ -192,12 +207,12 @@ const props = defineProps({
 <style scoped lang="scss">
 .product-card {
   &__container {
-    @apply bg-white rounded-2xl overflow-hidden p-8 space-y-6 shadow-lg border border-gray-100;
+    @apply bg-white rounded-2xl overflow-hidden p-8 flex flex-col items-center max-w-2xl mx-auto;
     animation: fadeIn 0.3s ease-in-out;
   }
 
   &__header {
-    @apply space-y-4 relative;
+    @apply text-center mb-6;
   }
 
   &__title {
@@ -205,60 +220,44 @@ const props = defineProps({
     font-family: "Inter", sans-serif;
   }
 
-  &__discount-badge {
-    @apply absolute -top-2 right-0 bg-yellow-500 text-black px-4 py-1 rounded-full text-sm font-bold transform rotate-2 shadow-md;
-    animation: bounce 0.5s ease-in-out;
+  &__categories {
+    @apply flex flex-wrap justify-center gap-2 mb-6;
   }
 
   &__pricing {
-    @apply mt-6;
+    @apply mb-6 text-center;
   }
 
   &__price-container {
-    @apply flex flex-col items-start;
-  }
-
-  &__original-price {
-    @apply text-gray-400 line-through text-lg font-medium;
-    transform: scale(0.9);
-  }
-
-  &__current-price {
-    @apply flex items-baseline gap-2;
+    @apply flex items-center justify-center gap-2;
   }
 
   &__price-value {
-    @apply text-4xl font-bold text-black tracking-tight;
-    text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.1);
+    @apply text-4xl font-bold text-black;
   }
 
   &__description {
-    @apply text-gray-600 leading-relaxed mt-4 text-sm;
+    @apply text-gray-600 text-center mb-8 max-w-xl;
   }
 
   &__quantity-section {
-    @apply space-y-3 mt-8;
+    @apply w-full max-w-xs flex flex-col items-center mb-8;
   }
 
   &__quantity-label {
-    @apply block text-sm font-semibold text-gray-700 uppercase tracking-wide;
+    @apply text-sm font-semibold text-gray-700 uppercase tracking-wide mb-2;
   }
 
   &__quantity-controls {
-    @apply flex items-center space-x-3 bg-gray-50 p-2 rounded-lg w-fit;
+    @apply flex items-center space-x-3 bg-gray-50 p-2 rounded-lg;
   }
 
   &__quantity-btn {
-    @apply p-2 rounded-lg bg-white text-black hover:bg-yellow-500 hover:text-black disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 shadow-sm hover:shadow-md transform hover:scale-105;
-
-    &:focus {
-      @apply outline-none ring-2 ring-yellow-300;
-    }
+    @apply p-2 rounded-lg bg-white text-black hover:bg-yellow-500 hover:text-black disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300;
   }
 
   &__quantity-input {
-    @apply block w-16 text-center rounded-lg border-2 border-gray-200 text-gray-900 focus:border-yellow-500 focus:ring-yellow-500 text-lg font-medium;
-    transition: all 0.2s ease-in-out;
+    @apply w-16 text-center rounded-lg border-2 border-gray-200 text-gray-900 focus:border-yellow-500 focus:ring-yellow-500 text-lg font-medium;
 
     &::-webkit-inner-spin-button,
     &::-webkit-outer-spin-button {
@@ -268,7 +267,7 @@ const props = defineProps({
   }
 
   &__cart-btn {
-    @apply w-full mt-8 flex items-center justify-center px-6 py-4 border-2 border-black text-base font-bold rounded-xl text-white bg-black hover:bg-yellow-500 hover:text-black hover:border-yellow-500 transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl;
+    @apply w-full max-w-md flex items-center justify-center px-6 py-4 border-2 border-black text-base font-bold rounded-xl text-white bg-black hover:bg-yellow-500 hover:text-black hover:border-yellow-500 transition-all duration-300;
 
     &:active {
       @apply transform scale-95;
@@ -276,32 +275,34 @@ const props = defineProps({
   }
 }
 
+.stock-status {
+  @apply flex items-center justify-center gap-1.5 text-xs mb-4;
+
+  .status-dot {
+    @apply w-1.5 h-1.5 rounded-full bg-red-500;
+  }
+
+  &.in-stock {
+    @apply text-green-600;
+
+    .status-dot {
+      @apply bg-green-500;
+    }
+  }
+}
+
+.category-tag {
+  @apply inline-block px-3 py-1 text-sm font-semibold text-black bg-yellow-400 rounded-full capitalize;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
     transform: translateY(10px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-@keyframes bounce {
-  0%,
-  100% {
-    transform: rotate(2deg);
-  }
-
-  50% {
-    transform: rotate(-1deg) scale(1.05);
-  }
-}
-
-// Añadir hover effects
-.product-card__container:hover {
-  @apply shadow-xl transform transition-all duration-300;
-  transform: translateY(-2px);
 }
 </style>

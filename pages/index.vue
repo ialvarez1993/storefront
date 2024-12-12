@@ -186,6 +186,7 @@ const loadSection = async (
 // Hook de ciclo de vida
 onMounted(async () => {
   try {
+
     await Promise.all([
       getWebsiteHomepage(),
       loadCategoryList({
@@ -337,9 +338,7 @@ const titleTwo = computed(() => {
       <div v-else ref="sectionRefs.productSlider2">
         <p
           class="text-center font-bold !font-header mt-10 uppercase typography-headline-3 md:typography-headline-2"
-        >
-          {{ $t("productPopulate") }}
-        </p>
+        ></p>
         <ProductSliderCircle />
       </div>
     </section>

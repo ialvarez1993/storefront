@@ -246,8 +246,14 @@ onMounted(() => {
     <nav v-if="!isCompact" class="border-t border-b hidden lg:block">
       <div class="container mx-auto px-4">
         <ul class="flex items-center gap-8">
-          <Supermenus :title="menuContent?.data?.data?.categories[0]" />
-          <Supermenus2 :title="menuContent?.data?.data?.categories[1]" />
+          <Supermenus
+            :titlelink="menuContent?.data?.data?.categories[1]"
+            :title="menuContent?.data?.data?.categories[0]"
+          />
+          <Supermenus2
+            :titlelink="menuContent?.data?.data?.categories[1]"
+            :title="menuContent?.data?.data?.categories[1]"
+          />
           <li v-for="item in menuItems" :key="item.name">
             <NuxtLink
               :to="item.url"

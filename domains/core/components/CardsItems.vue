@@ -48,6 +48,11 @@ const canSlideRight = computed(
   () => currentSlide.value < totalSlides.value - 1,
 );
 
+const { locale, setLocale } = useI18n();
+const currentLang = locale.value; // 'es' o 'en'
+
+const API_URL_CARD = `/api/titulo-categoria?locale=${currentLang === "es" ? "es-VE" : "en"}`;
+
 const slideLeft = () => {
   if (canSlideLeft.value) {
     currentSlide.value--;
@@ -77,9 +82,7 @@ onBeforeUnmount(() => {
         <PromoCard />
 
         <div class="product-slider-content">
-          <h1 class="product-slider-heading">
-            {{ $t("CardSlide") }}
-          </h1>
+          <h1 class="product-slider-heading">{{ $t("CardSlide") }}</h1>
 
           <div v-if="loading" class="product-slider-loading">
             <div v-for="n in 12" :key="n" class="product-slider-skeleton">

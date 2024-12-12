@@ -17,8 +17,8 @@ const recentSearches = ref([]);
 
 // Trending searches (ejemplo - idealmente vendría del backend)
 const trendingSearches = [
-  { id: 1, term: "women", icon: "👩‍🦲" },
-  { id: 2, term: "desk", icon: "✏️" },
+  { id: 1, term: "Disco", icon: "💿" },
+  { id: 2, term: "Dispensador", icon: "🔼" },
 ];
 
 const {
@@ -32,12 +32,38 @@ const {
   loading,
 } = useSearch(formSearchTemplateRef);
 
+let currentSearchRequest = null;
+
 // Debounce para la búsqueda
-const debouncedSearch = useDebounceFn(() => {
-  if (searchInputValue.value.length >= 3) {
-    search();
+const debouncedSearch = useDebounceFn(async () => {
+  // Validación de longitud mínima
+  if (searchInputValue.value.length < 3) {
+    searchHits.value = [];
+    return;
   }
-}, 0);
+
+  try {
+    if (currentSearchRequest) {
+      currentSearchRequest.abort();
+    }
+
+    const abortController = new AbortController();
+    currentSearchRequest = abortController;
+
+    const result = await Promise.race([
+      search(abortController.signal),
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("Search timeout")), 5000),
+      ),
+    ]);
+
+    searchHits.value = result;
+  } catch (error) {
+    handleSearchError(error);
+  } finally {
+    currentSearchRequest = null;
+  }
+}, 300);
 
 // Computed properties
 const hasResults = computed(() => searchHits.value.length > 0);
@@ -66,10 +92,40 @@ const loadRecentSearches = () => {
 };
 
 const saveRecentSearch = (term) => {
-  if (!term) return;
-  const searches = new Set([term, ...recentSearches.value]);
-  recentSearches.value = Array.from(searches).slice(0, maxRecentSearches);
-  localStorage.setItem(recentSearchesKey, JSON.stringify(recentSearches.value));
+  try {
+    // Validación del término de búsqueda
+    if (!term || typeof term !== "string") {
+      console.warn("Invalid search term:", term);
+      return;
+    }
+
+    // Limpieza del término
+    const cleanTerm = term.trim();
+    if (!cleanTerm) return;
+
+    // Manejo de búsquedas recientes
+    const searches = new Set([cleanTerm, ...recentSearches.value]);
+    recentSearches.value = Array.from(searches).slice(0, maxRecentSearches);
+
+    // Intento de guardar en localStorage
+    localStorage.setItem(
+      recentSearchesKey,
+      JSON.stringify(recentSearches.value),
+    );
+  } catch (error) {
+    console.error("Error saving recent searches:", error);
+
+    // Implementación de fallback
+    if (error.name === "QuotaExceededError") {
+      // Si localStorage está lleno, intentamos limpiar entradas antiguas
+      try {
+        localStorage.clear();
+        localStorage.setItem(recentSearchesKey, JSON.stringify([term]));
+      } catch (e) {
+        console.error("Failed to save even after clearing storage:", e);
+      }
+    }
+  }
 };
 
 // Animaciones
@@ -96,7 +152,11 @@ const handleFocus = () => {
   showTrendingSearches.value = !searchInputValue.value;
 };
 
-const handleBlur = () => {
+const handleBlur = (event) => {
+  if (searchResultsRef.value?.contains(event.relatedTarget)) {
+    return;
+  }
+
   setTimeout(() => {
     isInputFocused.value = false;
     showTrendingSearches.value = false;
@@ -109,6 +169,16 @@ const handleSearch = () => {
 };
 
 const handleSelectResult = (hit) => {
+  if (!hit) {
+    console.error("Hit object is null or undefined");
+    return;
+  }
+
+  if (!hit.name) {
+    console.error("Hit object does not contain a name property");
+    return;
+  }
+
   saveRecentSearch(hit.name);
   selectHit(hit);
 };
@@ -131,26 +201,56 @@ const handleKeydown = (event) => {
   }
 };
 
-watch(searchHits, animateResults);
+watch(
+  searchHits,
+  async (newHits, oldHits) => {
+    // Verificar si realmente necesitamos animar
+    if (!newHits || newHits.length === 0) return;
+    if (JSON.stringify(newHits) === JSON.stringify(oldHits)) return;
+
+    // Verificar referencia DOM
+    if (!searchResultsRef.value) {
+      console.warn("Search results container not found");
+      return;
+    }
+
+    try {
+      // Esperar al siguiente tick para asegurar que el DOM está actualizado
+      await nextTick();
+
+      // Verificar elementos antes de animar
+      const results = searchResultsRef.value.querySelectorAll(
+        ".search-result-item",
+      );
+      if (results.length === 0) {
+        console.warn("No results elements found to animate");
+        return;
+      }
+
+      // Realizar animación
+      await gsap.from(results, {
+        y: 20,
+        opacity: 0,
+        duration: 0.4,
+        stagger: 0.05,
+        ease: "power2.out",
+      });
+    } catch (error) {
+      console.error("Animation error:", error);
+    }
+  },
+  { deep: true },
+);
 </script>
 
 <template>
   <div class="search-container relative" ref="formSearchTemplateRef">
     <!-- Input principal -->
-    <SfInput
-      v-model="searchInputValue"
-      type="text"
+    <SfInput v-model="searchInputValue" type="text"
       class="search-input font-robotolight [&::-webkit-search-cancel-button]:appearance-none"
-      :class="{ 'is-focused': isInputFocused }"
-      :placeholder="$t('search')"
-      wrapper-class="flex-1 h-12 pr-0"
-      size="base"
-      @input="handleSearch"
-      @focus="handleFocus"
-      @blur="handleBlur"
-      @keydown="handleKeydown"
-      @keydown.enter.prevent="enterPress"
-    >
+      :class="{ 'is-focused': isInputFocused }" :placeholder="$t('search')" wrapper-class="flex-1 h-12 pr-0" size="base"
+      @input="handleSearch" @focus="handleFocus" @blur="handleBlur" @keydown="handleKeydown"
+      @keydown.enter.prevent="enterPress">
       <template #prefix>
         <Icon name="ion:search" size="20px" class="text-gray-500 ml-3" />
       </template>
@@ -158,25 +258,14 @@ watch(searchHits, animateResults);
       <template #suffix>
         <div class="flex items-center gap-2 pr-2">
           <transition name="fade">
-            <SfButton
-              v-if="searchInputValue"
-              variant="tertiary"
-              square
-              size="sm"
-              class="text-gray-500"
-              @click="searchInputValue = ''"
-            >
+            <SfButton v-if="searchInputValue" variant="tertiary" square size="sm" class="text-gray-500"
+              @click="searchInputValue = ''">
               <Icon name="ion:close" size="18px" />
             </SfButton>
           </transition>
 
-          <SfButton
-            variant="primary"
-            size="sm"
-            class="search-button"
-            :disabled="loading || !searchInputValue"
-            @click="search"
-          >
+          <SfButton variant="primary" size="sm" class="search-button" :disabled="loading || !searchInputValue"
+            @click="search">
             <template v-if="!loading"> {{ $t("searchButton") }} </template>
             <SfLoaderCircular v-else size="sm" />
           </SfButton>
@@ -185,19 +274,10 @@ watch(searchHits, animateResults);
     </SfInput>
 
     <!-- Panel de resultados y sugerencias -->
-    <transition
-      enter-active-class="transition ease-out duration-200"
-      enter-from-class="opacity-0 translate-y-1"
-      enter-to-class="opacity-100 translate-y-0"
-      leave-active-class="transition ease-in duration-150"
-      leave-from-class="opacity-100 translate-y-0"
-      leave-to-class="opacity-0 translate-y-1"
-    >
-      <div
-        v-if="showResultSearch || shouldShowSuggestions"
-        class="search-results-panel"
-        ref="searchResultsRef"
-      >
+    <transition enter-active-class="transition ease-out duration-200" enter-from-class="opacity-0 translate-y-1"
+      enter-to-class="opacity-100 translate-y-0" leave-active-class="transition ease-in duration-150"
+      leave-from-class="opacity-100 translate-y-0" leave-to-class="opacity-0 translate-y-1">
+      <div v-if="showResultSearch || shouldShowSuggestions" class="search-results-panel" ref="searchResultsRef">
         <!-- Resultados de búsqueda -->
         <div v-if="showResultSearch" class="search-results">
           <div v-if="loading" class="search-loading">
@@ -207,28 +287,17 @@ watch(searchHits, animateResults);
 
           <div v-else-if="hasResults" class="search-hits">
             <ul class="divide-y">
-              <li
-                v-for="(hit, index) in searchHits"
-                :key="hit.id"
-                class="search-result-item"
-                :class="{ 'is-highlighted': index === highlightedIndex }"
-                @click="handleSelectResult(hit)"
-              >
+              <li v-for="(hit, index) in searchHits" :key="hit.id" class="search-result-item"
+                :class="{ 'is-highlighted': index === highlightedIndex }" @click="handleSelectResult(hit)">
                 <div class="flex items-center gap-4 p-3 hover:bg-gray-50">
                   <div class="search-result-image">
-                    <NuxtImg
-                      v-if="hit.combinationInfo.display_name"
-                      :src="
-                        $getImage(
-                          String(hit.image),
-                          250,
-                          250,
-                          String(hit.imageFilename),
-                        )
-                      "
-                      :alt="hit.name"
-                      class="rounded-lg object-cover"
-                    />
+                    <NuxtImg v-if="hit.combinationInfo.display_name" :src="$getImage(
+                      String(hit.image),
+                      250,
+                      250,
+                      String(hit.imageFilename),
+                    )
+                      " :alt="hit.name" class="rounded-lg object-cover" />
                     <div v-else class="placeholder-image">
                       <Icon name="ion:image-outline" size="24px" />
                     </div>
@@ -275,15 +344,10 @@ watch(searchHits, animateResults);
               Búsquedas recientes
             </h3>
             <ul class="suggestion-list">
-              <li
-                v-for="term in recentSearches"
-                :key="term"
-                class="suggestion-item"
-                @click="
-                  searchInputValue = term;
-                  search();
-                "
-              >
+              <li v-for="term in recentSearches" :key="term" class="suggestion-item" @click="
+                searchInputValue = term;
+              search();
+              ">
                 <Icon name="ion:refresh-outline" />
                 {{ term }}
               </li>
@@ -297,15 +361,10 @@ watch(searchHits, animateResults);
               {{ $t("SearchTendencias") }}
             </h3>
             <ul class="suggestion-list">
-              <li
-                v-for="trend in trendingSearches"
-                :key="trend.id"
-                class="suggestion-item"
-                @click="
-                  searchInputValue = trend.term;
-                  search();
-                "
-              >
+              <li v-for="trend in trendingSearches" :key="trend.id" class="suggestion-item" @click="
+                searchInputValue = trend.term;
+              search();
+              ">
                 <span class="trend-icon">{{ trend.icon }}</span>
                 {{ trend.term }}
               </li>

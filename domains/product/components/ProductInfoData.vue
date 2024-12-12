@@ -1,6 +1,34 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from "vue";
 import { useIntersectionObserver } from "@vueuse/core";
+import { useToast } from "vue-toastification";
+
+let confetti:
+  | typeof import("canvas-confetti")
+  | ((arg0: {
+      particleCount: number;
+      spread: number;
+      origin: { y: number };
+      colors: string[];
+    }) => void)
+  | null = null;
+
+// Importación dinámica para evitar problemas de SSR
+onMounted(async () => {
+  confetti = (await import("canvas-confetti")).default;
+});
+
+const lanzarConfeti = () => {
+  if (confetti) {
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 },
+      colors: ["#ff0000", "#00ff00", "#0000ff", "#ffff00", "#ff00ff"],
+    });
+  }
+};
+
 import gsap from "gsap";
 import {
   SfButton,
@@ -62,6 +90,8 @@ const { addProductToRecentViews } = useRecentViewProducts();
 const { wishlistAddItem, isInWishlist, wishlistRemoveItem } = useWishlist();
 const { cart, cartAdd } = useCart();
 
+const toast = useToast();
+
 useHead(productHead(productVariant.value, String(route.fullPath)));
 
 // Computed properties
@@ -103,6 +133,8 @@ const discountPercentage = computed(() => {
 // Methods
 const handleWishlistAddItem = async (product: Product) => {
   try {
+    toast.success("Se ha agregado a Favorito");
+    lanzarConfeti();
     isWishlistProcessing.value = true;
     wishlistError.value = null;
     await wishlistAddItem(product.id);
@@ -332,14 +364,17 @@ const { stop } = useIntersectionObserver(
                 </button>
               </div>
 
-              <div clas="flex items-center justify-center">
+              <div class="flex w-full items-center justify-center">
                 <SfButton
                   type="button"
                   size="sm"
                   variant="tertiary"
-                  :class="
-                    productVariant?.isInWishlist ? 'bg-primary-100' : 'bg-white'
-                  "
+                  :class="[
+                    'flex items-center justify-center space-x-2',
+                    productVariant?.isInWishlist
+                      ? 'bg-primary-100'
+                      : 'bg-white',
+                  ]"
                   @click="
                     isInWishlist(productVariant?.id as number)
                       ? handleWishlistRemoveItem(productVariant)
@@ -349,16 +384,20 @@ const { stop } = useIntersectionObserver(
                   <SfIconFavoriteFilled
                     v-show="isInWishlist(productVariant?.id as number)"
                     size="sm"
+                    class="shrink-0"
                   />
                   <SfIconFavorite
                     v-show="!isInWishlist(productVariant?.id as number)"
                     size="sm"
+                    class="shrink-0"
                   />
-                  {{
-                    isInWishlist(productVariant?.id as number)
-                      ? $t("wishlist.removeFromWishlist")
-                      : $t("wishlist.addToWishlist")
-                  }}
+                  <span class="ml-2">
+                    {{
+                      isInWishlist(productVariant?.id as number)
+                        ? $t("wishlist.removeFromWishlist")
+                        : $t("wishlist.addToWishlist")
+                    }}
+                  </span>
                 </SfButton>
               </div>
             </div>
@@ -423,7 +462,7 @@ const { stop } = useIntersectionObserver(
 
 // Detalles
 .details-section {
-  @apply lg:col-span-5;
+  @apply lg:col-span-5 -mt-[4rem];
 }
 
 .details-card {

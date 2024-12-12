@@ -22,6 +22,9 @@ import LazyUiGallery from "../../../core/components/ui/Gallery.vue";
 import ProductView from "../../components/ProductView.vue";
 import ProductInfoData from "../../components/ProductInfoData.vue";
 
+import About from "../../components/About.vue";
+import ReviewsDetailsProduct from "../../components/ReviewsDetailsProduct.vue";
+
 const route = useRoute();
 const router = useRouter();
 const { list } = useRecentViewProducts();
@@ -144,16 +147,33 @@ addProductToRecentViews(productTemplate.value.id);
         />
       </div>
       <ProductInfoData />
-      <ProductSlider :text="$t('recommendWithThis')" />
     </section>
     <section class="pb-16" v-if="list?.length > 0">
       <ClientOnly>
+        <About />
+
         <LazyProductSlider
+          heading="Variaciones"
+          :is-button="false"
+          :ids="list"
+          key="recent-views"
+          key-for-composable="recent-views"
+        />
+        <LazyProductSlider
+          :is-button="false"
+          heading="Categorias Relacionadas"
+          :ids="list"
+          key="recent-views"
+          key-for-composable="recent-views"
+        />
+        <LazyProductSlider
+          :is-button="false"
           :heading="$t('recentViews')"
           :ids="list"
           key="recent-views"
           key-for-composable="recent-views"
         />
+        <ReviewsDetailsProduct />
       </ClientOnly>
     </section>
     <template #error="{ error }">

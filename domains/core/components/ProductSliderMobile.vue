@@ -143,7 +143,10 @@ onMounted(() => {
             <!-- Info -->
             <div class="product-info">
               <p class="brand-name">{{ productTemplate.brand }}</p>
-              <h3 class="product-name">{{ productTemplate.name }}</h3>
+
+              <NuxtLink :to="productTemplate.slug" class="product-name">{{
+                productTemplate.name
+              }}</NuxtLink>
 
               <div v-if="productTemplate.firstVariant" class="price-wrapper">
                 <span

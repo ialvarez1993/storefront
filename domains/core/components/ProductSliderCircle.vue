@@ -7,8 +7,7 @@ import { useCart } from "../../cart-odoo/composables/useCart";
 import { useProductAttributes } from "../../product/composables/useProductAttributes";
 import { useWishlist } from "../../wishlist/composables/useWishlist";
 import { useQuery } from "@tanstack/vue-query";
-const runtimeConfig = useRuntimeConfig()
-
+const runtimeConfig = useRuntimeConfig();
 
 const { locale } = useI18n();
 const { cartAdd } = useCart();
@@ -21,11 +20,7 @@ const fetchDataTitlePopulate = async (): Promise<any> => {
   try {
     const response = await $fetchApi(API_URL_CATEGORY);
 
-    if (!response.ok) {
-      throw new Error(`Error ${response.status}: ${response.statusText}`);
-    }
-
-    const data = await response.json();
+    const data = response;
     return data;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -115,7 +110,9 @@ const titleOne = computed(() => {
 
 <template>
   <section class="px-2 py-6 w-full max-w-[1440px] mx-auto">
-    <h2 class="text-center font-bold !font-header uppercase mb-10 typography-headline-3 md:typography-headline-2">
+    <h2
+      class="text-center font-bold !font-header uppercase mb-10 typography-headline-3 md:typography-headline-2"
+    >
       {{ titleOne.Title }}
     </h2>
     <div v-if="loading" class="flex justify-center items-center py-4">
@@ -128,13 +125,23 @@ const titleOne = computed(() => {
           <i class="fas fa-chevron-left"></i>
         </button>
 
-        <div ref="sliderContainer" class="flex overflow-x-hidden scroll-smooth gap-6 px-12">
-          <div v-for="productTemplate in productTemplateList" :key="productTemplate.id" class="product-card">
+        <div
+          ref="sliderContainer"
+          class="flex overflow-x-hidden scroll-smooth gap-6 px-12"
+        >
+          <div
+            v-for="productTemplate in productTemplateList"
+            :key="productTemplate.id"
+            class="product-card"
+          >
             <div class="card-content">
               <div class="badges-container">
-                <span v-if="
-                  getSpecialPrice(productTemplate.firstVariant as Product)
-                " class="badge">
+                <span
+                  v-if="
+                    getSpecialPrice(productTemplate.firstVariant as Product)
+                  "
+                  class="badge"
+                >
                   -{{
                     calculateDiscount(
                       getRegularPrice(productTemplate.firstVariant as Product),
@@ -145,13 +152,17 @@ const titleOne = computed(() => {
               </div>
 
               <div class="img-container">
-                <NuxtImg :src="$getImage(
-                  String(productTemplate.image),
-                  250,
-                  250,
-                  String(productTemplate.imageFilename),
-                )
-                  " class="product-img" />
+                <NuxtImg
+                  :src="
+                    $getImage(
+                      String(productTemplate.image),
+                      250,
+                      250,
+                      String(productTemplate.imageFilename),
+                    )
+                  "
+                  class="product-img"
+                />
                 <div class="hover-overlay">
                   <div class="action-buttons">
                     <NuxtLink :to="productTemplate?.slug">
@@ -164,9 +175,12 @@ const titleOne = computed(() => {
               <div class="product-info">
                 <h3 class="title">{{ productTemplate?.name }}</h3>
                 <div class="price-container">
-                  <span v-if="
-                    getSpecialPrice(productTemplate.firstVariant as Product)
-                  " class="original-price">
+                  <span
+                    v-if="
+                      getSpecialPrice(productTemplate.firstVariant as Product)
+                    "
+                    class="original-price"
+                  >
                     {{
                       $currency(
                         getRegularPrice(
@@ -181,9 +195,9 @@ const titleOne = computed(() => {
                         getSpecialPrice(
                           productTemplate.firstVariant as Product,
                         ) ||
-                        getRegularPrice(
-                          productTemplate.firstVariant as Product,
-                        ),
+                          getRegularPrice(
+                            productTemplate.firstVariant as Product,
+                          ),
                       )
                     }}
                   </span>
