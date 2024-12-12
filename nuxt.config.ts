@@ -54,6 +54,7 @@ export default defineNuxtConfig({
     "nuxt-lucide-icons",
     "@nuxtjs/device",
     "@nuxt/icon",
+    'radix-vue/nuxt'
   ],
   primevue: {
     options: {
@@ -78,14 +79,17 @@ export default defineNuxtConfig({
       "GetAddressesQuery",
     ],
     public: {
+
       NUXT_CLARITY_ID: process.env.NUXT_CLARITY_ID,
-      odooBaseImageUrl: "",
-      odooBaseUrl: "",
-      currencySymbol: "",
-      currencySeparator: "",
-      currencyDecimal: "",
-      currencyPrecision: "",
-      apiUrlStrapi: "",
+      odooBaseImageUrl: "http://192.168.21.58:8069/",
+      odooBaseUrl: "http://192.168.21.58:8069/",
+      odooSchemaPath: 'http://192.168.21.58:8069/graphql/vsf',
+      currencySymbol: "$",
+      currencySeparator: ".",
+      currencyDecimal: ".",
+      currencyPrecision: "2",
+      apiUrlStrapi: "http://192.168.21.58:1337/",
+      proxyStrapi: "http://localhost:3000/cms/",
       apiStrapiToken: "",
       NUXT_PUBLIC_API_STRAPI_TOKEN: process.env.NUXT_PUBLIC_API_STRAPI_TOKEN,
       strapiMirror: "http://localhost:3000/cms/"
@@ -183,10 +187,7 @@ export default defineNuxtConfig({
     },
     '/cms/**': {
       proxy: { to: `${process.env?.NUXT_PUBLIC_STRAPI}/**` },
-    }
-    '/cms/**': {
-      proxy: { to: `${process.env?.NUXT_PUBLIC_STRAPI}/**` },
-    }
+    },
   },
 
   nitro: {

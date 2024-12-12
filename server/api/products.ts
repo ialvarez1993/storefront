@@ -1,6 +1,6 @@
 import productFragment from "../fragments/productFragment";
 
-const baseURL = useRuntimeConfig().public.odooSchemaPath;
+const baseURL = useRuntimeConfig().public.odooSchemaPath
 
 
 const headers = {

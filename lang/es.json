@@ -617,5 +617,6 @@
   "productPopulate": "Productos más populares",
   "searchResult": "Buscando resultados...",
   "searchTextElseResult": "No se encontraron resultados para",
-  "SearchTendencias": "Tendencias"
+  "SearchTendencias": "Destacados",
+  "recentViews": "Recientemente Visto"
 }
